@@ -21,3 +21,9 @@ jobs:
 
       - name: Build
         run: flutter build apk
+
+      - name: Build and test
+        run: flutter test
+
+      - name: Analyze
+        run: flutter analyze
