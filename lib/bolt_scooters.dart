@@ -45,7 +45,7 @@ class BoltScooter {
 
 Future<List<BoltScooter>> getBoltScooters() async {
   var identifier = await UniqueIdentifier.serial;
-  final Map<String, dynamic> PARAM = {
+  final Map<String, dynamic> param = {
     "lat": "58.371536",
     "lng": "26.78707",
     "select_all": "true",
@@ -57,7 +57,7 @@ Future<List<BoltScooter>> getBoltScooters() async {
     "country": "ee",
     "language": "ru",
   };
-    final response = await http.get(Uri.parse(Links.boltScooterLink).replace(queryParameters: PARAM), headers: Links.boltHeader);
+    final response = await http.get(Uri.parse(Links.boltScooterLink).replace(queryParameters: param), headers: Links.boltHeader);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(response.body);
       List<dynamic> vehiclesData = jsonData['data']['categories'][0]['vehicles'];

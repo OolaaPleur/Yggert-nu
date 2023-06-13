@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -8,7 +9,12 @@ import 'package:mobility_app/widgets/modal_bottom_sheet_scooter_info.dart';
 import 'bolt_scooters.dart';
 import 'tartu_bikes.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+  if (kReleaseMode) {
+    debugPrint = (String? message, {int? wrapWidth}) => '';
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -141,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                         SingleBikeStation data = asyncSnapshot.data;
                         singleBikeStationState = data;
-                        print('ReRepeat');
+                        debugPrint('ReRepeat');
                         return ModalBottomSheetBikeStationInfo(
                             singleBikeStationState: data);
                       });
@@ -173,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             Center(
                               child: Text(
                                 bike.totalLockedCycleCount.toString(),
-                                style: const TextStyle(fontSize: 22, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 22, color: Colors.black54),
                               ),
                             ),
                           ],
@@ -184,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       _markers.add(marker);
     }
+    debugPrint("testIfRefreshed");
     setState(() {});
   }
 
@@ -204,8 +212,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Google Office Locations'),
+        title: const Text('Tartu Mobility App'),
         elevation: 2,
+        actions: [
+          IconButton(
+              onPressed: () {
+                _markers.clear();
+                setState(() {});
+                _onMapCreated(mapController);
+              },
+              icon: const Icon(Icons.refresh_sharp))
+        ],
       ),
       body: FlutterMap(
         mapController: mapController,
@@ -213,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
           center: LatLng(58.37, 26.73),
           zoom: 14,
           maxZoom: 18,
+          minZoom: 8,
           interactiveFlags: InteractiveFlag.pinchZoom |
               InteractiveFlag.drag |
               InteractiveFlag.flingAnimation,
@@ -238,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.blue),
+                      color: Colors.lightBlue[300]),
                   child: Center(
                     child: Text(
                       markers.length.toString(),
@@ -257,27 +275,27 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           FloatingActionButton(
             backgroundColor: scooterState
-                ? Theme.of(context).floatingActionButtonTheme.backgroundColor
+                ? Colors.lightBlue[300]
                 : Theme.of(context).disabledColor,
             onPressed: () {
               setState(() {
                 scooterState = !scooterState;
               });
             },
-            child: const Icon(Icons.electric_scooter),
+            child: const Icon(Icons.electric_scooter, color: Colors.white),
           ),
           const SizedBox(
             height: 10,
           ),
           FloatingActionButton(
             backgroundColor: bikeState
-                ? Theme.of(context).floatingActionButtonTheme.backgroundColor
+                ? Colors.lightBlue[300]
                 : Theme.of(context).disabledColor,
             onPressed: () {
               setState(() {});
               bikeState = !bikeState;
             },
-            child: const Icon(Icons.pedal_bike),
+            child: const Icon(Icons.pedal_bike_sharp, color: Colors.white),
           ),
         ],
       ),
