@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as googleMaps;
 import 'package:latlong2/latlong.dart';
-import 'dart:ui' as ui;
-import 'dart:typed_data';
-import 'package:mobility_app/number_on_marker.dart';
-import 'package:mobility_app/tartu_bikes.dart';
 import 'package:mobility_app/vehicle_marker.dart';
 import 'package:mobility_app/widgets/modal_bottom_sheet_bike_station_info.dart';
 import 'package:mobility_app/widgets/modal_bottom_sheet_scooter_info.dart';
@@ -39,7 +33,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<VehicleMarker> _markers = [];
+  final List<VehicleMarker> _markers = [];
   bool scooterState = true;
   bool bikeState = true;
   bool carState = true;
@@ -66,8 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         key: Key(scooter.id.toString()),
         height: 100.0,
         width: 100.0,
-        builder: (context) => Container(
-          child: TextButton(
+        builder: (context) => TextButton(
             onPressed: () {
               setState(() {
                 selectedScooterId = scooter.id.toString();
@@ -77,30 +70,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context) {
                     return ModalBottomSheetScooterInfo(boltScooter: scooter);
                   }).whenComplete(() {
-                    selectedScooterId = '';
+                selectedScooterId = '';
                 setState(() {});
               });
             },
-              child: selectedScooterId == scooter.id.toString()
-                  ? Container(
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(width: 8, color: Colors.lightGreen)),
-                child: Image.asset('assets/scooter.png'),
-              )
-                  : Container(
-                  margin: EdgeInsets.all(20),
-                  child: Image.asset('assets/scooter.png',
-                      height: 60, width: 60))),
-          ),
+            child: selectedScooterId == scooter.id.toString()
+                ? Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(width: 8, color: Colors.lightGreen)),
+                    child: Image.asset('assets/scooter.png'),
+                  )
+                : Container(
+                    margin: const EdgeInsets.all(20),
+                    child: Image.asset('assets/scooter.png',
+                        height: 60, width: 60))),
         point: LatLng(scooter.latitude, scooter.longitude),
       );
       //_markers[scooter.name] = marker;
       _markers.add(marker);
     }
     for (final bike in bikeLocations) {
-      NumberOnMarker numberOnMarker = NumberOnMarker();
       final marker = VehicleMarker(
         vehicleType: VehicleType.bike,
         key: Key(bike.id),
@@ -144,7 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             // Display a loading indicator with grey background
                             height: 100,
                             width: double.infinity,
-                            child: Center(child: CircularProgressIndicator()),
+                            child: const Center(
+                                child: CircularProgressIndicator()),
                           );
                         }
                         SingleBikeStation data = asyncSnapshot.data;
@@ -162,16 +154,32 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: selectedBikeId == bike.id.toString()
                 ? Container(
-                    padding: EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(width: 8, color: Colors.lightGreen)),
                     child: Image.asset('assets/bicycle.png'),
                   )
                 : Container(
-                    margin: EdgeInsets.all(20),
-                    child: Image.asset('assets/bicycle.png',
-                        height: 60, width: 60))),
+                    margin: const EdgeInsets.all(20),
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: Center(
+                        child: Stack(
+                          children: [
+                            Image.asset('assets/bicycle.png',
+                                height: 60, width: 60),
+                            Center(
+                              child: Text(
+                                bike.totalLockedCycleCount.toString(),
+                                style: const TextStyle(fontSize: 22, color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))),
         point: LatLng(bike.latitude, bike.longitude),
       );
       _markers.add(marker);
@@ -212,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
             userAgentPackageName: 'com.oolaa.redefined.mobility.mobility_app',
           ),
           MarkerClusterLayerWidget(
@@ -256,9 +264,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 scooterState = !scooterState;
               });
             },
-            child: Icon(Icons.electric_scooter),
+            child: const Icon(Icons.electric_scooter),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           FloatingActionButton(
@@ -269,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() {});
               bikeState = !bikeState;
             },
-            child: Icon(Icons.pedal_bike),
+            child: const Icon(Icons.pedal_bike),
           ),
         ],
       ),

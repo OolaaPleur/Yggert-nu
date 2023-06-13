@@ -30,16 +30,13 @@ class TartuBikeStations {
 }
 
 Future<List<TartuBikeStations>> getTartuBikes() async {
-  print('repeat');
-  const URL = "${Links.TARTU_BIKES_LINK}station/map/search";
-
   String bodyMap = json.encode({
     'isPublic': 'true',
     'limit': '-1',
   });
 
   http.Response responseMap = await http.post(
-    Uri.parse(URL),
+    Uri.parse("${Links.tartuBikesLink}station/map/search"),
     headers: {"Content-Type": "application/json"},
     body: bodyMap,
   );
@@ -64,11 +61,10 @@ class SingleBikeStation {
 
 Future<SingleBikeStation> getBikeInfo(String bikeId) async {
   final responseSingleStation =
-      await http.get(Uri.parse('${Links.TARTU_BIKES_LINK}station/$bikeId'));
+      await http.get(Uri.parse('${Links.tartuBikesLink}station/$bikeId'));
 
   if (responseSingleStation.statusCode == 200) {
     Map<String, dynamic> jsonData = jsonDecode(responseSingleStation.body);
-    print(jsonData);
     int bikeCount = jsonData['lockedCycleTypeCount'][0]['countPrimary'] +
         jsonData['lockedCycleTypeCount'][0]['countSecondary'];
     int pedelecCount = jsonData['lockedCycleTypeCount'][1]['countPrimary'] +
