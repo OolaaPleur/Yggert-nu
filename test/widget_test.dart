@@ -15,6 +15,6 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
     expect(find.byIcon(Icons.electric_scooter), findsOneWidget);
-    expect(find.byIcon(Icons.pedal_bike), findsOneWidget);
+    expect(find.byIcon(Icons.pedal_bike_sharp), findsOneWidget);
   });
 }

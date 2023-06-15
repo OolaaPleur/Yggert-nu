@@ -1,10 +1,10 @@
 import 'package:flutter_map/flutter_map.dart';
-enum VehicleType { car, scooter, bike }
+enum MarkerType { person, car, scooter, bike }
 class VehicleMarker extends Marker {
-  final VehicleType vehicleType;
+  final MarkerType markerType;
 
   VehicleMarker({
-    required this.vehicleType,
+    required this.markerType,
     required width,
     required height,
     required point,
