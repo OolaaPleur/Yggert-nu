@@ -91,10 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         setState(() {});
                       });
                     },
-                    child: Container(
-                        child: Image.asset(
+                    child: Image.asset(
                       'assets/scooter.png',
-                    ))),
+                    )),
           ],
         ),
         point: LatLng(scooter.latitude, scooter.longitude),
@@ -171,21 +170,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         setState(() {});
                       });
                     },
-                    child: Container(
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            Image.asset('assets/bicycle.png',
-                                height: 60, width: 60),
-                            Center(
-                              child: Text(
-                                bike.totalLockedCycleCount.toString(),
-                                style: const TextStyle(
-                                    fontSize: 22, color: Colors.black54),
-                              ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Image.asset('assets/bicycle.png',
+                              height: 60, width: 60),
+                          Center(
+                            child: Text(
+                              bike.totalLockedCycleCount.toString(),
+                              style: const TextStyle(
+                                  fontSize: 22, color: Colors.black54),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -206,7 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       }
     }
-    print(permission);
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever ||
         permission == LocationPermission.whileInUse) {
@@ -222,12 +218,12 @@ class _HomeScreenState extends State<HomeScreen> {
           width: 30.0,
           height: 30.0,
           point: latLng,
-          builder: (ctx) => Icon(
+          builder: (ctx) => const Icon(
             Icons.gps_fixed,
             size: 50,
             color: Colors.blue,
           ),
-          key: Key('GPS Location of person'),
+          key: const Key('GPS Location of person'),
           markerType: MarkerType.person,
         );
         _markers.add(updatedMarker);
