@@ -427,11 +427,12 @@ packages:
   location:
     dependency: "direct main"
     description:
-      name: location
-      sha256: "9051959f6f2ccadd887b28b66e9cbbcc25b6838e37cf9e894c421ccc0ebf80b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.4.0"
+      path: "packages/location"
+      ref: V4
+      resolved-ref: "44745026a384c743cb5e64f94296303d9adbb237"
+      url: "https://github.com/781flyingdutchman/flutterlocation.git"
+    source: git
+    version: "4.4.1"
   location_platform_interface:
     dependency: transitive
     description:
