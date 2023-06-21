@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobility_app/bolt_scooters.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../domain/bolt_scooter/bolt_scooter.dart';
+
 
 class ModalBottomSheetScooterInfo extends StatelessWidget {
   const ModalBottomSheetScooterInfo({super.key, required this.boltScooter});

@@ -1,6 +1,8 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:mobility_app/tartu_bikes.dart';
+
+import '../domain/tartu_bike_station/tartu_bike_station.dart';
+
 
 class ModalBottomSheetBikeStationInfo extends StatelessWidget {
   const ModalBottomSheetBikeStationInfo(
