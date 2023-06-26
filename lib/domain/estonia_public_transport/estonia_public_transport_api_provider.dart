@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:archive/archive.dart';
@@ -14,19 +15,19 @@ class EstoniaPublicTransportApiProvider {
     final filePath = '${directory.path}/gtfs.zip';
 
     if (await File(filePathTest).exists()) {
-      print("File exists");
+      log("File exists");
       return;
     } else {
-      print("File don't exists");
+      log("File don't exists");
       final url = Uri.parse('http://www.peatus.ee/gtfs/gtfs.zip');
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
         unzipFile(filePath, '${directory.path}/gtfs');
-        print('File downloaded and unzipped successfully.');
+        log('File downloaded and unzipped successfully.');
       } else {
-        print(
+        log(
             'Failed to download the file. Status code: ${response.statusCode}');
       }
     }
@@ -58,12 +59,12 @@ class EstoniaPublicTransportApiProvider {
       File file = File(filePath);
       if (await file.exists()) {
         await file.delete();
-        print('File deleted: $filePath');
+        log('File deleted: $filePath');
       } else {
-        print('File not found: $filePath');
+        log('File not found: $filePath');
       }
     } catch (e) {
-      print('Error deleting file: $e');
+      log('Error deleting file: $e');
     }
   }
 

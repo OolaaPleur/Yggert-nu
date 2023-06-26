@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final busStops = await vehicleRepository.parseStops();
     final stopTimes = await vehicleRepository.parseStopTimes();
     final calendars = await vehicleRepository.parseCalendar();
-    print('stoptimes length: ${stopTimes.length}');
+    log('stop times length: ${stopTimes.length}');
     final trips = await vehicleRepository.parseTrips();
     List<MapMarker> mapMarkers = state.markers;
     CreateMapMarkerList createMapMarkerList = CreateMapMarkerList();
@@ -102,7 +103,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         state.copyWith(showTripsForToday: ShowTripsForToday.loadingForAllWeekdays),
       );
     }
-    print(state.showTripsForToday);
+    log(state.showTripsForToday as String);
     add(MapGetTripsForStopTimesForOneStop('', state.pickedStop));
   }
 
@@ -128,7 +129,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         filteredByUserTrips = [];
         Stop currentStop = event.currentStop;
         int index = 0;
-        print('${query} ${currentStop.name} ${state.currentStops.length}');
+        log('$query ${currentStop.name} ${state.currentStops.length}');
 
         Map<int, StopTime> presentStopStopTimeListOnlyFilter = {};
         for (final trip in currentTrips) {
@@ -177,8 +178,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         state.stopTimes // TODO CHANGE TO allStopTimesForAllTripsWhichGoesThroughCurrentStop IF POSSIBLE
             .where((stopTime) => stopTime.tripId == trip.tripId)
             .toList();
-        print(timeFormat.parse(tripStopTimes.first.departureTime));
-        print(currentTime);
         for (final stopTime in tripStopTimes) {
           if ((timeFormat.parse(stopTime.departureTime).isAfter(currentTime)) && stopTime.stopId == state.pickedStop.stopId) {
             tripWillBeToday = true;
@@ -194,7 +193,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       }
       filteredByUserTrips = [];
       filteredByUserTrips = filteredByUserTripsAfterApplyingToday;
-      print(filteredByUserTrips.length);
+      log(filteredByUserTrips.length as String);
     }
 
 
@@ -250,7 +249,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       indexForAll += 1;
     }
 
-    print(
+    log(
         'bloc: ${state.currentStopTimes.length} ${state.trips.length} ${currentTrips.length} ${filteredByUserTrips.length} '
         '${tripIds.length} ${allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
     emit(
@@ -277,7 +276,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     debugPrint('clear');
     emit(state.copyWith(
         tripStatus: TripStatus.initial,
-        pickedStop: Stop(),
+        pickedStop: const Stop(),
         currentStopTimes: [],
         currentTrips: [],
         currentTripIds: [],

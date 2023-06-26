@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -184,17 +186,17 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
       children: [
         Center(
             child: Padding(
-          padding: EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 15),
           child: Text(
             vehicle.name,
-            style: TextStyle(fontSize: 25),
+            style: const TextStyle(fontSize: 25),
           ),
         )),
         Row(
           children: [
             Expanded(
                 child: Padding(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 30),
                     child: TextField(
                       onSubmitted: (value) {
                         mapBloc.add(MapGetTripsForStopTimesForOneStop(value, vehicle));
@@ -214,7 +216,7 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
             BlocBuilder<MapBloc, MapState>(
                 bloc: mapBloc,
                 builder: (context, state) {
-                  return Container(
+                  return SizedBox(
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: ElevatedButton(
                         onPressed: () {
@@ -235,10 +237,10 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
             bloc: mapBloc,
             builder: (context, state) {
               if (state.tripStatus == TripStatus.initial) {
-                print('stadia');
+                log('stadia');
                 return const Center(child: CircularProgressIndicator());
               } else if (state.tripStatus == TripStatus.loading) {
-                print('stadia');
+                log('stadia');
                 return const SizedBox(
                   height: 200,
                   width: double.infinity,
@@ -249,7 +251,7 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: mapBloc.state.filteredByUserTrips.length,
                       itemBuilder: (context, index) {
-                        print(state.filteredByUserTrips[index].tripId);
+                        log(state.filteredByUserTrips[index].tripId);
                         return Card(
                           elevation: 10,
                           color: Colors.white70,
@@ -261,7 +263,7 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
                               child: Text(
                                 '${state.presentStopStopTimeList[index]!.departureTime.substring(0, state.presentStopStopTimeList[index]!.departureTime.length - 3)}'
                                 ' - ${state.presentTripEndStopTimes[index]!.departureTime.substring(0, state.presentTripEndStopTimes[index]!.departureTime.length - 3)}',
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                             subtitle: Column(
@@ -279,7 +281,7 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
                             trailing: CircleAvatar(
                               child: Text(
                                 '${index + 1}',
-                                style: TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                               ),
                             ),
                           ),
@@ -287,8 +289,7 @@ class ModalBottomSheetTimeTable extends StatelessWidget {
                       }),
                 );
               }
-              ;
-              return SizedBox();
+              return const SizedBox();
             }),
       ],
     );
