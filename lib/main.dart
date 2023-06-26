@@ -59,6 +59,33 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           FloatingActionButton(
             backgroundColor: context.select((MapBloc bloc) =>
+                    bloc.state.filters[MapFilters.busStop] == true)
+                ? Colors.lightBlue[300]
+                : Theme.of(context).disabledColor,
+            onPressed: () {
+              Map<MapFilters, bool> mapfilters =
+                  context.read<MapBloc>().state.filters;
+              Map<MapFilters, bool> filters = {
+                MapFilters.cycles: mapfilters[MapFilters.cycles]!,
+                MapFilters.scooters: mapfilters[MapFilters.scooters]!,
+                MapFilters.busStop: !mapfilters[MapFilters.busStop]!
+              };
+              if (context.read<MapBloc>().state.busStopsAdded == false) {
+                context.read<MapBloc>().add(const MapShowBusStops());
+              }
+              context.read<MapBloc>().add(MapFilteringMarkers(filters));
+            },
+            child: context.select((MapBloc bloc) =>
+                    bloc.state.busStopAdditionStatus ==
+                    BusStopAdditionStatus.loading)
+                ? const CircularProgressIndicator()
+                : const Icon(Icons.bus_alert, color: Colors.white),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            backgroundColor: context.select((MapBloc bloc) =>
                     bloc.state.filters[MapFilters.scooters] == true)
                 ? Colors.lightBlue[300]
                 : Theme.of(context).disabledColor,
@@ -68,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Map<MapFilters, bool> filters = {
                 MapFilters.cycles: mapfilters[MapFilters.cycles]!,
                 MapFilters.scooters: !mapfilters[MapFilters.scooters]!,
-                MapFilters.cars: mapfilters[MapFilters.cars]!
+                MapFilters.busStop: mapfilters[MapFilters.busStop]!
               };
               context.read<MapBloc>().add(MapFilteringMarkers(filters));
             },
@@ -88,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Map<MapFilters, bool> filters = {
                 MapFilters.cycles: !mapfilters[MapFilters.cycles]!,
                 MapFilters.scooters: mapfilters[MapFilters.scooters]!,
-                MapFilters.cars: mapfilters[MapFilters.cars]!
+                MapFilters.busStop: mapfilters[MapFilters.busStop]!
               };
               context.read<MapBloc>().add(MapFilteringMarkers(filters));
             },

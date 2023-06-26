@@ -63,8 +63,7 @@ class _MapScreenState extends State<MapScreen> {
                   maxClusterRadius: 125,
                   disableClusteringAtZoom: 17,
                   size: const Size(40, 40),
-                  markers:
-                      BlocProvider.of<MapBloc>(context).state.filteredMarkers,
+                  markers: state.filteredMarkers,
                   anchor: AnchorPos.align(AnchorAlign.center),
                   fitBoundsOptions: const FitBoundsOptions(
                     padding: EdgeInsets.all(50),
