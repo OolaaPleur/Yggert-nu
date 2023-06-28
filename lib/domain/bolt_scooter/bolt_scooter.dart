@@ -1,4 +1,6 @@
+/// Bolt Scooter model
 class BoltScooter {
+  /// Bolt Scooter model constructor
   BoltScooter({
     required this.id,
     required this.name,
@@ -11,20 +13,22 @@ class BoltScooter {
     required this.primaryAction,
   });
 
+  /// Deserialize data into Bolt Scooter object
   factory BoltScooter.fromJson(Map<String, dynamic> json) {
     return BoltScooter(
-      id: json['id'],
-      name: json['name'],
-      type: json['type'],
-      latitude: json['lat'],
-      longitude: json['lng'],
-      charge: json['charge'],
-      distanceOnCharge: json['distance_on_charge'],
-      searchCategoryId: json['search_category_id'],
-      primaryAction: json['primary_action'],
+      id: json['id'] as int,
+      name: json['name'] as String,
+      type: json['type'] as String,
+      latitude: json['lat'] as double,
+      longitude: json['lng'] as double,
+      charge: json['charge'] as int,
+      distanceOnCharge: json['distance_on_charge'] as int,
+      searchCategoryId: json['search_category_id'] as int,
+      primaryAction: json['primary_action'] as String,
     );
   }
 
+  /// Scooter ID
   final int id;
   final String name;
   final String type;

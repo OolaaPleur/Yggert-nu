@@ -6,13 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'main.dart';
 
+/// Bloc state observer.
 class AppBlocObserver extends BlocObserver {
+  /// Constructor for Bloc observer.
   const AppBlocObserver();
 
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, ${change.currentState.showTripsForToday} - ${change.nextState.showTripsForToday})');
+    // ignore: avoid_dynamic_calls
+    log('onChange(${bloc.runtimeType}, ${change.currentState.tripStatus} - ${change.nextState.tripStatus})');
   }
 
   @override
@@ -22,6 +25,7 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
+/// Starts an observer and an app.
 Future<void> bootstrap() async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);

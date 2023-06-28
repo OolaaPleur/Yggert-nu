@@ -11,34 +11,74 @@ class MapMarkersPlacingOnMap extends MapEvent {
   const MapMarkersPlacingOnMap();
 }
 
-class MapFilteringMarkers extends MapEvent {
-  final Map<MapFilters, bool> filters;
+class MapMarkerFilterButtonPressed extends MapEvent {
 
-  const MapFilteringMarkers(this.filters);
+  const MapMarkerFilterButtonPressed(this.mapFilter);
+  final MapFilters mapFilter;
 
   @override
-  List<Object> get props => [filters];
+  List<Object> get props => [mapFilter];
+}
+
+class MapMarkerFiltering extends MapEvent {
+  const MapMarkerFiltering();
 }
 
 class MapShowBusStops extends MapEvent {
   const MapShowBusStops();
 }
 
-// Fetching or filtering trips by user input
-class MapGetTripsForStopTimesForOneStop extends MapEvent {
-  final String query;
-  final Stop currentStop;
-
-  const MapGetTripsForStopTimesForOneStop(this.query, this.currentStop);
-
-  @override
-  List<Object> get props => [query, currentStop];
-}
-
 class MapCloseStopTimesModalBottomSheet extends MapEvent {
   const MapCloseStopTimesModalBottomSheet();
 }
 
-class MapShowTripsForToday extends MapEvent {
-  const MapShowTripsForToday();
+class MapChangeTimetableMode extends MapEvent {
+
+  const MapChangeTimetableMode(this.globalShowTripsForToday);
+  final GlobalShowTripsForToday globalShowTripsForToday;
+
+  @override
+  List<Object> get props => [globalShowTripsForToday];
+}
+
+class MapSearchByTheQuery extends MapEvent {
+
+  const MapSearchByTheQuery(this.query);
+  final String query;
+
+  @override
+  List<Object> get props => [query];
+}
+
+////////////////////////////////////
+
+class MapShowTripsForCurrentStop extends MapEvent {
+
+  const MapShowTripsForCurrentStop(this.currentStop);
+  final Stop currentStop;
+
+  @override
+  List<Object> get props => [currentStop];
+}
+
+class MapPressFilterButton extends MapEvent {
+  const MapPressFilterButton();
+}
+
+// BLOC ONLY EVENTS
+
+class MapCheckShowTripsForTodayOrAllWeek extends MapEvent {
+  const MapCheckShowTripsForTodayOrAllWeek();
+}
+
+class MapCalculateCurrentListsForOneStop extends MapEvent {
+  const MapCalculateCurrentListsForOneStop();
+}
+
+class MapLoadTripsForToday extends MapEvent {
+  const MapLoadTripsForToday();
+}
+
+class MapAddValuesForRepaintingTimeTable extends MapEvent {
+  const MapAddValuesForRepaintingTimeTable();
 }

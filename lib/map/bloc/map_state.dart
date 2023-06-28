@@ -29,26 +29,25 @@ enum BusStopAdditionStatus {
 }
 
 enum ShowTripsForToday {
-  initial,
-  loadingForAllWeekdays,
-  loadingForToday,
-  success,
-  failure,
+  all,
+  today,
+}
+
+enum GlobalShowTripsForToday {
+  all,
+  today,
 }
 
 enum MapFilters { busStop, scooters, cycles }
 
-class MapState extends Equatable {
-  const MapState({
-    this.status = MapStateStatus.loading,
+/// State of the Map.
+final class MapState extends Equatable {
+  /// Constructor for the State.
+  const MapState({this.status = MapStateStatus.initial,
     this.tripStatus = TripStatus.initial,
     this.markers = const <MapMarker>[],
     this.filteredMarkers = const <MapMarker>[],
-    this.filters = const {
-      MapFilters.cycles: true,
-      MapFilters.scooters: true,
-      MapFilters.busStop: false
-    },
+    this.filters = const {MapFilters.cycles: true, MapFilters.scooters: true, MapFilters.busStop: false},
     this.busStopsAdded = false,
     this.stopTimes = const <StopTime>[],
     this.currentStopTimes = const <StopTime>[],
@@ -56,8 +55,7 @@ class MapState extends Equatable {
     this.trips = const <Trip>[],
     this.currentTrips = const <Trip>[],
     this.currentTripIds = const <String>[],
-    this.allStopTimesForAllTripsWhichGoesThroughCurrentStop =
-        const <StopTime>[],
+    this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
     this.busStopAdditionStatus = BusStopAdditionStatus.initial,
     this.currentStops = const <Stop>[],
     this.presentTripStartStopTimes = const <int, StopTime>{},
@@ -70,8 +68,11 @@ class MapState extends Equatable {
     this.searchResultsLoading = SearchResultsLoading.initial,
     this.calendars = const <Calendar>[],
     this.presentTripCalendar = const <int, String>{},
-    this.showTripsForToday = ShowTripsForToday.initial,
-  });
+    this.showTripsForToday = ShowTripsForToday.all,
+    this.globalShowTripsForToday = GlobalShowTripsForToday.all,
+    this.filteringStatus = false,
+    this.currentsLoaded = false,
+  this.query = '',});
 
   final MapStateStatus status;
   final List<MapMarker> markers;
@@ -93,6 +94,7 @@ class MapState extends Equatable {
   final List<Stop> currentStops;
   final List<String> currentTripIds;
   final List<StopTime> allStopTimesForAllTripsWhichGoesThroughCurrentStop;
+  final bool currentsLoaded;
 
   // Start/End StopTime and Stop
   final Map<int, StopTime> presentTripStartStopTimes;
@@ -107,42 +109,52 @@ class MapState extends Equatable {
   // Trips, filtered by user searching
   final List<Trip> filteredByUserTrips;
   final SearchResultsLoading searchResultsLoading;
+  final String query;
 
-  // Show trips for today
+  // Show local trips for today
   final ShowTripsForToday showTripsForToday;
+
+  // Global variable for showing trips for today
+  final GlobalShowTripsForToday globalShowTripsForToday;
 
   final bool busStopsAdded;
   final BusStopAdditionStatus busStopAdditionStatus;
+  final bool filteringStatus;
   final TripStatus tripStatus;
 
   @override
-  List<Object?> get props => [
+  List<Object> get props =>
+      [
         status,
         markers,
-        filters,
         filteredMarkers,
-        busStopsAdded,
+        filters,
         stopTimes,
-        currentStopTimes,
-        tripStatus,
         busStops,
         trips,
+        calendars,
+        pickedStop,
+        currentStopTimes,
         currentTrips,
+        currentStops,
         currentTripIds,
         allStopTimesForAllTripsWhichGoesThroughCurrentStop,
-        busStopAdditionStatus,
-        currentStops,
+        currentsLoaded,
         presentTripStartStopTimes,
         presentTripEndStopTimes,
         presentTripStartStop,
         presentTripEndStop,
-        pickedStop,
         presentStopStopTimeList,
+        presentTripCalendar,
         filteredByUserTrips,
         searchResultsLoading,
-        calendars,
-        presentTripCalendar,
-    showTripsForToday
+        showTripsForToday,
+        globalShowTripsForToday,
+        busStopsAdded,
+        busStopAdditionStatus,
+        filteringStatus,
+        tripStatus,
+        query
       ];
 
   MapState copyWith({
@@ -160,6 +172,7 @@ class MapState extends Equatable {
     List<Stop>? currentStops,
     List<String>? currentTripIds,
     List<StopTime>? allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+    bool? currentsLoaded,
     Map<int, StopTime>? presentTripStartStopTimes,
     Map<int, StopTime>? presentTripEndStopTimes,
     Map<int, Stop>? presentTripStartStop,
@@ -168,9 +181,12 @@ class MapState extends Equatable {
     Map<int, String>? presentTripCalendar,
     List<Trip>? filteredByUserTrips,
     SearchResultsLoading? searchResultsLoading,
+    String? query,
     ShowTripsForToday? showTripsForToday,
+    GlobalShowTripsForToday? globalShowTripsForToday,
     bool? busStopsAdded,
     BusStopAdditionStatus? busStopAdditionStatus,
+    bool? filteringStatus,
     TripStatus? tripStatus,
   }) {
     return MapState(
@@ -188,7 +204,9 @@ class MapState extends Equatable {
       currentStops: currentStops ?? this.currentStops,
       currentTripIds: currentTripIds ?? this.currentTripIds,
       allStopTimesForAllTripsWhichGoesThroughCurrentStop:
-          allStopTimesForAllTripsWhichGoesThroughCurrentStop ?? this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+          allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
+              this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+      currentsLoaded: currentsLoaded ?? this.currentsLoaded,
       presentTripStartStopTimes: presentTripStartStopTimes ?? this.presentTripStartStopTimes,
       presentTripEndStopTimes: presentTripEndStopTimes ?? this.presentTripEndStopTimes,
       presentTripStartStop: presentTripStartStop ?? this.presentTripStartStop,
@@ -197,9 +215,12 @@ class MapState extends Equatable {
       presentTripCalendar: presentTripCalendar ?? this.presentTripCalendar,
       filteredByUserTrips: filteredByUserTrips ?? this.filteredByUserTrips,
       searchResultsLoading: searchResultsLoading ?? this.searchResultsLoading,
+      query: query ?? this.query,
       showTripsForToday: showTripsForToday ?? this.showTripsForToday,
+      globalShowTripsForToday: globalShowTripsForToday ?? this.globalShowTripsForToday,
       busStopsAdded: busStopsAdded ?? this.busStopsAdded,
       busStopAdditionStatus: busStopAdditionStatus ?? this.busStopAdditionStatus,
+      filteringStatus: filteringStatus ?? this.filteringStatus,
       tripStatus: tripStatus ?? this.tripStatus,
     );
   }
