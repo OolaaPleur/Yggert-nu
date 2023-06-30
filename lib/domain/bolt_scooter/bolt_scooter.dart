@@ -11,10 +11,11 @@ class BoltScooter {
     required this.distanceOnCharge,
     required this.searchCategoryId,
     required this.primaryAction,
+    required this.durationRateStr,
   });
 
   /// Deserialize data into Bolt Scooter object
-  factory BoltScooter.fromJson(Map<String, dynamic> json) {
+  factory BoltScooter.fromJson(Map<String, dynamic> json, String durationRateStr) {
     return BoltScooter(
       id: json['id'] as int,
       name: json['name'] as String,
@@ -25,17 +26,28 @@ class BoltScooter {
       distanceOnCharge: json['distance_on_charge'] as int,
       searchCategoryId: json['search_category_id'] as int,
       primaryAction: json['primary_action'] as String,
+      durationRateStr: durationRateStr,
     );
   }
 
-  /// Scooter ID
+  /// Scooter ID in 5-digit format (e.g. 12345)
   final int id;
+  /// Scooter name, three X, hyphen and 3 digits (e.g. XXX-111)
   final String name;
+  /// Type of transport (scooter)
   final String type;
+  /// Scooter latitude coordinate
   final double latitude;
+  /// Scooter longitude coordinate
   final double longitude;
+  /// Scooter current charge
   final int charge;
+  /// Approximate distance it will go on remained charge
   final int distanceOnCharge;
+  /// ID(always equals to 75)
   final int searchCategoryId;
+  /// Action for scooter (always 'reserve')
   final String primaryAction;
+  /// Holds price for fixed duration (e.g. '0.22/min')
+  final String durationRateStr;
 }

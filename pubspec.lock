@@ -193,6 +193,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  device_info_plus:
+    dependency: "direct main"
+    description:
+      name: device_info_plus
+      sha256: "2c35b6d1682b028e42d07b3aee4b98fa62996c10bc12cb651ec856a80d6a761b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.2"
+  device_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_plus_platform_interface
+      sha256: d3b01d5868b50ae571cd1dc6e502fc94d956b665756180f7b16ead09e836fd64
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   equatable:
     dependency: "direct main"
     description:
@@ -528,31 +544,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  location:
-    dependency: "direct main"
-    description:
-      path: "packages/location"
-      ref: V4
-      resolved-ref: "44745026a384c743cb5e64f94296303d9adbb237"
-      url: "https://github.com/781flyingdutchman/flutterlocation.git"
-    source: git
-    version: "4.4.1"
-  location_platform_interface:
+  logger:
     dependency: transitive
     description:
-      name: location_platform_interface
-      sha256: "62eeaf1658e92e4459b727f55a3c328eccbac8ba043fa6d262ac5286ad48384c"
+      name: logger
+      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
-  location_web:
-    dependency: transitive
-    description:
-      name: location_web
-      sha256: "6c08c408a040534c0269c4ff9fe17eebb5a36dea16512fbaf116b9c8bc21545b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
+    version: "1.4.0"
   logging:
     dependency: transitive
     description:
@@ -761,6 +760,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  pubspec:
+    dependency: transitive
+    description:
+      name: pubspec
+      sha256: f534a50a2b4d48dc3bc0ec147c8bd7c304280fff23b153f3f11803c4d49d927e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  pubspec_dependency_sorter:
+    dependency: "direct dev"
+    description:
+      name: pubspec_dependency_sorter
+      sha256: "001959f4eb5055df9f06bc842e5bb2b95773743deb33371e028432794975f3d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   pubspec_parse:
     dependency: transitive
     description:
@@ -769,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   shelf:
     dependency: transitive
     description:
@@ -902,6 +925,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  uri:
+    dependency: transitive
+    description:
+      name: uri
+      sha256: "889eea21e953187c6099802b7b4cf5219ba8f3518f604a1033064d45b1b8268a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1014,6 +1045,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.5"
+  win32_registry:
+    dependency: transitive
+    description:
+      name: win32_registry
+      sha256: e4506d60b7244251bc59df15656a3093501c37fb5af02105a944d73eb95be4c9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   wkt_parser:
     dependency: transitive
     description:

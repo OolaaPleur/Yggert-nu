@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_dynamic_calls
 /// Tartu bike station model.
 class TartuBikeStations {
 
@@ -19,10 +20,15 @@ class TartuBikeStations {
       totalLockedCycleCount: json['totalLockedCycleCount'] as int,
     );
   }
+  /// Tartu bike station ID (e.g. "6beda072-5062-4dc9-989d-0b3b81360186").
   final String id;
+  /// Tartu bike station name (e.g. "AHHAA").
   final String name;
+  /// Tartu bike station latitude coordinate.
   final double latitude;
+  /// Tartu bike station longitude coordinate.
   final double longitude;
+  /// All locked cycles on particular Tartu bike station
   final int totalLockedCycleCount;
 }
 

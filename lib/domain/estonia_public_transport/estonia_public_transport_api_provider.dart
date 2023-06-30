@@ -6,33 +6,37 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+import '../../links/links.dart';
 import 'estonia_public_transport.dart';
 
+/// Class, which provides functions related to working with GTFS-data,
+/// such as downloading gtfs.zip, unarchiving it, deleting gtfs.zip and
+/// working with .txt files located in new gtfs folder.
 class EstoniaPublicTransportApiProvider {
-  Future<void> fetchFirstTime() async {
+  Future<void> _fetchFirstTime() async {
     final directory = await getApplicationDocumentsDirectory();
     final filePathTest = '${directory.path}/gtfs/stops.txt';
     final filePath = '${directory.path}/gtfs.zip';
 
-    if (await File(filePathTest).exists()) {
+    if (File(filePathTest).existsSync()) {
       log('File exists');
       return;
     } else {
       log("File don't exists");
-      final url = Uri.parse('http://www.peatus.ee/gtfs/gtfs.zip');
+      final url = Uri.parse(Links.gtfsLink);
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
-        unzipFile(filePath, '${directory.path}/gtfs');
+        _unzipFile(filePath, '${directory.path}/gtfs');
         log('File downloaded and unzipped successfully.');
       } else {
-        log('Failed to download the file. Status code: ${response.statusCode}');
+        throw 'Failed to download the file. Status code: ${response.statusCode}';
       }
     }
   }
 
-  void unzipFile(String zipFilePath, String destinationDir) {
+  void _unzipFile(String zipFilePath, String destinationDir) {
     final bytes = File(zipFilePath).readAsBytesSync();
     final archive = ZipDecoder().decodeBytes(bytes);
 
@@ -50,13 +54,13 @@ class EstoniaPublicTransportApiProvider {
     }
   }
 
-  Future<void> deleteFile(String fileName) async {
+  Future<void> _deleteFile(String fileName) async {
     final appDocumentsDirectory = await getApplicationDocumentsDirectory();
     final filePath = '${appDocumentsDirectory.path}/$fileName';
 
     try {
       final file = File(filePath);
-      if (await file.exists()) {
+      if (file.existsSync()) {
         await file.delete();
         log('File deleted: $filePath');
       } else {
@@ -67,6 +71,15 @@ class EstoniaPublicTransportApiProvider {
     }
   }
 
+  Future<bool> checkFileExistence() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filePathTest = '${directory.path}/gtfs/stops.txt';
+    if (File(filePathTest).existsSync()) {
+      return true;
+    } return false;
+  }
+
+  /// Parse stops from stops.txt.
   Future<List<Stop>> parseStops() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final stopsFile = File('${documentsDirectory.path}/gtfs/stops.txt');
@@ -91,15 +104,22 @@ class EstoniaPublicTransportApiProvider {
     return stops;
   }
 
+  /// Fetch first time data, download gtfs.zip, unarchive it, delete gtfs.zip.
   Future<void> fetchData() async {
-    await fetchFirstTime();
-    await deleteFile('gtfs.zip');
+    try {
+      await _fetchFirstTime();
+      await _deleteFile('gtfs.zip');
+    } catch (e) {
+      throw Exception('Check internet connection or give storage permissions');
+    }
   }
 
+  /// Return List of [StopTime] objects related to one [Stop].
   List<StopTime> getStopTimesForOneStop(String stopId, List<StopTime> stopTimeList) {
     return stopTimeList.where((stopTime) => stopTime.stopId == stopId).toList();
   }
 
+  /// Return trips based on stopTimes list for picked stop.
   List<Trip> getTripsForOneStopForAllStopTimes(
       List<StopTime> stopTimeListForOneStop, List<Trip> allTrips,) {
     final matchingTrips = <Trip>[];
@@ -113,6 +133,7 @@ class EstoniaPublicTransportApiProvider {
     return matchingTrips;
   }
 
+  /// Parse stopTimes from stop_times.txt.
   Future<List<StopTime>> parseStopTimes(List<Trip> trips) async {
     final tripsMap = await _makeTripsMap(trips);
     final documentsDirectory = await getApplicationDocumentsDirectory();
@@ -141,7 +162,8 @@ class EstoniaPublicTransportApiProvider {
         .toList();
     return stopTimes;
   }
-
+  /// Parse trips from trips.txt. Here we also check is trip goes now, not
+  /// in the future or not in the past.
   Future<List<Trip>> parseTrips(List<Calendar> calendar) async {
     final calendarMap = await _makeCalendarMap(calendar);
     final documentsDirectory = await getApplicationDocumentsDirectory();
@@ -166,7 +188,8 @@ class EstoniaPublicTransportApiProvider {
         .toList();
     return trips;
   }
-
+  /// Parse calendar from calendar.txt. Important note: here we get services
+  /// which are available now, not in the future, not in the past.
   Future<List<Calendar>> parseCalendar() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final calendarFile = File('${documentsDirectory.path}/gtfs/calendar.txt');
@@ -197,22 +220,13 @@ class EstoniaPublicTransportApiProvider {
     return calendar;
   }
 
-  /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.
-  Future<Map<dynamic, dynamic>> _makeCalendarMap(List<Calendar> calendar) async {
-    final calendarMap = { for (var item in calendar) item.serviceId : item };
-    return calendarMap;
-  }
-
-  /// Make Trip Map<dynamic, dynamic> out of List<Trip>.
-  Future<Map<dynamic, dynamic>> _makeTripsMap(List<Trip> trips) async {
-    final tripsMap = { for (var item in trips) item.tripId : item };
-    return tripsMap;
-  }
-
+  /// Returns List of [Calendar] object for corresponding serviceId
   List<Calendar> getCalendarForService(String serviceId, List<Calendar> allCalendars) {
     return allCalendars.where((calendar) => calendar.serviceId == serviceId).toList();
   }
 
+  /// Transforms List of daysOfWeek true/false into string with
+  /// corresponding days of the week.
   String getDaysOfWeekString(List<Calendar> tripCalendars) {
     final weekdaysFull = [
       'Monday',
@@ -239,5 +253,17 @@ class EstoniaPublicTransportApiProvider {
         .toList();
 
     return activeDayNames.join(', ');
+  }
+
+  /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.
+  Future<Map<dynamic, dynamic>> _makeCalendarMap(List<Calendar> calendar) async {
+    final calendarMap = { for (var item in calendar) item.serviceId : item };
+    return calendarMap;
+  }
+
+  /// Make Trip Map<dynamic, dynamic> out of List<Trip>.
+  Future<Map<dynamic, dynamic>> _makeTripsMap(List<Trip> trips) async {
+    final tripsMap = { for (var item in trips) item.tripId : item };
+    return tripsMap;
   }
 }

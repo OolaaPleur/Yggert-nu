@@ -30,7 +30,8 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
                 Column(
                   children: [
                     Text('Scooter ID: ${boltScooter!.name}'),
-                    Text('Battery Charge: ${boltScooter!.charge}'),
+                    Text('Battery Charge: ${boltScooter!.charge}%'),
+                    Text('Price: ${boltScooter!.durationRateStr.toLowerCase()}'),
                   ],
                 ),
                 IconButton(

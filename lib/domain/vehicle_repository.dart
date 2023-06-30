@@ -21,6 +21,9 @@ class VehicleRepository {
   final EstoniaPublicTransportApiProvider _estoniaPublicTransportApiProvider =
       EstoniaPublicTransportApiProvider();
 
+  // Check file existence
+  Future<bool> checkFileExistence() => _estoniaPublicTransportApiProvider.checkFileExistence();
+
   //Stops
 
   Future<void> fetchGtfsData() => _estoniaPublicTransportApiProvider.fetchData();

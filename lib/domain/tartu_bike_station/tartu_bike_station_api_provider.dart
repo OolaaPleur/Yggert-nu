@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -30,9 +29,9 @@ class TartuBikeStationApiProvider {
           .toList();
       return vehicles;
     }
-    //throw Exception('Error fetching Tartu bikes');
-    log('no connection to tartu bikes');
-    return Future<List<TartuBikeStations>>.value([]);
+    throw Exception('Server error. Cant fetch Tartu bikes data');
+    //log('no connection to tartu bikes'); FOR TESTING PURPOSE
+    //return Future<List<TartuBikeStations>>.value([]);
   }
 
   /// Fetch data about single Tartu bike station from server.

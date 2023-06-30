@@ -14,7 +14,19 @@ import 'modal_bottom_sheet_bike_station_info.dart';
 import 'modal_bottom_sheet_scooter_info.dart';
 
 /// Type of the marker.
-enum MarkerType { busStop, scooter, bike, none }
+enum MarkerType {
+  /// Public transport stop.
+  stop,
+
+  /// Bolt scooter.
+  scooter,
+
+  /// Tartu smart bike.
+  bike,
+
+  /// Default marker type.
+  none
+}
 
 /// Map marker class.
 class MapMarker extends Marker {
@@ -33,15 +45,9 @@ class MapMarker extends Marker {
           builder: builder ?? (_) => Container(),
           key: key ?? const Key('no_key_from_server'),
         );
-  final MarkerType markerType;
 
-  MapMarker copyWith({
-    MarkerType? markerType,
-  }) {
-    return MapMarker(
-      markerType: markerType ?? this.markerType,
-    );
-  }
+  /// Type of the marker.
+  final MarkerType markerType;
 }
 
 /// Class for markers creation.
@@ -65,58 +71,70 @@ class CreateMapMarkerList {
             key: Key(bikeStation.id),
             height: 65,
             width: 65,
-            builder: (context) => TextButton(
-              onPressed: () {
-                final bikeInfo = vehicleRepository;
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return FutureBuilder<SingleBikeStation>(
-                      future: bikeInfo.getBikeInfo(bikeStation.id),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<SingleBikeStation> asyncSnapshot) {
-                        if (asyncSnapshot.hasError) {
-                          return Container(
-                            color: Colors.red,
-                            // Display an error message with red background
-                            height: 100,
-                            width: double.infinity,
-                            child: Center(
-                              child: Text('Error: ${asyncSnapshot.error}'),
-                            ),
-                          );
-                        }
-                        if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                          return Container(
-                            color: Colors.white12,
-                            // Display a loading indicator with grey background
-                            height: 100,
-                            width: double.infinity,
-                            child: const Center(child: CircularProgressIndicator()),
-                          );
-                        }
-                        if (asyncSnapshot.connectionState == ConnectionState.done) {
-                          return ModalBottomSheetBikeStationInfo(
-                            singleBikeStation: asyncSnapshot.data,
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    );
-                  },
-                );
-              },
-              child: Center(
-                child: Stack(
-                  children: [
-                    Image.asset('assets/bicycle.png', height: 60, width: 60),
-                    Center(
-                      child: Text(
-                        bikeStation.totalLockedCycleCount.toString(),
-                        style: const TextStyle(fontSize: 22, color: Colors.black54),
-                      ),
+            builder: (context) => Container(
+              margin: context.select(
+        (MapBloc bloc) => bloc.state.keyFromOpenedMarker == bikeStation.id,
+        )
+        ? EdgeInsets.zero
+            : const EdgeInsets.all(2),
+              child: TextButton(
+                onPressed: () {
+                  final bikeInfo = vehicleRepository;
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      mapBloc.add(MapEnlargeIcon(bikeStation.id));
+                      return FutureBuilder<SingleBikeStation>(
+                        future: bikeInfo.getBikeInfo(bikeStation.id),
+                        builder:
+                            (BuildContext context, AsyncSnapshot<SingleBikeStation> asyncSnapshot) {
+                          if (asyncSnapshot.hasError) {
+                            return Container(
+                              color: Colors.red,
+                              // Display an error message with red background
+                              height: 100,
+                              width: double.infinity,
+                              child: Center(
+                                child: Text('Error: ${asyncSnapshot.error}'),
+                              ),
+                            );
+                          }
+                          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                            return Container(
+                              color: Colors.white12,
+                              // Display a loading indicator with grey background
+                              height: 100,
+                              width: double.infinity,
+                              child: const Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          if (asyncSnapshot.connectionState == ConnectionState.done) {
+                            return ModalBottomSheetBikeStationInfo(
+                              singleBikeStation: asyncSnapshot.data,
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      );
+                    },
+                  ).whenComplete(
+                        () => mapBloc.add(
+                      const MapEnlargeIcon(''),
                     ),
-                  ],
+                  );
+                },
+                child: Center(
+                  child: Stack(
+                    children: [
+                      Image.asset('assets/bicycle.png', height: 60, width: 60),
+                      Center(
+                        child: Text(
+                          bikeStation.totalLockedCycleCount.toString(),
+                          style: const TextStyle(fontSize: 22, color: Colors.black54),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -125,45 +143,59 @@ class CreateMapMarkerList {
         }
       case BoltScooter:
         {
-          final bikeStation = vehicleOrStop as BoltScooter;
+          final scooter = vehicleOrStop as BoltScooter;
           mapMarker = MapMarker(
             markerType: MarkerType.scooter,
-            key: Key(bikeStation.id.toString()),
+            key: Key(scooter.id.toString()),
             height: 65,
             width: 65,
-            builder: (context) => TextButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (context) {
-                    return ModalBottomSheetScooterInfo(boltScooter: bikeStation);
-                  },
+            builder: (context) => BlocBuilder<MapBloc, MapState>(
+              builder: (context, state) {
+                return Container(
+                  margin: context.select(
+                    (MapBloc bloc) => bloc.state.keyFromOpenedMarker == scooter.id.toString(),
+                  )
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.all(2),
+                  child: TextButton(
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        builder: (context) {
+                          mapBloc.add(MapEnlargeIcon(scooter.id.toString()));
+                          return ModalBottomSheetScooterInfo(boltScooter: scooter);
+                        },
+                      ).whenComplete(
+                        () => mapBloc.add(
+                          const MapEnlargeIcon(''),
+                        ),
+                      );
+                    },
+                    child: scooter.charge > 30
+                        ? Image.asset('assets/scooter.png')
+                        : Image.asset(
+                            'assets/scooter_low_battery.png',
+                          ),
+                  ),
                 );
               },
-              child: bikeStation.charge > 30
-                  ? Image.asset(
-                      'assets/scooter.png',
-                    )
-                  : Image.asset(
-                      'assets/scooter_low_battery.png',
-                    ),
             ),
-            point: LatLng(bikeStation.latitude, bikeStation.longitude),
+            point: LatLng(scooter.latitude, scooter.longitude),
           );
         }
       case Stop:
         {
-          final bikeStation = vehicleOrStop as Stop;
+          final stop = vehicleOrStop as Stop;
           mapMarker = MapMarker(
-            markerType: MarkerType.busStop,
-            key: Key(bikeStation.stopId),
+            markerType: MarkerType.stop,
+            key: Key(stop.stopId),
             height: 55,
             width: 55,
             builder: (context) => StopMarkerButton(
               mapBloc: mapBloc,
-              vehicleOrStop: bikeStation,
+              stop: stop,
             ),
-            point: LatLng(bikeStation.latitude, bikeStation.longitude),
+            point: LatLng(stop.latitude, stop.longitude),
           );
         }
     }
@@ -171,39 +203,62 @@ class CreateMapMarkerList {
   }
 }
 
+/// Class defines child of Stop marker.
 class StopMarkerButton extends StatelessWidget {
-  const StopMarkerButton({required this.mapBloc, required this.vehicleOrStop, super.key});
+  /// Constructor of [StopMarkerButton].
+  const StopMarkerButton({required this.mapBloc, required this.stop, super.key});
 
+  /// [MapBloc] object, needed for BLoC communication.
   final MapBloc mapBloc;
-  final Stop vehicleOrStop;
+
+  /// [Stop] object, defines current picked stop.
+  final Stop stop;
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        mapBloc.add(
-          MapShowTripsForCurrentStop(vehicleOrStop),
-        );
-        showModalBottomSheet<void>(
+    return Container(
+      margin: context.select(
+            (MapBloc bloc) => bloc.state.keyFromOpenedMarker == stop.stopId,
+      )
+          ? EdgeInsets.zero
+          : const EdgeInsets.all(2),
+      child: TextButton(
+        onPressed: () {
+          mapBloc.add(
+            MapShowTripsForCurrentStop(stop),
+          );
+          showModalBottomSheet<void>(
             context: context,
             builder: (context) {
+              mapBloc.add(MapEnlargeIcon(stop.stopId),);
               return ModalBottomSheetTimeTable(
                 mapBloc: mapBloc,
-                stop: vehicleOrStop,
+                stop: stop,
               );
-            },).whenComplete(() => mapBloc.add(const MapCloseStopTimesModalBottomSheet()));
-      },
-      child: Image.asset(
-        'assets/bus.png',
+            },
+          ).whenComplete(() {
+            mapBloc..add(const MapCloseStopTimesModalBottomSheet())
+            ..add(
+                const MapEnlargeIcon(''),);
+          });
+        },
+        child: Image.asset(
+          'assets/bus.png',
+        ),
       ),
     );
   }
 }
 
+/// Class defines modal bottom sheet content of stop marker.
 class ModalBottomSheetTimeTable extends StatefulWidget {
+  /// Constructor for [ModalBottomSheetTimeTable].
   const ModalBottomSheetTimeTable({required this.mapBloc, required this.stop, super.key});
 
+  /// [MapBloc] object, needed for BLoC communication.
   final MapBloc mapBloc;
+
+  /// [Stop] object, defines current picked stop.
   final Stop stop;
 
   @override
@@ -216,9 +271,6 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
 
   @override
   void dispose() {
-    /* Discards any resources used by the object. After this is called,
-    the object is not in a usable state and should be discarded
-    (calls to addListener will throw after the object is disposed) */
     _typeAheadController.dispose();
     super.dispose();
   }
@@ -228,13 +280,14 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
     return Column(
       children: [
         Center(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: Text(
-            widget.stop.name,
-            style: const TextStyle(fontSize: 25),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Text(
+              widget.stop.name,
+              style: const TextStyle(fontSize: 25),
+            ),
           ),
-        ),),
+        ),
         Row(
           children: [
             Expanded(
@@ -290,23 +343,25 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
               bloc: widget.mapBloc,
               builder: (context, state) {
                 return SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        widget.mapBloc.add(
-                          const MapPressFilterButton(),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              widget.mapBloc.state.showTripsForToday == ShowTripsForToday.today
-                                  ? Colors.amber
-                                  : Colors.white,),
-                      child: BlocProvider<MapBloc>.value(
-                        value: widget.mapBloc,
-                        child: const TextForFilterButton(),
-                      ),
-                    ),);
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      widget.mapBloc.add(
+                        const MapPressFilterButton(),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          widget.mapBloc.state.showTripsForToday == ShowTripsForToday.today
+                              ? Colors.amber
+                              : Colors.white,
+                    ),
+                    child: BlocProvider<MapBloc>.value(
+                      value: widget.mapBloc,
+                      child: const TextForFilterButton(),
+                    ),
+                  ),
+                );
               },
             ),
           ],

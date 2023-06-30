@@ -14,13 +14,6 @@ enum TripStatus {
   failure,
 }
 
-enum SearchResultsLoading {
-  initial,
-  loading,
-  success,
-  failure,
-}
-
 enum BusStopAdditionStatus {
   initial,
   loading,
@@ -43,36 +36,42 @@ enum MapFilters { busStop, scooters, cycles }
 /// State of the Map.
 final class MapState extends Equatable {
   /// Constructor for the State.
-  const MapState({this.status = MapStateStatus.initial,
-    this.tripStatus = TripStatus.initial,
-    this.markers = const <MapMarker>[],
-    this.filteredMarkers = const <MapMarker>[],
-    this.filters = const {MapFilters.cycles: true, MapFilters.scooters: true, MapFilters.busStop: false},
-    this.busStopsAdded = false,
-    this.stopTimes = const <StopTime>[],
-    this.currentStopTimes = const <StopTime>[],
-    this.busStops = const <Stop>[],
-    this.trips = const <Trip>[],
-    this.currentTrips = const <Trip>[],
-    this.currentTripIds = const <String>[],
-    this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
-    this.busStopAdditionStatus = BusStopAdditionStatus.initial,
-    this.currentStops = const <Stop>[],
-    this.presentTripStartStopTimes = const <int, StopTime>{},
-    this.presentTripEndStopTimes = const <int, StopTime>{},
-    this.presentTripStartStop = const <int, Stop>{},
-    this.presentTripEndStop = const <int, Stop>{},
-    this.pickedStop = const Stop(),
-    this.presentStopStopTimeList = const <int, StopTime>{},
-    this.filteredByUserTrips = const <Trip>[],
-    this.searchResultsLoading = SearchResultsLoading.initial,
-    this.calendars = const <Calendar>[],
-    this.presentTripCalendar = const <int, String>{},
-    this.showTripsForToday = ShowTripsForToday.all,
-    this.globalShowTripsForToday = GlobalShowTripsForToday.all,
-    this.filteringStatus = false,
-    this.currentsLoaded = false,
-  this.query = '',});
+  const MapState(
+      {this.status = MapStateStatus.initial,
+      this.tripStatus = TripStatus.initial,
+      this.markers = const <MapMarker>[],
+      this.filteredMarkers = const <MapMarker>[],
+      this.filters = const {
+        MapFilters.cycles: true,
+        MapFilters.scooters: true,
+        MapFilters.busStop: false
+      },
+      this.busStopsAdded = false,
+      this.stopTimes = const <StopTime>[],
+      this.currentStopTimes = const <StopTime>[],
+      this.busStops = const <Stop>[],
+      this.trips = const <Trip>[],
+      this.currentTrips = const <Trip>[],
+      this.currentTripIds = const <String>[],
+      this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
+      this.busStopAdditionStatus = BusStopAdditionStatus.initial,
+      this.currentStops = const <Stop>[],
+      this.presentTripStartStopTimes = const <int, StopTime>{},
+      this.presentTripEndStopTimes = const <int, StopTime>{},
+      this.presentTripStartStop = const <int, Stop>{},
+      this.presentTripEndStop = const <int, Stop>{},
+      this.pickedStop = const Stop(),
+      this.presentStopStopTimeList = const <int, StopTime>{},
+      this.filteredByUserTrips = const <Trip>[],
+      this.calendars = const <Calendar>[],
+      this.presentTripCalendar = const <int, String>{},
+      this.showTripsForToday = ShowTripsForToday.all,
+      this.globalShowTripsForToday = GlobalShowTripsForToday.all,
+      this.filteringStatus = false,
+      this.currentsLoaded = false,
+      this.query = '',
+      this.keyFromOpenedMarker = '',
+      this.networkException = '',});
 
   final MapStateStatus status;
   final List<MapMarker> markers;
@@ -108,7 +107,6 @@ final class MapState extends Equatable {
 
   // Trips, filtered by user searching
   final List<Trip> filteredByUserTrips;
-  final SearchResultsLoading searchResultsLoading;
   final String query;
 
   // Show local trips for today
@@ -122,9 +120,11 @@ final class MapState extends Equatable {
   final bool filteringStatus;
   final TripStatus tripStatus;
 
+  final String keyFromOpenedMarker;
+  final String networkException;
+
   @override
-  List<Object> get props =>
-      [
+  List<Object> get props => [
         status,
         markers,
         filteredMarkers,
@@ -147,14 +147,15 @@ final class MapState extends Equatable {
         presentStopStopTimeList,
         presentTripCalendar,
         filteredByUserTrips,
-        searchResultsLoading,
         showTripsForToday,
         globalShowTripsForToday,
         busStopsAdded,
         busStopAdditionStatus,
         filteringStatus,
         tripStatus,
-        query
+        query,
+        keyFromOpenedMarker,
+    networkException
       ];
 
   MapState copyWith({
@@ -180,7 +181,6 @@ final class MapState extends Equatable {
     Map<int, StopTime>? presentStopStopTimeList,
     Map<int, String>? presentTripCalendar,
     List<Trip>? filteredByUserTrips,
-    SearchResultsLoading? searchResultsLoading,
     String? query,
     ShowTripsForToday? showTripsForToday,
     GlobalShowTripsForToday? globalShowTripsForToday,
@@ -188,6 +188,8 @@ final class MapState extends Equatable {
     BusStopAdditionStatus? busStopAdditionStatus,
     bool? filteringStatus,
     TripStatus? tripStatus,
+    String? keyFromOpenedMarker,
+    String? networkException,
   }) {
     return MapState(
       status: status ?? this.status,
@@ -214,7 +216,6 @@ final class MapState extends Equatable {
       presentStopStopTimeList: presentStopStopTimeList ?? this.presentStopStopTimeList,
       presentTripCalendar: presentTripCalendar ?? this.presentTripCalendar,
       filteredByUserTrips: filteredByUserTrips ?? this.filteredByUserTrips,
-      searchResultsLoading: searchResultsLoading ?? this.searchResultsLoading,
       query: query ?? this.query,
       showTripsForToday: showTripsForToday ?? this.showTripsForToday,
       globalShowTripsForToday: globalShowTripsForToday ?? this.globalShowTripsForToday,
@@ -222,6 +223,8 @@ final class MapState extends Equatable {
       busStopAdditionStatus: busStopAdditionStatus ?? this.busStopAdditionStatus,
       filteringStatus: filteringStatus ?? this.filteringStatus,
       tripStatus: tripStatus ?? this.tripStatus,
+      keyFromOpenedMarker: keyFromOpenedMarker ?? this.keyFromOpenedMarker,
+      networkException: networkException ?? this.networkException,
     );
   }
 }
