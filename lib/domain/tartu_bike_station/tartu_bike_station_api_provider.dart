@@ -29,7 +29,7 @@ class TartuBikeStationApiProvider {
           .toList();
       return vehicles;
     }
-    throw Exception('Server error. Cant fetch Tartu bikes data');
+    throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
     //log('no connection to tartu bikes'); FOR TESTING PURPOSE
     //return Future<List<TartuBikeStations>>.value([]);
   }
@@ -48,6 +48,6 @@ class TartuBikeStationApiProvider {
       final singleBikeStation = SingleBikeStation(bikeCount: bikeCount, pedelecCount: pedelecCount);
       return singleBikeStation;
     }
-    throw Exception();
+    throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
   }
 }

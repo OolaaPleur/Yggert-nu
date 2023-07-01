@@ -50,7 +50,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
               markerSize: Size(40, 40),
-              markerDirection: MarkerDirection.heading,
+              showHeadingSector: false,
             ),
           ),
           MarkerClusterLayerWidget(
@@ -62,7 +62,7 @@ class _MapScreenState extends State<MapScreen> {
               anchor: AnchorPos.align(AnchorAlign.center),
               fitBoundsOptions: const FitBoundsOptions(
                 padding: EdgeInsets.all(50),
-                maxZoom: 18,
+                maxZoom: 20,
               ),
               builder: (context, markers) {
                 return Container(

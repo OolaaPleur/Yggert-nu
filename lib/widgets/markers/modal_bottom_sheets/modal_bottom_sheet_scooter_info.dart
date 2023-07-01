@@ -17,37 +17,44 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
     return boltScooter == null
         ? const Center(child: Text('Could not load required info'))
         : Container(
-      color: Colors.green[200],
-      height: 100,
-      width: double.infinity,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Text('Scooter ID: ${boltScooter!.name}'),
-                    Text('Battery Charge: ${boltScooter!.charge}%'),
-                    Text('Price: ${boltScooter!.durationRateStr.toLowerCase()}'),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {
-                    launchUrl(Uri.parse('bolt://action/scootersSearch'));
-                  },
-                  icon: const Icon(
-                    Icons.electric_scooter,
-                    size: 60,
+            color: Colors.green[200],
+            height: 100,
+            width: double.infinity,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Text('Scooter ID: ${boltScooter!.name}'),
+                          Text('Battery Charge: ${boltScooter!.charge}%'),
+                          Text('Price: ${boltScooter!.durationRateStr.toLowerCase()}'),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              launchUrl(Uri.parse('bolt://action/scootersSearch'));
+                            },
+                            label: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text('Go to Bolt app'),
+                            ),
+                            icon: const Icon(
+                              Icons.electric_scooter, size: 40,
+                            ),style: IconButton.styleFrom(backgroundColor: Colors.white, padding: const EdgeInsets.all(6)),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                )
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

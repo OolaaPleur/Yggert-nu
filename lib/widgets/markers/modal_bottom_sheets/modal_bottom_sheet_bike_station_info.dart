@@ -33,17 +33,29 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
                           Text('Bikes: ${singleBikeStation!.bikeCount}'),
                         ],
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          await LaunchApp.openApp(
-                            androidPackageName: 'com.bewegen.tartu',
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.pedal_bike_sharp,
-                          size: 60,
-                        ),
-                      )
+                      Column(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () async {
+                              await LaunchApp.openApp(
+                                androidPackageName: 'com.bewegen.tartu',
+                              );
+                            },
+                            label: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text('Go to Tartu bikes app'),
+                            ),
+                            icon: const Icon(
+                              Icons.pedal_bike_sharp,
+                              size: 40,
+                            ),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              padding: const EdgeInsets.all(6),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ],

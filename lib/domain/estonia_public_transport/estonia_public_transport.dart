@@ -96,7 +96,15 @@ class StopTime {
     required this.departureTime,
     required this.sequence,
   });
-
+  factory StopTime.fromMap(Map<String, dynamic> map) {
+    return StopTime(
+      tripId: map['tripId'] as String,
+      arrivalTime: map['arrivalTime'] as String,
+      departureTime: map['departureTime'] as String,
+      stopId: map['stopId'] as String,
+      sequence: map['sequence'] as int,
+    );
+  }
   /// Reference to trip record (foreign key).
   final String tripId;
   /// Reference to stop record.
@@ -117,15 +125,6 @@ class StopTime {
       'sequence': sequence,
     };
   }
-  factory StopTime.fromMap(Map<String, dynamic> map) {
-    return StopTime(
-      tripId: map['tripId'] as String,
-      arrivalTime: map['arrivalTime'] as String,
-      departureTime: map['departureTime'] as String,
-      stopId: map['stopId'] as String,
-      sequence: map['sequence'] as int,
-    );
-  }
 }
 
 /// Public transport [Calendar] object.
@@ -145,14 +144,6 @@ class Calendar {
 }
 
 class Route {
-  String routeId;
-  String agencyId;
-  String routeShortName;
-  String routeLongName;
-  int routeType;
-  String routeColor;
-  String competentAuthority;
-  String routeDesc;
 
   Route({
     required this.routeId,
@@ -164,6 +155,27 @@ class Route {
     required this.competentAuthority,
     required this.routeDesc,
   });
+
+  factory Route.fromMap(Map<String, dynamic> map) {
+    return Route(
+      routeId: map['route_id'] as String,
+      agencyId: map['agency_id'] as String,
+      routeShortName: map['route_short_name'] as String,
+      routeLongName: map['route_long_name'] as String,
+      routeType: map['route_type'] as int,
+      routeColor: map['route_color'] as String,
+      competentAuthority: map['competent_authority'] as String,
+      routeDesc: map['route_desc'] as String,
+    );
+  }
+  String routeId;
+  String agencyId;
+  String routeShortName;
+  String routeLongName;
+  int routeType;
+  String routeColor;
+  String competentAuthority;
+  String routeDesc;
 
   // Convert a Route object into a Map.
   Map<String, dynamic> toMap() {
@@ -177,18 +189,5 @@ class Route {
       'competent_authority': competentAuthority,
       'route_desc': routeDesc,
     };
-  }
-
-  factory Route.fromMap(Map<String, dynamic> map) {
-    return Route(
-      routeId: map['route_id'] as String,
-      agencyId: map['agency_id'] as String,
-      routeShortName: map['route_short_name'] as String,
-      routeLongName: map['route_long_name'] as String,
-      routeType: map['route_type'] as int,
-      routeColor: map['route_color'] as String,
-      competentAuthority: map['competent_authority'] as String,
-      routeDesc: map['route_desc'] as String,
-    );
   }
 }

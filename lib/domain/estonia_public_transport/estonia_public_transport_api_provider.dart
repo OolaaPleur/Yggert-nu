@@ -12,11 +12,11 @@ import '../../links/links.dart';
 import 'estonia_public_transport.dart';
 
 class ParseStopTimesParams {
+
+  ParseStopTimesParams({required this.trips, required this.stopTimesData, required this.dbpath});
   final List<Trip> trips;
   final String stopTimesData;
   final String dbpath;
-
-  ParseStopTimesParams({required this.trips, required this.stopTimesData, required this.dbpath});
 }
 
 /// Class, which provides functions related to working with GTFS-data,
@@ -166,7 +166,7 @@ class EstoniaPublicTransportApiProvider {
         path,
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE IF NOT EXISTS stopTimes(tripId TEXT, arrivalTime TEXT, departureTime TEXT, stopId TEXT, sequence INTEGER)",
+            'CREATE TABLE IF NOT EXISTS stopTimes(tripId TEXT, arrivalTime TEXT, departureTime TEXT, stopId TEXT, sequence INTEGER)',
           );
         },
         version: 1,
@@ -182,7 +182,7 @@ class EstoniaPublicTransportApiProvider {
       }; // Ensure to implement fromMap function in Trip class
 
       var batch = stopTimesDb.batch(); // create batch for multiple insertions
-      int count = 0;
+      var count = 0;
       final lines = LineSplitter.split(stopTimesData).skip(1).toList();
       for (var i = 0; i < lines.length; i++) {
         final values = lines[i].split(',');
@@ -207,7 +207,7 @@ class EstoniaPublicTransportApiProvider {
           count++;
         }
       }
-      print('number of entries = ${count}');
+      print('number of entries = $count');
       await batch.commit(noResult: true);
       await stopTimesDb.close();
       await tripsDb.close();
@@ -222,14 +222,14 @@ class EstoniaPublicTransportApiProvider {
     final tripsFile = File('${documentsDirectory.path}/gtfs/trips.txt');
     final tripsData = await tripsFile.readAsString();
     final dbpath = await getDatabasesPath();
-    String path = join(dbpath, 'trips.db');
+    final path = join(dbpath, 'trips.db');
 
     if (!File(path).existsSync()) {
       final db = await openDatabase(
         join(dbpath, 'trips.db'),
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE IF NOT EXISTS trips(tripId TEXT, routeId TEXT, serviceId TEXT, tripHeadsign TEXT, directionId TEXT, wheelchairAccessible TEXT, shapeId TEXT)",
+            'CREATE TABLE IF NOT EXISTS trips(tripId TEXT, routeId TEXT, serviceId TEXT, tripHeadsign TEXT, directionId TEXT, wheelchairAccessible TEXT, shapeId TEXT)',
           );
         },
         version: 1,
@@ -237,7 +237,7 @@ class EstoniaPublicTransportApiProvider {
 
       var batch = db.batch();
       final lines = LineSplitter.split(tripsData).skip(1).toList();
-      for (int i = 0; i < lines.length; i++) {
+      for (var i = 0; i < lines.length; i++) {
         final values = lines[i].split(',');
         final serviceId = values[1];
         final calendar = calendarMap[serviceId];
@@ -313,8 +313,8 @@ class EstoniaPublicTransportApiProvider {
 
   Future<void> parseRoutes() async {
     // Get the path to the database.
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'routes.db');
+    final databasesPath = await getDatabasesPath();
+    final path = join(databasesPath, 'routes.db');
 
     if (!File(path).existsSync()) {
       // Open the database.
@@ -334,18 +334,18 @@ class EstoniaPublicTransportApiProvider {
           )
         ''');
 
-          });
+          },);
 
       // Read the file.
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final routesFile = File('${documentsDirectory.path}/gtfs/routes.txt');
       final routesData = await routesFile.readAsString();
-      var batch = database.batch();
+      final batch = database.batch();
       final lines = LineSplitter.split(routesData).skip(1).toList();
 
-      int count = 0;
+      var count = 0;
       for (var i = 1; i < lines.length; i++) {
-        var values = lines[i].split(',');
+        final values = lines[i].split(',');
 
         // Insert data into the database.
         await database.transaction((txn) async {

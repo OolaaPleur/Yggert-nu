@@ -121,7 +121,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
     final allStopTimesForAllTripsWhichGoesThroughCurrentStop =
         allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps
-            .map((map) => StopTime.fromMap(map))
+            .map(StopTime.fromMap)
             .toList();
 
     // getting list of unique stopIds from StopTimes
@@ -140,13 +140,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     // print('Number of entries in trips table: $tripsCount');
     emit(
       state.copyWith(
-        currentStopTimes: currentStopTimes as List<StopTime>,
-        currentTrips: currentTrips as List<Trip>,
-        filteredByUserTrips: currentTrips as List<Trip>,
-        currentTripIds: currentTripIds as List<String>,
+        currentStopTimes: currentStopTimes,
+        currentTrips: currentTrips,
+        filteredByUserTrips: currentTrips,
+        currentTripIds: currentTripIds,
         allStopTimesForAllTripsWhichGoesThroughCurrentStop:
-            allStopTimesForAllTripsWhichGoesThroughCurrentStop as List<StopTime>,
-        currentStops: currentStops as List<Stop>,
+            allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+        currentStops: currentStops,
         showTripsForToday: state.globalShowTripsForToday == GlobalShowTripsForToday.all
             ? ShowTripsForToday.all
             : ShowTripsForToday.today,
@@ -204,8 +204,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final dbPath = await getDatabasesPath();
     final routesDb = await openDatabase(join(dbPath, 'routes.db'));
 
-    int count = 0;
-    Map<int, Route> presentRoutes = {};
+    var count = 0;
+    final presentRoutes = <int, Route>{};
     for (final trip in state.filteredByUserTrips) {
       final maps = await routesDb.query(
         'Routes',
@@ -264,8 +264,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     try {
       await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
     } catch (e) {
-      emit(state.copyWith(networkException: e.toString().substring(11)));
-      emit(state.copyWith(networkException: ''));
+      emit(state.copyWith(networkException: {e.toString().substring(11): []}));
+      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
     final mapMarkers = <MapMarker>[...stateMarkers];
     final createMapMarkerList = CreateMapMarkerList();
@@ -275,8 +275,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
       }
     } catch (e) {
-      emit(state.copyWith(networkException: e.toString().substring(11)));
-      emit(state.copyWith(networkException: ''));
+      emit(state.copyWith(networkException: {e.toString().substring(11): ['Bolt', 'scooters']}));
+      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
     try {
       final bikeLocations = await _vehicleRepository.getTartuBikes();
@@ -284,8 +284,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(bike, this));
       }
     } catch (e) {
-      emit(state.copyWith(networkException: e.toString().substring(11)));
-      emit(state.copyWith(networkException: ''));
+      emit(state.copyWith(networkException: {e.toString().substring(11): ['Tartu', 'bikes']}));
+      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
 
     debugPrint(state.markers.length.toString());
@@ -337,10 +337,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       emit(
         state.copyWith(
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.failure,
-          networkException: 'No file is present, press refresh button to download',
+          networkException: {'No file is present, press refresh button to download' : []},
         ),
       );
-      emit(state.copyWith(networkException: ''));
+      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
   }
 
@@ -406,7 +406,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   void _onMapPressTheTripButton(MapPressTheTripButton event, Emitter<MapState> emit) {
-    var pressedButtonOnTrip = state.pressedButtonOnTrip;
+    final pressedButtonOnTrip = state.pressedButtonOnTrip;
     pressedButtonOnTrip[event.pressedTrip] = !pressedButtonOnTrip[event.pressedTrip];
 
     emit(state.copyWith(pressedButtonOnTrip: pressedButtonOnTrip));

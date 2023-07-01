@@ -111,7 +111,7 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
   final presentStopStopTimeListOnlyFilter = <int, List<StopTime>>{};
   final presentStopListOnlyFilter = <int, List<Stop>>{};
   var filteredBySequenceStopTimes = <StopTime>[];
-  var presentStopsInForwardDirectionInsideCycle = <Stop>[];
+  final presentStopsInForwardDirectionInsideCycle = <Stop>[];
 
   for (final trip in data.filteredByUserTrips) {
     final tripStopTimes = data.allStopTimesForAllTripsWhichGoesThroughCurrentStop
@@ -151,7 +151,7 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
 
     indexForAll += 1;
   }
-  var presentStopsInForwardDirection = presentStopsInForwardDirectionInsideCycle.toSet().toList();
+  final presentStopsInForwardDirection = presentStopsInForwardDirectionInsideCycle.toSet().toList();
 
   return {
     'presentStopStopTimeList': presentStopStopTimeList,
@@ -171,7 +171,7 @@ List<Stop> getOrderedStops(List<Stop> currentStops, List<StopTime> filteredStopt
   final stopsMap = <String, Stop>{for (var stop in currentStops) stop.stopId: stop};
 
   // Now map over the stoptimes, and for each stopId, lookup the Stop from the stopsMap
-  List<Stop> orderedStops = filteredStoptimes.map((stoptime) => stopsMap[stoptime.stopId]!).toList();
+  final orderedStops = filteredStoptimes.map((stoptime) => stopsMap[stoptime.stopId]!).toList();
 
   return orderedStops;
 }

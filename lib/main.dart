@@ -45,6 +45,37 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
 
+  List<InlineSpan>? errorText(Map<String, List<String>> messageMap) {
+    if (messageMap.isNotEmpty) {
+      final message = messageMap.keys.first;
+      final highlightedWords = messageMap[message]!;
+
+      if (messageMap.values.first.contains('Bolt')) {
+        final messageSpans = message.split(' ').map((word) {
+          return highlightedWords.contains(word)
+              ? TextSpan(
+                  text: '$word ',
+                  style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                )
+              : TextSpan(text: '$word ');
+        }).toList();
+        return messageSpans;
+      } else if (messageMap.values.first.contains('Tartu')) {
+        final messageSpans = message.split(' ').map((word) {
+          return highlightedWords.contains(word)
+              ? TextSpan(
+                  text: '$word ',
+                  style:
+                      const TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
+                )
+              : TextSpan(text: '$word ');
+        }).toList();
+        return messageSpans;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -86,19 +117,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               BlocListener<MapBloc, MapState>(
                 listenWhen: (previous, current) {
-                  return current.networkException != '';
+                  return current.networkException.isNotEmpty;
                 },
                 listener: (context, state) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: const Duration(seconds: 1),
+                      duration: const Duration(seconds: 10),
                       content: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Center(
-                              child: Text(
-                                state.networkException,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: errorText(state.networkException),
+                                ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -117,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       behavior: SnackBarBehavior.floating,
                       shape: const StadiumBorder(),
                       width: MediaQuery.of(context).size.width * 0.9,
+                      dismissDirection: DismissDirection.none,
                     ),
                   );
                 },
@@ -137,18 +171,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     context.select((MapBloc bloc) => bloc.state.filters[MapFilters.busStop] ?? true)
                         ? Colors.lightBlue[300]
                         : Theme.of(context).disabledColor,
-                onPressed: () {
-                  if (context.read<MapBloc>().state.busStopsAdded == false) {
-                    context.read<MapBloc>().add(const MapShowBusStops());
-                  }
-                  context
-                      .read<MapBloc>()
-                      .add(const MapMarkerFilterButtonPressed(MapFilters.busStop));
-                },
+                onPressed: context.select(
+                          (MapBloc bloc) => bloc.state.tripStatus == TripStatus.loading,
+                        ) ||
+                        context.select(
+                          (MapBloc bloc) =>
+                              bloc.state.publicTransportStopAdditionStatus ==
+                              PublicTransportStopAdditionStatus.loading,
+                        ) ||
+                        context.select(
+                          (MapBloc bloc) => bloc.state.status == MapStateStatus.loading,
+                        )
+                    ? null
+                    : () {
+                        if (context.read<MapBloc>().state.busStopsAdded == false) {
+                          context.read<MapBloc>().add(const MapShowBusStops());
+                        }
+                        context
+                            .read<MapBloc>()
+                            .add(const MapMarkerFilterButtonPressed(MapFilters.busStop));
+                      },
                 child: context.select(
-                  (MapBloc bloc) =>
-                      bloc.state.publicTransportStopAdditionStatus == PublicTransportStopAdditionStatus.loading,
-                )
+                          (MapBloc bloc) => bloc.state.tripStatus == TripStatus.loading,
+                        ) ||
+                        context.select(
+                          (MapBloc bloc) =>
+                              bloc.state.publicTransportStopAdditionStatus ==
+                              PublicTransportStopAdditionStatus.loading,
+                        ) ||
+                        context.select(
+                          (MapBloc bloc) => bloc.state.status == MapStateStatus.loading,
+                        ) ||
+                        context.select(
+                          (MapBloc bloc) => bloc.state.filteringStatus == true,
+                        )
                     ? const CircularProgressIndicator()
                     : const Icon(Icons.directions_bus_sharp, color: Colors.white),
               ),

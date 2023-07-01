@@ -62,7 +62,7 @@ class VehicleRepository {
       _estoniaPublicTransportApiProvider.getDaysOfWeekString(tripCalendars);
 
   // Saving settings to shared preferences.
-  DeviceSettings _deviceSettings = DeviceSettings();
+  final DeviceSettings _deviceSettings = DeviceSettings();
   Future<bool> saveValue(String value) => _deviceSettings.saveValue(value);
   Future<String> getValue() => _deviceSettings.getValue();
 }

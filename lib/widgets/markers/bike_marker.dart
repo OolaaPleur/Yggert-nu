@@ -7,10 +7,7 @@ import 'modal_bottom_sheets/modal_bottom_sheet_bike_station_info.dart';
 
 class BikeMarker extends StatelessWidget {
   const BikeMarker({
-    super.key,
-    required this.vehicleRepository,
-    required this.bikeStation,
-    required this.mapBloc,
+    required this.vehicleRepository, required this.bikeStation, required this.mapBloc, super.key,
   });
 
   final VehicleRepository vehicleRepository;
@@ -37,7 +34,7 @@ class BikeMarker extends StatelessWidget {
                     height: 100,
                     width: double.infinity,
                     child: Center(
-                      child: Text('Error: ${asyncSnapshot.error}'),
+                      child: Text(asyncSnapshot.error.toString().substring(11), textAlign: TextAlign.center, style: const TextStyle(fontSize: 18),),
                     ),
                   );
                 }
@@ -80,4 +77,5 @@ class BikeMarker extends StatelessWidget {
       ),
     );
   }
+
 }

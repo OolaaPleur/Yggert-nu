@@ -105,7 +105,7 @@ final class MapState extends Equatable {
     this.filteringStatus = false,
     this.query = '',
     this.keyFromOpenedMarker = '',
-    this.networkException = '',
+    this.networkException = const <String, List<String>>{},
     this.presentStopStopTimeListOnlyFilter = const<int, List<StopTime>>{},
     this.presentStopListOnlyFilter = const<int, List<Stop>>{},
     this.presentRoutes = const<int, Route>{},
@@ -184,7 +184,7 @@ final class MapState extends Equatable {
   /// Key from opened marker.
   final String keyFromOpenedMarker;
   /// Network exception, prints in snackbar if necessary.
-  final String networkException;
+  final Map<String, List<String>> networkException;
 
   @override
   List<Object> get props => [
@@ -256,7 +256,7 @@ final class MapState extends Equatable {
     bool? filteringStatus,
     TripStatus? tripStatus,
     String? keyFromOpenedMarker,
-    String? networkException,
+    Map<String, List<String>>? networkException,
   }) {
     return MapState(
       status: status ?? this.status,

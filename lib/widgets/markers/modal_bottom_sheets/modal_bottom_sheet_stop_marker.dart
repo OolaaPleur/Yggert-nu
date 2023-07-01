@@ -145,14 +145,22 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                         color: Colors.white70,
                         child: Container(
                           decoration: BoxDecoration(
-                              border: Border(
-                                  right: BorderSide(
-                                      color: Color(int.parse(
-                                          'FF${state.presentRoutes[upIndex]!.routeColor.replaceFirst('#', '')}',
-                                          radix: 16)),
-                                      width: 8))),
+                            border: Border(
+                              right: BorderSide(
+                                color: Color(
+                                  int.parse(
+                                    'FF${state.presentRoutes[upIndex]!.routeColor.replaceFirst('#', '')}',
+                                    radix: 16,
+                                  ),
+                                ),
+                                width: 8,
+                              ),
+                            ),
+                          ),
                           child: ListTile(
-                            leading: pickAppropriateCircleAvatar(state.presentRoutes[upIndex]!.routeType),
+                            leading: pickAppropriateCircleAvatar(
+                              state.presentRoutes[upIndex]!.routeType,
+                            ),
                             title: Center(
                               child: Text(
                                 '${state.presentStopStopTimeList[upIndex]!.departureTime.substring(0, state.presentStopStopTimeList[upIndex]!.departureTime.length - 3)}'
@@ -174,35 +182,37 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                                 Text(state.filteredByUserTrips[upIndex].tripId),
                                 Text('${state.presentTripCalendar[upIndex]}'),
                                 ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        widget.mapBloc.add(MapPressTheTripButton(upIndex));
-                                      });
-                                    },
-                                    child:
-                                        const Text("press to see stoptimes (button doesn't work)"),),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.mapBloc.add(MapPressTheTripButton(upIndex));
+                                    });
+                                  },
+                                  child: const Text('Press to see stoptimes'),
+                                ),
                                 if (state.pressedButtonOnTrip[upIndex])
                                   ColoredBox(
                                     color: Colors.white70,
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints(maxHeight: 200),
                                       child: SingleChildScrollView(
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: state.presentStopStopTimeListOnlyFilter[upIndex]!.map((stopTime) {
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: state
+                                              .presentStopStopTimeListOnlyFilter[upIndex]!
+                                              .map((stopTime) {
                                             return Padding(
-                                              padding: const EdgeInsets.all(4.0),
+                                              padding: const EdgeInsets.all(4),
                                               child: Container(
                                                 width: double.infinity,
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(20),
-                                                    border: Border.all()
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border: Border.all(),
                                                 ),
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(8),
                                                   child: Text(
                                                       '${stopTime.departureTime.substring(0, stopTime.departureTime.length - 3)}'
-                                                          '- ${state.presentStopListOnlyFilter[upIndex]![state.presentStopStopTimeListOnlyFilter[upIndex]!.indexOf(stopTime)].name}'
-                                                  ),
+                                                      '- ${state.presentStopListOnlyFilter[upIndex]![state.presentStopStopTimeListOnlyFilter[upIndex]!.indexOf(stopTime)].name}'),
                                                 ),
                                               ),
                                             );
@@ -234,7 +244,7 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
     );
   }
 
-  CircleAvatar pickAppropriateCircleAvatar (int routeType) {
+  CircleAvatar pickAppropriateCircleAvatar(int routeType) {
     if (routeType == 0) {
       return CircleAvatar(
         child: Image.asset('assets/public_transport/tram.png'),
@@ -243,18 +253,15 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
       return CircleAvatar(
         child: Image.asset('assets/public_transport/train.png'),
       );
-    }
-    else if (routeType == 3) {
+    } else if (routeType == 3) {
       return CircleAvatar(
         child: Image.asset('assets/public_transport/county_bus.png'),
       );
-    }
-    else if (routeType == 4) {
+    } else if (routeType == 4) {
       return CircleAvatar(
         child: Image.asset('assets/public_transport/ferry.png'),
       );
-    }
-    else if (routeType == 800) {
+    } else if (routeType == 800) {
       return CircleAvatar(
         child: Image.asset('assets/public_transport/trolleybus.png'),
       );

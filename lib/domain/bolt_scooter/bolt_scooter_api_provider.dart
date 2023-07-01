@@ -51,7 +51,7 @@ class BoltScooterApiProvider {
             .toList();
         return vehicles;
       } else {
-        throw Exception('Server error. Cant fetch Bolt scooters data');
+        throw Exception('Server error. Cant fetch Bolt scooters data. Check your internet connection.');
         //log('no connection to bolt'); FOR TESTING PURPOSE
       }
     }

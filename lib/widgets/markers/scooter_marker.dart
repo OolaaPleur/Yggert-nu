@@ -7,9 +7,7 @@ import 'modal_bottom_sheets/modal_bottom_sheet_scooter_info.dart';
 
 class ScooterMarker extends StatelessWidget {
   const ScooterMarker({
-    super.key,
-    required this.scooter,
-    required this.mapBloc,
+    required this.scooter, required this.mapBloc, super.key,
   });
 
   final BoltScooter scooter;
