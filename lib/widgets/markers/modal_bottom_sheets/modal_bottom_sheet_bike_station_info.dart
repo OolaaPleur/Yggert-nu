@@ -1,7 +1,7 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 
-import '../domain/tartu_bike_station/tartu_bike_station.dart';
+import '../../../domain/tartu_bike_station/tartu_bike_station.dart';
 
 /// Modal bottom sheet, which opens on bike station's marker pressed.
 /// If null, returns text with error.

@@ -25,6 +25,7 @@ class MapMarkersPlacingOnMap extends MapEvent {
 class MapMarkerFilterButtonPressed extends MapEvent {
   /// Constructor for [MapMarkerFilterButtonPressed] event.
   const MapMarkerFilterButtonPressed(this.mapFilter);
+  /// Property, which needs to be changed.
   final MapFilters mapFilter;
 
   @override
@@ -39,7 +40,7 @@ class MapShowBusStops extends MapEvent {
   const MapShowBusStops();
 }
 
-/// TODO move to when pressed button.
+/// Event which occurs when user close modal bottom sheet.
 class MapCloseStopTimesModalBottomSheet extends MapEvent {
   /// Constructor for [MapCloseStopTimesModalBottomSheet] event.
   const MapCloseStopTimesModalBottomSheet();
@@ -69,24 +70,41 @@ class MapSearchByTheQuery extends MapEvent {
   List<Object> get props => [query];
 }
 
+/// Event which occurs when user press bus stop marker. It calculates
+/// current objects (trips, stoptimes etc) for user picked stop.
 class MapShowTripsForCurrentStop extends MapEvent {
-
+  /// Constructor for [MapShowTripsForCurrentStop] event.
   const MapShowTripsForCurrentStop(this.currentStop);
+  /// Bus stop, picked by User.
   final Stop currentStop;
 
   @override
   List<Object> get props => [currentStop];
 }
 
+/// Event which occurs when user press filter button. It filters trips based
+/// on which mode user picked in modal bottom sheet or global settings.
 class MapPressFilterButton extends MapEvent {
+  /// Constructor for [MapPressFilterButton] event.
   const MapPressFilterButton();
 }
 
+/// Event which occurs when user click marker. It makes marker slightly larger.
 class MapEnlargeIcon extends MapEvent {
+  /// Constructor for [MapEnlargeIcon] event.
   const MapEnlargeIcon(this.keyFromOpenedMarker);
+  /// Opened marker key, we need to know which marker make larger.
   final String keyFromOpenedMarker;
   @override
   List<Object> get props => [keyFromOpenedMarker];
+}
+
+class MapPressTheTripButton extends MapEvent {
+  const MapPressTheTripButton(this.pressedTrip);
+
+  final int pressedTrip;
+  @override
+  List<Object> get props => [pressedTrip];
 }
 
 // BLOC ONLY EVENTS
@@ -97,18 +115,14 @@ class MapMarkerFiltering extends MapEvent {
   const MapMarkerFiltering();
 }
 
-class MapCheckShowTripsForTodayOrAllWeek extends MapEvent {
-  const MapCheckShowTripsForTodayOrAllWeek();
-}
-
-class MapCalculateCurrentListsForOneStop extends MapEvent {
-  const MapCalculateCurrentListsForOneStop();
-}
-
+/// Event only used inside BLoC. It loads trips for today.
 class MapLoadTripsForToday extends MapEvent {
+  /// Constructor for [MapLoadTripsForToday] event.
   const MapLoadTripsForToday();
 }
-
+/// Event only used inside BLoC. Adds values to maps, so they could be
+/// displayed later on timetable for the user.
 class MapAddValuesForRepaintingTimeTable extends MapEvent {
+  /// Constructor for [MapAddValuesForRepaintingTimeTable] event.
   const MapAddValuesForRepaintingTimeTable();
 }

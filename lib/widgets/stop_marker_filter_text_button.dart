@@ -4,15 +4,15 @@ import 'package:mobility_app/map/bloc/map_bloc.dart';
 
 /// Text for filter button/ This button is used on modal bottom sheet, which
 /// opens on public transport stop clicked.
-class TextForFilterButton extends StatefulWidget {
+class StopMarkerFilterTextButton extends StatefulWidget {
   /// Constructor for filter button
-  const TextForFilterButton({super.key});
+  const StopMarkerFilterTextButton({super.key});
 
   @override
-  State<TextForFilterButton> createState() => _TextForFilterButtonState();
+  State<StopMarkerFilterTextButton> createState() => _StopMarkerFilterTextButtonState();
 }
 
-class _TextForFilterButtonState extends State<TextForFilterButton> {
+class _StopMarkerFilterTextButtonState extends State<StopMarkerFilterTextButton> {
   @override
   Widget build(BuildContext context) {
     if (context.select((MapBloc mapBloc) => mapBloc.state.tripStatus) == TripStatus.loading) {

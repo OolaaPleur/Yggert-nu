@@ -106,6 +106,13 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
   final presentTripCalendar = <int, String>{};
 
   var indexForAll = 0;
+
+  final presentStopStopTimeListOnlyFilterHere = <int, StopTime>{};
+  final presentStopStopTimeListOnlyFilter = <int, List<StopTime>>{};
+  final presentStopListOnlyFilter = <int, List<Stop>>{};
+  var filteredBySequenceStopTimes = <StopTime>[];
+  var presentStopsInForwardDirectionInsideCycle = <Stop>[];
+
   for (final trip in data.filteredByUserTrips) {
     final tripStopTimes = data.allStopTimesForAllTripsWhichGoesThroughCurrentStop
         .where((stopTime) => stopTime.tripId == trip.tripId)
@@ -113,6 +120,25 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
     final tripCalendars =
         data.vehicleRepository.getCalendarForService(trip.serviceId, data.calendars);
     presentTripCalendar[indexForAll] = data.vehicleRepository.getDaysOfWeekString(tripCalendars);
+
+    presentStopStopTimeList[indexForAll] = tripStopTimes.firstWhere(
+      (stopTime) => stopTime.stopId == data.pickedStop.stopId,
+      orElse: () =>
+          StopTime(tripId: '', stopId: '', arrivalTime: '', departureTime: '', sequence: 0),
+    );
+
+    /////////////////////////////////////////////
+    presentStopStopTimeListOnlyFilterHere[indexForAll] = tripStopTimes.firstWhere(
+      (stopTime) => stopTime.stopId == data.pickedStop.stopId,
+    );
+    filteredBySequenceStopTimes = tripStopTimes.sublist(
+      presentStopStopTimeListOnlyFilterHere[indexForAll]!.sequence,
+    );
+    presentStopStopTimeListOnlyFilter[indexForAll] = filteredBySequenceStopTimes;
+    presentStopListOnlyFilter[indexForAll] = getOrderedStops(data.currentStops, filteredBySequenceStopTimes);
+    presentStopsInForwardDirectionInsideCycle.addAll(presentStopListOnlyFilter[indexForAll]!);
+
+    ///////////////////////////////////////////
 
     presentTripStartStopTimes[indexForAll] =
         tripStopTimes.firstWhere((stopTime) => stopTime.sequence == 1);
@@ -123,14 +149,9 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
     presentTripEndStop[indexForAll] = data.currentStops
         .firstWhere((stop) => stop.stopId == presentTripEndStopTimes[indexForAll]!.stopId);
 
-    presentStopStopTimeList[indexForAll] = tripStopTimes.firstWhere(
-      (stopTime) => stopTime.stopId == data.pickedStop.stopId,
-      orElse: () =>
-          StopTime(tripId: '', stopId: '', arrivalTime: '', departureTime: '', sequence: 0),
-    );
-
     indexForAll += 1;
   }
+  var presentStopsInForwardDirection = presentStopsInForwardDirectionInsideCycle.toSet().toList();
 
   return {
     'presentStopStopTimeList': presentStopStopTimeList,
@@ -139,57 +160,18 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
     'presentTripStartStop': presentTripStartStop,
     'presentTripEndStop': presentTripEndStop,
     'presentTripCalendar': presentTripCalendar,
+    'presentStopStopTimeListOnlyFilter': presentStopStopTimeListOnlyFilter,
+    'presentStopListOnlyFilter': presentStopListOnlyFilter,
+    'presentStopsInForwardDirection': presentStopsInForwardDirection,
   };
 }
 
-class CalculateCurrentListsForOneStop {
-  CalculateCurrentListsForOneStop({
-    required this.stopTimes,
-    required this.busStops,
-    required this.vehicleRepository,
-    required this.trips,
-    required this.stop,
-  });
+List<Stop> getOrderedStops(List<Stop> currentStops, List<StopTime> filteredStoptimes) {
+  // Create a Map with stopId as key and Stop object as value for easy lookups
+  final stopsMap = <String, Stop>{for (var stop in currentStops) stop.stopId: stop};
 
-  final List<StopTime> stopTimes;
-  final List<Stop> busStops;
-  final VehicleRepository vehicleRepository;
-  final List<Trip> trips;
-  final Stop stop;
-}
+  // Now map over the stoptimes, and for each stopId, lookup the Stop from the stopsMap
+  List<Stop> orderedStops = filteredStoptimes.map((stoptime) => stopsMap[stoptime.stopId]!).toList();
 
-Map<String, dynamic> calculateCurrentListsForOneStop(CalculateCurrentListsForOneStop data) {
-  final currentStopTimes =
-      data.vehicleRepository.getStopTimesForOneStop(data.stop.stopId, data.stopTimes);
-  final currentTrips =
-      data.vehicleRepository.getTripsForOneStopForAllStopTimes(currentStopTimes, data.trips);
-
-  currentStopTimes.sort((a, b) => a.arrivalTime.compareTo(b.arrivalTime));
-
-  currentTrips.sort((a, b) {
-    final indexA = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == a.tripId);
-    final indexB = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == b.tripId);
-    return indexA.compareTo(indexB);
-  });
-
-  final currentTripIds = currentTrips.map((trip) => trip.tripId).toList();
-
-  final allStopTimesForAllTripsWhichGoesThroughCurrentStop =
-      data.stopTimes.where((stopTime) => currentTripIds.contains(stopTime.tripId)).toList();
-
-  // getting list of unique stopIds from StopTimes
-  final stopIds =
-      allStopTimesForAllTripsWhichGoesThroughCurrentStop.map((stopTime) => stopTime.stopId).toSet();
-
-  // filtering Stops based on the stopIds
-  final currentStops = data.busStops.where((stop) => stopIds.contains(stop.stopId)).toList();
-
-  return {
-    'currentStopTimes': currentStopTimes,
-    'currentTrips': currentTrips,
-    'allStopTimesForAllTripsWhichGoesThroughCurrentStop':
-        allStopTimesForAllTripsWhichGoesThroughCurrentStop,
-    'currentStops': currentStops,
-    'currentTripIds': currentTripIds,
-  };
+  return orderedStops;
 }

@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: context.select(
                   (MapBloc bloc) =>
-                      bloc.state.busStopAdditionStatus == BusStopAdditionStatus.loading,
+                      bloc.state.publicTransportStopAdditionStatus == PublicTransportStopAdditionStatus.loading,
                 )
                     ? const CircularProgressIndicator()
                     : const Icon(Icons.directions_bus_sharp, color: Colors.white),

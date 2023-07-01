@@ -22,7 +22,13 @@ dependencies:
   json_serializable: ^6.7.0
   latlong2: ^0.8.1
   mockito: ^5.4.2
+  path: any
   path_provider: ^2.0.15
+  shared_preferences: ^2.2.0
+  sqflite: ^2.2.8+4
+  sqflite_common_ffi: any
+  sqlite3: ^2.0.0
+  sqlite3_flutter_libs: ^0.5.15
   unique_identifier: ^0.3.0
   url_launcher: ^6.1.11
   very_good_analysis: ^5.0.0+1
@@ -39,5 +45,9 @@ flutter:
     - assets/bicycle.png
     - assets/bus.png
     - assets/scooter_low_battery.png
-    - assets/county_bus.png
+    - assets/public_transport/county_bus.png
+    - assets/public_transport/ferry.png
+    - assets/public_transport/train.png
+    - assets/public_transport/tram.png
+    - assets/public_transport/trolleybus.png
   uses-material-design: true

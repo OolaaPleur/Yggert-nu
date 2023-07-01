@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../domain/bolt_scooter/bolt_scooter.dart';
+import '../../../domain/bolt_scooter/bolt_scooter.dart';
 
 /// Modal bottom sheet, which opens on Bolt scooter's marker pressed.
 /// If null, returns text with error.

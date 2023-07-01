@@ -9,7 +9,7 @@ class Links {
   /// Header for Bolt API request.
   static const boltHeader = {'Authorization': 'Basic KzM3MjUzMjY5NjIyOjQxNTlhZWE3LTBlMjEtNGI2Mi05ZmQ1LTg0MmM1NjdhZWRhOQ=='};
   /// Link to estonian public transport GTFS data.
-  //static const String gtfsLink = 'http://www.peatus.ee/gtfs/gtfs.zip';
-  static const String gtfsLink = 'https://dummyjson.com/notfound';
+  static const String gtfsLink = 'http://www.peatus.ee/gtfs/gtfs.zip';
+  //static const String gtfsLink = 'https://dummyjson.com/notfound';
 
 }

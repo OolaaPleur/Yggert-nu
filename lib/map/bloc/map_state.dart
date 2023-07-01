@@ -1,126 +1,189 @@
 part of 'map_bloc.dart';
 
+/// Describes map markers placing status.
 enum MapStateStatus {
+  /// Initial value.
   initial,
+
+  /// Loading, when app starts or when pressed refresh button.
   loading,
+
+  /// When operation of adding markers is finished (could be that no marker
+  /// is added though, it just tells that operation is completed).
   success,
-  failure,
 }
 
+/// Describes status of stop marker opening and all required info handling.
 enum TripStatus {
+  /// Initial value, when modal bottom sheet closes, returns to this value.
   initial,
+
+  /// Loading, when values are not ready to be showed to user, needs for
+  /// showing loading indicators and showing to user that needed operations
+  /// are not yet performed.
   loading,
+
+  /// Success, when all required values are ready to be placed on widget.
   success,
+}
+
+/// Describes status of parsing GTFS files and adding them to state.
+enum PublicTransportStopAdditionStatus {
+  /// Initial value.
+  initial,
+
+  /// Loading, when needed operations just begun to be performed.
+  loading,
+
+  /// Success, when files parsed and all info added to state successfully.
+  success,
+
+  /// Failure, when some error occurs (e.g. file that needs to be parsed not exists).
   failure,
 }
 
-enum BusStopAdditionStatus {
-  initial,
-  loading,
-  success,
-  failure,
-}
-
+/// Describe what filter user picked for his timetable inside modal
+/// bottom sheet.
 enum ShowTripsForToday {
+  /// Default value, shows all trips for current stop.
   all,
+
+  /// Shows trips which only would be today.
   today,
 }
 
+/// Describe global filter, picked by user in settings.
 enum GlobalShowTripsForToday {
+  /// Default value, shows all trips for current stop.
   all,
+
+  /// Shows trips which only would be today.
   today,
 }
 
-enum MapFilters { busStop, scooters, cycles }
+/// Describe filters for user to press.
+enum MapFilters {
+  /// Bus stop filter, changes when pressed FAB with buc icon.
+  busStop,
+  /// Scooter filter, changes when pressed FAB with scooter icon.
+  scooters,
+  /// Cycle filter, changes when pressed FAB with bike icon.
+  cycles }
 
 /// State of the Map.
 final class MapState extends Equatable {
   /// Constructor for the State.
-  const MapState(
-      {this.status = MapStateStatus.initial,
-      this.tripStatus = TripStatus.initial,
-      this.markers = const <MapMarker>[],
-      this.filteredMarkers = const <MapMarker>[],
-      this.filters = const {
-        MapFilters.cycles: true,
-        MapFilters.scooters: true,
-        MapFilters.busStop: false
-      },
-      this.busStopsAdded = false,
-      this.stopTimes = const <StopTime>[],
-      this.currentStopTimes = const <StopTime>[],
-      this.busStops = const <Stop>[],
-      this.trips = const <Trip>[],
-      this.currentTrips = const <Trip>[],
-      this.currentTripIds = const <String>[],
-      this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
-      this.busStopAdditionStatus = BusStopAdditionStatus.initial,
-      this.currentStops = const <Stop>[],
-      this.presentTripStartStopTimes = const <int, StopTime>{},
-      this.presentTripEndStopTimes = const <int, StopTime>{},
-      this.presentTripStartStop = const <int, Stop>{},
-      this.presentTripEndStop = const <int, Stop>{},
-      this.pickedStop = const Stop(),
-      this.presentStopStopTimeList = const <int, StopTime>{},
-      this.filteredByUserTrips = const <Trip>[],
-      this.calendars = const <Calendar>[],
-      this.presentTripCalendar = const <int, String>{},
-      this.showTripsForToday = ShowTripsForToday.all,
-      this.globalShowTripsForToday = GlobalShowTripsForToday.all,
-      this.filteringStatus = false,
-      this.currentsLoaded = false,
-      this.query = '',
-      this.keyFromOpenedMarker = '',
-      this.networkException = '',});
-
+  const MapState({
+    this.status = MapStateStatus.initial,
+    this.tripStatus = TripStatus.initial,
+    this.markers = const <MapMarker>[],
+    this.filteredMarkers = const <MapMarker>[],
+    this.filters = const {
+      MapFilters.cycles: true,
+      MapFilters.scooters: true,
+      MapFilters.busStop: false
+    },
+    this.busStopsAdded = false,
+    this.currentStopTimes = const <StopTime>[],
+    this.busStops = const <Stop>[],
+    this.currentTrips = const <Trip>[],
+    this.currentTripIds = const <String>[],
+    this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
+    this.publicTransportStopAdditionStatus = PublicTransportStopAdditionStatus.initial,
+    this.currentStops = const <Stop>[],
+    this.presentTripStartStopTimes = const <int, StopTime>{},
+    this.presentTripEndStopTimes = const <int, StopTime>{},
+    this.presentTripStartStop = const <int, Stop>{},
+    this.presentTripEndStop = const <int, Stop>{},
+    this.pickedStop = const Stop(),
+    this.presentStopStopTimeList = const <int, StopTime>{},
+    this.filteredByUserTrips = const <Trip>[],
+    this.calendars = const <Calendar>[],
+    this.presentTripCalendar = const <int, String>{},
+    this.showTripsForToday = ShowTripsForToday.all,
+    this.globalShowTripsForToday = GlobalShowTripsForToday.all,
+    this.filteringStatus = false,
+    this.query = '',
+    this.keyFromOpenedMarker = '',
+    this.networkException = '',
+    this.presentStopStopTimeListOnlyFilter = const<int, List<StopTime>>{},
+    this.presentStopListOnlyFilter = const<int, List<Stop>>{},
+    this.presentRoutes = const<int, Route>{},
+    this.pressedButtonOnTrip = const<bool>[],
+    this.presentStopsInForwardDirection = const<Stop>[],
+  });
+  /// Map markers placing status.
   final MapStateStatus status;
+  /// List of all markers.
   final List<MapMarker> markers;
+  /// List of showed markers.
   final List<MapMarker> filteredMarkers;
+  /// List of filters, applied by user.
   final Map<MapFilters, bool> filters;
 
   // Next four - global lists
-  final List<StopTime> stopTimes;
+  /// List of all parsed bus stops.
   final List<Stop> busStops;
-  final List<Trip> trips;
+  /// List of all parsed calendars.
   final List<Calendar> calendars;
 
-  // Picked Stop
+  /// Picked by user stop.
   final Stop pickedStop;
 
   // Variables for current picked stop
+  /// Stop times for currently picked stop.
   final List<StopTime> currentStopTimes;
+  /// Trips for currently picked stop.
   final List<Trip> currentTrips;
+  /// Stops for currently picked stop.
   final List<Stop> currentStops;
+  /// Trips IDs for currently picked stop.
   final List<String> currentTripIds;
+  /// Stop times, for all trips, which goes through current stop.
   final List<StopTime> allStopTimesForAllTripsWhichGoesThroughCurrentStop;
-  final bool currentsLoaded;
 
-  // Start/End StopTime and Stop
+  // Maps, which are store values for painting the timetable.
+  /// Map of starting point stop time for current trip.
   final Map<int, StopTime> presentTripStartStopTimes;
+  /// Map of ending point stop time for current trip.
   final Map<int, StopTime> presentTripEndStopTimes;
+  /// Map of starting stop for current trip.
   final Map<int, Stop> presentTripStartStop;
+  /// Map of ending stop for current trip.
   final Map<int, Stop> presentTripEndStop;
+  /// Map of stop time for picked stop.
   final Map<int, StopTime> presentStopStopTimeList;
+  final Map<int, List<StopTime>> presentStopStopTimeListOnlyFilter;
+  final Map<int, List<Stop>> presentStopListOnlyFilter;
+  final Map<int, Route> presentRoutes;
+  final List<bool> pressedButtonOnTrip;
+  final List<Stop> presentStopsInForwardDirection;
 
-  // Calender for present trip
+  /// Calendar for present trip.
   final Map<int, String> presentTripCalendar;
 
-  // Trips, filtered by user searching
+  /// Trips, filtered by user.
   final List<Trip> filteredByUserTrips;
+  /// User query for trip searching.
   final String query;
 
-  // Show local trips for today
+  /// User picked filter for his timetable inside modal bottom sheet.
   final ShowTripsForToday showTripsForToday;
 
-  // Global variable for showing trips for today
+  /// Global filter, picked by user in settings.
   final GlobalShowTripsForToday globalShowTripsForToday;
 
+  /// Bool, needed to check whether we parsed GTFS data or not.
   final bool busStopsAdded;
-  final BusStopAdditionStatus busStopAdditionStatus;
+  /// Status of parsing GTFS files and adding them to state.
+  final PublicTransportStopAdditionStatus publicTransportStopAdditionStatus;
+  /// Needs to determine, are we filtering or not.
   final bool filteringStatus;
+  /// Status of stop marker opening and all required info handling.
   final TripStatus tripStatus;
-
+  /// Key from opened marker.
   final String keyFromOpenedMarker;
+  /// Network exception, prints in snackbar if necessary.
   final String networkException;
 
   @override
@@ -129,9 +192,7 @@ final class MapState extends Equatable {
         markers,
         filteredMarkers,
         filters,
-        stopTimes,
         busStops,
-        trips,
         calendars,
         pickedStop,
         currentStopTimes,
@@ -139,7 +200,6 @@ final class MapState extends Equatable {
         currentStops,
         currentTripIds,
         allStopTimesForAllTripsWhichGoesThroughCurrentStop,
-        currentsLoaded,
         presentTripStartStopTimes,
         presentTripEndStopTimes,
         presentTripStartStop,
@@ -150,12 +210,17 @@ final class MapState extends Equatable {
         showTripsForToday,
         globalShowTripsForToday,
         busStopsAdded,
-        busStopAdditionStatus,
+        publicTransportStopAdditionStatus,
         filteringStatus,
         tripStatus,
         query,
         keyFromOpenedMarker,
-    networkException
+        networkException,
+    presentStopStopTimeListOnlyFilter,
+    presentStopListOnlyFilter,
+    presentRoutes,
+    pressedButtonOnTrip,
+    presentStopsInForwardDirection
       ];
 
   MapState copyWith({
@@ -163,9 +228,7 @@ final class MapState extends Equatable {
     List<MapMarker>? markers,
     List<MapMarker>? filteredMarkers,
     Map<MapFilters, bool>? filters,
-    List<StopTime>? stopTimes,
     List<Stop>? busStops,
-    List<Trip>? trips,
     List<Calendar>? calendars,
     Stop? pickedStop,
     List<StopTime>? currentStopTimes,
@@ -173,19 +236,23 @@ final class MapState extends Equatable {
     List<Stop>? currentStops,
     List<String>? currentTripIds,
     List<StopTime>? allStopTimesForAllTripsWhichGoesThroughCurrentStop,
-    bool? currentsLoaded,
     Map<int, StopTime>? presentTripStartStopTimes,
     Map<int, StopTime>? presentTripEndStopTimes,
     Map<int, Stop>? presentTripStartStop,
     Map<int, Stop>? presentTripEndStop,
     Map<int, StopTime>? presentStopStopTimeList,
+    Map<int, List<StopTime>>? presentStopStopTimeListOnlyFilter,
+    Map<int, List<Stop>>? presentStopListOnlyFilter,
+    Map<int, Route>? presentRoutes,
+    List<bool>? pressedButtonOnTrip,
+    List<Stop>? presentStopsInForwardDirection,
     Map<int, String>? presentTripCalendar,
     List<Trip>? filteredByUserTrips,
     String? query,
     ShowTripsForToday? showTripsForToday,
     GlobalShowTripsForToday? globalShowTripsForToday,
     bool? busStopsAdded,
-    BusStopAdditionStatus? busStopAdditionStatus,
+    PublicTransportStopAdditionStatus? publicTransportStopAdditionStatus,
     bool? filteringStatus,
     TripStatus? tripStatus,
     String? keyFromOpenedMarker,
@@ -196,9 +263,7 @@ final class MapState extends Equatable {
       markers: markers ?? this.markers,
       filteredMarkers: filteredMarkers ?? this.filteredMarkers,
       filters: filters ?? this.filters,
-      stopTimes: stopTimes ?? this.stopTimes,
       busStops: busStops ?? this.busStops,
-      trips: trips ?? this.trips,
       calendars: calendars ?? this.calendars,
       pickedStop: pickedStop ?? this.pickedStop,
       currentStopTimes: currentStopTimes ?? this.currentStopTimes,
@@ -208,23 +273,35 @@ final class MapState extends Equatable {
       allStopTimesForAllTripsWhichGoesThroughCurrentStop:
           allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
               this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
-      currentsLoaded: currentsLoaded ?? this.currentsLoaded,
       presentTripStartStopTimes: presentTripStartStopTimes ?? this.presentTripStartStopTimes,
       presentTripEndStopTimes: presentTripEndStopTimes ?? this.presentTripEndStopTimes,
       presentTripStartStop: presentTripStartStop ?? this.presentTripStartStop,
       presentTripEndStop: presentTripEndStop ?? this.presentTripEndStop,
       presentStopStopTimeList: presentStopStopTimeList ?? this.presentStopStopTimeList,
+      presentStopStopTimeListOnlyFilter:
+          presentStopStopTimeListOnlyFilter ?? this.presentStopStopTimeListOnlyFilter,
+      presentStopListOnlyFilter: presentStopListOnlyFilter ?? this.presentStopListOnlyFilter,
+      presentRoutes: presentRoutes ?? this.presentRoutes,
+      pressedButtonOnTrip: pressedButtonOnTrip ?? this.pressedButtonOnTrip,
+      presentStopsInForwardDirection:
+          presentStopsInForwardDirection ?? this.presentStopsInForwardDirection,
       presentTripCalendar: presentTripCalendar ?? this.presentTripCalendar,
       filteredByUserTrips: filteredByUserTrips ?? this.filteredByUserTrips,
       query: query ?? this.query,
       showTripsForToday: showTripsForToday ?? this.showTripsForToday,
       globalShowTripsForToday: globalShowTripsForToday ?? this.globalShowTripsForToday,
       busStopsAdded: busStopsAdded ?? this.busStopsAdded,
-      busStopAdditionStatus: busStopAdditionStatus ?? this.busStopAdditionStatus,
+      publicTransportStopAdditionStatus:
+          publicTransportStopAdditionStatus ?? this.publicTransportStopAdditionStatus,
       filteringStatus: filteringStatus ?? this.filteringStatus,
       tripStatus: tripStatus ?? this.tripStatus,
       keyFromOpenedMarker: keyFromOpenedMarker ?? this.keyFromOpenedMarker,
       networkException: networkException ?? this.networkException,
     );
   }
+
+  /// The copyWith method is used to duplicate an existing object, updating
+  /// only the required fields, keeping the rest of the fields as they were
+  /// in the original object.
+
 }
