@@ -65,10 +65,20 @@ enum GlobalShowTripsForToday {
 enum MapFilters {
   /// Bus stop filter, changes when pressed FAB with buc icon.
   busStop,
+
   /// Scooter filter, changes when pressed FAB with scooter icon.
   scooters,
+
   /// Cycle filter, changes when pressed FAB with bike icon.
-  cycles }
+  cycles
+}
+/// Describes city, for which info (like Bolt scooters) will be fetched.
+enum City {
+  /// Tallinn, changes in settings.
+  tallinn,
+  /// Tartu, changes in settings.
+  tartu
+}
 
 /// State of the Map.
 final class MapState extends Equatable {
@@ -106,24 +116,32 @@ final class MapState extends Equatable {
     this.query = '',
     this.keyFromOpenedMarker = '',
     this.networkException = const <String, List<String>>{},
-    this.presentStopStopTimeListOnlyFilter = const<int, List<StopTime>>{},
-    this.presentStopListOnlyFilter = const<int, List<Stop>>{},
-    this.presentRoutes = const<int, Route>{},
-    this.pressedButtonOnTrip = const<bool>[],
-    this.presentStopsInForwardDirection = const<Stop>[],
+    this.presentStopStopTimeListOnlyFilter = const <int, List<StopTime>>{},
+    this.presentStopListOnlyFilter = const <int, List<Stop>>{},
+    this.presentRoutes = const <int, Route>{},
+    this.pressedButtonOnTrip = const <bool>[],
+    this.presentStopsInForwardDirection = const <Stop>[],
+    this.progressPercentValueForParsing = 0,
+    this.directionChars = const <Map<String, bool>>[],
+    this.pickedCity = City.tartu,
   });
+
   /// Map markers placing status.
   final MapStateStatus status;
+
   /// List of all markers.
   final List<MapMarker> markers;
+
   /// List of showed markers.
   final List<MapMarker> filteredMarkers;
+
   /// List of filters, applied by user.
   final Map<MapFilters, bool> filters;
 
-  // Next four - global lists
+  // Next two - global lists
   /// List of all parsed bus stops.
   final List<Stop> busStops;
+
   /// List of all parsed calendars.
   final List<Calendar> calendars;
 
@@ -133,30 +151,46 @@ final class MapState extends Equatable {
   // Variables for current picked stop
   /// Stop times for currently picked stop.
   final List<StopTime> currentStopTimes;
+
   /// Trips for currently picked stop.
   final List<Trip> currentTrips;
+
   /// Stops for currently picked stop.
   final List<Stop> currentStops;
+
   /// Trips IDs for currently picked stop.
   final List<String> currentTripIds;
+
   /// Stop times, for all trips, which goes through current stop.
   final List<StopTime> allStopTimesForAllTripsWhichGoesThroughCurrentStop;
 
   // Maps, which are store values for painting the timetable.
   /// Map of starting point stop time for current trip.
   final Map<int, StopTime> presentTripStartStopTimes;
+
   /// Map of ending point stop time for current trip.
   final Map<int, StopTime> presentTripEndStopTimes;
+
   /// Map of starting stop for current trip.
   final Map<int, Stop> presentTripStartStop;
+
   /// Map of ending stop for current trip.
   final Map<int, Stop> presentTripEndStop;
+
   /// Map of stop time for picked stop.
   final Map<int, StopTime> presentStopStopTimeList;
+  /// List of stop times in forward direction for one particular trip.
   final Map<int, List<StopTime>> presentStopStopTimeListOnlyFilter;
+  /// List of stops in in forward direction for one particular trip.
+  /// We need this list to paint our timetable.
   final Map<int, List<Stop>> presentStopListOnlyFilter;
+  /// List of routes for currently picked stop.
   final Map<int, Route> presentRoutes;
+  /// Defines a List of bool, is button(for opening forward stop times)
+  /// pressed or not.
   final List<bool> pressedButtonOnTrip;
+  /// List of stops in in forward direction for one particular trip.
+  /// We need this list for our search.
   final List<Stop> presentStopsInForwardDirection;
 
   /// Calendar for present trip.
@@ -164,6 +198,7 @@ final class MapState extends Equatable {
 
   /// Trips, filtered by user.
   final List<Trip> filteredByUserTrips;
+
   /// User query for trip searching.
   final String query;
 
@@ -175,16 +210,31 @@ final class MapState extends Equatable {
 
   /// Bool, needed to check whether we parsed GTFS data or not.
   final bool busStopsAdded;
+
   /// Status of parsing GTFS files and adding them to state.
   final PublicTransportStopAdditionStatus publicTransportStopAdditionStatus;
+
   /// Needs to determine, are we filtering or not.
   final bool filteringStatus;
+
   /// Status of stop marker opening and all required info handling.
   final TripStatus tripStatus;
+
   /// Key from opened marker.
   final String keyFromOpenedMarker;
+
   /// Network exception, prints in snackbar if necessary.
   final Map<String, List<String>> networkException;
+  /// Number (from 1 to 100), defines how much stop times data added
+  /// to database.
+  final int progressPercentValueForParsing;
+  /// List of Maps, with String key (e.g. 'A') and bool value (e.g. true).
+  /// Letter is last letter in direction_code, values are false by default.
+  /// Defines, show or not trips with respective end direction letter.
+  final List<Map<String, bool>> directionChars;
+  /// Currently picked city for showing info (e.g. respective scooters
+  /// location). Can be changed in settings, by default is Tartu:).
+  final City pickedCity;
 
   @override
   List<Object> get props => [
@@ -216,13 +266,24 @@ final class MapState extends Equatable {
         query,
         keyFromOpenedMarker,
         networkException,
-    presentStopStopTimeListOnlyFilter,
-    presentStopListOnlyFilter,
-    presentRoutes,
-    pressedButtonOnTrip,
-    presentStopsInForwardDirection
+        presentStopStopTimeListOnlyFilter,
+        presentStopListOnlyFilter,
+        presentRoutes,
+        pressedButtonOnTrip,
+        presentStopsInForwardDirection,
+        progressPercentValueForParsing,
+        directionChars,
+    pickedCity
       ];
 
+  @override
+  String toString() {
+    return 'MapState{status: $status, markers: $markers, filteredMarkers: $filteredMarkers, filters: $filters, busStops: $busStops, calendars: $calendars, pickedStop: $pickedStop, currentStopTimes: $currentStopTimes, currentTrips: $currentTrips, currentStops: $currentStops, currentTripIds: $currentTripIds, allStopTimesForAllTripsWhichGoesThroughCurrentStop: $allStopTimesForAllTripsWhichGoesThroughCurrentStop, presentTripStartStopTimes: $presentTripStartStopTimes, presentTripEndStopTimes: $presentTripEndStopTimes, presentTripStartStop: $presentTripStartStop, presentTripEndStop: $presentTripEndStop, presentStopStopTimeList: $presentStopStopTimeList, presentStopStopTimeListOnlyFilter: $presentStopStopTimeListOnlyFilter, presentStopListOnlyFilter: $presentStopListOnlyFilter, presentRoutes: $presentRoutes, pressedButtonOnTrip: $pressedButtonOnTrip, presentStopsInForwardDirection: $presentStopsInForwardDirection, presentTripCalendar: $presentTripCalendar, filteredByUserTrips: $filteredByUserTrips, query: $query, showTripsForToday: $showTripsForToday, globalShowTripsForToday: $globalShowTripsForToday, busStopsAdded: $busStopsAdded, publicTransportStopAdditionStatus: $publicTransportStopAdditionStatus, filteringStatus: $filteringStatus, tripStatus: $tripStatus, keyFromOpenedMarker: $keyFromOpenedMarker, networkException: $networkException}';
+  }
+
+  /// The copyWith method is used to duplicate an existing object, updating
+  /// only the required fields, keeping the rest of the fields as they were
+  /// in the original object.
   MapState copyWith({
     MapStateStatus? status,
     List<MapMarker>? markers,
@@ -257,6 +318,9 @@ final class MapState extends Equatable {
     TripStatus? tripStatus,
     String? keyFromOpenedMarker,
     Map<String, List<String>>? networkException,
+    int? progressPercentValueForParsing,
+    List<Map<String, bool>>? directionChars,
+    City? pickedCity,
   }) {
     return MapState(
       status: status ?? this.status,
@@ -297,11 +361,10 @@ final class MapState extends Equatable {
       tripStatus: tripStatus ?? this.tripStatus,
       keyFromOpenedMarker: keyFromOpenedMarker ?? this.keyFromOpenedMarker,
       networkException: networkException ?? this.networkException,
+      progressPercentValueForParsing:
+          progressPercentValueForParsing ?? this.progressPercentValueForParsing,
+      directionChars: directionChars ?? this.directionChars,
+      pickedCity: pickedCity ?? this.pickedCity,
     );
   }
-
-  /// The copyWith method is used to duplicate an existing object, updating
-  /// only the required fields, keeping the rest of the fields as they were
-  /// in the original object.
-
 }

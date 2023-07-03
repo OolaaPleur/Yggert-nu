@@ -1,17 +1,27 @@
+import 'package:mobility_app/map/bloc/map_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Here we set and get shared preferences values. We set them in settings
+/// screen and get them in BLoC.
 class DeviceSettings {
-  static const _valueKey = 'userTripsFilterValue';
 
-  Future<bool> saveValue(String value) async {
+  /// Set [value] for specified [valueKey].
+  Future<bool> setValue(String valueKey, String value) async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.setString(_valueKey, value);
+    return prefs.setString(valueKey, value);
   }
 
-  Future<String> getValue() async {
+  /// Get value by its [valueKey].
+  Future<String> getValue(String valueKey) async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString(_valueKey) ?? 'all';
+    if (valueKey == 'userTripsFilterValue') {
+    return prefs.getString(valueKey) ?? GlobalShowTripsForToday.all.name;
+    }
+    if (valueKey == 'pickedCity') {
+      return prefs.getString(valueKey) ?? City.tartu.name;
+    }
+    return '';
   }
 }

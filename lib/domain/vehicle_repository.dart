@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:mobility_app/domain/estonia_public_transport/estonia_public_transport_api_provider.dart';
 
 import 'bolt_scooter/bolt_scooter.dart';
@@ -12,7 +14,7 @@ class VehicleRepository {
   // Bolt scooters.
   final BoltScooterApiProvider _boltScooterApiProvider = BoltScooterApiProvider();
   /// Fetches Bolt scooters data.
-  Future<List<BoltScooter>> getBoltScooters() => _boltScooterApiProvider.getBoltScooters();
+  Future<List<BoltScooter>> getBoltScooters(String pickedCity) => _boltScooterApiProvider.getBoltScooters(pickedCity);
 
   // Tartu bikes.
   final TartuBikeStationApiProvider _tartuBikeStationApiProvider = TartuBikeStationApiProvider();
@@ -32,14 +34,15 @@ class VehicleRepository {
   Future<void> fetchGtfsData() => _estoniaPublicTransportApiProvider.fetchData();
   /// Parsing stops.txt and returning List of [Stop].
   Future<List<Stop>> parseStops() => _estoniaPublicTransportApiProvider.parseStops();
-  /// Parsing stoptimes.txt and returning List of [StopTime].
+  /// Parsing stoptimes.txt into stop_times.db.
   Future<void> parseStopTimes() =>
       _estoniaPublicTransportApiProvider.parseStopTimes();
-  /// Parsing trips.txt and returning List of [Trip].
+  /// Parsing trips.txt into trips.db.
   Future<void> parseTrips(List<Calendar> calendar) =>
       _estoniaPublicTransportApiProvider.parseTrips(calendar);
   /// Parsing calendar.txt and returning List of [Calendar].
   Future<List<Calendar>> parseCalendar() => _estoniaPublicTransportApiProvider.parseCalendar();
+  /// Parsing routes.txt into routes.db.
   Future<void> parseRoutes() => _estoniaPublicTransportApiProvider.parseRoutes();
 
   /// Returns List of [StopTime] for one [Stop]
@@ -52,17 +55,13 @@ class VehicleRepository {
   ) =>
       _estoniaPublicTransportApiProvider.getTripsForOneStopForAllStopTimes(
           stopTimeListForOneStop, allTrips,);
-  /// Returns List of [Calendar] for particular serviceId. Function needed to
-  /// get list of days, when trip is going.
-  List<Calendar> getCalendarForService(String serviceId, List<Calendar> allCalendars) =>
-      _estoniaPublicTransportApiProvider.getCalendarForService(serviceId, allCalendars);
-  /// Convert Calender List into three-letters human-readable form
-  /// (Mon, Tue, Wed etc).
-  String getDaysOfWeekString(List<Calendar> tripCalendars) =>
-      _estoniaPublicTransportApiProvider.getDaysOfWeekString(tripCalendars);
+  /// Progress controller for parse stop_times.db
+  StreamController<int> get progressController => _estoniaPublicTransportApiProvider.progressController;
 
   // Saving settings to shared preferences.
   final DeviceSettings _deviceSettings = DeviceSettings();
-  Future<bool> saveValue(String value) => _deviceSettings.saveValue(value);
-  Future<String> getValue() => _deviceSettings.getValue();
+  /// Function save [value] for specified [valueKey] in shared preferences.
+  Future<bool> setValue(String valueKey, String value) => _deviceSettings.setValue(valueKey, value);
+  /// Function get value by its [valueKey] from shared preferences.
+  Future<String> getValue(String valueKey) => _deviceSettings.getValue(valueKey);
 }

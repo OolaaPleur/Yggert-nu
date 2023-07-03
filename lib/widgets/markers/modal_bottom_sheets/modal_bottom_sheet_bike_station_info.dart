@@ -50,7 +50,6 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
                               size: 40,
                             ),
                             style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
                               padding: const EdgeInsets.all(6),
                             ),
                           ),

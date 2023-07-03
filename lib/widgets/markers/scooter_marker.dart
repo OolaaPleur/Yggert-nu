@@ -5,12 +5,17 @@ import '../../domain/bolt_scooter/bolt_scooter.dart';
 import '../../map/bloc/map_bloc.dart';
 import 'modal_bottom_sheets/modal_bottom_sheet_scooter_info.dart';
 
+/// Widget, which defines how scooter marker(or more precisely speaking - child of
+/// marker) would look like.
 class ScooterMarker extends StatelessWidget {
+  /// Constructor of [ScooterMarker].
   const ScooterMarker({
     required this.scooter, required this.mapBloc, super.key,
   });
 
+  /// [BoltScooter] object, defines scooter.
   final BoltScooter scooter;
+  /// [MapBloc] object, needed for BLoC communication.
   final MapBloc mapBloc;
 
   @override

@@ -101,7 +101,7 @@ class CreateMapMarkerList {
             key: Key(stop.stopId),
             height: 55,
             width: 55,
-            builder: (context) => StopMarkerButton(
+            builder: (context) => StopMarker(
               mapBloc: mapBloc,
               stop: stop,
             ),

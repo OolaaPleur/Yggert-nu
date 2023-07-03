@@ -46,7 +46,7 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
                             ),
                             icon: const Icon(
                               Icons.electric_scooter, size: 40,
-                            ),style: IconButton.styleFrom(backgroundColor: Colors.white, padding: const EdgeInsets.all(6)),
+                            ),style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
                           ),
                         ],
                       ),

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobility_app/domain/bolt_scooter/bolt_scooter.dart';
 import 'package:mobility_app/widgets/map_marker.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,6 +30,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapChangeTimetableMode>(_onMapChangeTimetableMode);
     on<MapShowTripsForCurrentStop>(_onMapShowTripsForCurrentStop);
     on<MapPressFilterButton>(_onMapPressFilterButton);
+    on<MapPressFilterByDirectionButton>(_onMapPressFilterByDirectionButton);
+    on<MapChangeCity>(_onMapChangeCity);
 
     // Used only inside BLoC
     on<MapLoadTripsForToday>(_onMapLoadTripsForToday);
@@ -37,6 +40,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapSearchByTheQuery>(_onMapSearchByTheQuery);
     on<MapEnlargeIcon>(_onMapEnlargeIcon);
     on<MapPressTheTripButton>(_onMapPressTheTripButton);
+    on<MapFilterTripsByDirection>(_onMapFilterTripsByDirection);
+    on<MapShowTodayOrAllTrips>(_onMapShowTodayOrAllTrips);
   }
 
   final VehicleRepository _vehicleRepository;
@@ -46,9 +51,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   void _onMapChangeTimetableMode(MapChangeTimetableMode event, Emitter<MapState> emit) {
-    _vehicleRepository.saveValue(event.globalShowTripsForToday.name);
-    print(event.globalShowTripsForToday.name);
+    _vehicleRepository.setValue('userTripsFilterValue', event.globalShowTripsForToday.name);
     emit(state.copyWith(globalShowTripsForToday: event.globalShowTripsForToday));
+  }
+
+  void _onMapChangeCity(MapChangeCity event, Emitter<MapState> emit) {
+    _vehicleRepository.setValue('pickedCity', event.pickedCity.name);
+    emit(state.copyWith(pickedCity: event.pickedCity));
   }
 
   void _onMapPressFilterButton(MapPressFilterButton event, Emitter<MapState> emit) {
@@ -63,7 +72,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       if (state.query != '') {
         add(MapSearchByTheQuery(state.query));
       } else {
-        add(const MapAddValuesForRepaintingTimeTable());
+        add(const MapPressFilterByDirectionButton(''));
       }
     } else {
       emit(
@@ -75,7 +84,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       if (state.query != '') {
         add(MapSearchByTheQuery(state.query));
       } else {
-        add(const MapLoadTripsForToday());
+        add(const MapPressFilterByDirectionButton(''));
       }
     }
   }
@@ -120,9 +129,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       whereArgs: currentTripIds,
     );
     final allStopTimesForAllTripsWhichGoesThroughCurrentStop =
-        allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps
-            .map(StopTime.fromMap)
-            .toList();
+        allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps.map(StopTime.fromMap).toList();
 
     // getting list of unique stopIds from StopTimes
     final stopIds = allStopTimesForAllTripsWhichGoesThroughCurrentStop
@@ -131,6 +138,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final currentStops = state.busStops.where((stop) => stopIds.contains(stop.stopId)).toList();
     await stopTimesDb.close();
     await tripsDb.close();
+
+    final directionIdEndings = <String>{};
+    for (final trip in currentTrips) {
+      if (trip.directionId.isNotEmpty) {
+        directionIdEndings.add(trip.directionId[trip.directionId.length - 1]);
+      }
+    }
+    final uniqueDirectionIdEndings = directionIdEndings.map((s) {
+      return {s: false};
+    }).toList();
     // log('early: ${currentStopTimes.length} ${currentTrips.length} ${state.filteredByUserTrips.length} '
     //     '${currentTripIds.length} ${allStopTimesForAllTripsWhichGoesThroughCurrentStop.length} ${currentStopTimes.first.departureTime}');
     // int stopTimesCount = await countEntries('stop_times', 'stopTimes');
@@ -150,14 +167,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         showTripsForToday: state.globalShowTripsForToday == GlobalShowTripsForToday.all
             ? ShowTripsForToday.all
             : ShowTripsForToday.today,
+        directionChars: uniqueDirectionIdEndings,
       ),
     );
-
-    if (state.showTripsForToday == ShowTripsForToday.today) {
-      add(const MapLoadTripsForToday());
-    } else {
-      add(const MapAddValuesForRepaintingTimeTable());
-    }
+    add(const MapShowTodayOrAllTrips());
   }
 
   // Future<int> countEntries(String dbName, String tableName) async {
@@ -176,7 +189,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           state.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
       pickedStop: state.pickedStop,
       calendars: state.calendars,
-      vehicleRepository: _vehicleRepository,
     );
     final filteredByUserTripsAfterApplyingToday = await compute(filterTripsForToday, computeData);
     emit(state.copyWith(filteredByUserTrips: filteredByUserTripsAfterApplyingToday));
@@ -194,18 +206,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       calendars: state.calendars,
       currentStops: state.currentStops,
       pickedStop: state.pickedStop,
-      vehicleRepository: _vehicleRepository,
     );
+
     log('early bloc: ${state.currentStopTimes.length} ${state.currentTrips.length} ${state.filteredByUserTrips.length} '
         '${state.currentTripIds.length} ${state.allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
     final processedData = await compute(repaintTimeTable, computeData);
     log('bloc: ${state.currentStopTimes.length} ${state.currentTrips.length} ${state.filteredByUserTrips.length} '
         '${state.currentTripIds.length} ${state.allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
+
     final dbPath = await getDatabasesPath();
     final routesDb = await openDatabase(join(dbPath, 'routes.db'));
-
     var count = 0;
     final presentRoutes = <int, Route>{};
+
     for (final trip in state.filteredByUserTrips) {
       final maps = await routesDb.query(
         'Routes',
@@ -213,10 +226,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         whereArgs: [trip.routeId],
       );
       presentRoutes[count] = Route.fromMap(maps.first);
+
       count++;
     }
+
     final pressedButtonOnTrip = List.filled(state.filteredByUserTrips.length, false);
     await routesDb.close();
+
     emit(
       state.copyWith(
         tripStatus: TripStatus.success,
@@ -230,9 +246,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             processedData['presentStopStopTimeListOnlyFilter'] as Map<int, List<StopTime>>,
         presentStopListOnlyFilter:
             processedData['presentStopListOnlyFilter'] as Map<int, List<Stop>>,
+        presentStopsInForwardDirection:
+            processedData['presentStopsInForwardDirection'] as List<Stop>,
         presentRoutes: presentRoutes,
         pressedButtonOnTrip: pressedButtonOnTrip,
-          presentStopsInForwardDirection: processedData['presentStopsInForwardDirection'] as List<Stop>,
       ),
     );
   }
@@ -241,7 +258,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     MapMarkersPlacingOnMap event,
     Emitter<MapState> emit,
   ) async {
-    final globalShowTripsForToday = await _vehicleRepository.getValue();
+    final globalShowTripsForToday = await _vehicleRepository.getValue('userTripsFilterValue');
     if (globalShowTripsForToday == 'all') {
       emit(state.copyWith(globalShowTripsForToday: GlobalShowTripsForToday.all));
     } else {
@@ -265,37 +282,63 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
     } catch (e) {
       emit(state.copyWith(networkException: {e.toString().substring(11): []}));
-      emit(state.copyWith(networkException: <String, List<String>>{}));
+      //emit(state.copyWith(networkException: <String, List<String>>{}));
     }
     final mapMarkers = <MapMarker>[...stateMarkers];
     final createMapMarkerList = CreateMapMarkerList();
+    final pickedCity = await _vehicleRepository.getValue('pickedCity');
     try {
-      final scootersLocations = await _vehicleRepository.getBoltScooters();
+      List<BoltScooter> scootersLocations;
+      if (pickedCity == City.tartu.name) {
+        emit(state.copyWith(pickedCity: City.tartu));
+        scootersLocations = await _vehicleRepository.getBoltScooters(City.tartu.name);
+      } else if (pickedCity == City.tallinn.name) {
+        emit(state.copyWith(pickedCity: City.tallinn));
+        scootersLocations = await _vehicleRepository.getBoltScooters(City.tallinn.name);
+      } else {
+        throw Exception("City isn't picked. Please pick one city");
+      }
       for (final scooter in scootersLocations) {
         mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
       }
     } catch (e) {
-      emit(state.copyWith(networkException: {e.toString().substring(11): ['Bolt', 'scooters']}));
-      emit(state.copyWith(networkException: <String, List<String>>{}));
+      emit(
+        state.copyWith(
+          networkException: {
+            e.toString().substring(11): ['Bolt', 'scooters']
+          },
+        ),
+      );
+      //emit(state.copyWith(networkException: <String, List<String>>{}));
     }
-    try {
-      final bikeLocations = await _vehicleRepository.getTartuBikes();
-      for (final bike in bikeLocations) {
-        mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(bike, this));
+    if (pickedCity == City.tartu.name) {
+      try {
+        final bikeLocations = await _vehicleRepository.getTartuBikes();
+        for (final bike in bikeLocations) {
+          mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(bike, this));
+        }
+      } catch (e) {
+        emit(
+          state.copyWith(
+            networkException: {
+              e.toString().substring(11): ['Tartu', 'bikes']
+            },
+          ),
+        );
+        //emit(state.copyWith(networkException: <String, List<String>>{}));
       }
-    } catch (e) {
-      emit(state.copyWith(networkException: {e.toString().substring(11): ['Tartu', 'bikes']}));
-      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
 
-    debugPrint(state.markers.length.toString());
     emit(
       state.copyWith(
-        status: MapStateStatus.success,
         markers: mapMarkers,
       ),
     );
     add(const MapMarkerFiltering());
+    emit(state.copyWith(
+      status: MapStateStatus.success,
+    ),);
+    emit(state.copyWith(networkException: <String, List<String>>{}));
   }
 
   Future<void> _onMapShowBusStops(MapShowBusStops event, Emitter<MapState> emit) async {
@@ -305,42 +348,44 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.loading,
         ),
       );
+      _vehicleRepository.progressController.stream.listen((int progress) {
+        emit(state.copyWith(progressPercentValueForParsing: progress));
+      });
       final busStops = await _vehicleRepository.parseStops();
       final calendars = await _vehicleRepository.parseCalendar();
       await _vehicleRepository.parseTrips(calendars);
       await _vehicleRepository.parseStopTimes();
+
       await _vehicleRepository.parseRoutes();
       final mapMarkers = <MapMarker>[...state.markers];
-      log(mapMarkers.length.toString());
       final createMapMarkerList = CreateMapMarkerList();
 
       for (final busStop in busStops) {
         mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(busStop, this));
       }
-      log('stops length: [] trips length: [] stops length: ${busStops.length} '
-          'number of stops: ${mapMarkers.length}');
+      log('stops length: ${busStops.length} markers length: ${mapMarkers.length}');
 
-      add(const MapMarkerFiltering());
+
+      await _vehicleRepository.progressController.close();
 
       emit(
         state.copyWith(
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.success,
           markers: mapMarkers,
           busStopsAdded: true,
-          //stopTimes: stopTimes,
           busStops: busStops,
-          //trips: trips,
           calendars: calendars,
         ),
       );
+      add(const MapMarkerFiltering());
     } else {
       emit(
         state.copyWith(
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.failure,
-          networkException: {'No file is present, press refresh button to download' : []},
+          networkException: {'No file is present, press refresh button to download': []},
         ),
       );
-      emit(state.copyWith(networkException: <String, List<String>>{}));
+      //emit(state.copyWith(networkException: <String, List<String>>{}));
     }
   }
 
@@ -371,7 +416,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
           filteredBySequenceStopTimes = tripStopTimes.sublist(
             presentStopStopTimeListOnlyFilter[index]!.sequence,
-          ); //TODO SEARCH FUNCTION AND SHOW STOPTIMES ON PRESSED
+          );
 
           final filteredStopTimes = <StopTime>[]; // USE
           for (final stop in foundStopInputtedByUser) {
@@ -394,14 +439,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(
           state.copyWith(filteredByUserTrips: filteredByUserTrips, query: event.query),
         );
-        if (state.showTripsForToday == ShowTripsForToday.today) {
-          add(const MapLoadTripsForToday());
-        } else {
-          add(const MapAddValuesForRepaintingTimeTable());
-        }
+        add(const MapPressFilterByDirectionButton(''));
       } else {
         add(const MapPressFilterButton());
       }
+    }
+  }
+
+  void _onMapShowTodayOrAllTrips(MapShowTodayOrAllTrips event, Emitter<MapState> emit) {
+    if (state.showTripsForToday == ShowTripsForToday.today) {
+      add(const MapLoadTripsForToday());
+    } else {
+      add(const MapAddValuesForRepaintingTimeTable());
     }
   }
 
@@ -437,8 +486,74 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             ? ShowTripsForToday.all
             : ShowTripsForToday.today,
         pressedButtonOnTrip: [],
+        directionChars: [],
       ),
     );
+  }
+
+  void _onMapPressFilterByDirectionButton(
+    MapPressFilterByDirectionButton event,
+    Emitter<MapState> emit,
+  ) {
+    final localDirections = state.directionChars;
+    for (final map in localDirections) {
+      if (map.containsKey(event.direction)) {
+        map[event.direction] = !map[event.direction]!;
+        break;
+      }
+    }
+    emit(state.copyWith(directionChars: localDirections));
+    final keys = state.directionChars
+        .where((map) => map.values.first) // keep only maps where the value is true
+        .expand((map) => map.keys)
+        .toSet()
+        .toList();
+    if (keys.isEmpty) {
+      emit(state.copyWith(filteredByUserTrips: state.currentTrips));
+      add(const MapShowTodayOrAllTrips());
+    } else if (keys.length == state.directionChars.length) {
+      emit(state.copyWith(filteredByUserTrips: []));
+      add(const MapShowTodayOrAllTrips());
+    } else {
+      add(MapFilterTripsByDirection(keys));
+    }
+  }
+
+  Future<void> _onMapFilterTripsByDirection(
+    MapFilterTripsByDirection event,
+    Emitter<MapState> emit,
+  ) async {
+    emit(state.copyWith(tripStatus: TripStatus.loading));
+    if (event.direction.isEmpty) {
+      return;
+    }
+    final localDirections = state.directionChars;
+
+    final filteredByDirectionTrips = <Trip>[];
+
+    final newFilteredList = <Trip>[];
+    // Convert the list of maps to a set of keys where the value is true
+    final keys = localDirections
+        .where((map) => map.values.first) // keep only maps where the value is true
+        .expand((map) => map.keys)
+        .toSet();
+
+    for (final trip in state.currentTrips) {
+      if (trip.directionId.isNotEmpty) {
+        final lastLetter = trip.directionId[trip.directionId.length - 1];
+        if (keys.contains(lastLetter)) {
+          filteredByDirectionTrips.add(trip);
+        }
+      }
+    }
+    newFilteredList.addAll(filteredByDirectionTrips);
+
+    emit(
+      state.copyWith(
+        filteredByUserTrips: newFilteredList,
+      ),
+    );
+    add(const MapShowTodayOrAllTrips());
   }
 
   void _onMapMarkerFilterButtonPressed(MapMarkerFilterButtonPressed event, Emitter<MapState> emit) {

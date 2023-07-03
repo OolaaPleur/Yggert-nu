@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -6,23 +7,19 @@ import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../links/links.dart';
 import 'estonia_public_transport.dart';
 
-class ParseStopTimesParams {
-
-  ParseStopTimesParams({required this.trips, required this.stopTimesData, required this.dbpath});
-  final List<Trip> trips;
-  final String stopTimesData;
-  final String dbpath;
-}
-
 /// Class, which provides functions related to working with GTFS-data,
 /// such as downloading gtfs.zip, unarchiving it, deleting gtfs.zip and
 /// working with .txt files located in new gtfs folder.
 class EstoniaPublicTransportApiProvider {
+  /// Progress controller for parse stop_times.db
+  StreamController<int> progressController = StreamController<int>();
+  int _previousProgress = 0;
   Future<void> _fetchFirstTime() async {
     final directory = await getApplicationDocumentsDirectory();
     final filePathTest = '${directory.path}/gtfs/stops.txt';
@@ -39,6 +36,8 @@ class EstoniaPublicTransportApiProvider {
         final file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
         _unzipFile(filePath, '${directory.path}/gtfs');
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('gtfs_download_date', file.lastModifiedSync().toString());
         log('File downloaded and unzipped successfully.');
       } else {
         throw HttpException('Failed to download the file. Status code: ${response.statusCode}');
@@ -184,7 +183,16 @@ class EstoniaPublicTransportApiProvider {
       var batch = stopTimesDb.batch(); // create batch for multiple insertions
       var count = 0;
       final lines = LineSplitter.split(stopTimesData).skip(1).toList();
+      final total = lines.length;
+
       for (var i = 0; i < lines.length; i++) {
+        final progressPercent = (i + 1) / total * 100;
+        final roundedProgress = progressPercent.round();
+        if (roundedProgress != _previousProgress) {
+          progressController.sink.add(roundedProgress);
+          _previousProgress = roundedProgress;
+        }
+
         final values = lines[i].split(',');
         final tripId = values[0];
         final trip = tripsMap[tripId];
@@ -199,15 +207,16 @@ class EstoniaPublicTransportApiProvider {
           );
 
           batch.insert('stopTimes', stopTime.toMap());
-          if (i % 100000 == 0) {
-            print(i);
+          if (i % 25000 == 0) {
+            log(i.toString());
             await batch.commit(noResult: true);
             batch = stopTimesDb.batch();
           }
           count++;
         }
       }
-      print('number of entries = $count');
+      await progressController.close();
+      log('number of entries = $count');
       await batch.commit(noResult: true);
       await stopTimesDb.close();
       await tripsDb.close();
@@ -311,6 +320,7 @@ class EstoniaPublicTransportApiProvider {
     return calendar;
   }
 
+  /// Parse routes from routes.txt to routes.db.
   Future<void> parseRoutes() async {
     // Get the path to the database.
     final databasesPath = await getDatabasesPath();
@@ -329,8 +339,7 @@ class EstoniaPublicTransportApiProvider {
             route_long_name TEXT, 
             route_type INT, 
             route_color TEXT, 
-            competent_authority TEXT, 
-            route_desc TEXT
+            competent_authority TEXT
           )
         ''');
 
@@ -343,7 +352,6 @@ class EstoniaPublicTransportApiProvider {
       final batch = database.batch();
       final lines = LineSplitter.split(routesData).skip(1).toList();
 
-      var count = 0;
       for (var i = 1; i < lines.length; i++) {
         final values = lines[i].split(',');
 
@@ -357,54 +365,15 @@ class EstoniaPublicTransportApiProvider {
             routeType: int.parse(values[4]),
             routeColor: values[5],
             competentAuthority: values[6],
-            routeDesc: values[7],
           );
 
           batch.insert('Routes', route.toMap());
         });
-        count++;
       }
       await batch.commit(noResult: true);
       await database.close();
-      print(count);
     }
 
-  }
-
-  /// Returns List of [Calendar] object for corresponding serviceId
-  List<Calendar> getCalendarForService(String serviceId, List<Calendar> allCalendars) {
-    return allCalendars.where((calendar) => calendar.serviceId == serviceId).toList();
-  }
-
-  /// Transforms List of daysOfWeek true/false into string with
-  /// corresponding days of the week.
-  String getDaysOfWeekString(List<Calendar> tripCalendars) {
-    final weekdaysFull = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ];
-    final weekdaysShort = weekdaysFull.map((day) => day.substring(0, 3)).toList();
-    final activeDays = tripCalendars.map((calendar) => calendar.daysOfWeek).reduce(
-          (combinedDays, currentDays) => combinedDays
-              .asMap()
-              .entries
-              .map((entry) => entry.value || currentDays[entry.key])
-              .toList(),
-        );
-
-    final activeDayNames = activeDays
-        .asMap()
-        .entries
-        .where((entry) => entry.value)
-        .map((entry) => weekdaysShort[entry.key])
-        .toList();
-
-    return activeDayNames.join(', ');
   }
 
   /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.

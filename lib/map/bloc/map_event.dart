@@ -58,6 +58,18 @@ class MapChangeTimetableMode extends MapEvent {
   List<Object> get props => [globalShowTripsForToday];
 }
 
+/// Event which occurs when user change city in settings, does app need to
+/// fetch data for one city or another.
+class MapChangeCity extends MapEvent {
+  /// Constructor for [MapChangeCity] event.
+  const MapChangeCity(this.pickedCity);
+  /// Property, changes state.pickedCity
+  final City pickedCity;
+
+  @override
+  List<Object> get props => [pickedCity];
+}
+
 /// Event which occurs when suggestion is pressed. Finds trips which goes
 /// in user inputted destination.
 class MapSearchByTheQuery extends MapEvent {
@@ -98,13 +110,28 @@ class MapEnlargeIcon extends MapEvent {
   @override
   List<Object> get props => [keyFromOpenedMarker];
 }
-
+/// Event which occurs when user press button on particular trip. It opens
+/// list of stop times and stops, which goes forward from picked stop.
 class MapPressTheTripButton extends MapEvent {
+  /// Constructor for [MapPressTheTripButton] event.
   const MapPressTheTripButton(this.pressedTrip);
 
+  /// Defines, which trip in currently painted list app need to open.
   final int pressedTrip;
   @override
   List<Object> get props => [pressedTrip];
+}
+/// Event which occurs when user press direction button. On pressed it filters
+/// trips, so they go in specified way (it just really strange way
+/// Maanteeamet made it specification.).
+class MapPressFilterByDirectionButton extends MapEvent {
+  /// Constructor for [MapPressFilterByDirectionButton] event.
+  const MapPressFilterByDirectionButton(this.direction);
+  /// Last letter in direction_code.
+  final String direction;
+
+  @override
+  List<Object> get props => [direction];
 }
 
 // BLOC ONLY EVENTS
@@ -125,4 +152,22 @@ class MapLoadTripsForToday extends MapEvent {
 class MapAddValuesForRepaintingTimeTable extends MapEvent {
   /// Constructor for [MapAddValuesForRepaintingTimeTable] event.
   const MapAddValuesForRepaintingTimeTable();
+}
+/// Event only used inside BLoC. It makes list based on currently picked
+/// direction letters.
+class MapFilterTripsByDirection extends MapEvent {
+  /// Constructor for [MapFilterTripsByDirection] event.
+  const MapFilterTripsByDirection(this.direction);
+  /// Currently picked direction letters.
+  final List<String> direction;
+
+  @override
+  List<Object> get props => [direction];
+}
+
+/// Event only used inside BLoC. It gives a choice, to load trips for today
+/// or repaint with current values.
+class MapShowTodayOrAllTrips extends MapEvent {
+  /// Constructor for [MapShowTodayOrAllTrips] event.
+  const MapShowTodayOrAllTrips();
 }

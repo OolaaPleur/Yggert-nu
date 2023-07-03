@@ -5,13 +5,19 @@ import '../../domain/vehicle_repository.dart';
 import '../../map/bloc/map_bloc.dart';
 import 'modal_bottom_sheets/modal_bottom_sheet_bike_station_info.dart';
 
+/// Widget, which defines how bike marker(or more precisely speaking - child of
+/// marker) would look like.
 class BikeMarker extends StatelessWidget {
+  /// Constructor of [BikeMarker].
   const BikeMarker({
     required this.vehicleRepository, required this.bikeStation, required this.mapBloc, super.key,
   });
 
+  /// Repository of [VehicleRepository], we need it to access its methods.
   final VehicleRepository vehicleRepository;
+  /// [TartuBikeStations] object, defines bike station.
   final TartuBikeStations bikeStation;
+  /// [MapBloc] object, needed for BLoC communication.
   final MapBloc mapBloc;
 
   @override

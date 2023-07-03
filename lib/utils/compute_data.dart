@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:mobility_app/utils/gtfs_list_operations.dart';
 
 import '../domain/estonia_public_transport/estonia_public_transport.dart';
-import '../domain/vehicle_repository.dart';
 
 /// Class [FilterTripsForToday] created to make model for compute() function.
 class FilterTripsForToday {
@@ -11,7 +11,6 @@ class FilterTripsForToday {
     required this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
     required this.pickedStop,
     required this.calendars,
-    required this.vehicleRepository,
   });
 
   /// Filtered trips.
@@ -25,9 +24,6 @@ class FilterTripsForToday {
 
   /// All calendar records.
   final List<Calendar> calendars;
-
-  /// Vehicle repository, to access required functions.
-  final VehicleRepository vehicleRepository;
 }
 
 /// Filter trips, so only today trips will be left.
@@ -53,8 +49,8 @@ List<Trip> filterTripsForToday(FilterTripsForToday data) {
     }
 
     final tripCalendars =
-        data.vehicleRepository.getCalendarForService(trip.serviceId, data.calendars);
-    final stringOfWeekdays = data.vehicleRepository.getDaysOfWeekString(tripCalendars);
+    GtfsListOperations().getCalendarForService(trip.serviceId, data.calendars);
+    final stringOfWeekdays = GtfsListOperations().getDaysOfWeekString(tripCalendars);
 
     if (stringOfWeekdays.contains(todayWeekday) && tripWillBeToday) {
       filteredByUserTripsAfterApplyingToday.add(trip);
@@ -73,7 +69,6 @@ class RepaintTimeTable {
     required this.calendars,
     required this.currentStops,
     required this.pickedStop,
-    required this.vehicleRepository,
   });
 
   /// Filtered trips.
@@ -87,9 +82,6 @@ class RepaintTimeTable {
 
   /// All calendar records.
   final List<Calendar> calendars;
-
-  /// Vehicle repository, to access required functions.
-  final VehicleRepository vehicleRepository;
 
   /// Stops for currently picked stop.
   final List<Stop> currentStops;
@@ -118,8 +110,8 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
         .where((stopTime) => stopTime.tripId == trip.tripId)
         .toList();
     final tripCalendars =
-        data.vehicleRepository.getCalendarForService(trip.serviceId, data.calendars);
-    presentTripCalendar[indexForAll] = data.vehicleRepository.getDaysOfWeekString(tripCalendars);
+        GtfsListOperations().getCalendarForService(trip.serviceId, data.calendars);
+    presentTripCalendar[indexForAll] = GtfsListOperations().getDaysOfWeekString(tripCalendars);
 
     presentStopStopTimeList[indexForAll] = tripStopTimes.firstWhere(
       (stopTime) => stopTime.stopId == data.pickedStop.stopId,
@@ -135,7 +127,7 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
       presentStopStopTimeListOnlyFilterHere[indexForAll]!.sequence,
     );
     presentStopStopTimeListOnlyFilter[indexForAll] = filteredBySequenceStopTimes;
-    presentStopListOnlyFilter[indexForAll] = getOrderedStops(data.currentStops, filteredBySequenceStopTimes);
+    presentStopListOnlyFilter[indexForAll] = _getOrderedStops(data.currentStops, filteredBySequenceStopTimes);
     presentStopsInForwardDirectionInsideCycle.addAll(presentStopListOnlyFilter[indexForAll]!);
 
     ///////////////////////////////////////////
@@ -166,7 +158,7 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
   };
 }
 
-List<Stop> getOrderedStops(List<Stop> currentStops, List<StopTime> filteredStoptimes) {
+List<Stop> _getOrderedStops(List<Stop> currentStops, List<StopTime> filteredStoptimes) {
   // Create a Map with stopId as key and Stop object as value for easy lookups
   final stopsMap = <String, Stop>{for (var stop in currentStops) stop.stopId: stop};
 

@@ -13,17 +13,27 @@ import 'bolt_scooter.dart';
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
   /// Fetch data about bolt scooters from server.
-  Future<List<BoltScooter>> getBoltScooters() async {
+  Future<List<BoltScooter>> getBoltScooters(String pickedCity) async {
     final identifier = await UniqueIdentifier.serial;
     final deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       const os = 'android';
       final androidInfo = await deviceInfo.androidInfo;
       log('Running on ${androidInfo.model} ${androidInfo.version.release}');
-
-      final param = <String, dynamic>{
-        'lat': '58.371536',
-        'lng': '26.78707',
+      var lat = '';
+      var lon = '';
+      if (pickedCity == 'tallinn') {
+        lat = '59.434360';
+        lon = '24.747061';
+      } else if (pickedCity == 'tartu') {
+        lat = '58.371536';
+        lon = '26.78707';
+      } else {
+        throw Exception('No city was picked.');
+      }
+    final param = <String, dynamic>{
+        'lat': lat,
+        'lng': lon,
         'select_all': 'true',
         'version': 'CA.71.0',
         'deviceId': {identifier},
@@ -33,28 +43,34 @@ class BoltScooterApiProvider {
         'country': 'ee',
         'language': 'en',
       };
-      final response = await http.get(
-        Uri.parse(Links.boltScooterLink).replace(queryParameters: param),
-        headers: Links.boltHeader,
-      );
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+      try {
+        final response = await http.get(
+          Uri.parse(Links.boltScooterLink).replace(queryParameters: param),
+          headers: Links.boltHeader,
+        );
+        if (response.statusCode == 200) {
+          final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
-        final categoriesData = jsonData['data']['categories'] as List<dynamic>;
-        final categoryData = categoriesData[0] as Map<String, dynamic>;
-        final durationRateStr = categoryData['price_rate']['duration_rate_str'] as String;
+          final categoriesData = jsonData['data']['categories'] as List<dynamic>;
+          final categoryData = categoriesData[0] as Map<String, dynamic>;
+          final durationRateStr = categoryData['price_rate']['duration_rate_str'] as String;
 
-        final vehiclesData = jsonData['data']['categories'][0]['vehicles'] as List<dynamic>;
-        final vehicles = vehiclesData
-            .map((vehicleData) =>
-                BoltScooter.fromJson(vehicleData as Map<String, dynamic>, durationRateStr),)
-            .toList();
-        return vehicles;
-      } else {
-        throw Exception('Server error. Cant fetch Bolt scooters data. Check your internet connection.');
-        //log('no connection to bolt'); FOR TESTING PURPOSE
+          final vehiclesData = jsonData['data']['categories'][0]['vehicles'] as List<dynamic>;
+          final vehicles = vehiclesData
+              .map((vehicleData) =>
+              BoltScooter.fromJson(vehicleData as Map<String, dynamic>, durationRateStr),)
+              .toList();
+          return vehicles;
+        } else {
+          throw Exception('Server error. Cant fetch Bolt scooters data. Check your internet connection.');
+        }
+      } on SocketException {
+        throw Exception('No Internet connection. Please check your connection and try again.');
+      } catch (e) {
+        rethrow;
       }
     }
-    return Future<List<BoltScooter>>.value([]);
+    //return Future<List<BoltScooter>>.value([]);
+    throw Exception('Device is not supported');
   }
 }

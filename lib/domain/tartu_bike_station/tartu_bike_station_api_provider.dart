@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -15,23 +16,27 @@ class TartuBikeStationApiProvider {
       'limit': '-1',
     });
 
-    final responseMap = await http.post(
-      Uri.parse('${Links.tartuBikesLink}station/map/search'),
-      headers: {'Content-Type': 'application/json'},
-      body: bodyMap,
-    );
+    try {
+      final responseMap = await http.post(
+        Uri.parse('${Links.tartuBikesLink}station/map/search'),
+        headers: {'Content-Type': 'application/json'},
+        body: bodyMap,
+      );
 
-    if (responseMap.statusCode == 200) {
-      final jsonData = jsonDecode(responseMap.body) as Map<String, dynamic>;
-      final vehiclesData = jsonData['results'] as List<dynamic>;
-      final vehicles = vehiclesData
-          .map((vehicleData) => TartuBikeStations.fromJson(vehicleData as Map<String, dynamic>))
-          .toList();
-      return vehicles;
+      if (responseMap.statusCode == 200) {
+        final jsonData = jsonDecode(responseMap.body) as Map<String, dynamic>;
+        final vehiclesData = jsonData['results'] as List<dynamic>;
+        final vehicles = vehiclesData
+            .map((vehicleData) => TartuBikeStations.fromJson(vehicleData as Map<String, dynamic>))
+            .toList();
+        return vehicles;
+      }
+      throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
+    } on SocketException {
+      throw Exception('No Internet connection. Please check your connection and try again.');
+    } catch (e) {
+      rethrow;
     }
-    throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
-    //log('no connection to tartu bikes'); FOR TESTING PURPOSE
-    //return Future<List<TartuBikeStations>>.value([]);
   }
 
   /// Fetch data about single Tartu bike station from server.
@@ -39,15 +44,22 @@ class TartuBikeStationApiProvider {
     final responseSingleStation =
         await http.get(Uri.parse('${Links.tartuBikesLink}station/$bikeId'));
 
-    if (responseSingleStation.statusCode == 200) {
-      final jsonData = jsonDecode(responseSingleStation.body) as Map<String, dynamic>;
-      final bikeCount = jsonData['lockedCycleTypeCount'][0]['countPrimary'] +
-          jsonData['lockedCycleTypeCount'][0]['countSecondary'] as int;
-      final pedelecCount = jsonData['lockedCycleTypeCount'][1]['countPrimary'] +
-          jsonData['lockedCycleTypeCount'][1]['countSecondary'] as int;
-      final singleBikeStation = SingleBikeStation(bikeCount: bikeCount, pedelecCount: pedelecCount);
-      return singleBikeStation;
+    try {
+      if (responseSingleStation.statusCode == 200) {
+        final jsonData = jsonDecode(responseSingleStation.body) as Map<String, dynamic>;
+        final bikeCount = jsonData['lockedCycleTypeCount'][0]['countPrimary'] +
+            jsonData['lockedCycleTypeCount'][0]['countSecondary'] as int;
+        final pedelecCount = jsonData['lockedCycleTypeCount'][1]['countPrimary'] +
+            jsonData['lockedCycleTypeCount'][1]['countSecondary'] as int;
+        final singleBikeStation =
+            SingleBikeStation(bikeCount: bikeCount, pedelecCount: pedelecCount);
+        return singleBikeStation;
+      }
+      throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
+    } on SocketException {
+      throw Exception('No Internet connection. Please check your connection and try again.');
+    } catch (e) {
+      rethrow;
     }
-    throw Exception('Server error. Cant fetch Tartu bikes data. Check your internet connection.');
   }
 }

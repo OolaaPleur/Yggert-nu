@@ -5,15 +5,16 @@ import '../../domain/estonia_public_transport/estonia_public_transport.dart';
 import '../../map/bloc/map_bloc.dart';
 import 'modal_bottom_sheets/modal_bottom_sheet_stop_marker.dart';
 
-/// Class defines child of Stop marker.
-class StopMarkerButton extends StatelessWidget {
-  /// Constructor of [StopMarkerButton].
-  const StopMarkerButton({required this.mapBloc, required this.stop, super.key});
+/// Widget, which defines how stop marker(or more precisely speaking - child of
+/// marker) would look like.
+class StopMarker extends StatelessWidget {
+  /// Constructor of [StopMarker].
+  const StopMarker({required this.mapBloc, required this.stop, super.key});
 
   /// [MapBloc] object, needed for BLoC communication.
   final MapBloc mapBloc;
 
-  /// [Stop] object, defines current picked stop.
+  /// [Stop] object, defines stop.
   final Stop stop;
 
   @override

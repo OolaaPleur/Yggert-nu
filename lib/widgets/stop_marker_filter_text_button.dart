@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobility_app/map/bloc/map_bloc.dart';
 
 /// Text for filter button/ This button is used on modal bottom sheet, which
@@ -20,11 +21,11 @@ class _StopMarkerFilterTextButtonState extends State<StopMarkerFilterTextButton>
     }
     if (context.select((MapBloc mapBloc) => mapBloc.state.showTripsForToday) ==
         ShowTripsForToday.all) {
-      return const Text('all');
+      return Text(AppLocalizations.of(context)!.settingsLocalFilterAll);
     }
     if (context.select((MapBloc mapBloc) => mapBloc.state.showTripsForToday) ==
         ShowTripsForToday.today) {
-      return const Text('today');
+      return Text(AppLocalizations.of(context)!.settingsLocalFilterToday);
     }
     return const CircularProgressIndicator();
   }

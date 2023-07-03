@@ -1,5 +1,7 @@
+import 'package:equatable/equatable.dart';
+
 /// Public transport [Stop] object.
-class Stop {
+class Stop extends Equatable {
   /// Stop constructor.
   const Stop({this.stopId = '', this.name = '', this.latitude = 0, this.longitude = 0});
 
@@ -16,50 +18,59 @@ class Stop {
   final double longitude;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Stop &&
-              runtimeType == other.runtimeType &&
-              stopId == other.stopId &&
-              name == other.name &&
-              latitude == other.latitude &&
-              longitude == other.longitude;
-
-  @override
-  int get hashCode =>
-      stopId.hashCode ^
-      name.hashCode ^
-      latitude.hashCode ^
-      longitude.hashCode;
+  List<Object> get props => [stopId, name, latitude, longitude];
 }
 
 /// Public transport [Trip] object.
 class Trip {
   /// Trip constructor
-  Trip(
-      {    required this.tripId,
-        required this.routeId,
-        required this.serviceId,
-        required this.tripHeadsign,
-        required this.directionId,
-        required this.shapeId,
-        required this.wheelchairAccessible,});
+  Trip({
+    required this.tripId,
+    required this.routeId,
+    required this.serviceId,
+    required this.tripHeadsign,
+    required this.directionId,
+    required this.shapeId,
+    required this.wheelchairAccessible,
+  });
+
+  /// Create a Trip object from a Map.
+  factory Trip.fromMap(Map<String, dynamic> map) {
+    return Trip(
+      tripId: map['tripId'] as String,
+      routeId: map['routeId'] as String,
+      serviceId: map['serviceId'] as String,
+      tripHeadsign: map['tripHeadsign'] as String,
+      directionId: map['directionId'] as String,
+      shapeId: map['shapeId'] as String,
+      wheelchairAccessible: map['wheelchairAccessible'] as String,
+    );
+  }
 
   /// Trip ID
   final String tripId;
+
   /// Reference to route record (foreign key)
   final String routeId;
+
   /// Reference to calendar record, defines dates when service is
   /// available (foreign key)
   final String serviceId;
+
   /// Reference to shape record. Defines a geospatial form that describes
   /// the movement of a vehicle on a trip.
   final String shapeId;
+
+  /// Destination point of trip.
   final String tripHeadsign;
+
+  /// Movement direction of transport.
   final String directionId;
+
+  /// Indicates whether wheelchair access is available on this trip.
   final String wheelchairAccessible;
 
-  // Convert a Trip object into a Map
+  /// Convert a Trip object into a Map.
   Map<String, dynamic> toMap() {
     return {
       'tripId': tripId,
@@ -70,19 +81,6 @@ class Trip {
       'shapeId': shapeId,
       'wheelchairAccessible': wheelchairAccessible,
     };
-  }
-
-  // Create a Trip object from a Map
-  static Trip fromMap(Map<String, dynamic> map) {
-    return Trip(
-      tripId: map['tripId'] as String,
-      routeId: map['routeId'] as String,
-      serviceId: map['serviceId'] as String,
-      tripHeadsign: map['tripHeadsign'] as String,
-      directionId: map['directionId'] as String,
-      shapeId: map['shapeId'] as String,
-      wheelchairAccessible: map['wheelchairAccessible'] as String,
-    );
   }
 }
 
@@ -96,6 +94,8 @@ class StopTime {
     required this.departureTime,
     required this.sequence,
   });
+
+  /// Create a StopTime object from a Map.
   factory StopTime.fromMap(Map<String, dynamic> map) {
     return StopTime(
       tripId: map['tripId'] as String,
@@ -105,17 +105,23 @@ class StopTime {
       sequence: map['sequence'] as int,
     );
   }
+
   /// Reference to trip record (foreign key).
   final String tripId;
+
   /// Reference to stop record.
   final String stopId;
+
   /// Arrival time in „HH:mm:00“ format.
   final String arrivalTime;
+
   /// Departure time in „HH:mm:00“ format.
   final String departureTime;
+
   /// Stop order for a specific trip.
   final int sequence;
 
+  /// Create a Map from StopTime object.
   Map<String, dynamic> toMap() {
     return {
       'tripId': tripId,
@@ -130,21 +136,30 @@ class StopTime {
 /// Public transport [Calendar] object.
 class Calendar {
   /// Calendar constructor.
-  Calendar({required this.serviceId, required this.daysOfWeek, required this.startDate, required this.endDate});
+  Calendar({
+    required this.serviceId,
+    required this.daysOfWeek,
+    required this.startDate,
+    required this.endDate,
+  });
 
   /// Primary key for [Calendar] object.
   final String serviceId;
+
   /// Defines days of week when service is available (true - available,
   /// false - unavailable).
   final List<bool> daysOfWeek;
+
   /// Defines service date start in „YYYYMMdd“ format
   final DateTime startDate;
+
   /// Defines service date end in „YYYYMMdd“ format
   final DateTime endDate;
 }
 
+/// Public transport [Route] object.
 class Route {
-
+  /// Route constructor.
   Route({
     required this.routeId,
     required this.agencyId,
@@ -153,9 +168,9 @@ class Route {
     required this.routeType,
     required this.routeColor,
     required this.competentAuthority,
-    required this.routeDesc,
   });
 
+  /// Create a Route object from a Map.
   factory Route.fromMap(Map<String, dynamic> map) {
     return Route(
       routeId: map['route_id'] as String,
@@ -165,19 +180,33 @@ class Route {
       routeType: map['route_type'] as int,
       routeColor: map['route_color'] as String,
       competentAuthority: map['competent_authority'] as String,
-      routeDesc: map['route_desc'] as String,
     );
   }
-  String routeId;
-  String agencyId;
-  String routeShortName;
-  String routeLongName;
-  int routeType;
-  String routeColor;
-  String competentAuthority;
-  String routeDesc;
 
-  // Convert a Route object into a Map.
+  /// ID unique for route.
+  String routeId;
+
+  /// Agency ID, defines service provider.
+  String agencyId;
+
+  /// Route short name in numerical form.
+  String routeShortName;
+
+  /// Route full name, consist of start stop, end stop and key stops along the way.
+  String routeLongName;
+
+  /// Type of public transport, 0 - tram, 2 - train, 3 - bus, 4 - ferry,
+  /// 800 - trolleybus.
+  int routeType;
+
+  /// Route color in hex form.
+  String routeColor;
+
+  /// Competent authority that has signed a public service contract for the line
+  /// service contract or issued a route permit.
+  String competentAuthority;
+
+  /// Convert a Route object into a Map.
   Map<String, dynamic> toMap() {
     return {
       'route_id': routeId,
@@ -187,7 +216,6 @@ class Route {
       'route_type': routeType,
       'route_color': routeColor,
       'competent_authority': competentAuthority,
-      'route_desc': routeDesc,
     };
   }
 }

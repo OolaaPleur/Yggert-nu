@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobility_app/map/bloc/map_bloc.dart';
+import 'package:mobility_app/theme/bloc/theme_bloc.dart';
 
 import 'main.dart';
 
@@ -14,8 +16,12 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    // ignore: avoid_dynamic_calls
-    log('onChange(${bloc.runtimeType}, ${change.currentState.tripStatus} - ${change.nextState.tripStatus})');
+    if (bloc.runtimeType == MapBloc) {
+      // ignore: avoid_dynamic_calls
+      log('onChange(${bloc.runtimeType}, ${change.currentState.status} - ${change.nextState.status})');
+    } else {
+      log('onChange(${bloc.runtimeType}, ${change.currentState} - ${change.nextState})');
+    }
   }
 
   @override
@@ -37,5 +43,5 @@ Future<void> bootstrap() async {
     debugPrint = (String? message, {int? wrapWidth}) => '';
   }
 
-  runApp(const MyApp());
+  runApp(BlocProvider(create: (context) => ThemeBloc()..loadTheme(), child: const MyApp()));
 }
