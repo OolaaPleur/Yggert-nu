@@ -1,0 +1,48 @@
+{
+  "@@locale": "en",
+
+  "homeAppBarTitle": "Tartu Mobility App",
+  "@homeAppBarTitle": {
+    "description": "Text shown in home appBar"
+  },
+  "settingsAppBarTitle": "Settings",
+  "@settingsAppBarTitle": {
+    "description": "Text shown in settings appBar"
+  },
+  "settingsGlobalFilterAll": "All",
+  "@settingsGlobalFilterAll": {
+    "description": "Text shown in global filter settings, means show by default all trips."
+  },
+  "settingsGlobalFilterToday": "Today",
+  "@settingsGlobalFilterToday": {
+    "description": "Text shown in global filter settings, means show by default only today trips."
+  },
+  "settingsChangeTheme": "Change theme",
+  "@settingsChangeTheme": {
+    "description": "Text shown in settings, for changing theme."
+  },
+  "settingsNoGtfsFile": "No GTFS file",
+  "@settingsNoGtfsFile": {
+    "description": "Text shown in settings when no GTFS file is found on device."
+  },
+  "settingsGtfsFileWasDownloaded": "GTFS file was downloaded ",
+  "@settingsGtfsFileWasDownloaded": {
+    "description": "Text shown in settings when GTFS file as downloaded."
+  },
+  "settingsLocalFilterAll": "All",
+  "@settingsLocalFilterAll": {
+    "description": "Text shown in local filter settings, means show by default all trips."
+  },
+  "settingsLocalFilterToday": "Today",
+  "@settingsLocalFilterToday": {
+    "description": "Text shown in local filter settings, means show by default only today trips."
+  },
+  "settingsTallinn": "Tallinn",
+  "@settingsTallinn": {
+    "description": "Text shown in local filter settings, means show by default only today trips."
+  },
+  "settingsTartu": "Tartu",
+  "@settingsTartu": {
+    "description": "Text shown in local filter settings, means show by default only today trips."
+  }
+}
