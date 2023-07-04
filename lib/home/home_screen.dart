@@ -46,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
               : TextSpan(text: '$word ');
         }).toList();
         return messageSpans;
+      } if (messageMap.keys.first == 'No need to download') {
+        return [TextSpan(text: AppLocalizations.of(context)!.snackbarNoNeedToDownload)];
       }
+      return [TextSpan(text: message)];
     }
     return null;
   }
@@ -61,10 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
         /// so it places snackbar on top of screen.
         body: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: Text(AppLocalizations.of(context)!.homeAppBarTitle),
             elevation: 2,
             actions: [
               IconButton(
+                tooltip: AppLocalizations.of(context)!.homeAppBarSettingsIcon,
                 onPressed: () {
                   final mapBloc = BlocProvider.of<MapBloc>(context);
                   Navigator.of(context).push(
@@ -79,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(Icons.settings),
               ),
               IconButton(
+                tooltip: AppLocalizations.of(context)!.homeAppBarRefreshIcon,
                 onPressed: () {
                   context.read<MapBloc>().add(const MapMarkersPlacingOnMap());
                 },
@@ -92,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               BlocListener<MapBloc, MapState>(
                 listenWhen: (previous, current) {
-                  return previous.networkException.isNotEmpty && current.networkException.isNotEmpty &&
+                  //print('${previous.networkException} ${current.networkException}');
+                  return current.networkException.isNotEmpty &&
                       previous.networkException.keys.toString() !=
                           current.networkException.keys.toString();
                 },
@@ -105,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Expanded(
                             child: Center(
-                              child: Text.rich(
+                              child:
+                              Text.rich(
                                 TextSpan(
                                   children: errorText(state.networkException),
                                 ),
@@ -142,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
+                tooltip: AppLocalizations.of(context)!.homeStopFAB,
                 heroTag: null,
                 key: UniqueKey(),
                 backgroundColor:
@@ -164,9 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (context.read<MapBloc>().state.busStopsAdded == false) {
                     context.read<MapBloc>().add(const MapShowBusStops());
                   }
-                  context
-                      .read<MapBloc>()
-                      .add(const MapMarkerFilterButtonPressed(MapFilters.busStop));
+                  if (context.read<MapBloc>().state.busStopsAdded == true) {
+                    context
+                        .read<MapBloc>()
+                        .add(const MapMarkerFilterButtonPressed(MapFilters.busStop));
+                  }
                 },
                 child: const BusIcon(),
               ),
@@ -174,6 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 10,
               ),
               FloatingActionButton(
+                tooltip: AppLocalizations.of(context)!.homeScooterFAB,
                 heroTag: null,
                 key: UniqueKey(),
                 backgroundColor: context
@@ -193,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 10,
               ),
               FloatingActionButton(
+                tooltip: AppLocalizations.of(context)!.homeBikeFAB,
                 heroTag: null,
                 key: UniqueKey(),
                 backgroundColor:

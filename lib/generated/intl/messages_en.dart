@@ -21,7 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "homeAppBarTitle" : MessageLookupByLibrary.simpleMessage("Tartu Mobility App"),
+    "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Refresh"),
+    "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "homeAppBarTitle" : MessageLookupByLibrary.simpleMessage("Tartu"),
+    "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Bike filter"),
+    "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Scooters filter"),
+    "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Stop filter"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsChangeTheme" : MessageLookupByLibrary.simpleMessage("Change theme"),
     "settingsGlobalFilterAll" : MessageLookupByLibrary.simpleMessage("All"),
@@ -31,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsLocalFilterToday" : MessageLookupByLibrary.simpleMessage("Today"),
     "settingsNoGtfsFile" : MessageLookupByLibrary.simpleMessage("No GTFS file"),
     "settingsTallinn" : MessageLookupByLibrary.simpleMessage("Tallinn"),
-    "settingsTartu" : MessageLookupByLibrary.simpleMessage("Tartu")
+    "settingsTartu" : MessageLookupByLibrary.simpleMessage("Tartu"),
+    "snackbarNoNeedToDownload" : MessageLookupByLibrary.simpleMessage("You have the latest GTFS data.")
   };
 }

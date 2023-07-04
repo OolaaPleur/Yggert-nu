@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:mobility_app/domain/estonia_public_transport/estonia_public_transport_api_provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'bolt_scooter/bolt_scooter.dart';
 import 'bolt_scooter/bolt_scooter_api_provider.dart';
@@ -31,7 +32,7 @@ class VehicleRepository {
   /// Check file existence.
   Future<bool> checkFileExistence() => _estoniaPublicTransportApiProvider.checkFileExistence();
   /// Fetches GTFS data from the internet.
-  Future<void> fetchGtfsData() => _estoniaPublicTransportApiProvider.fetchData();
+  Future<String> fetchGtfsData() => _estoniaPublicTransportApiProvider.fetchData();
   /// Parsing stops.txt and returning List of [Stop].
   Future<List<Stop>> parseStops() => _estoniaPublicTransportApiProvider.parseStops();
   /// Parsing stoptimes.txt into stop_times.db.
@@ -56,7 +57,7 @@ class VehicleRepository {
       _estoniaPublicTransportApiProvider.getTripsForOneStopForAllStopTimes(
           stopTimeListForOneStop, allTrips,);
   /// Progress controller for parse stop_times.db
-  StreamController<int> get progressController => _estoniaPublicTransportApiProvider.progressController;
+  BehaviorSubject<int> get progressController => _estoniaPublicTransportApiProvider.progressController;
 
   // Saving settings to shared preferences.
   final DeviceSettings _deviceSettings = DeviceSettings();

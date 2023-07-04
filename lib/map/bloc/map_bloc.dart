@@ -32,12 +32,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapPressFilterButton>(_onMapPressFilterButton);
     on<MapPressFilterByDirectionButton>(_onMapPressFilterByDirectionButton);
     on<MapChangeCity>(_onMapChangeCity);
+    on<MapSearchByTheQuery>(_onMapSearchByTheQuery);
 
     // Used only inside BLoC
     on<MapLoadTripsForToday>(_onMapLoadTripsForToday);
     on<MapAddValuesForRepaintingTimeTable>(_onMapAddValuesForRepaintingTimeTable);
     on<MapMarkerFiltering>(_onMapMarkerFiltering);
-    on<MapSearchByTheQuery>(_onMapSearchByTheQuery);
     on<MapEnlargeIcon>(_onMapEnlargeIcon);
     on<MapPressTheTripButton>(_onMapPressTheTripButton);
     on<MapFilterTripsByDirection>(_onMapFilterTripsByDirection);
@@ -278,13 +278,28 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
 
     emit(state.copyWith(markers: stateMarkers));
+    final mapMarkers = <MapMarker>[...stateMarkers];
     try {
-      await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
+      final snackbarNoNeedToDownload = await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
+      if (snackbarNoNeedToDownload != 'No need to download') {
+        emit(
+          state.copyWith(
+            publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.initial,
+            markers: [],
+            busStopsAdded: false,
+            busStops: [],
+            calendars: [],
+            filteredMarkers: [],
+          ),
+        );
+        mapMarkers.clear();
+      } else {
+        emit(state.copyWith(networkException: {snackbarNoNeedToDownload : []}));
+      }
     } catch (e) {
       emit(state.copyWith(networkException: {e.toString().substring(11): []}));
       //emit(state.copyWith(networkException: <String, List<String>>{}));
     }
-    final mapMarkers = <MapMarker>[...stateMarkers];
     final createMapMarkerList = CreateMapMarkerList();
     final pickedCity = await _vehicleRepository.getValue('pickedCity');
     try {
@@ -349,7 +364,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         ),
       );
       _vehicleRepository.progressController.stream.listen((int progress) {
-        emit(state.copyWith(progressPercentValueForParsing: progress));
+        if (!emit.isDone) {
+          emit(state.copyWith(progressPercentValueForParsing: progress));
+        }
       });
       final busStops = await _vehicleRepository.parseStops();
       final calendars = await _vehicleRepository.parseCalendar();
@@ -366,7 +383,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       log('stops length: ${busStops.length} markers length: ${mapMarkers.length}');
 
 
-      await _vehicleRepository.progressController.close();
+      //await _vehicleRepository.progressController.close();
 
       emit(
         state.copyWith(
@@ -375,6 +392,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           busStopsAdded: true,
           busStops: busStops,
           calendars: calendars,
+          progressPercentValueForParsing: 0,
         ),
       );
       add(const MapMarkerFiltering());
@@ -385,7 +403,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           networkException: {'No file is present, press refresh button to download': []},
         ),
       );
-      //emit(state.copyWith(networkException: <String, List<String>>{}));
+      emit(state.copyWith(networkException: <String, List<String>>{}));
     }
   }
 
@@ -418,7 +436,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             presentStopStopTimeListOnlyFilter[index]!.sequence,
           );
 
-          final filteredStopTimes = <StopTime>[]; // USE
+          final filteredStopTimes = <StopTime>[];
           for (final stop in foundStopInputtedByUser) {
             filteredStopTimes.addAll(
               filteredBySequenceStopTimes

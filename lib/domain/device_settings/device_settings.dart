@@ -22,6 +22,9 @@ class DeviceSettings {
     if (valueKey == 'pickedCity') {
       return prefs.getString(valueKey) ?? City.tartu.name;
     }
+    if (valueKey == 'gtfs_download_date') {
+      return prefs.getString(valueKey) ?? 'no data';
+    }
     return '';
   }
 }

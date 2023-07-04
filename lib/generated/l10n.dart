@@ -47,12 +47,12 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Tartu Mobility App`
+  /// `Tartu`
   String get homeAppBarTitle {
     return Intl.message(
-      'Tartu Mobility App',
+      'Tartu',
       name: 'homeAppBarTitle',
-      desc: 'Text shown in home appBar',
+      desc: 'Text shown in home appBar if Tartu is picked city',
       args: [],
     );
   }
@@ -153,6 +153,66 @@ class S {
       'Tartu',
       name: 'settingsTartu',
       desc: 'Text shown in local filter settings, means show by default only today trips.',
+      args: [],
+    );
+  }
+
+  /// `Scooters filter`
+  String get homeScooterFAB {
+    return Intl.message(
+      'Scooters filter',
+      name: 'homeScooterFAB',
+      desc: 'Text used as tooltip for FAB with scooter icon.',
+      args: [],
+    );
+  }
+
+  /// `Bike filter`
+  String get homeBikeFAB {
+    return Intl.message(
+      'Bike filter',
+      name: 'homeBikeFAB',
+      desc: 'Text used as tooltip for FAB with bike icon.',
+      args: [],
+    );
+  }
+
+  /// `Stop filter`
+  String get homeStopFAB {
+    return Intl.message(
+      'Stop filter',
+      name: 'homeStopFAB',
+      desc: 'Text used as tooltip for FAB with bus icon.',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get homeAppBarSettingsIcon {
+    return Intl.message(
+      'Settings',
+      name: 'homeAppBarSettingsIcon',
+      desc: 'Text used as tooltip for gear icon button.',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get homeAppBarRefreshIcon {
+    return Intl.message(
+      'Refresh',
+      name: 'homeAppBarRefreshIcon',
+      desc: 'Text used as tooltip for refresh icon button.',
+      args: [],
+    );
+  }
+
+  /// `You have the latest GTFS data.`
+  String get snackbarNoNeedToDownload {
+    return Intl.message(
+      'You have the latest GTFS data.',
+      name: 'snackbarNoNeedToDownload',
+      desc: 'Text used in snackbar, if GTFS data doesn\'t need to be downloaded.',
       args: [],
     );
   }

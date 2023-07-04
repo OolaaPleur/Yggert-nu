@@ -1,9 +1,9 @@
 {
   "@@locale": "ru",
 
-  "homeAppBarTitle": "Tartu Mobility App",
+  "homeAppBarTitle": "Тарту",
   "@homeAppBarTitle": {
-    "description": "Text shown in home appBar"
+    "description": "Текст показывается в верхней полосе экрана если выбранный город Тарту"
   },
   "settingsAppBarTitle": "Настройки",
   "@settingsAppBarTitle": {
@@ -44,5 +44,29 @@
   "settingsTartu": "Тарту",
   "@settingsTartu": {
     "description": "Text shown in local filter settings, means show by default only today trips."
+  },
+  "homeScooterFAB": "Фильтр самокатов",
+  "@homeScooterFAB": {
+    "description": "Текст является подсказкой для плавающей кнопки с иконкой самоката."
+  },
+  "homeBikeFAB": "Фильтр велосипедов",
+  "@homeBikeFAB": {
+    "description": "Текст является подсказкой для плавающей кнопки с иконкой велосипеда."
+  },
+  "homeStopFAB": "Фильтр остановок",
+  "@homeStopFAB": {
+    "description": "Текст является подсказкой для плавающей кнопки с иконкой автобуса."
+  },
+  "homeAppBarSettingsIcon": "Настройки",
+  "@homeAppBarSettingsIcon": {
+    "description": "Текст является подсказкой для иконки с шестеренкой в верхней полосе экрана."
+  },
+  "homeAppBarRefreshIcon": "Обновить",
+  "@homeAppBarRefreshIcon": {
+    "description": "Текст является подсказкой для иконки обновления в верхней полосе экрана."
+  },
+  "snackbarNoNeedToDownload": "У вас самые свежие GTFS данные.",
+  "@snackbarNoNeedToDownload": {
+    "description": "Text used in snackbar, if GTFS data doesn't need to be downloaded."
   }
 }

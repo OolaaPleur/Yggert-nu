@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobility_app/domain/vehicle_repository.dart';
 import 'package:mobility_app/map/view/map_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../map/bloc/map_bloc.dart';
 import '../theme/bloc/theme_bloc.dart';
+import 'gtfs/gtfs_bloc.dart';
 import 'language_cubit/language_cubit.dart';
 
 /// [Settings] is widget, which is accessed through actions in appbar on
@@ -19,34 +20,16 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String _data = '';
-
-  @override
-  void initState() {
-    _loadData();
-    super.initState();
-  }
-
-  Future<void> _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      if (prefs.getString('gtfs_download_date') != null) {
-        _data = prefs.getString('gtfs_download_date')!;
-        _data =
-            '${AppLocalizations.of(context)!.settingsGtfsFileWasDownloaded} ${_data.substring(0, _data.length - 4)}';
-      } else {
-        _data = AppLocalizations.of(context)!.settingsNoGtfsFile;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var filter = context.read<MapBloc>().state.globalShowTripsForToday;
     var city = context.read<MapBloc>().state.pickedCity;
+    final vehicleRepository = VehicleRepository();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settingsAppBarTitle),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -116,7 +99,20 @@ class _SettingsState extends State<Settings> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30),
-            child: Text(_data),
+            child: BlocProvider(
+              create: (context) => GtfsBloc(vehicleRepository: vehicleRepository),
+              child: BlocBuilder<GtfsBloc, GtfsState>(
+                builder: (context, state) {
+                  context.read<GtfsBloc>().add(GetGtfsData(localizedString: AppLocalizations.of(context)!.settingsGtfsFileWasDownloaded));
+                  if (state is GtfsNoData) {
+                    return Text(AppLocalizations.of(context)!.settingsNoGtfsFile);
+                  } else if (state is GtfsDataLoaded) {
+                    return Text(state.result);
+                  }
+                  return const CircularProgressIndicator();
+                },
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -124,9 +120,12 @@ class _SettingsState extends State<Settings> {
             },
             child: const Text('ru'),
           ),
-          ElevatedButton(onPressed: () {
-            BlocProvider.of<LanguageCubit>(context).changeLanguage(const Locale('en', ''));
-          }, child: const Text('en'),),
+          ElevatedButton(
+            onPressed: () {
+              BlocProvider.of<LanguageCubit>(context).changeLanguage(const Locale('en', ''));
+            },
+            child: const Text('en'),
+          ),
         ],
       ),
     );

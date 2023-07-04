@@ -5,8 +5,10 @@ import 'dart:io';
 
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobility_app/domain/device_settings/device_settings.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -18,31 +20,55 @@ import 'estonia_public_transport.dart';
 /// working with .txt files located in new gtfs folder.
 class EstoniaPublicTransportApiProvider {
   /// Progress controller for parse stop_times.db
-  StreamController<int> progressController = StreamController<int>();
+  BehaviorSubject<int> progressController = BehaviorSubject<int>();
   int _previousProgress = 0;
-  Future<void> _fetchFirstTime() async {
+
+  Future<String> _fetchFirstTime() async {
     final directory = await getApplicationDocumentsDirectory();
-    final filePathTest = '${directory.path}/gtfs/stops.txt';
+    final dbpath = await getDatabasesPath();
     final filePath = '${directory.path}/gtfs.zip';
 
-    if (File(filePathTest).existsSync()) {
-      log('File exists');
-      return;
-    } else {
-      log("File don't exists");
-      final url = Uri.parse(Links.gtfsLink);
-      final response = await http.get(url);
-      if (response.statusCode == 200) {
-        final file = File(filePath);
-        await file.writeAsBytes(response.bodyBytes);
-        _unzipFile(filePath, '${directory.path}/gtfs');
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('gtfs_download_date', file.lastModifiedSync().toString());
-        log('File downloaded and unzipped successfully.');
-      } else {
-        throw HttpException('Failed to download the file. Status code: ${response.statusCode}');
+    final deviceSettings = DeviceSettings();
+    final downloadDate = await deviceSettings.getValue('gtfs_download_date');
+    final now = DateTime.now();
+
+    //DateTime yesterday = DateTime.now().add(Duration(days: 1));
+    try {
+      final parsedDateTime = DateTime.parse(downloadDate);
+      if (parsedDateTime.year == now.year &&
+          parsedDateTime.month == now.month &&
+          parsedDateTime.day == now.day) {
+        return 'No need to download';
       }
+    } catch (e) {
+      //
     }
+    if (File('$dbpath/routes.db').existsSync()) {
+      await deleteDatabase('$dbpath/routes.db');
+    }
+    if (File('$dbpath/stop_times.db').existsSync()) {
+      await deleteDatabase('$dbpath/stop_times.db');
+    }
+    if (File('$dbpath/trips.db').existsSync()) {
+      await deleteDatabase('$dbpath/trips.db');
+    }
+    if (Directory('${directory.path}/gtfs').existsSync()) {
+      Directory('${directory.path}/gtfs').deleteSync(recursive: true);
+    }
+
+    final url = Uri.parse(Links.gtfsLink);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final file = File(filePath);
+      await file.writeAsBytes(response.bodyBytes);
+      _unzipFile(filePath, '${directory.path}/gtfs');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('gtfs_download_date', file.lastModifiedSync().toString());
+      log('File downloaded and unzipped successfully.');
+    } else {
+      throw HttpException('Failed to download the file. Status code: ${response.statusCode}');
+    }
+    return '';
   }
 
   void _unzipFile(String zipFilePath, String destinationDir) {
@@ -118,12 +144,23 @@ class EstoniaPublicTransportApiProvider {
   }
 
   /// Fetch first time data, download gtfs.zip, unarchive it, delete gtfs.zip.
-  Future<void> fetchData() async {
+  Future<String> fetchData() async {
     try {
-      await _fetchFirstTime();
-      await _deleteFile('gtfs.zip');
+      final message = await _fetchFirstTime();
+      if (message == 'No need to download') {
+        return 'No need to download';
+      }
+      final directory = await getApplicationDocumentsDirectory();
+      final filePath = '${directory.path}/gtfs.zip';
+      if (File(filePath).existsSync()) {
+        await _deleteFile('gtfs.zip');
+        return 'File downloaded and processed successfully.';
+      }
+      return 'Unknown Error';
+    } on SocketException {
+      throw Exception('No Internet connection. Please check your connection and try again.');
     } catch (e) {
-      throw Exception('Check internet connection or give storage permissions');
+      rethrow;
     }
   }
 
@@ -215,7 +252,7 @@ class EstoniaPublicTransportApiProvider {
           count++;
         }
       }
-      await progressController.close();
+     // await progressController.close();
       log('number of entries = $count');
       await batch.commit(noResult: true);
       await stopTimesDb.close();
@@ -328,10 +365,12 @@ class EstoniaPublicTransportApiProvider {
 
     if (!File(path).existsSync()) {
       // Open the database.
-      final database = await openDatabase(path, version: 1,
-          onCreate: (db, version) async {
-            // Create the table.
-            await db.execute('''
+      final database = await openDatabase(
+        path,
+        version: 1,
+        onCreate: (db, version) async {
+          // Create the table.
+          await db.execute('''
           CREATE TABLE IF NOT EXISTS Routes(
             route_id TEXT PRIMARY KEY, 
             agency_id TEXT, 
@@ -342,8 +381,8 @@ class EstoniaPublicTransportApiProvider {
             competent_authority TEXT
           )
         ''');
-
-          },);
+        },
+      );
 
       // Read the file.
       final documentsDirectory = await getApplicationDocumentsDirectory();
@@ -373,7 +412,6 @@ class EstoniaPublicTransportApiProvider {
       await batch.commit(noResult: true);
       await database.close();
     }
-
   }
 
   /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.
