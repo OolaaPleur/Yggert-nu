@@ -20,7 +20,7 @@ jobs:
         run: flutter pub get
 
       - name: Build
-        run: flutter build apk
+        run: flutter build apk --target=lib/main_production.dart
 
       - name: Analyze
-        run: flutter analyze
+        run: flutter analyze --target=lib/main_production.dart
