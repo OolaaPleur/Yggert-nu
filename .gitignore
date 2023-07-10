@@ -43,7 +43,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-secret.env
+/secret.env
 /lib/utils/env/env.dart
 .env
 env.g.dart
