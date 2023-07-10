@@ -23,20 +23,31 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Refresh"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Settings"),
-    "homeAppBarTitle" : MessageLookupByLibrary.simpleMessage("Tartu"),
     "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Bike filter"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Scooters filter"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Stop filter"),
+    "mapScreenGpsFAB" : MessageLookupByLibrary.simpleMessage("Get geolocation"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsChangeTheme" : MessageLookupByLibrary.simpleMessage("Change theme"),
     "settingsGlobalFilterAll" : MessageLookupByLibrary.simpleMessage("All"),
     "settingsGlobalFilterToday" : MessageLookupByLibrary.simpleMessage("Today"),
     "settingsGtfsFileWasDownloaded" : MessageLookupByLibrary.simpleMessage("GTFS file was downloaded "),
+    "settingsLanguage" : MessageLookupByLibrary.simpleMessage("Language"),
+    "settingsLanguageEnglish" : MessageLookupByLibrary.simpleMessage("English"),
+    "settingsLanguageRussian" : MessageLookupByLibrary.simpleMessage("Russian"),
     "settingsLocalFilterAll" : MessageLookupByLibrary.simpleMessage("All"),
     "settingsLocalFilterToday" : MessageLookupByLibrary.simpleMessage("Today"),
     "settingsNoGtfsFile" : MessageLookupByLibrary.simpleMessage("No GTFS file"),
     "settingsTallinn" : MessageLookupByLibrary.simpleMessage("Tallinn"),
     "settingsTartu" : MessageLookupByLibrary.simpleMessage("Tartu"),
-    "snackbarNoNeedToDownload" : MessageLookupByLibrary.simpleMessage("You have the latest GTFS data.")
+    "snackbarCantFetchBoltScootersData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Bolt scooters data."),
+    "snackbarCantFetchTartuSmartBikeData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Tartu Smart bike data."),
+    "snackbarCityIsNotPicked" : MessageLookupByLibrary.simpleMessage("No city was picked."),
+    "snackbarDeviceIsNotSupported" : MessageLookupByLibrary.simpleMessage("Device is not supported."),
+    "snackbarNoGtfsFileIsPresent" : MessageLookupByLibrary.simpleMessage("No file is present, press refresh button to download."),
+    "snackbarNoInternetConnection" : MessageLookupByLibrary.simpleMessage("No Internet connection. Please check your connection and try again."),
+    "snackbarNoNeedToDownload" : MessageLookupByLibrary.simpleMessage("You have the latest GTFS data."),
+    "someErrorOccurred" : MessageLookupByLibrary.simpleMessage("Some error occurred. Please try again later."),
+    "stopMarkerShowAllForwardStoptimesButton" : MessageLookupByLibrary.simpleMessage("Press to see stoptimes")
   };
 }

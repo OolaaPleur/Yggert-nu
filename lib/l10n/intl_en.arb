@@ -1,10 +1,6 @@
 {
   "@@locale": "en",
 
-  "homeAppBarTitle": "Tartu",
-  "@homeAppBarTitle": {
-    "description": "Text shown in home appBar if Tartu is picked city"
-  },
   "settingsAppBarTitle": "Settings",
   "@settingsAppBarTitle": {
     "description": "Text shown in settings appBar"
@@ -68,5 +64,53 @@
   "snackbarNoNeedToDownload": "You have the latest GTFS data.",
   "@snackbarNoNeedToDownload": {
     "description": "Text used in snackbar, if GTFS data doesn't need to be downloaded."
+  },
+  "snackbarCantFetchBoltScootersData": "Server error. Cant fetch Bolt scooters data.",
+  "@snackbarCantFetchBoltScootersData": {
+    "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
+  },
+  "snackbarCantFetchTartuSmartBikeData": "Server error. Cant fetch Tartu Smart bike data.",
+  "@snackbarCantFetchTartuSmartBikeData": {
+    "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
+  },
+  "snackbarNoInternetConnection": "No Internet connection. Please check your connection and try again.",
+  "@snackbarNoInternetConnection": {
+    "description": "Text used in snackbar when device has internet connection problems."
+  },
+  "snackbarDeviceIsNotSupported": "Device is not supported.",
+  "@snackbarDeviceIsNotSupported": {
+    "description": "Text used in snackbar when device is not supported by app."
+  },
+  "snackbarCityIsNotPicked": "No city was picked.",
+  "@snackbarCityIsNotPicked": {
+    "description": "Text used in snackbar when no city was picked."
+  },
+  "snackbarNoGtfsFileIsPresent": "No file is present, press refresh button to download.",
+  "@snackbarNoGtfsFileIsPresent": {
+    "description": "Text used in snackbar when no GTFS file is present."
+  },
+  "mapScreenGpsFAB": "Get geolocation",
+  "@mapScreenGpsFAB": {
+    "description": "Text used as tooltip for FAB with gps icon."
+  },
+  "stopMarkerShowAllForwardStoptimesButton": "Press to see stoptimes",
+  "@stopMarkerShowAllForwardStoptimesButton": {
+    "description": "Text used on press to see stoptimes button."
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Text used on press to see stoptimes button."
+  },
+  "settingsLanguageRussian": "Russian",
+  "@settingsLanguageRussian": {
+    "description": "Text used on dropdown, which responsible for picking russian language."
+  },
+  "settingsLanguageEnglish": "English",
+  "@settingsLanguageEnglish": {
+    "description": "Text used on dropdown, which responsible for picking english language."
+  },
+  "someErrorOccurred": "Some error occurred. Please try again later.",
+  "@someErrorOccurred": {
+    "description": "Text used in snackbar, when non-specified error occurred."
   }
 }

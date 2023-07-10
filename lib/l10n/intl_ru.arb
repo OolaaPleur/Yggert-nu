@@ -1,10 +1,6 @@
 {
   "@@locale": "ru",
 
-  "homeAppBarTitle": "Тарту",
-  "@homeAppBarTitle": {
-    "description": "Текст показывается в верхней полосе экрана если выбранный город Тарту"
-  },
   "settingsAppBarTitle": "Настройки",
   "@settingsAppBarTitle": {
     "description": "Text shown in settings appBar"
@@ -67,6 +63,54 @@
   },
   "snackbarNoNeedToDownload": "У вас самые свежие GTFS данные.",
   "@snackbarNoNeedToDownload": {
-    "description": "Text used in snackbar, if GTFS data doesn't need to be downloaded."
+    "description": "Текст используется в снекбаре, если нет необходимости загружать GTFS данные."
+  },
+  "snackbarCantFetchBoltScootersData": "Ошибка сервера. Невозможно загрузить данные о Bolt самокатах.",
+  "@snackbarCantFetchBoltScootersData": {
+    "description": "Текст используется в снекбаре, если данные о самокатах Bolt не могут быть загружены."
+  },
+  "snackbarCantFetchTartuSmartBikeData": "Ошибка сервера. Невозможно загрузить данные о велосипедах Tartu Smart bike.",
+  "@snackbarCantFetchTartuSmartBikeData": {
+    "description": "Текст используется в снекбаре, если данные о велосипедах Tartu Smart bike не могут быть загружены."
+  },
+  "snackbarNoInternetConnection": "Нет интернет-соединения. Пожалуйста проверьте его и попробуйте снова.",
+  "@snackbarNoInternetConnection": {
+    "description": "Tекст используется в снекбаре, если у устройства отсутствует интернет-соединение."
+  },
+  "snackbarDeviceIsNotSupported": "Устройство не поддерживается.",
+  "@snackbarDeviceIsNotSupported": {
+    "description": "Текст используется в снекбаре если устройство пользователя не поддерживается приложением."
+  },
+  "snackbarCityIsNotPicked": "Город не выбран",
+  "@snackbarCityIsNotPicked": {
+    "description": "Текст используется в снекбаре если город не был выбран."
+  },
+  "snackbarNoGtfsFileIsPresent": "GTFS файлов нет, нажмите кнопку обновить для загрузки.",
+  "@snackbarNoGtfsFileIsPresent": {
+    "description": "Текст используется в снекбаре если на устройстве нет GTFS файлов."
+  },
+  "mapScreenGpsFAB": "Получить геолокацию",
+  "@mapScreenGpsFAB": {
+    "description": "Текст является подсказкой для плавающей кнопки с иконкой геолокации."
+  },
+  "stopMarkerShowAllForwardStoptimesButton": "Показать остановки",
+  "@stopMarkerShowAllForwardStoptimesButton": {
+    "description": "Текст показывается на кнопке, которая отвечает за показ следующих по пути следования остановок."
+  },
+  "settingsLanguage": "Язык",
+  "@settingsLanguage": {
+    "description": "Text used on press to see stoptimes button."
+  },
+  "settingsLanguageRussian": "Русский",
+  "@settingsLanguageRussian": {
+    "description": "Text used on dropdown, which responsible for picking russian language."
+  },
+  "settingsLanguageEnglish": "Английский",
+  "@settingsLanguageEnglish": {
+    "description": "Text used on dropdown, which responsible for picking english language."
+  },
+  "someErrorOccurred": "Произошла неизвестная ошибка. Попробуйте снова позже.",
+  "@someErrorOccurred": {
+    "description": "Text used in snackbar, when non-specified error occurred."
   }
 }

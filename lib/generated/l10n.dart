@@ -47,16 +47,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Tartu`
-  String get homeAppBarTitle {
-    return Intl.message(
-      'Tartu',
-      name: 'homeAppBarTitle',
-      desc: 'Text shown in home appBar if Tartu is picked city',
-      args: [],
-    );
-  }
-
   /// `Settings`
   String get settingsAppBarTitle {
     return Intl.message(
@@ -213,6 +203,126 @@ class S {
       'You have the latest GTFS data.',
       name: 'snackbarNoNeedToDownload',
       desc: 'Text used in snackbar, if GTFS data doesn\'t need to be downloaded.',
+      args: [],
+    );
+  }
+
+  /// `Server error. Cant fetch Bolt scooters data.`
+  String get snackbarCantFetchBoltScootersData {
+    return Intl.message(
+      'Server error. Cant fetch Bolt scooters data.',
+      name: 'snackbarCantFetchBoltScootersData',
+      desc: 'Text used in snackbar, if Bolt scooters data can\'t be downloaded.',
+      args: [],
+    );
+  }
+
+  /// `Server error. Cant fetch Tartu Smart bike data.`
+  String get snackbarCantFetchTartuSmartBikeData {
+    return Intl.message(
+      'Server error. Cant fetch Tartu Smart bike data.',
+      name: 'snackbarCantFetchTartuSmartBikeData',
+      desc: 'Text used in snackbar, if Tartu Smart bike data can\'t be downloaded.',
+      args: [],
+    );
+  }
+
+  /// `No Internet connection. Please check your connection and try again.`
+  String get snackbarNoInternetConnection {
+    return Intl.message(
+      'No Internet connection. Please check your connection and try again.',
+      name: 'snackbarNoInternetConnection',
+      desc: 'Text used in snackbar when device has internet connection problems.',
+      args: [],
+    );
+  }
+
+  /// `Device is not supported.`
+  String get snackbarDeviceIsNotSupported {
+    return Intl.message(
+      'Device is not supported.',
+      name: 'snackbarDeviceIsNotSupported',
+      desc: 'Text used in snackbar when device is not supported by app.',
+      args: [],
+    );
+  }
+
+  /// `No city was picked.`
+  String get snackbarCityIsNotPicked {
+    return Intl.message(
+      'No city was picked.',
+      name: 'snackbarCityIsNotPicked',
+      desc: 'Text used in snackbar when no city was picked.',
+      args: [],
+    );
+  }
+
+  /// `No file is present, press refresh button to download.`
+  String get snackbarNoGtfsFileIsPresent {
+    return Intl.message(
+      'No file is present, press refresh button to download.',
+      name: 'snackbarNoGtfsFileIsPresent',
+      desc: 'Text used in snackbar when no GTFS file is present.',
+      args: [],
+    );
+  }
+
+  /// `Get geolocation`
+  String get mapScreenGpsFAB {
+    return Intl.message(
+      'Get geolocation',
+      name: 'mapScreenGpsFAB',
+      desc: 'Text used as tooltip for FAB with gps icon.',
+      args: [],
+    );
+  }
+
+  /// `Press to see stoptimes`
+  String get stopMarkerShowAllForwardStoptimesButton {
+    return Intl.message(
+      'Press to see stoptimes',
+      name: 'stopMarkerShowAllForwardStoptimesButton',
+      desc: 'Text used on press to see stoptimes button.',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get settingsLanguage {
+    return Intl.message(
+      'Language',
+      name: 'settingsLanguage',
+      desc: 'Text used on press to see stoptimes button.',
+      args: [],
+    );
+  }
+
+  /// `Russian`
+  String get settingsLanguageRussian {
+    return Intl.message(
+      'Russian',
+      name: 'settingsLanguageRussian',
+      desc: 'Text used on dropdown, which responsible for picking russian language.',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get settingsLanguageEnglish {
+    return Intl.message(
+      'English',
+      name: 'settingsLanguageEnglish',
+      desc: 'Text used on dropdown, which responsible for picking english language.',
+      args: [],
+    );
+  }
+
+  /// `Some error occurred. Please try again later.`
+  String get someErrorOccurred {
+    return Intl.message(
+      'Some error occurred. Please try again later.',
+      name: 'someErrorOccurred',
+      desc: 'Text used in snackbar, when non-specified error occurred.',
       args: [],
     );
   }

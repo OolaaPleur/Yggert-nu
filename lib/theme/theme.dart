@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// App theme choices.
 class FlutterAppTheme {
@@ -17,6 +18,7 @@ class FlutterAppTheme {
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
+      fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
   /// Dark theme.
@@ -32,6 +34,7 @@ class FlutterAppTheme {
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,
       swapLegacyOnMaterial3: true,
+      fontFamily: GoogleFonts.notoSans().fontFamily,
     );
   }
 }
