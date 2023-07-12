@@ -11,41 +11,49 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()
       : _settingsRepository = GetIt.I<SettingsRepository>(),
         super(LightThemeState()) {
-    on<ThemeEvent>(_onThemeEvent);
-  }
-
-  Future<void> _onThemeEvent(ThemeEvent event, Emitter<ThemeState> emit) async {
-    if (event is LoadThemeEvent) {
-      final isDark = await _settingsRepository.getBoolValue('isDark');
-      if (isDark) {
-        emit(DarkThemeState());
-      } else {
-        emit(LightThemeState());
-      }
-    } else if (event is ToggleThemeEvent) {
-      if (state is LightThemeState) {
-        emit(DarkThemeState());
-        await _settingsRepository.setBoolValue('isDark', value: true);
-      } else {
-        emit(LightThemeState());
-        await _settingsRepository.setBoolValue('isDark', value: false);
-      }
-    } else if (event is ToggleDownloadedThemeEvent) {
-      if (event.isDark) {
-        emit(DarkThemeState());
-      } else {
-        emit(LightThemeState());
-      }
-    }
+    on<LoadThemeEvent>(_onLoadThemeEvent);
+    on<ToggleThemeEvent>(_onToggleThemeEvent);
+    on<ToggleDownloadedThemeEvent>(_onToggleDownloadedThemeEvent);
   }
 
   final SettingsRepository _settingsRepository;
 
-  /// Load theme at the start of an app.
-  void loadTheme() => add(LoadThemeEvent());
-  /// Toggle another theme, button located in settings.
-  void toggleDownloadedTheme({required bool isDark}) => add(ToggleDownloadedThemeEvent(isDark: isDark));
-
   /// Checks if dark mode is enabled right now.
   bool get isDarkModeEnabled => state is DarkThemeState;
+
+  /// Load theme at the start of an app.
+  Future<void> _onLoadThemeEvent(
+    LoadThemeEvent event,
+    Emitter<ThemeState> emit,
+  ) async {
+    final isDark = await _settingsRepository.getBoolValue('isDark');
+    add(ToggleDownloadedThemeEvent(isDark: isDark));
+  }
+
+  /// Toggle another theme, button located in settings.
+  Future<void> _onToggleThemeEvent(
+    ToggleThemeEvent event,
+    Emitter<ThemeState> emit,
+  ) async {
+    if (state is LightThemeState) {
+      emit(DarkThemeState());
+      await _settingsRepository.setBoolValue('isDark', value: true);
+    } else {
+      emit(LightThemeState());
+      await _settingsRepository.setBoolValue('isDark', value: false);
+    }
+  }
+
+  /// Used to set theme in two cases 1) when downloaded user settings
+  /// 2) when theme set by user in [LoadThemeEvent].
+  Future<void> _onToggleDownloadedThemeEvent(
+    ToggleDownloadedThemeEvent event,
+    Emitter<ThemeState> emit,
+  ) async {
+    if (event.isDark) {
+      emit(DarkThemeState());
+    } else {
+      emit(LightThemeState());
+    }
+  }
 }

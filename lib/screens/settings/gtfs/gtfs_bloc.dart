@@ -21,18 +21,15 @@ class GtfsBloc extends Bloc<GtfsEvent, GtfsState> {
   ///
   final SettingsRepository _settingsRepository;
 
-  Future<void> _onGetGtfsData(GtfsEvent event, Emitter<GtfsState> emit) async {
-    if (event is GetGtfsData) {
-      final dateOfGtfsDataDownload =
-          await _settingsRepository.getStringValue('gtfs_download_date');
+  Future<void> _onGetGtfsData(GetGtfsData event, Emitter<GtfsState> emit) async {
+    final dateOfGtfsDataDownload = await _settingsRepository.getStringValue('gtfs_download_date');
 
-      if (dateOfGtfsDataDownload == 'no data') {
-        emit(GtfsNoData());
-      } else {
-        final result =
-            '${event.localizedString} ${dateOfGtfsDataDownload.substring(0, dateOfGtfsDataDownload.length - 4)}';
-        emit(GtfsDataLoaded(result));
-      }
+    if (dateOfGtfsDataDownload == 'no data') {
+      emit(GtfsNoData());
+    } else {
+      final result =
+          '${event.localizedString} ${dateOfGtfsDataDownload.substring(0, dateOfGtfsDataDownload.length - 4)}';
+      emit(GtfsDataLoaded(result));
     }
   }
 }

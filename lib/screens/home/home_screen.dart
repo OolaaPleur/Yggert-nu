@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobility_app/screens/home/widgets/bus_icon.dart';
 import 'package:mobility_app/widgets/snackbar.dart';
 
+import '../../constants/constants.dart';
 import '../../exceptions/exceptions.dart';
 import '../map/bloc/map_bloc.dart';
 import '../map/view/map_screen.dart';
@@ -81,11 +82,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       previous.exception.toString() != current.exception.toString();
                 },
                 listener: (context, state) {
-                  final mySnackBar = AppSnackBar(context, state.exception);
+                  final mySnackBar = AppSnackBar(context, exception: state.exception);
                   ScaffoldMessenger.of(context).showSnackBar(mySnackBar.showSnackBar());
                 },
                 child: const SizedBox.shrink(),
-              )
+              ),
+              BlocListener<MapBloc, MapState>(
+                listenWhen: (previous, current) {
+                  return previous.infoMessage != current.infoMessage && current.infoMessage != InfoMessage.defaultMessage;
+                },
+                listener: (context, state) {
+                  final mySnackBar = AppSnackBar(context, infoMessage: state.infoMessage);
+                  ScaffoldMessenger.of(context).showSnackBar(mySnackBar.showSnackBar());
+                },
+                child: const SizedBox.shrink(),
+              ),
             ],
           ),
           body: const MapScreen(),

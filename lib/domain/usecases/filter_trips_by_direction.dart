@@ -1,4 +1,6 @@
-import '../estonia_public_transport.dart';
+
+
+import '../../data/models/estonia_public_transport.dart';
 
 /// Use case, needed to filter trips by its direction.
 class FilterTripsByDirection {

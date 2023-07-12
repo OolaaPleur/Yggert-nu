@@ -44,13 +44,20 @@ class CityIsNotPicked implements AppException {
 }
 /// Exception that is thrown when no GTFS file is present, user should press
 /// refresh icon.
-class NoGtfsFileIsPresent implements AppException {
-  /// Constructor for [NoGtfsFileIsPresent].
-  const NoGtfsFileIsPresent();
+class NoGtfsTextFileIsPresent implements AppException {
+  /// Constructor for [NoGtfsTextFileIsPresent].
+  const NoGtfsTextFileIsPresent();
 }
 
 /// Exception that is thrown when some unspecified error occurred.
 class SomeErrorOccurred implements AppException {
   /// Constructor for [SomeErrorOccurred].
   const SomeErrorOccurred();
+}
+
+/// Exception that is thrown when gtfs.zip is not existing at specified
+/// location.
+class GtfsZipIsNotPresent implements AppException {
+  /// Constructor for [GtfsZipIsNotPresent].
+  const GtfsZipIsNotPresent();
 }

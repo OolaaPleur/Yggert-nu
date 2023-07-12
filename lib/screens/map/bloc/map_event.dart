@@ -155,27 +155,27 @@ class MapDeleteSingleBikeStationInfo extends MapEvent {
 // BLOC ONLY EVENTS
 /// Event only used inside BLoC. Filter state.markers according to
 /// state.filters.
-class MapMarkerFiltering extends MapEvent {
-  /// Constructor for [MapMarkerFiltering] event.
-  const MapMarkerFiltering();
+class _MapMarkerFiltering extends MapEvent {
+  /// Constructor for [_MapMarkerFiltering] event.
+  const _MapMarkerFiltering();
 }
 
 /// Event only used inside BLoC. It loads trips for today.
-class MapLoadTripsForToday extends MapEvent {
-  /// Constructor for [MapLoadTripsForToday] event.
-  const MapLoadTripsForToday();
+class _MapLoadTripsForToday extends MapEvent {
+  /// Constructor for [_MapLoadTripsForToday] event.
+  const _MapLoadTripsForToday();
 }
 /// Event only used inside BLoC. Adds values to maps, so they could be
 /// displayed later on timetable for the user.
-class MapAddValuesForRepaintingTimeTable extends MapEvent {
-  /// Constructor for [MapAddValuesForRepaintingTimeTable] event.
-  const MapAddValuesForRepaintingTimeTable();
+class _MapAddValuesForRepaintingTimeTable extends MapEvent {
+  /// Constructor for [_MapAddValuesForRepaintingTimeTable] event.
+  const _MapAddValuesForRepaintingTimeTable();
 }
 /// Event only used inside BLoC. It makes list based on currently picked
 /// direction letters.
-class MapFilterTripsByDirection extends MapEvent {
-  /// Constructor for [MapFilterTripsByDirection] event.
-  const MapFilterTripsByDirection(this.direction);
+class _MapFilterTripsByDirection extends MapEvent {
+  /// Constructor for [_MapFilterTripsByDirection] event.
+  const _MapFilterTripsByDirection(this.direction);
   /// Currently picked direction letters.
   final List<String> direction;
 
@@ -185,7 +185,11 @@ class MapFilterTripsByDirection extends MapEvent {
 
 /// Event only used inside BLoC. It gives a choice, to load trips for today
 /// or repaint with current values.
-class MapShowTodayOrAllTrips extends MapEvent {
-  /// Constructor for [MapShowTodayOrAllTrips] event.
-  const MapShowTodayOrAllTrips();
+class _MapShowTodayOrAllTrips extends MapEvent {
+  /// Constructor for [_MapShowTodayOrAllTrips] event.
+  const _MapShowTodayOrAllTrips();
+}
+
+class _MapAddMicroMobilityMarkersToList extends MapEvent {
+  const _MapAddMicroMobilityMarkersToList();
 }

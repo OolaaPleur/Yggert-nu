@@ -5,9 +5,9 @@ import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
-import '../../constants/api_links/api_links.dart';
-import '../../domain/tartu_bike_station.dart';
+import '../../constants/api_links.dart';
 import '../../exceptions/exceptions.dart';
+import '../models/tartu_bike_station.dart';
 
 /// Methods to do operations with Tartu bike station API provider.
 class TartuBikeStationApiProvider {

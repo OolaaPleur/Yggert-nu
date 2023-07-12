@@ -1,5 +1,5 @@
+import '../../data/models/estonia_public_transport.dart';
 import '../../data/repositories/vehicle_repository.dart';
-import '../estonia_public_transport.dart';
 /// Use case, function is to parse calendar into list.
 class GetCalendar {
 /// Constructor for [GetCalendar].

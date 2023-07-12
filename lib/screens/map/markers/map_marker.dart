@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:mobility_app/domain/estonia_public_transport.dart';
-import '../../../domain/bolt_scooter.dart';
-import '../../../domain/tartu_bike_station.dart';
+import 'package:logging/logging.dart';
+import '../../../data/models/bolt_scooter.dart';
+import '../../../data/models/estonia_public_transport.dart';
+import '../../../data/models/tartu_bike_station.dart';
 import '../bloc/map_bloc.dart';
 import 'marker_types/bike_marker.dart';
 import 'marker_types/scooter_marker.dart';
@@ -49,6 +49,8 @@ class MapMarker extends Marker {
 
 /// Class for markers creation.
 class CreateMapMarkerList {
+  final _log = Logger('CreateMapMarkerList');
+
   /// Create map marker, so after it could be returned.
   MapMarker mapMarker = MapMarker(markerType: MarkerType.none);
 
@@ -58,18 +60,14 @@ class CreateMapMarkerList {
       case TartuBikeStations:
         {
           final bikeStation = vehicleOrStop as TartuBikeStations;
-          mapMarker = MapMarker(
+          return MapMarker(
             markerType: MarkerType.bike,
             key: Key(bikeStation.id),
             height: 65,
             width: 65,
-            builder: (context) => Container(
-              margin: context.select(
-                (MapBloc bloc) => bloc.state.keyFromOpenedMarker == bikeStation.id,
-              )
-                  ? EdgeInsets.zero
-                  : const EdgeInsets.all(2),
-              child: BikeMarker(bikeStation: bikeStation, mapBloc: mapBloc,),
+            builder: (context) => BikeMarker(
+              bikeStation: bikeStation,
+              mapBloc: mapBloc,
             ),
             point: LatLng(bikeStation.latitude, bikeStation.longitude),
           );
@@ -77,19 +75,22 @@ class CreateMapMarkerList {
       case BoltScooter:
         {
           final scooter = vehicleOrStop as BoltScooter;
-          mapMarker = MapMarker(
+          return MapMarker(
             markerType: MarkerType.scooter,
             key: Key(scooter.id.toString()),
             height: 65,
             width: 65,
-            builder: (context) => ScooterMarker(scooter: scooter, mapBloc: mapBloc,),
+            builder: (context) => ScooterMarker(
+              scooter: scooter,
+              mapBloc: mapBloc,
+            ),
             point: LatLng(scooter.latitude, scooter.longitude),
           );
         }
       case Stop:
         {
           final stop = vehicleOrStop as Stop;
-          mapMarker = MapMarker(
+          return MapMarker(
             markerType: MarkerType.stop,
             key: Key(stop.stopId),
             height: 55,
@@ -102,6 +103,7 @@ class CreateMapMarkerList {
           );
         }
     }
+    _log.severe('Adding empty marker, something went terribly wrong, check ASAP.');
     return mapMarker;
   }
 }

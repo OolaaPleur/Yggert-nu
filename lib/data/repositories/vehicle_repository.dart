@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:mobility_app/data/providers/estonia_public_transport_api_provider.dart';
 
-import '../../domain/bolt_scooter.dart';
-import '../../domain/estonia_public_transport.dart';
-import '../../domain/tartu_bike_station.dart';
+import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';
+import '../models/bolt_scooter.dart';
+import '../models/estonia_public_transport.dart';
+import '../models/tartu_bike_station.dart';
 import '../providers/bolt_scooter_api_provider.dart';
 import '../providers/tartu_bike_station_api_provider.dart';
+
 
 /// Repository for all transport-related functions.
 class VehicleRepository {
@@ -36,7 +38,7 @@ class VehicleRepository {
       tartuBikeStationApiProvider.getBikeInfo(bikeId);
 
   /// Fetches GTFS data from the internet.
-  Future<String> fetchGtfsData() => estoniaPublicTransportApiProvider.fetchData();
+  Future<InfoMessage> fetchGtfsData() => estoniaPublicTransportApiProvider.fetchData();
 
   /// Parsing stops.txt and returning List of [Stop].
   Future<List<Stop>> getStops() => gtfsFileSource.parseStops();

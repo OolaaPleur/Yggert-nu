@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/estonia_public_transport.dart';
+import '../../../../data/models/estonia_public_transport.dart';
 import '../../../map/bloc/map_bloc.dart';
-import '../modal_bottom_sheets/modal_bottom_sheet_stop_marker.dart';
+import '../modal_bottom_sheets/modal_bottom_sheet_stop_marker/modal_bottom_sheet_stop_marker.dart';
 
 /// Widget, which defines how stop marker(or more precisely speaking - child of
 /// marker) would look like.

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 
-import '../../domain/estonia_public_transport.dart';
 import '../../utils/io/io_operations.dart';
+import '../models/estonia_public_transport.dart';
 
 /// Class, which defines functions, which purpose to work with GTFS files.
 class GTFSFileSource {

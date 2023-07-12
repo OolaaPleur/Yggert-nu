@@ -10,6 +10,12 @@ class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
   @override
+  void onClose(BlocBase<dynamic> bloc) {
+    log('onClose(${bloc.runtimeType})');
+    super.onClose(bloc);
+  }
+
+  @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
     if (bloc.runtimeType == MapBloc) {

@@ -1,7 +1,9 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../domain/tartu_bike_station.dart';
+import '../../../../constants/constants.dart';
+import '../../../../data/models/tartu_bike_station.dart';
 
 /// Modal bottom sheet, which opens on bike station's marker pressed.
 /// If null, returns text with error.
@@ -15,50 +17,44 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return singleBikeStation == null
-        ? const Center(child: Text('Could not load required info'))
+        ? Center(child: Text(AppLocalizations.of(context)!.microMobilityCouldNotLoad))
         : Container(
-            color: Colors.green[200],
-            height: 100,
+            color: Theme.of(context).primaryColorLight,
+            height: AppSizes.microMobilityModalBottomSheetHeight(context),
             width: double.infinity,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Pedelec Bikes: ${singleBikeStation!.pedelecCount}'),
-                          Text('Bikes: ${singleBikeStation!.bikeCount}'),
-                        ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesPedelecCount(singleBikeStation!.pedelecCount)),
+                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesBikeCount(singleBikeStation!.bikeCount)),
+                  ],
+                ),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    await LaunchApp.openApp(
+                      androidPackageName: 'com.bewegen.tartu',
+                    );
+                  },
+                  label: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      AppLocalizations.of(context)!.modalBottomSheetScooterGoToApp(
+                        'Tartu bikes',
                       ),
-                      Column(
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: () async {
-                              await LaunchApp.openApp(
-                                androidPackageName: 'com.bewegen.tartu',
-                              );
-                            },
-                            label: const Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Text('Go to Tartu bikes app'),
-                            ),
-                            icon: const Icon(
-                              Icons.pedal_bike_sharp,
-                              size: 40,
-                            ),
-                            style: IconButton.styleFrom(
-                              padding: const EdgeInsets.all(6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ],
-              ),
+                  icon: const Icon(
+                    Icons.pedal_bike_sharp,
+                    size: 40,
+                  ),
+                  style: IconButton.styleFrom(
+                    padding: const EdgeInsets.all(6),
+                  ),
+                ),
+              ],
             ),
           );
   }

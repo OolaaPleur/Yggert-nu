@@ -1,6 +1,6 @@
 
 
-import '../../domain/device_settings.dart';
+import '../device_settings.dart';
 
 /// Class, acts as repository for actions, related to settings (primarily
 /// working with shared preferences).

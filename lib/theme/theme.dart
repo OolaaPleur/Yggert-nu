@@ -13,6 +13,8 @@ class FlutterAppTheme {
       subThemesData: const FlexSubThemesData(
         blendOnLevel: 10,
         blendOnColors: false,
+        inputDecoratorBorderType: FlexInputBorderType.underline,
+        inputDecoratorUnfocusedBorderIsColored: false,
         useM2StyleDividerInM3: true,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
@@ -30,6 +32,8 @@ class FlutterAppTheme {
       subThemesData: const FlexSubThemesData(
         blendOnLevel: 20,
         useM2StyleDividerInM3: true,
+        inputDecoratorBorderType: FlexInputBorderType.underline,
+        inputDecoratorUnfocusedBorderIsColored: false,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
       useMaterial3: true,

@@ -57,20 +57,20 @@ class S {
     );
   }
 
-  /// `All`
+  /// `Show all`
   String get settingsGlobalFilterAll {
     return Intl.message(
-      'All',
+      'Show all',
       name: 'settingsGlobalFilterAll',
-      desc: 'Text shown in global filter settings, means show by default all trips.',
+      desc: 'Text shown in global filter settings, means show all trips.',
       args: [],
     );
   }
 
-  /// `Today`
+  /// `Show for today`
   String get settingsGlobalFilterToday {
     return Intl.message(
-      'Today',
+      'Show for today',
       name: 'settingsGlobalFilterToday',
       desc: 'Text shown in global filter settings, means show by default only today trips.',
       args: [],
@@ -112,7 +112,7 @@ class S {
     return Intl.message(
       'All',
       name: 'settingsLocalFilterAll',
-      desc: 'Text shown in local filter settings, means show by default all trips.',
+      desc: 'Text shown in local filter settings, means show all trips.',
       args: [],
     );
   }
@@ -122,7 +122,7 @@ class S {
     return Intl.message(
       'Today',
       name: 'settingsLocalFilterToday',
-      desc: 'Text shown in local filter settings, means show by default only today trips.',
+      desc: 'Text shown in local filter settings, means show only today trips.',
       args: [],
     );
   }
@@ -132,7 +132,7 @@ class S {
     return Intl.message(
       'Tallinn',
       name: 'settingsTallinn',
-      desc: 'Text shown in local filter settings, means show by default only today trips.',
+      desc: 'City name, Tallinn, shown in 1) settings 2) at home screen app bar.',
       args: [],
     );
   }
@@ -142,7 +142,7 @@ class S {
     return Intl.message(
       'Tartu',
       name: 'settingsTartu',
-      desc: 'Text shown in local filter settings, means show by default only today trips.',
+      desc: 'City name, Tartu, shown in 1) settings 2) at home screen app bar.',
       args: [],
     );
   }
@@ -282,17 +282,7 @@ class S {
     return Intl.message(
       'Press to see stoptimes',
       name: 'stopMarkerShowAllForwardStoptimesButton',
-      desc: 'Text used on press to see stoptimes button.',
-      args: [],
-    );
-  }
-
-  /// `Language`
-  String get settingsLanguage {
-    return Intl.message(
-      'Language',
-      name: 'settingsLanguage',
-      desc: 'Text used on press to see stoptimes button.',
+      desc: 'Text used on button to see stoptimes.',
       args: [],
     );
   }
@@ -326,6 +316,206 @@ class S {
       args: [],
     );
   }
+
+  /// `Permission denied, you cannot see your location on map.`
+  String get geolocationPermissionDenied {
+    return Intl.message(
+      'Permission denied, you cannot see your location on map.',
+      name: 'geolocationPermissionDenied',
+      desc: 'Text used in snackbar, when user denied geolocation permission.',
+      args: [],
+    );
+  }
+
+  /// `Could not load required info.`
+  String get microMobilityCouldNotLoad {
+    return Intl.message(
+      'Could not load required info.',
+      name: 'microMobilityCouldNotLoad',
+      desc: 'Text used in modal bottom sheet in micro mobility related markers if there is problems loading required info.',
+      args: [],
+    );
+  }
+
+  /// `Battery Charge: {charge}%`
+  String modalBottomSheetScooterCharge(Object charge) {
+    return Intl.message(
+      'Battery Charge: $charge%',
+      name: 'modalBottomSheetScooterCharge',
+      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter charge.',
+      args: [charge],
+    );
+  }
+
+  /// `Price: {price}`
+  String modalBottomSheetScooterPrice(Object price) {
+    return Intl.message(
+      'Price: $price',
+      name: 'modalBottomSheetScooterPrice',
+      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.',
+      args: [price],
+    );
+  }
+
+  /// `Go to {app} app`
+  String modalBottomSheetScooterGoToApp(Object app) {
+    return Intl.message(
+      'Go to $app app',
+      name: 'modalBottomSheetScooterGoToApp',
+      desc: 'Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.',
+      args: [app],
+    );
+  }
+
+  /// `Pedelec Bikes: {count}`
+  String modalBottomSheetTartuBikesPedelecCount(Object count) {
+    return Intl.message(
+      'Pedelec Bikes: $count',
+      name: 'modalBottomSheetTartuBikesPedelecCount',
+      desc: 'Text used in modal bottom sheet in bike markers to give user information about number of pedelec bikes on station.',
+      args: [count],
+    );
+  }
+
+  /// `Bikes: {count}`
+  String modalBottomSheetTartuBikesBikeCount(Object count) {
+    return Intl.message(
+      'Bikes: $count',
+      name: 'modalBottomSheetTartuBikesBikeCount',
+      desc: 'Text used in modal bottom sheet in bike markers to give user information about number of non-pedelec bikes on station.',
+      args: [count],
+    );
+  }
+
+  /// `Enter stop name.`
+  String get stopSearchHintText {
+    return Intl.message(
+      'Enter stop name.',
+      name: 'stopSearchHintText',
+      desc: 'Text used in stop search text field.',
+      args: [],
+    );
+  }
+
+  /// `Mon`
+  String get mon {
+    return Intl.message(
+      'Mon',
+      name: 'mon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tue`
+  String get tue {
+    return Intl.message(
+      'Tue',
+      name: 'tue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wed`
+  String get wed {
+    return Intl.message(
+      'Wed',
+      name: 'wed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thu`
+  String get thu {
+    return Intl.message(
+      'Thu',
+      name: 'thu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fri`
+  String get fri {
+    return Intl.message(
+      'Fri',
+      name: 'fri',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sat`
+  String get sat {
+    return Intl.message(
+      'Sat',
+      name: 'sat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sun`
+  String get sun {
+    return Intl.message(
+      'Sun',
+      name: 'sun',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google`
+  String get signInWithGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'signInWithGoogle',
+      desc: 'Text used on button, which responsible for signing in with Google.',
+      args: [],
+    );
+  }
+
+  /// `Pick a city`
+  String get changeCity {
+    return Intl.message(
+      'Pick a city',
+      name: 'changeCity',
+      desc: 'Text used on dropdown, which responsible for changing city.',
+      args: [],
+    );
+  }
+
+  /// `Change language`
+  String get changeLanguage {
+    return Intl.message(
+      'Change language',
+      name: 'changeLanguage',
+      desc: 'Text used on dropdown, which responsible for changing language.',
+      args: [],
+    );
+  }
+
+  /// `Change filter`
+  String get changeFilter {
+    return Intl.message(
+      'Change filter',
+      name: 'changeFilter',
+      desc: 'Text used on dropdown, which responsible for changing language.',
+      args: [],
+    );
+  }
+
+  /// `Estonian`
+  String get settingsLanguageEstonian {
+    return Intl.message(
+      'Estonian',
+      name: 'settingsLanguageEstonian',
+      desc: 'Text used on dropdown, which responsible for picking english language.',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -334,6 +524,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'et'),
       Locale.fromSubtags(languageCode: 'ru'),
     ];
   }

@@ -7,7 +7,9 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:mobility_app/constants/constants.dart';
 import 'package:mobility_app/theme/bloc/theme_bloc.dart';
+import 'package:mobility_app/widgets/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../theme/bloc/theme_state.dart';
@@ -32,6 +34,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
     _followOnLocationUpdate = FollowOnLocationUpdate.always;
     _followCurrentLocationStreamController = StreamController<double?>();
+    _followCurrentLocationStreamController.add(16);
   }
 
   @override
@@ -40,14 +43,20 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
-  Future<void> requestPermission() async {
+  Future<void> requestPermission(BuildContext context) async {
     final status = await Permission.location.request();
 
     if (status.isGranted) {
       // Permission granted
     } else if (status.isDenied || status.isPermanentlyDenied) {
-      // Permission denied
+      showSnackBar();
     }
+  }
+
+  void showSnackBar () {
+    final mySnackBar =
+    AppSnackBar(context, infoMessage: InfoMessage.geolocationPermissionDenied);
+    ScaffoldMessenger.of(context).showSnackBar(mySnackBar.showSnackBar());
   }
 
   @override
@@ -84,9 +93,7 @@ class _MapScreenState extends State<MapScreen> {
               setState(
                 () => _followOnLocationUpdate = FollowOnLocationUpdate.always,
               );
-              // Follow the location marker on the map and zoom the map to level 18.
-              _followCurrentLocationStreamController.add(16);
-              await requestPermission();
+              await requestPermission(context);
             },
             child: const Icon(
               Icons.my_location,

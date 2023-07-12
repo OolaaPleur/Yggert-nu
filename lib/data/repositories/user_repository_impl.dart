@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/domain/device_settings.dart';
+import 'package:mobility_app/data/device_settings.dart';
 
 import '../../domain/user_repositories/user_repository.dart';
-import '../../exceptions/exceptions.dart';
 
 /// Implementation of UserRepository, here implemented all functions, related
 /// to user account.
@@ -37,7 +36,7 @@ class UserRepositoryImplementation implements UserRepository {
           final userCredential = await FirebaseAuth.instance.signInWithCredential(_credential!);
           return userCredential;
         } else {
-          throw const SomeErrorOccurred();
+          throw Exception();
         }
       } catch (e) {
         log.severe(e.toString());

@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../constants/constants.dart';
 import '../exceptions/exceptions.dart';
 
 /// Class, defines how snackbar look like in app.
 class AppSnackBar {
   /// Constructor for [AppSnackBar].
-  AppSnackBar(this.context, this.exception);
+  AppSnackBar(this.context, {this.exception, this.infoMessage});
 
   /// Context for localizations and snackbar showing.
   late final BuildContext context;
+
   /// Exception, for which snackbar is displayed.
-  late final AppException exception;
+  late final AppException? exception;
+
+  /// Control flow text, for which snackbar is displayed.
+  late final InfoMessage? infoMessage;
 
   /// Function, takes [exception] as argument and returns appropriate
   /// error text.
-  List<InlineSpan>? errorText(AppException exception) {
+  List<InlineSpan>? _errorText(AppException? exception) {
     switch (exception.runtimeType) {
-      case NoNeedToDownload:
-        return [TextSpan(text: AppLocalizations.of(context)!.snackbarNoNeedToDownload)];
       case CantFetchBoltScootersData:
         {
           final words = AppLocalizations.of(context)!.snackbarCantFetchBoltScootersData;
@@ -26,9 +29,9 @@ class AppSnackBar {
           final messageSpans = words.split(' ').map((word) {
             return highlightedWords.contains(word)
                 ? TextSpan(
-              text: '$word ',
-              style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-            )
+                    text: '$word ',
+                    style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                  )
                 : TextSpan(text: '$word ');
           }).toList();
           return messageSpans;
@@ -40,10 +43,10 @@ class AppSnackBar {
           final messageSpans = words.split(' ').map((word) {
             return highlightedWords.contains(word)
                 ? TextSpan(
-              text: '$word ',
-              style:
-              const TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
-            )
+                    text: '$word ',
+                    style:
+                        const TextStyle(color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
+                  )
                 : TextSpan(text: '$word ');
           }).toList();
           return messageSpans;
@@ -54,10 +57,28 @@ class AppSnackBar {
         return [TextSpan(text: AppLocalizations.of(context)!.snackbarDeviceIsNotSupported)];
       case CityIsNotPicked:
         return [TextSpan(text: AppLocalizations.of(context)!.snackbarCityIsNotPicked)];
-      case NoGtfsFileIsPresent:
+      case NoGtfsTextFileIsPresent:
         return [TextSpan(text: AppLocalizations.of(context)!.snackbarNoGtfsFileIsPresent)];
       case SomeErrorOccurred:
         return [TextSpan(text: AppLocalizations.of(context)!.someErrorOccurred)];
+    }
+    return null;
+  }
+
+  List<InlineSpan>? _whichTextToShow() {
+    if (exception == null) {
+      switch (infoMessage) {
+        case InfoMessage.noNeedToDownload:
+          return [TextSpan(text: AppLocalizations.of(context)!.snackbarNoNeedToDownload)];
+
+        case InfoMessage.geolocationPermissionDenied:
+          return [TextSpan(text: AppLocalizations.of(context)!.geolocationPermissionDenied)];
+        // ignore: no_default_cases
+        default:
+          return null;
+      }
+    } else if (infoMessage == null) {
+      return _errorText(exception);
     }
     return null;
   }
@@ -73,7 +94,7 @@ class AppSnackBar {
             child: Center(
               child: Text.rich(
                 TextSpan(
-                  children: errorText(exception),
+                  children: _whichTextToShow(),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -92,10 +113,7 @@ class AppSnackBar {
       ),
       behavior: SnackBarBehavior.floating,
       shape: const StadiumBorder(),
-      width: MediaQuery
-          .of(context)
-          .size
-          .width * 0.9,
+      width: MediaQuery.of(context).size.width * 0.9,
       dismissDirection: DismissDirection.none,
     );
   }

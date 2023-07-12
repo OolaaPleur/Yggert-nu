@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../domain/estonia_public_transport.dart';
+import '../data/models/estonia_public_transport.dart';
 
 /// Class [FilterTripsForToday] created to make model for compute() function.
 class FilterTripsForToday {

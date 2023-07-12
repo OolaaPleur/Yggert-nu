@@ -1,34 +1,34 @@
 {
-  "@@locale": "en",
-  "settingsAppBarTitle": "Settings",
+  "@@locale": "et",
+  "settingsAppBarTitle": "Seaded",
   "@settingsAppBarTitle": {
     "description": "Text shown in settings appBar"
   },
-  "settingsGlobalFilterAll": "Show all",
+  "settingsGlobalFilterAll": "Näita kõiki",
   "@settingsGlobalFilterAll": {
     "description": "Text shown in global filter settings, means show all trips."
   },
-  "settingsGlobalFilterToday": "Show for today",
+  "settingsGlobalFilterToday": "Näita tänaseid",
   "@settingsGlobalFilterToday": {
     "description": "Text shown in global filter settings, means show by default only today trips."
   },
-  "settingsChangeTheme": "Change theme",
+  "settingsChangeTheme": "Muuda teemat",
   "@settingsChangeTheme": {
     "description": "Text shown in settings, for changing theme."
   },
-  "settingsNoGtfsFile": "No GTFS file",
+  "settingsNoGtfsFile": "GTFS-faili pole",
   "@settingsNoGtfsFile": {
     "description": "Text shown in settings when no GTFS file is found on device."
   },
-  "settingsGtfsFileWasDownloaded": "GTFS file was downloaded ",
+  "settingsGtfsFileWasDownloaded": "GTFS-fail on allalaaditud ",
   "@settingsGtfsFileWasDownloaded": {
     "description": "Text shown in settings when GTFS file as downloaded."
   },
-  "settingsLocalFilterAll": "All",
+  "settingsLocalFilterAll": "Kõik",
   "@settingsLocalFilterAll": {
     "description": "Text shown in local filter settings, means show all trips."
   },
-  "settingsLocalFilterToday": "Today",
+  "settingsLocalFilterToday": "Täna",
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show only today trips."
   },
@@ -40,84 +40,84 @@
   "@settingsTartu": {
     "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar."
   },
-  "homeScooterFAB": "Scooters filter",
+  "homeScooterFAB": "Tõukerataste filter",
   "@homeScooterFAB": {
     "description": "Text used as tooltip for FAB with scooter icon."
   },
-  "homeBikeFAB": "Bike filter",
+  "homeBikeFAB": "Jalgrattafilter",
   "@homeBikeFAB": {
     "description": "Text used as tooltip for FAB with bike icon."
   },
-  "homeStopFAB": "Stop filter",
+  "homeStopFAB": "Peatuse filter",
   "@homeStopFAB": {
     "description": "Text used as tooltip for FAB with bus icon."
   },
-  "homeAppBarSettingsIcon": "Settings",
+  "homeAppBarSettingsIcon": "Seaded",
   "@homeAppBarSettingsIcon": {
     "description": "Text used as tooltip for gear icon button."
   },
-  "homeAppBarRefreshIcon": "Refresh",
+  "homeAppBarRefreshIcon": "Värskenda",
   "@homeAppBarRefreshIcon": {
     "description": "Text used as tooltip for refresh icon button."
   },
-  "snackbarNoNeedToDownload": "You have the latest GTFS data.",
+  "snackbarNoNeedToDownload": "Teil on uusimad GTFS andmed.",
   "@snackbarNoNeedToDownload": {
     "description": "Text used in snackbar, if GTFS data doesn't need to be downloaded."
   },
-  "snackbarCantFetchBoltScootersData": "Server error. Cant fetch Bolt scooters data.",
+  "snackbarCantFetchBoltScootersData": "Serveri viga. Ei saa laadida Bolti tõukerataste andmeid.",
   "@snackbarCantFetchBoltScootersData": {
     "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
   },
-  "snackbarCantFetchTartuSmartBikeData": "Server error. Cant fetch Tartu Smart bike data.",
+  "snackbarCantFetchTartuSmartBikeData": "Serveri viga. Ei saa laadida Tartu Smart bike andmeid.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
   },
-  "snackbarNoInternetConnection": "No Internet connection. Please check your connection and try again.",
+  "snackbarNoInternetConnection": "Internetiühendus puudub. Palun kontrollige oma ühendust ja proovige uuesti.",
   "@snackbarNoInternetConnection": {
     "description": "Text used in snackbar when device has internet connection problems."
   },
-  "snackbarDeviceIsNotSupported": "Device is not supported.",
+  "snackbarDeviceIsNotSupported": "Seade ei ole toetatud.",
   "@snackbarDeviceIsNotSupported": {
     "description": "Text used in snackbar when device is not supported by app."
   },
-  "snackbarCityIsNotPicked": "No city was picked.",
+  "snackbarCityIsNotPicked": "Ühtegi linna ei valitud.",
   "@snackbarCityIsNotPicked": {
     "description": "Text used in snackbar when no city was picked."
   },
-  "snackbarNoGtfsFileIsPresent": "No file is present, press refresh button to download.",
+  "snackbarNoGtfsFileIsPresent": "Faili pole, vajutage allalaadimiseks värskendusnuppu.",
   "@snackbarNoGtfsFileIsPresent": {
     "description": "Text used in snackbar when no GTFS file is present."
   },
-  "mapScreenGpsFAB": "Get geolocation",
+  "mapScreenGpsFAB": "Hangi geolokatsioon",
   "@mapScreenGpsFAB": {
     "description": "Text used as tooltip for FAB with gps icon."
   },
-  "stopMarkerShowAllForwardStoptimesButton": "Press to see stoptimes",
+  "stopMarkerShowAllForwardStoptimesButton": "Vajuta, et näha peatuse aegu",
   "@stopMarkerShowAllForwardStoptimesButton": {
     "description": "Text used on button to see stoptimes."
   },
-  "settingsLanguageRussian": "Russian",
+  "settingsLanguageRussian": "Vene keel",
   "@settingsLanguageRussian": {
     "description": "Text used on dropdown, which responsible for picking russian language."
   },
-  "settingsLanguageEnglish": "English",
+  "settingsLanguageEnglish": "Inglise keel",
   "@settingsLanguageEnglish": {
     "description": "Text used on dropdown, which responsible for picking english language."
   },
 
-  "someErrorOccurred": "Some error occurred. Please try again later.",
+  "someErrorOccurred": "Ilmnes viga. Palun proovige hiljem uuesti.",
   "@someErrorOccurred": {
     "description": "Text used in snackbar, when non-specified error occurred."
   },
-  "geolocationPermissionDenied": "Permission denied, you cannot see your location on map.",
+  "geolocationPermissionDenied": "Luba keelatud, te ei saa kaardil oma asukohta näha.",
   "@geolocationPermissionDenied": {
     "description": "Text used in snackbar, when user denied geolocation permission."
   },
-  "microMobilityCouldNotLoad": "Could not load required info.",
+  "microMobilityCouldNotLoad": "Ei saanud vajalikku infot laadida.",
   "@microMobilityCouldNotLoad": {
     "description": "Text used in modal bottom sheet in micro mobility related markers if there is problems loading required info."
   },
-  "modalBottomSheetScooterCharge": "Battery Charge: {charge}%",
+  "modalBottomSheetScooterCharge": "Aku laetuse tase: {charge}%",
   "@modalBottomSheetScooterCharge": {
     "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter charge.",
     "placeholders": {
@@ -127,7 +127,7 @@
       }
     }
   },
-  "modalBottomSheetScooterPrice": "Price: {price}",
+  "modalBottomSheetScooterPrice": "Hind: {price}",
   "@modalBottomSheetScooterPrice": {
     "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.",
     "placeholders": {
@@ -137,7 +137,7 @@
       }
     }
   },
-  "modalBottomSheetScooterGoToApp": "Go to {app} app",
+  "modalBottomSheetScooterGoToApp": "Mine {app} rakendusse",
   "@modalBottomSheetScooterGoToApp": {
     "description": "Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.",
     "placeholders": {
@@ -147,7 +147,7 @@
       }
     }
   },
-  "modalBottomSheetTartuBikesPedelecCount": "Pedelec Bikes: {count}",
+  "modalBottomSheetTartuBikesPedelecCount": "Pedelec jalgrattad: {count}",
   "@modalBottomSheetTartuBikesPedelecCount": {
     "description": "Text used in modal bottom sheet in bike markers to give user information about number of pedelec bikes on station.",
     "placeholders": {
@@ -157,7 +157,7 @@
       }
     }
   },
-  "modalBottomSheetTartuBikesBikeCount": "Bikes: {count}",
+  "modalBottomSheetTartuBikesBikeCount": "Jalgrattad: {count}",
   "@modalBottomSheetTartuBikesBikeCount": {
     "description": "Text used in modal bottom sheet in bike markers to give user information about number of non-pedelec bikes on station.",
     "placeholders": {
@@ -167,35 +167,35 @@
       }
     }
   },
-  "stopSearchHintText": "Enter stop name.",
+  "stopSearchHintText": "Sisesta peatuse nimi.",
   "@stopSearchHintText": {
     "description": "Text used in stop search text field."
   },
-  "mon": "Mon",
-  "tue": "Tue",
-  "wed": "Wed",
-  "thu": "Thu",
-  "fri": "Fri",
-  "sat": "Sat",
-  "sun": "Sun",
+  "mon": "Esm",
+  "tue": "Tei",
+  "wed": "Kol",
+  "thu": "Nel",
+  "fri": "Ree",
+  "sat": "Lau",
+  "sun": "Püh",
 
-  "signInWithGoogle": "Sign in with Google",
+  "signInWithGoogle": "Logi sisse Google'iga",
   "@signInWithGoogle": {
     "description": "Text used on button, which responsible for signing in with Google."
   },
-  "changeCity": "Pick a city",
+  "changeCity": "Vali linn",
   "@changeCity": {
     "description": "Text used on dropdown, which responsible for changing city."
   },
-  "changeLanguage": "Change language",
+  "changeLanguage": "Muuda keelt",
   "@changeLanguage": {
     "description": "Text used on dropdown, which responsible for changing language."
   },
-  "changeFilter": "Change filter",
+  "changeFilter": "Muuda filtrit",
   "@changeFilter": {
     "description": "Text used on dropdown, which responsible for changing language."
   },
-  "settingsLanguageEstonian": "Estonian",
+  "settingsLanguageEstonian": "Eesti",
   "@settingsLanguageEstonian": {
     "description": "Text used on dropdown, which responsible for picking english language."
   }

@@ -28,10 +28,10 @@ class IOOperations {
   }
 
   /// Deleting file.
-  static Future<void> deleteFile(String fileName) async {
+  static Future<void> deleteFile(String fileOrPath) async {
     final log = Logger('deleteFile');
     final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    final filePath = '${appDocumentsDirectory.path}/$fileName';
+    final filePath = '${appDocumentsDirectory.path}/$fileOrPath';
 
     try {
       final file = File(filePath);
@@ -73,5 +73,12 @@ class IOOperations {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, '$databaseName.db');
     return File(path).existsSync();
+  }
+
+  /// Delete a database if it exists
+  static Future<void> deleteDatabaseIfExists(String dbPath) async {
+    if (File(dbPath).existsSync()) {
+      await deleteDatabase(dbPath);
+    }
   }
 }

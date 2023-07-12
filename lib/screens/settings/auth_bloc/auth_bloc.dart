@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(settings: settings, isDownloading: true));
     } catch (e) {
       log.severe(e.toString());
-      emit(state.copyWith(error: const SomeErrorOccurred()));
+      emit(state.copyWith(error: const SomeErrorOccurred(), isDownloading: false));
     }
   }
 }

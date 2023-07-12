@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:mobility_app/screens/map/markers/modal_bottom_sheets/modal_bottom_sheet_stop_marker/pick_appropriate_circle_avatar.dart';
 
-import '../../../../domain/estonia_public_transport.dart';
-import '../../../map/bloc/map_bloc.dart';
-import '../stop_marker_filter_text_button.dart';
+import '../../../../../data/models/estonia_public_transport.dart';
+import '../../../bloc/map_bloc.dart';
+import 'stop_marker_filter_text_button.dart';
 
 /// Class defines modal bottom sheet content of stop marker.
 class ModalBottomSheetTimeTable extends StatefulWidget {
@@ -50,9 +51,11 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 30),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TypeAheadField(
                   textFieldConfiguration: TextFieldConfiguration(
+                    decoration:
+                        InputDecoration(hintText: AppLocalizations.of(context)!.stopSearchHintText),
                     onTapOutside: (event) {
                       focusNode.unfocus();
                     },
@@ -60,7 +63,8 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                     controller: _typeAheadController,
                   ),
                   suggestionsCallback: (pattern) async {
-                    final matches = <Stop>[...widget.mapBloc.state.presentStopsInForwardDirection];
+                    //final matches = <Stop>[...widget.mapBloc.state.presentStopsInForwardDirection];
+                    final matches = <Stop>[...widget.mapBloc.state.currentStops];
 
                     final startsWithMatches = matches
                         .where((s) => s.name.toLowerCase().startsWith(pattern.toLowerCase()))
@@ -86,52 +90,35 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                 ),
               ),
             ),
-            if (kDebugMode)
-              Chip(
-                label: BlocBuilder<MapBloc, MapState>(
-                  bloc: widget.mapBloc,
-                  builder: (context, state) {
-                    return state.tripStatus == TripStatus.loading
-                        ? const Text('  ')
-                        : Text(state.filteredByUserTrips.length.toString());
-                  },
-                ),
-              )
-            else
-              const SizedBox.shrink(),
-            Column(
-              children: [
-                BlocBuilder<MapBloc, MapState>(
-                  bloc: widget.mapBloc,
-                  builder: (context, state) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: ElevatedButton(
-                          onPressed: state.tripStatus == TripStatus.loading
-                              ? null
-                              : () {
-                                  widget.mapBloc.add(
-                                    const MapPressFilterButton(),
-                                  );
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                widget.mapBloc.state.showTripsForToday == ShowTripsForToday.today
-                                    ? Colors.amber
-                                    : null,
-                          ),
-                          child: BlocProvider<MapBloc>.value(
-                            value: widget.mapBloc,
-                            child: const StopMarkerFilterTextButton(),
-                          ),
-                        ),
+            BlocBuilder<MapBloc, MapState>(
+              bloc: widget.mapBloc,
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: ElevatedButton(
+                      onPressed: state.tripStatus == TripStatus.loading
+                          ? null
+                          : () {
+                              widget.mapBloc.add(
+                                const MapPressFilterButton(),
+                              );
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            widget.mapBloc.state.showTripsForToday == ShowTripsForToday.today
+                                ? Colors.amber
+                                : null,
                       ),
-                    );
-                  },
-                ),
-              ],
+                      child: BlocProvider<MapBloc>.value(
+                        value: widget.mapBloc,
+                        child: const StopMarkerFilterTextButton(),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -145,6 +132,19 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                if (kDebugMode)
+                  Chip(
+                    label: BlocBuilder<MapBloc, MapState>(
+                      bloc: widget.mapBloc,
+                      builder: (context, state) {
+                        return state.tripStatus == TripStatus.loading
+                            ? const Text('  ')
+                            : Text(state.filteredByUserTrips.length.toString());
+                      },
+                    ),
+                  )
+                else
+                  const SizedBox.shrink(),
                 SizedBox(
                   height: 50,
                   child: ListView.builder(
@@ -152,43 +152,29 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                     itemCount: state.directionChars.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(3),
-                            child: BlocBuilder<MapBloc, MapState>(
-                              bloc: widget.mapBloc,
-                              builder: (context, state) {
-                                return IconButton.outlined(
-                                  onPressed: widget.mapBloc.state.tripStatus == TripStatus.loading
-                                      ? null
-                                      : () {
-                                          widget.mapBloc.add(
-                                            MapPressFilterByDirectionButton(
-                                              state.directionChars[index].keys.first,
-                                            ),
-                                          );
-                                        },
-                                  icon: Text(
-                                    state.directionChars[index].keys.first,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  visualDensity: VisualDensity.comfortable,
-                                  style: IconButton.styleFrom(
-                                    backgroundColor: backgroundColorForDirectionButton(
-                                      widget.mapBloc,
-                                      index,
+                      return Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: IconButton.outlined(
+                          onPressed: widget.mapBloc.state.tripStatus == TripStatus.loading
+                              ? null
+                              : () {
+                                  widget.mapBloc.add(
+                                    MapPressFilterByDirectionButton(
+                                      state.directionChars[index].keys.first,
                                     ),
-                                    disabledBackgroundColor: backgroundColorForDirectionButton(
-                                      widget.mapBloc,
-                                      index,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                                  );
+                                },
+                          icon: Text(
+                            state.directionChars[index].keys.first,
+                            style: const TextStyle(fontSize: 20),
                           ),
-                        ],
+                          visualDensity: VisualDensity.comfortable,
+                          style: IconButton.styleFrom(
+                            backgroundColor: state.directionChars[index].values.first
+                                ? Theme.of(context).primaryColor
+                                : null,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -230,8 +216,8 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                                   ),
                                 ),
                                 child: ListTile(
-                                  leading: pickAppropriateCircleAvatar(
-                                    state.presentRoutes[upIndex]!.routeType,
+                                  leading: PickAppropriateCircleAvatar(
+                                    routeType: state.presentRoutes[upIndex]!.routeType,
                                   ),
                                   title: Center(
                                     child: Text(
@@ -250,14 +236,15 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                                         '${state.presentTripEndStopTimes[upIndex]!.departureTime} - ${state.presentTripEndStop[upIndex]!.name}',
                                         style: const TextStyle(fontWeight: FontWeight.bold),
                                       ),
-                                      Text('${state.presentTripCalendar[upIndex]}'),
+                                      Text(localizeDays(context, state.presentTripCalendar[upIndex]!)),
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
                                             widget.mapBloc.add(MapPressTheTripButton(upIndex));
                                           });
                                         },
-                                        child: Text(AppLocalizations.of(context)!.stopMarkerShowAllForwardStoptimesButton),
+                                        child: Text(AppLocalizations.of(context)!
+                                            .stopMarkerShowAllForwardStoptimesButton,textAlign: TextAlign.center,),
                                       ),
                                       if (state.pressedButtonOnTrip[upIndex])
                                         ColoredBox(
@@ -280,9 +267,8 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                                                       ),
                                                       child: Padding(
                                                         padding: const EdgeInsets.all(8),
-                                                        child: Text(
-                                                            '${stopTime.departureTime}'
-                                                            '- ${state.presentStopListOnlyFilter[upIndex]![state.presentStopStopTimeListOnlyFilter[upIndex]!.indexOf(stopTime)].name}'),
+                                                        child: Text('${stopTime.departureTime}'
+                                                            ' - ${state.presentStopListOnlyFilter[upIndex]![state.presentStopStopTimeListOnlyFilter[upIndex]!.indexOf(stopTime)].name}'),
                                                       ),
                                                     ),
                                                   );
@@ -315,38 +301,25 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
       ],
     );
   }
+  String localizeDays(BuildContext context, String days) {
+    // Split the input string by comma and space
+    final dayList = days.split(', ');
 
-  CircleAvatar pickAppropriateCircleAvatar(int routeType) {
-    if (routeType == 0) {
-      return CircleAvatar(
-        child: Image.asset('assets/public_transport/tram.png'),
-      );
-    } else if (routeType == 2) {
-      return CircleAvatar(
-        child: Image.asset('assets/public_transport/train.png'),
-      );
-    } else if (routeType == 3) {
-      return CircleAvatar(
-        child: Image.asset('assets/public_transport/county_bus.png'),
-      );
-    } else if (routeType == 4) {
-      return CircleAvatar(
-        child: Image.asset('assets/public_transport/ferry.png'),
-      );
-    } else if (routeType == 800) {
-      return CircleAvatar(
-        child: Image.asset('assets/public_transport/trolleybus.png'),
-      );
-    }
-    return CircleAvatar(
-      child: Image.asset('assets/county_bus.png'),
-    );
-  }
+    // Replace each day with its translation
+    final localizedDays = dayList.map((day) {
+      switch (day) {
+        case 'Mon': return AppLocalizations.of(context)!.mon;
+        case 'Tue': return AppLocalizations.of(context)!.tue;
+        case 'Wed': return AppLocalizations.of(context)!.wed;
+        case 'Thu': return AppLocalizations.of(context)!.thu;
+        case 'Fri': return AppLocalizations.of(context)!.fri;
+        case 'Sat': return AppLocalizations.of(context)!.sat;
+        case 'Sun': return AppLocalizations.of(context)!.sun;
+        default: throw ArgumentError('Unsupported day: $day');
+      }
+    }).toList();
 
-  Color? backgroundColorForDirectionButton(MapBloc mapBloc, int index) {
-    if (mapBloc.state.directionChars[index].values.first) {
-      return Theme.of(context).primaryColor;
-    }
-    return null;
+    // Join the translated days back into a string
+    return localizedDays.join(', ');
   }
 }

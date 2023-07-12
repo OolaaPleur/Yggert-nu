@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../domain/tartu_bike_station.dart';
+import '../../../../data/models/tartu_bike_station.dart';
 import '../../../map/bloc/map_bloc.dart';
 import '../modal_bottom_sheets/modal_bottom_sheet_bike_station_info.dart';
 
@@ -22,37 +22,43 @@ class BikeMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
+    return Container(
+      margin: context.select(
+        (MapBloc bloc) => bloc.state.keyFromOpenedMarker == bikeStation.id,
+      )
+          ? EdgeInsets.zero
+          : const EdgeInsets.all(2),
+      child: TextButton(
+        onPressed: () {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              mapBloc
+                ..add(MapEnlargeIcon(bikeStation.id))
+                ..add(MapGetSingleBikeStationInfo(bikeStation.id));
+              return BlocBuilder<MapBloc, MapState>(
+                bloc: mapBloc,
+                builder: (context, state) {
+                  return state.singleBikeStation.isNotEmpty
+                      ? ModalBottomSheetBikeStationInfo(
+                          singleBikeStation: state.singleBikeStation.last,
+                        )
+                      : const SizedBox(
+                          width: double.infinity,
+                          height: 100,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                },
+              );
+            },
+          ).whenComplete(() {
             mapBloc
-              ..add(MapEnlargeIcon(bikeStation.id))
-              ..add(MapGetSingleBikeStationInfo(bikeStation.id));
-            return BlocBuilder<MapBloc, MapState>(
-              bloc: mapBloc,
-              builder: (context, state) {
-                return state.singleBikeStation.isNotEmpty
-                    ? ModalBottomSheetBikeStationInfo(
-                        singleBikeStation: state.singleBikeStation.last,
-                      )
-                    : const SizedBox(
-                        width: double.infinity,
-                        height: 100,
-                        child: Center(child: CircularProgressIndicator()),);
-              },
-            );
-          },
-        ).whenComplete(() {
-          mapBloc
-            ..add(
-              const MapEnlargeIcon(''),
-            )
-            ..add(const MapDeleteSingleBikeStationInfo());
-        });
-      },
-      child: Center(
+              ..add(
+                const MapEnlargeIcon(''),
+              )
+              ..add(const MapDeleteSingleBikeStationInfo());
+          });
+        },
         child: Stack(
           children: [
             Image.asset('assets/bicycle.png', height: 60, width: 60),

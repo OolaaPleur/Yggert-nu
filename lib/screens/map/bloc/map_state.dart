@@ -72,10 +72,12 @@ enum MapFilters {
   /// Cycle filter, changes when pressed FAB with bike icon.
   cycles
 }
+
 /// Describes city, for which info (like Bolt scooters) will be fetched.
 enum City {
   /// Tallinn, changes in settings.
   tallinn,
+
   /// Tartu, changes in settings.
   tartu
 }
@@ -123,7 +125,8 @@ final class MapState extends Equatable {
     this.directionChars = const <Map<String, bool>>[],
     this.pickedCity = City.tartu,
     this.exception = noException,
-    this.singleBikeStation = const <SingleBikeStation> [],
+    this.singleBikeStation = const <SingleBikeStation>[],
+    this.infoMessage = InfoMessage.defaultMessage,
   });
 
   /// Map markers placing status.
@@ -179,16 +182,21 @@ final class MapState extends Equatable {
 
   /// Map of stop time for picked stop.
   final Map<int, StopTime> presentStopStopTimeList;
+
   /// List of stop times in forward direction for one particular trip.
   final Map<int, List<StopTime>> presentStopStopTimeListOnlyFilter;
+
   /// List of stops in in forward direction for one particular trip.
   /// We need this list to paint our timetable.
   final Map<int, List<Stop>> presentStopListOnlyFilter;
+
   /// List of routes for currently picked stop.
   final Map<int, Route> presentRoutes;
+
   /// Defines a List of bool, is button(for opening forward stop times)
   /// pressed or not.
   final List<bool> pressedButtonOnTrip;
+
   /// List of stops in in forward direction for one particular trip.
   /// We need this list for our search.
   final List<Stop> presentStopsInForwardDirection;
@@ -225,18 +233,26 @@ final class MapState extends Equatable {
 
   /// Exception, prints in snackbar if necessary.
   final AppException exception;
+
+  /// Message, need to display some states of flow of an app, as [exception]
+  /// printed to snackbar if necessary.
+  final InfoMessage infoMessage;
+
   /// List of Maps, with String key (e.g. 'A') and bool value (e.g. true).
   /// Letter is last letter in direction_code, values are false by default.
   /// Defines, show or not trips with respective end direction letter.
   final List<Map<String, bool>> directionChars;
+
   /// Currently picked city for showing info (e.g. respective scooters
   /// location). Can be changed in settings, by default is Tartu:).
   final City pickedCity;
+
   /// Stores info about currently picked bike station.
   final List<SingleBikeStation> singleBikeStation;
 
   @override
-  List<Object> get props => [
+  List<Object> get props =>
+      [
         status,
         markers,
         filteredMarkers,
@@ -254,25 +270,26 @@ final class MapState extends Equatable {
         presentTripStartStop,
         presentTripEndStop,
         presentStopStopTimeList,
+        presentStopStopTimeListOnlyFilter,
+        presentStopListOnlyFilter,
+        presentRoutes,
+        pressedButtonOnTrip,
+        presentStopsInForwardDirection,
         presentTripCalendar,
         filteredByUserTrips,
+        query,
         showTripsForToday,
         globalShowTripsForToday,
         busStopsAdded,
         publicTransportStopAdditionStatus,
         filteringStatus,
         tripStatus,
-        query,
         keyFromOpenedMarker,
-        presentStopStopTimeListOnlyFilter,
-        presentStopListOnlyFilter,
-        presentRoutes,
-        pressedButtonOnTrip,
-        presentStopsInForwardDirection,
+        exception,
+        infoMessage,
         directionChars,
-    pickedCity,
-    exception,
-    singleBikeStation
+        pickedCity,
+        singleBikeStation,
       ];
 
   @override
@@ -317,6 +334,7 @@ final class MapState extends Equatable {
     TripStatus? tripStatus,
     String? keyFromOpenedMarker,
     AppException? exception,
+    InfoMessage? infoMessage,
     List<Map<String, bool>>? directionChars,
     City? pickedCity,
     List<SingleBikeStation>? singleBikeStation,
@@ -334,20 +352,20 @@ final class MapState extends Equatable {
       currentStops: currentStops ?? this.currentStops,
       currentTripIds: currentTripIds ?? this.currentTripIds,
       allStopTimesForAllTripsWhichGoesThroughCurrentStop:
-          allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
-              this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+      allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
+          this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
       presentTripStartStopTimes: presentTripStartStopTimes ?? this.presentTripStartStopTimes,
       presentTripEndStopTimes: presentTripEndStopTimes ?? this.presentTripEndStopTimes,
       presentTripStartStop: presentTripStartStop ?? this.presentTripStartStop,
       presentTripEndStop: presentTripEndStop ?? this.presentTripEndStop,
       presentStopStopTimeList: presentStopStopTimeList ?? this.presentStopStopTimeList,
       presentStopStopTimeListOnlyFilter:
-          presentStopStopTimeListOnlyFilter ?? this.presentStopStopTimeListOnlyFilter,
+      presentStopStopTimeListOnlyFilter ?? this.presentStopStopTimeListOnlyFilter,
       presentStopListOnlyFilter: presentStopListOnlyFilter ?? this.presentStopListOnlyFilter,
       presentRoutes: presentRoutes ?? this.presentRoutes,
       pressedButtonOnTrip: pressedButtonOnTrip ?? this.pressedButtonOnTrip,
       presentStopsInForwardDirection:
-          presentStopsInForwardDirection ?? this.presentStopsInForwardDirection,
+      presentStopsInForwardDirection ?? this.presentStopsInForwardDirection,
       presentTripCalendar: presentTripCalendar ?? this.presentTripCalendar,
       filteredByUserTrips: filteredByUserTrips ?? this.filteredByUserTrips,
       query: query ?? this.query,
@@ -355,11 +373,12 @@ final class MapState extends Equatable {
       globalShowTripsForToday: globalShowTripsForToday ?? this.globalShowTripsForToday,
       busStopsAdded: busStopsAdded ?? this.busStopsAdded,
       publicTransportStopAdditionStatus:
-          publicTransportStopAdditionStatus ?? this.publicTransportStopAdditionStatus,
+      publicTransportStopAdditionStatus ?? this.publicTransportStopAdditionStatus,
       filteringStatus: filteringStatus ?? this.filteringStatus,
       tripStatus: tripStatus ?? this.tripStatus,
       keyFromOpenedMarker: keyFromOpenedMarker ?? this.keyFromOpenedMarker,
       exception: exception ?? this.exception,
+      infoMessage: infoMessage ?? this.infoMessage,
       directionChars: directionChars ?? this.directionChars,
       pickedCity: pickedCity ?? this.pickedCity,
       singleBikeStation: singleBikeStation ?? this.singleBikeStation,

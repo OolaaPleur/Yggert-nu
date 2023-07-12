@@ -1,19 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobility_app/domain/bolt_scooter.dart';
+import 'package:logging/logging.dart';
+import 'package:mobility_app/data/repositories/public_transport_repository.dart';
+import 'package:mobility_app/utils/database/database_operations.dart';
 import 'package:mobility_app/utils/io/io_operations.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
+import '../../../constants/constants.dart';
+import '../../../data/models/bolt_scooter.dart';
+import '../../../data/models/estonia_public_transport.dart';
+import '../../../data/models/tartu_bike_station.dart';
 import '../../../data/repositories/settings_repository.dart';
 import '../../../data/repositories/vehicle_repository.dart';
-import '../../../domain/estonia_public_transport.dart';
-import '../../../domain/tartu_bike_station.dart';
 import '../../../domain/usecases/filter_trips_by_direction.dart';
 import '../../../domain/usecases/get_calendar.dart';
 import '../../../domain/usecases/get_stops.dart';
@@ -34,6 +35,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         _getStops = GetIt.I<GetStops>(),
         _getCalendar = GetIt.I<GetCalendar>(),
         _filterTripsByDirection = GetIt.I<FilterTripsByDirection>(),
+        _publicTransportRepository = GetIt.I<PublicTransportRepository>(),
+        _createMapMarkerList = GetIt.I<CreateMapMarkerList>(),
         super(const MapState()) {
     on<MapMarkersPlacingOnMap>(_onMapMarkersPlacingOnMap);
     on<MapMarkerFilterButtonPressed>(_onMapMarkerFilterButtonPressed);
@@ -48,14 +51,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapGetSingleBikeStationInfo>(_onMapGetSingleBikeStationInfo);
 
     // Used only inside BLoC
-    on<MapLoadTripsForToday>(_onMapLoadTripsForToday);
-    on<MapAddValuesForRepaintingTimeTable>(_onMapAddValuesForRepaintingTimeTable);
-    on<MapMarkerFiltering>(_onMapMarkerFiltering);
+    on<_MapLoadTripsForToday>(_onMapLoadTripsForToday);
+    on<_MapAddValuesForRepaintingTimeTable>(_onMapAddValuesForRepaintingTimeTable);
+    on<_MapMarkerFiltering>(_onMapMarkerFiltering);
     on<MapEnlargeIcon>(_onMapEnlargeIcon);
     on<MapPressTheTripButton>(_onMapPressTheTripButton);
-    on<MapFilterTripsByDirection>(_onMapFilterTripsByDirection);
-    on<MapShowTodayOrAllTrips>(_onMapShowTodayOrAllTrips);
+    on<_MapFilterTripsByDirection>(_onMapFilterTripsByDirection);
+    on<_MapShowTodayOrAllTrips>(_onMapShowTodayOrAllTrips);
     on<MapDeleteSingleBikeStationInfo>(_onMapDeleteSingleBikeStationInfo);
+    on<_MapAddMicroMobilityMarkersToList>(_onMapAddMicroMobilityMarkersToList);
   }
 
   final VehicleRepository _vehicleRepository;
@@ -63,6 +67,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final GetStops _getStops;
   final GetCalendar _getCalendar;
   final FilterTripsByDirection _filterTripsByDirection;
+  final PublicTransportRepository _publicTransportRepository;
+  final CreateMapMarkerList _createMapMarkerList;
+
+  final _log = Logger('EstoniaPublicTransportApiProvider');
 
   void _onMapDeleteSingleBikeStationInfo(
     MapDeleteSingleBikeStationInfo event,
@@ -127,60 +135,24 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     Emitter<MapState> emit,
   ) async {
     emit(state.copyWith(tripStatus: TripStatus.loading, pickedStop: event.currentStop));
-    final dbPath = await getDatabasesPath();
-    final stopTimesDb = await openDatabase(join(dbPath, 'stop_times.db'));
-    final tripsDb = await openDatabase(join(dbPath, 'trips.db'));
+    final currentStopTimes =
+        await _publicTransportRepository.getCurrentStopTimes(state.pickedStop.stopId);
+    final currentTripIds = currentStopTimes.map((stopTime) => stopTime.tripId).toList();
+    final currentTrips =
+        await _publicTransportRepository.getCurrentTrips(currentStopTimes, currentTripIds);
 
-    final currentStopTimesMaps = await stopTimesDb
-        .query('stop_times', where: 'stop_id = ?', whereArgs: [state.pickedStop.stopId]);
-    final currentStopTimes = currentStopTimesMaps.map(StopTime.fromMap).toList();
-
-    final tripIds = currentStopTimes.map((stopTime) => stopTime.tripId).toList();
-    final placeholders = List<String>.filled(tripIds.length, '?').join(', ');
-    final currentTripsMaps = await tripsDb.query(
-      'trips',
-      where: 'trip_id IN ($placeholders)',
-      whereArgs: tripIds,
-    );
-
-    final currentTrips = currentTripsMaps.map(Trip.fromMap).toList();
-
-    currentStopTimes.sort((a, b) => a.arrivalTime.compareTo(b.arrivalTime));
-
-    currentTrips.sort((a, b) {
-      final indexA = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == a.tripId);
-      final indexB = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == b.tripId);
-      return indexA.compareTo(indexB);
-    });
-
-    final currentTripIds = currentTrips.map((trip) => trip.tripId).toList();
-
-    final placeholdersD = List<String>.filled(currentTripIds.length, '?').join(', ');
-    final allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps = await stopTimesDb.query(
-      'stop_times',
-      where: 'trip_id IN ($placeholdersD)',
-      whereArgs: currentTripIds,
-    );
-    final allStopTimesForAllTripsWhichGoesThroughCurrentStop =
-        allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps.map(StopTime.fromMap).toList();
+    final allStopTimesForAllTripsWhichGoesThroughCurrentStop = await _publicTransportRepository
+        .getAllStopTimesForAllTripsWhichGoesThroughCurrentStop(currentTripIds);
 
     // getting list of unique stopIds from StopTimes
     final stopIds = allStopTimesForAllTripsWhichGoesThroughCurrentStop
         .map((stopTime) => stopTime.stopId)
         .toSet();
-    final currentStops = state.busStops.where((stop) => stopIds.contains(stop.stopId)).toList();
-    await stopTimesDb.close();
-    await tripsDb.close();
 
-    final directionIdEndings = <String>{};
-    for (final trip in currentTrips) {
-      if (trip.directionId.isNotEmpty) {
-        directionIdEndings.add(trip.directionId[trip.directionId.length - 1]);
-      }
-    }
-    final uniqueDirectionIdEndings = directionIdEndings.map((s) {
-      return {s: false};
-    }).toList();
+    final currentStops = state.busStops.where((stop) => stopIds.contains(stop.stopId)).toList();
+
+    final uniqueDirectionIdEndings =
+        _publicTransportRepository.getUniqueDirectionIdEndings(currentTrips);
     emit(
       state.copyWith(
         currentStopTimes: currentStopTimes,
@@ -196,10 +168,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         directionChars: uniqueDirectionIdEndings,
       ),
     );
-    add(const MapShowTodayOrAllTrips());
+    add(const _MapShowTodayOrAllTrips());
   }
 
-  Future<void> _onMapLoadTripsForToday(MapLoadTripsForToday event, Emitter<MapState> emit) async {
+  Future<void> _onMapLoadTripsForToday(_MapLoadTripsForToday event, Emitter<MapState> emit) async {
     final computeData = FilterTripsForToday(
       filteredByUserTrips: state.filteredByUserTrips,
       allStopTimesForAllTripsWhichGoesThroughCurrentStop:
@@ -209,11 +181,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     );
     final filteredByUserTripsAfterApplyingToday = await compute(filterTripsForToday, computeData);
     emit(state.copyWith(filteredByUserTrips: filteredByUserTripsAfterApplyingToday));
-    add(const MapAddValuesForRepaintingTimeTable());
+    add(const _MapAddValuesForRepaintingTimeTable());
   }
 
   Future<void> _onMapAddValuesForRepaintingTimeTable(
-    MapAddValuesForRepaintingTimeTable event,
+    _MapAddValuesForRepaintingTimeTable event,
     Emitter<MapState> emit,
   ) async {
     final computeData = RepaintTimeTable(
@@ -224,15 +196,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       currentStops: state.currentStops,
       pickedStop: state.pickedStop,
     );
-
-    log('early bloc: ${state.currentStopTimes.length} ${state.currentTrips.length} ${state.filteredByUserTrips.length} '
-        '${state.currentTripIds.length} ${state.allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
     final processedData = await compute(repaintTimeTable, computeData);
-    log('bloc: ${state.currentStopTimes.length} ${state.currentTrips.length} ${state.filteredByUserTrips.length} '
-        '${state.currentTripIds.length} ${state.allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
-
-    final dbPath = await getDatabasesPath();
-    final routesDb = await openDatabase(join(dbPath, 'routes.db'));
+    final routesDb = await DatabaseOperations.openAppDatabase('gtfs');
     var count = 0;
     final presentRoutes = <int, Route>{};
 
@@ -243,13 +208,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         whereArgs: [trip.routeId],
       );
       presentRoutes[count] = Route.fromMap(maps.first);
-
       count++;
     }
-
     final pressedButtonOnTrip = List.filled(state.filteredByUserTrips.length, false);
-    await routesDb.close();
-
+    await DatabaseOperations.closeDatabase(routesDb);
     emit(
       state.copyWith(
         tripStatus: TripStatus.success,
@@ -269,6 +231,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         pressedButtonOnTrip: pressedButtonOnTrip,
       ),
     );
+    _log.fine(
+        'bloc: ${state.currentStopTimes.length} ${state.currentTrips.length} ${state.filteredByUserTrips.length} '
+        '${state.currentTripIds.length} ${state.allStopTimesForAllTripsWhichGoesThroughCurrentStop.length}');
   }
 
   Future<void> _onMapMarkersPlacingOnMap(
@@ -278,28 +243,26 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final globalShowTripsForToday =
         await _settingsRepository.getStringValue('userTripsFilterValue');
     if (globalShowTripsForToday == 'all') {
-      emit(state.copyWith(globalShowTripsForToday: GlobalShowTripsForToday.all));
+      emit(
+        state.copyWith(
+          globalShowTripsForToday: GlobalShowTripsForToday.all,
+          status: MapStateStatus.loading,
+        ),
+      );
     } else {
-      emit(state.copyWith(globalShowTripsForToday: GlobalShowTripsForToday.today));
+      emit(
+        state.copyWith(
+          globalShowTripsForToday: GlobalShowTripsForToday.today,
+          status: MapStateStatus.loading,
+        ),
+      );
     }
 
-    emit(state.copyWith(status: MapStateStatus.loading));
-    final itemsToRemove = <MapMarker>[];
-    final stateMarkers = state.markers;
-    for (final marker in stateMarkers) {
-      if (marker.markerType != MarkerType.stop) {
-        itemsToRemove.add(marker);
-      }
-    }
-    for (final item in itemsToRemove) {
-      stateMarkers.remove(item);
-    }
-
+    final stateMarkers = _publicTransportRepository.getOnlyStopsMarkers(state.markers);
     emit(state.copyWith(markers: stateMarkers));
-    final mapMarkers = <MapMarker>[...stateMarkers];
     try {
       final snackbarNoNeedToDownload = await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
-      if (snackbarNoNeedToDownload != 'No need to download') {
+      if (snackbarNoNeedToDownload != InfoMessage.noNeedToDownload) {
         emit(
           state.copyWith(
             publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.initial,
@@ -310,19 +273,30 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             filteredMarkers: [],
           ),
         );
-        mapMarkers.clear();
       } else {
         emit(
           state.copyWith(
-            exception: const NoNeedToDownload(),
+            infoMessage: InfoMessage.noNeedToDownload,
           ),
         );
-        emit(state.copyWith(exception: const AppException()));
       }
     } catch (e) {
-      log(e.toString());
+      _log.severe(e.toString());
     }
-    final createMapMarkerList = CreateMapMarkerList();
+    add(const _MapAddMicroMobilityMarkersToList());
+    add(const _MapMarkerFiltering());
+    emit(
+      state.copyWith(
+        status: MapStateStatus.success,
+      ),
+    );
+  }
+
+  Future<void> _onMapAddMicroMobilityMarkersToList(
+    _MapAddMicroMobilityMarkersToList event,
+    Emitter<MapState> emit,
+  ) async {
+    final mapMarkers = <MapMarker>[...state.markers];
     final pickedCity = await _settingsRepository.getStringValue('pickedCity');
     try {
       List<BoltScooter> scootersLocations;
@@ -333,10 +307,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(state.copyWith(pickedCity: City.tallinn));
         scootersLocations = await _vehicleRepository.getBoltScooters(City.tallinn.name);
       } else {
-        throw Exception("City isn't picked. Please pick one city");
+        throw const CityIsNotPicked();
       }
       for (final scooter in scootersLocations) {
-        mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+        mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
       }
     } catch (e) {
       if (e.runtimeType == CantFetchBoltScootersData) {
@@ -353,7 +327,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       try {
         final bikeLocations = await _vehicleRepository.getTartuBikes();
         for (final bike in bikeLocations) {
-          mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(bike, this));
+          mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(bike, this));
         }
       } catch (e) {
         if (e.runtimeType == CantFetchTartuSmartBikeData) {
@@ -367,16 +341,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         }
       }
     }
-
     emit(
       state.copyWith(
         markers: mapMarkers,
-      ),
-    );
-    add(const MapMarkerFiltering());
-    emit(
-      state.copyWith(
-        status: MapStateStatus.success,
+        infoMessage: InfoMessage.defaultMessage,
+        exception: const AppException(),
       ),
     );
   }
@@ -390,19 +359,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       );
       final busStops = await _getStops.call();
       final calendars = await _getCalendar.call();
-      await _vehicleRepository.parseTrips(calendars);
-      await _vehicleRepository.parseStopTimes();
-
-      await _vehicleRepository.parseRoutes();
+      if (!await IOOperations.databaseExists('gtfs')) {
+        await _vehicleRepository.parseTrips(calendars);
+        await _vehicleRepository.parseStopTimes();
+        await _vehicleRepository.parseRoutes();
+      }
       final mapMarkers = <MapMarker>[...state.markers];
-      final createMapMarkerList = CreateMapMarkerList();
 
       for (final busStop in busStops) {
-        mapMarkers.add(createMapMarkerList.mapMarkerMakeMarkers(busStop, this));
+        mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(busStop, this));
       }
-      log('stops length: ${busStops.length} markers length: ${mapMarkers.length}');
+      _log.fine('stops length: ${busStops.length} markers length: ${mapMarkers.length}');
 
-      //await _vehicleRepository.progressController.close();
       final editedFilters = Map<MapFilters, bool>.from(state.filters);
       editedFilters[MapFilters.busStop] = !editedFilters[MapFilters.busStop]!;
       emit(
@@ -415,12 +383,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           filters: editedFilters,
         ),
       );
-      add(const MapMarkerFiltering());
+      add(const _MapMarkerFiltering());
     } else {
       emit(
         state.copyWith(
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.failure,
-          exception: const NoGtfsFileIsPresent(),
+          exception: const NoGtfsTextFileIsPresent(),
         ),
       );
     }
@@ -428,51 +396,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   ///If empty - when first time fetching info or when spaces/blank query value is written
   ///If not - filter by query
-  void _onMapSearchByTheQuery(MapSearchByTheQuery event, Emitter<MapState> emit) {
+  Future<void> _onMapSearchByTheQuery(MapSearchByTheQuery event, Emitter<MapState> emit) async {
     emit(state.copyWith(tripStatus: TripStatus.loading));
     if (event.query.trim() != '') {
       final query = event.query.toLowerCase();
       final foundStopInputtedByUser =
           state.currentStops.where((stop) => stop.name.toLowerCase() == query.trim()).toList();
       if (foundStopInputtedByUser.isNotEmpty) {
-        var filteredBySequenceStopTimes = <StopTime>[];
-        final filteredByUserTrips = <Trip>[];
-        final currentStop = state.pickedStop;
-        var index = 0;
-        log('$query ${currentStop.name} ${state.currentStops.length}');
-
-        final presentStopStopTimeListOnlyFilter = <int, StopTime>{};
-        for (final trip in state.currentTrips) {
-          final tripStopTimes = state.allStopTimesForAllTripsWhichGoesThroughCurrentStop
-              .where((stopTime) => stopTime.tripId == trip.tripId)
-              .toList();
-
-          presentStopStopTimeListOnlyFilter[index] = tripStopTimes.firstWhere(
-            (stopTime) => stopTime.stopId == currentStop.stopId,
-          );
-
-          filteredBySequenceStopTimes = tripStopTimes.sublist(
-            presentStopStopTimeListOnlyFilter[index]!.sequence,
-          );
-
-          final filteredStopTimes = <StopTime>[];
-          for (final stop in foundStopInputtedByUser) {
-            filteredStopTimes.addAll(
-              filteredBySequenceStopTimes
-                  .where((stopTime) => stopTime.stopId == stop.stopId)
-                  .toList(),
-            );
-          }
-
-          for (final filteredStopTime in filteredStopTimes) {
-            for (final stop in foundStopInputtedByUser) {
-              if (filteredStopTime.stopId == stop.stopId) {
-                filteredByUserTrips.add(trip);
-              }
-            }
-          }
-          index += 1;
-        }
+        _log.fine('$query ${state.pickedStop.name} ${state.currentStops.length}');
+        final filteredByUserTrips = await _publicTransportRepository.getTripsBySearchQuery(
+            state.pickedStop, foundStopInputtedByUser,);
         emit(
           state.copyWith(filteredByUserTrips: filteredByUserTrips, query: event.query),
         );
@@ -483,11 +416,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
   }
 
-  void _onMapShowTodayOrAllTrips(MapShowTodayOrAllTrips event, Emitter<MapState> emit) {
+  void _onMapShowTodayOrAllTrips(_MapShowTodayOrAllTrips event, Emitter<MapState> emit) {
     if (state.showTripsForToday == ShowTripsForToday.today) {
-      add(const MapLoadTripsForToday());
+      add(const _MapLoadTripsForToday());
     } else {
-      add(const MapAddValuesForRepaintingTimeTable());
+      add(const _MapAddValuesForRepaintingTimeTable());
     }
   }
 
@@ -532,6 +465,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     MapPressFilterByDirectionButton event,
     Emitter<MapState> emit,
   ) {
+    emit(state.copyWith(tripStatus: TripStatus.loading));
     final localDirections = state.directionChars;
     for (final map in localDirections) {
       if (map.containsKey(event.direction)) {
@@ -545,19 +479,22 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         .expand((map) => map.keys)
         .toSet()
         .toList();
-    if (keys.isEmpty) {
+    if (keys.isEmpty && state.query == '') {
       emit(state.copyWith(filteredByUserTrips: state.currentTrips));
-      add(const MapShowTodayOrAllTrips());
+      add(const _MapShowTodayOrAllTrips());
+    } else if (keys.isEmpty && state.query != '') {
+      emit(state.copyWith(filteredByUserTrips: state.filteredByUserTrips));
+      add(const _MapShowTodayOrAllTrips());
     } else if (keys.length == state.directionChars.length) {
       emit(state.copyWith(filteredByUserTrips: []));
-      add(const MapShowTodayOrAllTrips());
+      add(const _MapShowTodayOrAllTrips());
     } else {
-      add(MapFilterTripsByDirection(keys));
+      add(_MapFilterTripsByDirection(keys));
     }
   }
 
   Future<void> _onMapFilterTripsByDirection(
-    MapFilterTripsByDirection event,
+    _MapFilterTripsByDirection event,
     Emitter<MapState> emit,
   ) async {
     emit(state.copyWith(tripStatus: TripStatus.loading));
@@ -579,17 +516,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         filteredByUserTrips: filteredByDirectionTrips,
       ),
     );
-    add(const MapShowTodayOrAllTrips());
+    add(const _MapShowTodayOrAllTrips());
   }
 
   void _onMapMarkerFilterButtonPressed(MapMarkerFilterButtonPressed event, Emitter<MapState> emit) {
     final editedFilters = Map<MapFilters, bool>.from(state.filters);
     editedFilters[event.mapFilter] = !editedFilters[event.mapFilter]!;
     emit(state.copyWith(filters: editedFilters, filteringStatus: true));
-    add(const MapMarkerFiltering());
+    add(const _MapMarkerFiltering());
   }
 
-  void _onMapMarkerFiltering(MapMarkerFiltering event, Emitter<MapState> emit) {
+  void _onMapMarkerFiltering(_MapMarkerFiltering event, Emitter<MapState> emit) {
     final filteredMarkers = <MapMarker>[];
     var mapMarker = MapMarker(markerType: MarkerType.none);
     for (mapMarker in state.markers) {

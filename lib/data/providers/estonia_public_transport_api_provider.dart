@@ -1,49 +1,35 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:mobility_app/domain/device_settings.dart';
+import 'package:mobility_app/constants/api_links.dart';
+import 'package:mobility_app/data/repositories/settings_repository.dart';
+import 'package:mobility_app/exceptions/exceptions.dart';
 import 'package:mobility_app/utils/io/io_operations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../../constants/api_links/api_links.dart';
-import '../../domain/estonia_public_transport.dart';
+import '../../constants/constants.dart';
 import '../../utils/database/database_operations.dart';
+import '../models/estonia_public_transport.dart';
 
 /// Class, which provides functions related to working with GTFS-data,
 /// such as downloading gtfs.zip, unarchiving it, deleting gtfs.zip and
 /// working with .txt files located in new gtfs folder.
 class EstoniaPublicTransportApiProvider {
-
-  Future<String> _fetchFirstTime() async {
+  final _log = Logger('EstoniaPublicTransportApiProvider');
+  final _settingsRepository = GetIt.I<SettingsRepository>();
+  Future<void> _fetchFirstTime() async {
     final directory = await getApplicationDocumentsDirectory();
     final dbpath = await getDatabasesPath();
     final filePath = '${directory.path}/gtfs.zip';
 
-    final deviceSettings = DeviceSettings();
-    final downloadDate = await deviceSettings.getStringValue('gtfs_download_date');
-    final now = DateTime.now();
-
-    //DateTime yesterday = DateTime.now().add(Duration(days: 1));
-    try {
-      final parsedDateTime = DateTime.parse(downloadDate);
-      if (parsedDateTime.year == now.year &&
-          parsedDateTime.month == now.month &&
-          parsedDateTime.day == now.day) {
-        return 'No need to download';
-      }
-    } catch (e) {
-      //
-    }
-    await deleteDatabaseIfExists('$dbpath/routes.db');
-    await deleteDatabaseIfExists('$dbpath/stop_times.db');
-    await deleteDatabaseIfExists('$dbpath/trips.db');
+    await IOOperations.deleteDatabaseIfExists('$dbpath/routes.db');
+    await IOOperations.deleteDatabaseIfExists('$dbpath/stop_times.db');
+    await IOOperations.deleteDatabaseIfExists('$dbpath/trips.db');
     if (Directory('${directory.path}/gtfs').existsSync()) {
       Directory('${directory.path}/gtfs').deleteSync(recursive: true);
     }
@@ -54,57 +40,75 @@ class EstoniaPublicTransportApiProvider {
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
       IOOperations.unzipFile(filePath, '${directory.path}/gtfs');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('gtfs_download_date', file.lastModifiedSync().toString());
-      log('File downloaded and unzipped successfully.');
+      await IOOperations.deleteFile('gtfs/shapes.txt');
+      await IOOperations.deleteFile('gtfs/fare_rules.txt');
+      await _settingsRepository.setStringValue('gtfs_download_date', file.lastModifiedSync().toString());
+      _log.finer('File downloaded and unzipped successfully.');
     } else {
       throw HttpException('Failed to download the file. Status code: ${response.statusCode}');
     }
-    return '';
   }
 
   /// Fetch first time data, download gtfs.zip, unarchive it, delete gtfs.zip.
-  Future<String> fetchData() async {
+  Future<InfoMessage> fetchData() async {
+    final infoMessage = await _checkGtfsDownloadDate();
+    if (infoMessage == InfoMessage.noNeedToDownload) {
+      return InfoMessage.noNeedToDownload;
+    }
     try {
-      final message = await _fetchFirstTime();
-      if (message == 'No need to download') {
-        return 'No need to download';
-      }
+      await _fetchFirstTime();
       final directory = await getApplicationDocumentsDirectory();
       final filePath = '${directory.path}/gtfs.zip';
       if (File(filePath).existsSync()) {
         await IOOperations.deleteFile('gtfs.zip');
-        return 'File downloaded and processed successfully.';
+        return InfoMessage.fileDownloadedAndProcessed;
       }
-      return 'Unknown Error';
+
+      throw const GtfsZipIsNotPresent();
     } on SocketException {
-      throw Exception('No Internet connection. Please check your connection and try again.');
+      throw const NoInternetConnection();
     } catch (e) {
       rethrow;
     }
   }
 
+  Future<InfoMessage> _checkGtfsDownloadDate() async {
+    final downloadDate = await _settingsRepository.getStringValue('gtfs_download_date');
+    final now = DateTime.now();
+
+    //DateTime yesterday = DateTime.now().add(Duration(days: 1)); // yesterday, for testing purposes.
+    try {
+      final parsedDateTime = DateTime.parse(downloadDate);
+      if (parsedDateTime.year == now.year &&
+          parsedDateTime.month == now.month &&
+          parsedDateTime.day == now.day) {
+        return InfoMessage.noNeedToDownload;
+      }
+    } catch (e) {
+      _log.fine('Need to download');
+    }
+    return InfoMessage.needToDownload;
+  }
+
   /// Parse stopTimes from stop_times.txt.
   Future<void> parseStopTimes() async {
+
     final gtfsData = await IOOperations.openFile('stop_times.txt');
     if (gtfsData == '') {
       return;
     }
-    final databaseExists = await IOOperations.databaseExists('stop_times');
-    if (databaseExists) {
-      return;
-    }
 
-    final stopTimesDb = await DatabaseOperations.openAppDatabase('stop_times');
+    final stopTimesDb = await DatabaseOperations.openAppDatabase('gtfs');
     await DatabaseOperations.createTable(stopTimesDb, 'stop_times', '''
     trip_id TEXT, arrival_time TEXT, departure_time TEXT, stop_id TEXT, sequence INTEGER''');
 
-    final tripsDb = await DatabaseOperations.openAppDatabase('trips');
+    final tripsDb = await DatabaseOperations.openAppDatabase('gtfs');
 
     final tripsMap = await _getTripsMap(tripsDb);
     final stopTimesDataList = _parseStopTimes(gtfsData, tripsMap);
 
     await DatabaseOperations.insertDataBatch(stopTimesDb, 'stop_times', stopTimesDataList);
+    await IOOperations.deleteFile('gtfs/stop_times.txt');
     await DatabaseOperations.closeDatabase(stopTimesDb);
     await DatabaseOperations.closeDatabase(tripsDb);
   }
@@ -114,15 +118,13 @@ class EstoniaPublicTransportApiProvider {
   Future<void> parseTrips(List<Calendar> calendar) async {
     final calendarMap = await _makeCalendarMap(calendar);
 
-    final databaseExists = await IOOperations.databaseExists('trips');
-    if (databaseExists) {
-      return;
-    }
+    final database = await DatabaseOperations.openAppDatabase('gtfs');
 
-    final database = await DatabaseOperations.openAppDatabase('trips');
-
-    await DatabaseOperations.createTable(database, 'trips',
-        '''trip_id TEXT, route_id TEXT, service_id TEXT, trip_headsign TEXT, direction_id TEXT, shape_id TEXT, wheelchair_accessible TEXT''',);
+    await DatabaseOperations.createTable(
+      database,
+      'trips',
+      '''trip_id TEXT, route_id TEXT, service_id TEXT, trip_headsign TEXT, direction_id TEXT, shape_id TEXT, wheelchair_accessible TEXT''',
+    );
     final gtfsData = await IOOperations.openFile('trips.txt');
     if (gtfsData == '') {
       // Handle the error, e.g., by returning early
@@ -130,18 +132,14 @@ class EstoniaPublicTransportApiProvider {
     }
     final tripDataList = _parseAndCheckTrips(gtfsData, calendarMap);
     await DatabaseOperations.insertDataBatch(database, 'trips', tripDataList);
+    await IOOperations.deleteFile('gtfs/trips.txt');
     await DatabaseOperations.closeDatabase(database);
   }
 
   /// Parse routes from routes.txt to routes.db.
   Future<void> parseRoutes() async {
-    final logger = Logger('parseRoutes');
-    final databaseExists = await IOOperations.databaseExists('routes');
-    if (databaseExists) {
-      return;
-    }
-    logger.info('Starting to parse routes.');
-    final database = await DatabaseOperations.openAppDatabase('routes');
+    _log.info('Starting to parse routes.');
+    final database = await DatabaseOperations.openAppDatabase('gtfs');
     await DatabaseOperations.createTable(database, 'routes', '''
     route_id TEXT PRIMARY KEY,
         agency_id TEXT,
@@ -154,7 +152,7 @@ class EstoniaPublicTransportApiProvider {
     // Read the file.
     final gtfsData = await IOOperations.openFile('routes.txt');
     if (gtfsData == '') {
-      logger.warning('Routes file is empty.');
+      _log.warning('Routes file is empty.');
       return;
     }
     final lines = LineSplitter.split(gtfsData).skip(1).toList();
@@ -164,13 +162,13 @@ class EstoniaPublicTransportApiProvider {
       int routeType;
       final values = lines[i].split(',');
       if (values.length < 7) {
-        logger.warning('Invalid data at line ${i + 2}.');
+        _log.warning('Invalid data at line ${i + 2}.');
         continue;
       }
       try {
         routeType = int.parse(values[4]);
       } catch (e) {
-        logger.warning('Error parsing route type on line ${i + 2}: $e');
+        _log.warning('Error parsing route type on line ${i + 2}: $e');
         continue;
       }
       final route = Route(
@@ -188,7 +186,7 @@ class EstoniaPublicTransportApiProvider {
     await DatabaseOperations.insertDataBatch(database, 'routes', listForRoutes);
     // Close the database.
     await DatabaseOperations.closeDatabase(database);
-    logger.info('Finished parsing routes.');
+    _log.info('Finished parsing routes.');
   }
 
   /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.
@@ -198,7 +196,9 @@ class EstoniaPublicTransportApiProvider {
   }
 
   List<Map<String, dynamic>> _parseAndCheckTrips(
-      String gtfsData, Map<dynamic, dynamic> calendarMap,) {
+    String gtfsData,
+    Map<dynamic, dynamic> calendarMap,
+  ) {
     final tripDataList = <Map<String, dynamic>>[];
     final lines = LineSplitter.split(gtfsData).skip(1).toList();
     for (var i = 0; i < lines.length; i++) {
@@ -251,12 +251,5 @@ class EstoniaPublicTransportApiProvider {
       }
     }
     return stopTimesDataList;
-  }
-
-  /// Delete a database if it exists
-  Future<void> deleteDatabaseIfExists(String dbPath) async {
-    if (File(dbPath).existsSync()) {
-      await deleteDatabase(dbPath);
-    }
   }
 }

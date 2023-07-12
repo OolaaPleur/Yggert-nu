@@ -29,11 +29,6 @@ class BusIcon extends StatelessWidget {
       bloc.state.publicTransportStopAdditionStatus == PublicTransportStopAdditionStatus.loading,
     )) {
       return const CircularProgressIndicator(color: Colors.white,
-        // value: context
-        //     .select(
-        //       (MapBloc bloc) => bloc.state.progressPercentValueForParsing,
-        // )
-        //     .toDouble() / 100,
       );
     }
     return const Icon(Icons.directions_bus_sharp);

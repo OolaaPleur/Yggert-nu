@@ -1,17 +1,16 @@
 {
   "@@locale": "ru",
-
   "settingsAppBarTitle": "Настройки",
   "@settingsAppBarTitle": {
     "description": "Text shown in settings appBar"
   },
-  "settingsGlobalFilterAll": "Все",
+  "settingsGlobalFilterAll": "Показать все",
   "@settingsGlobalFilterAll": {
-    "description": "Text shown in global filter settings, means show by default all trips."
+    "description": "Text shown in global filter settings, means show all trips."
   },
-  "settingsGlobalFilterToday": "Сегодня",
+  "settingsGlobalFilterToday": "Показать на сегодня",
   "@settingsGlobalFilterToday": {
-    "description": "Text shown in global filter settings, means show by default only today trips."
+    "description": "Text shown in global filter settings, means show only today trips."
   },
   "settingsChangeTheme": "Сменить тему",
   "@settingsChangeTheme": {
@@ -27,79 +26,75 @@
   },
   "settingsLocalFilterAll": "Все",
   "@settingsLocalFilterAll": {
-    "description": "Text shown in local filter settings, means show by default all trips."
+    "description": "Text shown in local filter settings, means show all trips."
   },
   "settingsLocalFilterToday": "Сегодня",
   "@settingsLocalFilterToday": {
-    "description": "Text shown in local filter settings, means show by default only today trips."
+    "description": "Text shown in local filter settings, means show by only today trips."
   },
   "settingsTallinn": "Таллинн",
   "@settingsTallinn": {
-    "description": "Text shown in local filter settings, means show by default only today trips."
+    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar."
   },
   "settingsTartu": "Тарту",
   "@settingsTartu": {
-    "description": "Text shown in local filter settings, means show by default only today trips."
+    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar."
   },
   "homeScooterFAB": "Фильтр самокатов",
   "@homeScooterFAB": {
-    "description": "Текст является подсказкой для плавающей кнопки с иконкой самоката."
+    "description": "Text used as tooltip for FAB with scooter icon."
   },
   "homeBikeFAB": "Фильтр велосипедов",
   "@homeBikeFAB": {
-    "description": "Текст является подсказкой для плавающей кнопки с иконкой велосипеда."
+    "description": "Text used as tooltip for FAB with bike icon."
   },
   "homeStopFAB": "Фильтр остановок",
   "@homeStopFAB": {
-    "description": "Текст является подсказкой для плавающей кнопки с иконкой автобуса."
+    "description": "Text used as tooltip for FAB with bus icon."
   },
   "homeAppBarSettingsIcon": "Настройки",
   "@homeAppBarSettingsIcon": {
-    "description": "Текст является подсказкой для иконки с шестеренкой в верхней полосе экрана."
+    "description": "Text used as tooltip for gear icon button."
   },
   "homeAppBarRefreshIcon": "Обновить",
   "@homeAppBarRefreshIcon": {
-    "description": "Текст является подсказкой для иконки обновления в верхней полосе экрана."
+    "description": "Text used as tooltip for refresh icon button."
   },
   "snackbarNoNeedToDownload": "У вас самые свежие GTFS данные.",
   "@snackbarNoNeedToDownload": {
-    "description": "Текст используется в снекбаре, если нет необходимости загружать GTFS данные."
+    "description": "Text used in snackbar, if GTFS data doesn't need to be downloaded."
   },
   "snackbarCantFetchBoltScootersData": "Ошибка сервера. Невозможно загрузить данные о Bolt самокатах.",
   "@snackbarCantFetchBoltScootersData": {
-    "description": "Текст используется в снекбаре, если данные о самокатах Bolt не могут быть загружены."
+    "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
   },
   "snackbarCantFetchTartuSmartBikeData": "Ошибка сервера. Невозможно загрузить данные о велосипедах Tartu Smart bike.",
   "@snackbarCantFetchTartuSmartBikeData": {
-    "description": "Текст используется в снекбаре, если данные о велосипедах Tartu Smart bike не могут быть загружены."
+    "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
   },
   "snackbarNoInternetConnection": "Нет интернет-соединения. Пожалуйста проверьте его и попробуйте снова.",
   "@snackbarNoInternetConnection": {
-    "description": "Tекст используется в снекбаре, если у устройства отсутствует интернет-соединение."
+    "description": "Text used in snackbar when device has internet connection problems."
   },
   "snackbarDeviceIsNotSupported": "Устройство не поддерживается.",
   "@snackbarDeviceIsNotSupported": {
-    "description": "Текст используется в снекбаре если устройство пользователя не поддерживается приложением."
+    "description": "Text used in snackbar when device is not supported by app."
   },
   "snackbarCityIsNotPicked": "Город не выбран",
   "@snackbarCityIsNotPicked": {
-    "description": "Текст используется в снекбаре если город не был выбран."
+    "description": "Text used in snackbar when no city was picked."
   },
   "snackbarNoGtfsFileIsPresent": "GTFS файлов нет, нажмите кнопку обновить для загрузки.",
   "@snackbarNoGtfsFileIsPresent": {
-    "description": "Текст используется в снекбаре если на устройстве нет GTFS файлов."
+    "description": "Text used in snackbar when no GTFS file is present."
   },
   "mapScreenGpsFAB": "Получить геолокацию",
   "@mapScreenGpsFAB": {
-    "description": "Текст является подсказкой для плавающей кнопки с иконкой геолокации."
+    "description": "Text used as tooltip for FAB with gps icon."
   },
   "stopMarkerShowAllForwardStoptimesButton": "Показать остановки",
   "@stopMarkerShowAllForwardStoptimesButton": {
-    "description": "Текст показывается на кнопке, которая отвечает за показ следующих по пути следования остановок."
-  },
-  "settingsLanguage": "Язык",
-  "@settingsLanguage": {
-    "description": "Text used on press to see stoptimes button."
+    "description": "Text used on button to see stoptimes."
   },
   "settingsLanguageRussian": "Русский",
   "@settingsLanguageRussian": {
@@ -109,8 +104,99 @@
   "@settingsLanguageEnglish": {
     "description": "Text used on dropdown, which responsible for picking english language."
   },
+
   "someErrorOccurred": "Произошла неизвестная ошибка. Попробуйте снова позже.",
   "@someErrorOccurred": {
     "description": "Text used in snackbar, when non-specified error occurred."
+  },
+  "geolocationPermissionDenied": "Нет разрешения на геолокацию, вы не можете увидеть свое местоположение.",
+  "@geolocationPermissionDenied": {
+    "description": "Text used in snackbar, when user denied geolocation permission."
+  },
+  "microMobilityCouldNotLoad": "Не получилось загрузить нужную информацию.",
+  "@microMobilityCouldNotLoad": {
+    "description": "Text used in modal bottom sheet in micro mobility related markers if there is problems loading required info."
+  },
+  "modalBottomSheetScooterCharge": "Заряд батареи: {charge}%",
+  "@modalBottomSheetScooterCharge": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter charge.",
+    "placeholders": {
+      "charge": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "modalBottomSheetScooterPrice": "Стоимость: {price}",
+  "@modalBottomSheetScooterPrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.22€/min"
+      }
+    }
+  },
+  "modalBottomSheetScooterGoToApp": "Перейти в {app}",
+  "@modalBottomSheetScooterGoToApp": {
+    "description": "Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.",
+    "placeholders": {
+      "app": {
+        "type": "String",
+        "example": "Bolt"
+      }
+    }
+  },
+  "modalBottomSheetTartuBikesPedelecCount": "Электрических: {count}",
+  "@modalBottomSheetTartuBikesPedelecCount": {
+    "description": "Text used in modal bottom sheet in bike markers to give user information about number of pedelec bikes on station.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "modalBottomSheetTartuBikesBikeCount": "Велосипедов: {count}",
+  "@modalBottomSheetTartuBikesBikeCount": {
+    "description": "Text used in modal bottom sheet in bike markers to give user information about number of non-pedelec bikes on station.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "stopSearchHintText": "Введите название остановки.",
+  "@stopSearchHintText": {
+    "description": "Text used in stop search text field."
+  },
+  "mon": "Пн",
+  "tue": "Вт",
+  "wed": "Ср",
+  "thu": "Чт",
+  "fri": "Пт",
+  "sat": "Сб",
+  "sun": "Вс",
+
+  "signInWithGoogle": "Войти через Google",
+  "@signInWithGoogle": {
+    "description": "Text used on button, which responsible for signing in with Google."
+  },
+  "changeCity": "Выбери город",
+  "@changeCity": {
+    "description": "Text used on dropdown, which responsible for changing city."
+  },
+  "changeLanguage": "Выбери язык",
+  "@changeLanguage": {
+    "description": "Text used on dropdown, which responsible for changing language."
+  },
+  "changeFilter": "Выбери фильтр",
+  "@changeFilter": {
+    "description": "Text used on dropdown, which responsible for changing language."
+  },
+  "settingsLanguageEstonian": "Эстонский",
+  "@settingsLanguageEstonian": {
+    "description": "Text used on dropdown, which responsible for picking estonian language."
   }
 }

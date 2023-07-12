@@ -18,12 +18,8 @@ class LanguageCubit extends Cubit<Locale> {
 
   /// Function, located in Settings, changes language to that, which specified
   /// in [locale].
-  void changeLanguage(Locale locale) {
+  Future<void> changeLanguage(Locale locale) async {
     emit(locale);
-    _saveLocale(locale);
-  }
-
-  Future<void> _saveLocale(Locale locale) async {
     await _settingsRepository.setStringValue('language_code', locale.languageCode);
   }
 
