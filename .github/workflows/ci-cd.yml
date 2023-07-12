@@ -23,4 +23,4 @@ jobs:
         run: flutter build apk --target=lib/main_production.dart
 
       - name: Analyze
-        run: flutter analyze --target=lib/main_production.dart
+        run: flutter analyze
