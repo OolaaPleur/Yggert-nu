@@ -27,7 +27,7 @@ class VehicleRepository {
   final estoniaPublicTransportApiProvider = GetIt.I<EstoniaPublicTransportApiProvider>();
 
   /// Fetches Bolt scooters data.
-  Future<List<BoltScooter>> getBoltScooters(String pickedCity) =>
+  Future<BoltScootersList> getBoltScooters(String pickedCity) =>
       boltScooterApiProvider.getBoltScooters(pickedCity);
 
   /// Fetches Tartu bikes data.

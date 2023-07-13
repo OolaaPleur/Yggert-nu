@@ -29,7 +29,7 @@ class ChangeLanguageDropdown extends StatelessWidget {
         return Card(
           color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
               ? null
-              : const Color(0xFF66cda2),
+              : Theme.of(context).secondaryHeaderColor,
           child: ExpansionTile(
             leading: const Icon(Icons.language),
             subtitle: Text(AppLocalizations.of(context)!.changeLanguage),

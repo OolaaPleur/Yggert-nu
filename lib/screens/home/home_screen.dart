@@ -19,8 +19,74 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
+
+  Widget refreshIcon(BuildContext context) {
+    const Widget icon = SizedBox(
+      width: 24,
+      height: 24,
+      child: Icon(Icons.refresh_sharp),
+    );
+
+    const Widget spinner = SizedBox(
+      width: 20,
+      height: 20,
+      child: CircularProgressIndicator(
+        color: Colors.blue,
+        strokeWidth: 2,
+      ),
+    );
+
+    if (context.select((MapBloc bloc) => bloc.state.tripStatus == TripStatus.loading) ||
+        context.select((MapBloc bloc) => bloc.state.status == MapStateStatus.loading) ||
+        context.select((MapBloc bloc) => bloc.state.filteringStatus == true)) {
+      return AnimatedCrossFade(
+        duration: const Duration(milliseconds: 300),
+        firstChild: icon,
+        secondChild: spinner,
+        crossFadeState: CrossFadeState.showSecond,
+        layoutBuilder: (topChild, topChildKey, bottomChild, bottomChildKey) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                key: bottomChildKey,
+                child: bottomChild,
+              ),
+              Positioned(
+                key: topChildKey,
+                child: topChild,
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return AnimatedCrossFade(
+        duration: const Duration(milliseconds: 300),
+        firstChild: icon,
+        secondChild: spinner,
+        crossFadeState: CrossFadeState.showFirst,
+        layoutBuilder: (topChild, topChildKey, bottomChild, bottomChildKey) {
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                key: bottomChildKey,
+                child: bottomChild,
+              ),
+              Positioned(
+                key: topChildKey,
+                child: topChild,
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   context.read<MapBloc>().add(const MapMarkersPlacingOnMap());
                 },
-                icon: context.select((MapBloc bloc) => bloc.state.status == MapStateStatus.loading)
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(),
-                      )
-                    : const Icon(Icons.refresh_sharp),
+                icon: refreshIcon(context),
               ),
               BlocListener<MapBloc, MapState>(
                 listenWhen: (previous, current) {
@@ -89,7 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               BlocListener<MapBloc, MapState>(
                 listenWhen: (previous, current) {
-                  return previous.infoMessage != current.infoMessage && current.infoMessage != InfoMessage.defaultMessage;
+                  return previous.infoMessage != current.infoMessage &&
+                      current.infoMessage != InfoMessage.defaultMessage;
                 },
                 listener: (context, state) {
                   final mySnackBar = AppSnackBar(context, infoMessage: state.infoMessage);

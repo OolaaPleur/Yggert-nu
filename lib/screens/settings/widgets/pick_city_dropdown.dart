@@ -23,7 +23,7 @@ class PickCityDropdown extends StatelessWidget {
         return Card(
           color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
               ? null
-              : const Color(0xFF66cda2),
+              : Theme.of(context).secondaryHeaderColor,
           child: ExpansionTile(
             title: context.read<MapBloc>().state.pickedCity == City.tartu
                 ? Text(

@@ -16,7 +16,7 @@ class DarkModeSwitch extends StatelessWidget {
     return Card(
       color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
           ? null
-          : const Color(0xFF66cda2),
+          : Theme.of(context).secondaryHeaderColor,
       child: SwitchListTile(
         title: Row(
           children: [

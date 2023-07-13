@@ -1,5 +1,9 @@
+import 'package:mobility_app/data/models/scooter/scooter.dart';
+
+/// Type alias for Bolt scooter list.
+typedef BoltScootersList = List<BoltScooter>;
 /// Bolt Scooter model
-class BoltScooter {
+class BoltScooter extends Scooter {
   /// Bolt Scooter model constructor
   BoltScooter({
     required this.id,

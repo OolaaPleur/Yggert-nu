@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mobility_app/screens/settings/widgets/animated_icon_button.dart';
+import 'package:mobility_app/screens/settings/widgets/auth_avatar.dart';
 
 import '../../exceptions/exceptions.dart';
 import '../../theme/bloc/theme_bloc.dart';
@@ -28,7 +32,7 @@ class Settings extends StatefulWidget {
   State<Settings> createState() => _SettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   void sendDownloadDataToStates(AuthState state) {
     context
         .read<ThemeBloc>()
@@ -48,6 +52,37 @@ class _SettingsState extends State<Settings> {
         .read<LanguageCubit>()
         .changeLanguage(Locale(state.settings!['language_code'] as String));
     context.read<AuthBloc>().add(SignInWithGoogleEvent());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _controller2.dispose();
+    super.dispose();
+  }
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  late AnimationController _controller2;
+  late Animation<double> _animation2;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    )..repeat();
+
+    _animation = Tween<double>(begin: 1, end: 0).animate(_controller);
+
+    _controller2 = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    )..repeat();
+
+    _animation2 = Tween<double>(begin: 0, end: 1).animate(_controller2);
   }
 
   @override
@@ -76,51 +111,117 @@ class _SettingsState extends State<Settings> {
                   title: Text(AppLocalizations.of(context)!.settingsAppBarTitle),
                   centerTitle: true,
                   actions: [
-                    if (authState.userCredential != null)
-                      IconButton(
-                        icon: const Icon(Icons.cloud_upload),
-                        onPressed: () {
-                          context.read<AuthBloc>().add(UploadUserSettingsEvent());
-                        },
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    if (authState.userCredential != null)
-                      IconButton(
-                        icon: const Icon(Icons.cloud_download),
-                        onPressed: () {
-                          context.read<AuthBloc>().add(DownloadUserSettingsEvent());
-                        },
-                      )
-                    else
-                      const SizedBox.shrink(),
+                    AnimatedCrossFade(
+                      duration: const Duration(milliseconds: 300),
+                      firstChild: IconButton(
+                        icon: authState.isUploading
+                            ? Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomPaint(
+                                    size: Size(30, (30 * 1).toDouble()),
+                                    painter: CloudCustomPainter(),
+                                  ),
+                                  AnimatedBuilder(
+                                    animation: _animation,
+                                    builder: (context, child) {
+                                      return Positioned(
+                                        top: _animation.value * 100,
+                                        child: child!,
+                                      );
+                                    },
+                                    child: CustomPaint(
+                                      size: const Size(0.75, 0.75 * 1),
+                                      painter: ArrowCustomPainter(),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Stack(alignment: Alignment.center,
+                                children: [
+                                  CustomPaint(
+                                    size: Size(30, (30 * 1).toDouble()),
+                                    painter: CloudCustomPainter(),
+                                  ),
+                                  CustomPaint(
+                                    size: const Size(0.75, 0.75 * 1),
+                                    painter: ArrowCustomPainter(),
+                                  ),
+                                ],
+                              ),
+                        onPressed: authState.userCredential != null
+                            ? () {
+                                context.read<AuthBloc>().add(UploadUserSettingsEvent());
+                              }
+                            : null, // Disabled state
+                      ),
+                      secondChild: const Align(child: SizedBox.shrink()),
+                      crossFadeState: authState.userCredential != null
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                    ),
+                    AnimatedCrossFade(
+                      duration: const Duration(milliseconds: 300),
+                      firstChild: IconButton(
+                        icon: authState.isDownloading
+                            ? Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomPaint(
+                                    size: Size(30, (30 * 1).toDouble()),
+                                    painter: CloudCustomPainter(),
+                                  ),
+                                  AnimatedBuilder(
+                                    animation: _animation2,
+                                    builder: (context, child) {
+                                      return Positioned(
+                                        top: _animation2.value * 100,
+                                        child: Transform.rotate(
+                                          angle: pi,
+                                          child: child,
+                                        ),
+                                      );
+                                    },
+                                    child: CustomPaint(
+                                      size: const Size(0.75, 0.75 * 1),
+                                      painter: ArrowCustomPainter(),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Stack(
+                          alignment: Alignment.center,
+                                children: [
+                                  CustomPaint(
+                                    size: Size(30, (30 * 1).toDouble()),
+                                    painter: CloudCustomPainter(),
+                                  ),
+                                  Transform.rotate(
+                                    angle: pi,
+                                    child: CustomPaint(
+                                      size: const Size(0.75, 0.75 * 1),
+                                      painter: ArrowCustomPainter(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        onPressed: authState.userCredential != null
+                            ? () {
+                                context.read<AuthBloc>().add(DownloadUserSettingsEvent());
+                              }
+                            : null, // Disabled state
+                      ),
+                      secondChild: const Align(child: SizedBox.shrink()),
+                      crossFadeState: authState.userCredential != null
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                    )
                   ],
                 ),
                 body: ListView(
                   padding: const EdgeInsets.all(20),
                   children: [
-                    if (authState.userCredential != null)
-                      CircleAvatar(
-                        radius: 80,
-                        child: ClipOval(
-                          child: Image.network(
-                            authState.userCredential!.user!.photoURL!,
-                            fit: BoxFit.cover,
-                            width: 160,
-                            height: 160,
-                          ),
-                        ),
-                      )
-                    else
-                      CircleAvatar(
-                        radius: 80,
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/default_avatar.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                    UserAvatar(authState: authState),
                     const GoogleSignInButton(),
                     const DarkModeSwitch(),
                     const Divider(),
@@ -132,22 +233,28 @@ class _SettingsState extends State<Settings> {
                     const Divider(),
                     const GtfsFileDownloadDateCard(),
                     const Divider(),
-                    if (authState.userCredential != null)
-                      TextButton(
-                        onPressed: () {
-                          context.read<AuthBloc>().add(SignOutEvent());
-                        },
-                        child: Text(
-                          'Log Out',
-                          style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.red[700],
+                    Center(
+                      child: AnimatedCrossFade(
+                        duration: const Duration(milliseconds: 300),
+                        firstChild: TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(SignOutEvent());
+                          },
+                          child: Text(
+                            'Log Out',
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.red[700],
+                            ),
                           ),
                         ),
-                      )
-                    else
-                      const SizedBox.shrink()
+                        secondChild: const SizedBox.shrink(),
+                        crossFadeState: authState.userCredential != null
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                      ),
+                    )
                   ],
                 ),
               );

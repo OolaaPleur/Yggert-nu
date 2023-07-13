@@ -9,11 +9,6 @@ class AppException implements Exception {
 /// Define a constant for default [AppException] object.
 const noException = AppException();
 
-/// Exception that is thrown when GTFS file does not need to be downloaded.
-class NoNeedToDownload implements AppException {
-  /// Constructor for [NoNeedToDownload].
-  const NoNeedToDownload();
-}
 /// Exception that is thrown when Bolt scooters data can not be downloaded.
 class CantFetchBoltScootersData implements AppException {
   /// Constructor for [CantFetchBoltScootersData].

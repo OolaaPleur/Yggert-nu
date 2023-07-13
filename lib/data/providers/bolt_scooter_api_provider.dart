@@ -16,7 +16,7 @@ import '../models/bolt_scooter.dart';
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
   /// Fetch data about bolt scooters from server.
-  Future<List<BoltScooter>> getBoltScooters(String pickedCity) async {
+  Future<BoltScootersList> getBoltScooters(String pickedCity) async {
     final identifier = await UniqueIdentifier.serial;
     final deviceInfo = DeviceInfoPlugin();
     if (!Platform.isAndroid) {

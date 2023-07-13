@@ -284,12 +284,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       _log.severe(e.toString());
     }
     add(const _MapAddMicroMobilityMarkersToList());
-    add(const _MapMarkerFiltering());
-    emit(
-      state.copyWith(
-        status: MapStateStatus.success,
-      ),
-    );
   }
 
   Future<void> _onMapAddMicroMobilityMarkersToList(
@@ -299,7 +293,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final mapMarkers = <MapMarker>[...state.markers];
     final pickedCity = await _settingsRepository.getStringValue('pickedCity');
     try {
-      List<BoltScooter> scootersLocations;
+      BoltScootersList scootersLocations;
       if (pickedCity == City.tartu.name) {
         emit(state.copyWith(pickedCity: City.tartu));
         scootersLocations = await _vehicleRepository.getBoltScooters(City.tartu.name);
@@ -344,10 +338,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(
       state.copyWith(
         markers: mapMarkers,
+        filteredMarkers: mapMarkers,
         infoMessage: InfoMessage.defaultMessage,
         exception: const AppException(),
       ),
     );
+    add(const _MapMarkerFiltering());
   }
 
   Future<void> _onMapShowBusStops(MapShowBusStops event, Emitter<MapState> emit) async {
@@ -405,7 +401,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       if (foundStopInputtedByUser.isNotEmpty) {
         _log.fine('$query ${state.pickedStop.name} ${state.currentStops.length}');
         final filteredByUserTrips = await _publicTransportRepository.getTripsBySearchQuery(
-            state.pickedStop, foundStopInputtedByUser,);
+          state.pickedStop,
+          foundStopInputtedByUser,
+        );
         emit(
           state.copyWith(filteredByUserTrips: filteredByUserTrips, query: event.query),
         );
@@ -536,6 +534,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         filteredMarkers.add(mapMarker);
       }
     }
-    emit(state.copyWith(filteredMarkers: filteredMarkers, filteringStatus: false));
+
+    emit(state.copyWith(
+        filteredMarkers: filteredMarkers, filteringStatus: false, status: MapStateStatus.success,),);
   }
 }
