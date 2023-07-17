@@ -32,13 +32,49 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show by only today trips."
   },
-  "settingsTallinn": "Таллинн",
-  "@settingsTallinn": {
-    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar."
+  "tallinn": "Таллинн",
+  "@tallinn": {
+    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
-  "settingsTartu": "Тарту",
-  "@settingsTartu": {
-    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar."
+  "haapsalu": "Хаапсалу",
+  "@haapsalu": {
+    "description": "City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "tartu": "Тарту",
+  "@tartu": {
+    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "johvi": "Йыхви",
+  "@johvi": {
+    "description": "City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kohtlaJarve": "Кохтла-Ярве",
+  "@kohtlaJarve": {
+    "description": "City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kuressaare": "Курессааре",
+  "@kuressaare": {
+    "description": "City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "narva": "Нарва",
+  "@narva": {
+    "description": "City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "parnu": "Пярну",
+  "@parnu": {
+    "description": "City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "rakvere": "Раквере",
+  "@rakvere": {
+    "description": "City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "viljandi": "Вильянди",
+  "@viljandi": {
+    "description": "City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "voru": "Выру",
+  "@voru": {
+    "description": "City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
   "homeScooterFAB": "Фильтр самокатов",
   "@homeScooterFAB": {
@@ -68,12 +104,20 @@
   "@snackbarCantFetchBoltScootersData": {
     "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
   },
+  "snackbarCantFetchTuulScootersData": "Ошибка сервера. Невозможно загрузить данные о Tuul самокатах.",
+  "@snackbarCantFetchTuulScootersData": {
+    "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Ошибка сервера. Невозможно загрузить данные о велосипедах Tartu Smart bike.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
   },
-  "snackbarNoInternetConnection": "Нет интернет-соединения. Пожалуйста проверьте его и попробуйте снова.",
+  "snackbarNoInternetConnection": "Нет интернет-соединения. Пожалуйста проверьте его, нажмите на иконку 'Обновить' и попробуйте снова.",
   "@snackbarNoInternetConnection": {
+    "description": "Text used in snackbar when device has internet connection problems."
+  },
+  "snackbarNoInternetConnectionInSettings": "Нет интернет-соединения. Пожалуйста проверьте его и попробуйте снова.",
+  "@snackbarNoInternetConnectionInSettings": {
     "description": "Text used in snackbar when device has internet connection problems."
   },
   "snackbarDeviceIsNotSupported": "Устройство не поддерживается.",
@@ -134,6 +178,26 @@
       "price": {
         "type": "String",
         "example": "0.22€/min"
+      }
+    }
+  },
+  "modalBottomSheetScooterStartPrice": "Старт: {price}",
+  "@modalBottomSheetScooterStartPrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter start price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.00€"
+      }
+    }
+  },
+  "modalBottomSheetScooterReservePrice": "Бронирование: {price}/мин",
+  "@modalBottomSheetScooterReservePrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.15€"
       }
     }
   },
@@ -198,5 +262,79 @@
   "settingsLanguageEstonian": "Эстонский",
   "@settingsLanguageEstonian": {
     "description": "Text used on dropdown, which responsible for picking estonian language."
-  }
+  },
+  "introFirstScreenHeader": "Добро пожаловать в Yggert Nu!",
+  "@introFirstScreenHeader": {
+    "description": "Text used on intro page as header for first screen."
+  },
+  "introFirstScreenBody": "Испытайте революцию в городской мобильности. Интегрируйте свои путешествия с арендой скутеров, велосипедов, автомобилей и общественного транспорта, все в одном приложении.",
+  "@introFirstScreenBody": {
+    "description": "Text used on intro page as body for first screen."
+  },
+  "introSecondScreenHeader": "Все Ваши варианты транспорта в одном месте",
+  "@introSecondScreenHeader": {
+    "description": "Text used on intro page as header for second screen."
+  },
+  "introSecondScreenBody": "Найдите самый быстрый и удобный способ передвижения, подходящий именно Вам. Все доступные арендные услуги и варианты общественного транспорта интегрированы на одной удобной карте.",
+  "@introSecondScreenBody": {
+    "description": "Text used on intro page as body for second screen."
+  },
+  "introSecondAndHalfScreenHeader": "Унифицированные транспортные услуги",
+  "@introSecondAndHalfScreenHeader": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introSecondAndHalfScreenBody": "Обратите внимание, что Yggert Nu агрегирует данные из различных транспортных приложений, и бронирование происходит через приложение соответствующего поставщика, которое должно быть установлено на вашем устройстве.",
+  "@introSecondAndHalfScreenBody": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introThirdScreenHeader": "Всегда будьте вовремя",
+  "@introThirdScreenHeader": {
+    "description": "Text used on intro page as body for second screen."
+  },
+  "introThirdScreenBody": "Больше никогда не пропустите автобус. Проверьте местные автобусные остановки для просмотра ближайших расписаний и прибытий, когда рядом нет непосредственного транспорта.",
+  "@introThirdScreenBody": {
+    "description": "Text used on intro page as body for third screen."
+  },
+  "introFourthScreenHeader": "Настройте по своему вкусу",
+  "@introFourthScreenHeader": {
+    "description": "Text used on intro page as header for fourth screen."
+  },
+  "introFourthScreenBody": "Выберите свой предпочитаемый город, переключите тему на светлую или темную, выберите свой язык. Настройте свой опыт с помощью наших легко доступных настроек.",
+  "@introFourthScreenBody": {
+    "description": "Text used on intro page as body for fourth screen."
+  },
+  "introFifthScreenHeader": "Сохраните свои предпочтения",
+  "@introFifthScreenHeader": {
+    "description": "Text used on intro page as header for fifth screen."
+  },
+  "introFifthScreenBody": "Войдите в систему с помощью своей учетной записи Google. Ваши предпочтения сохраняются для обеспечения последовательного, персонализированного опыта каждый раз, когда вы используете Yggert Nu.",
+  "@introFifthScreenBody": {
+    "description": "Text used on intro page as body for fifth screen."
+  },
+  "introSixthScreenHeader": "Готовы к путешествию?",
+  "@introSixthScreenHeader": {
+    "description": "Text used on intro page as header for sixth screen."
+  },
+  "introSixthScreenBody": "Добро пожаловать в более умный, более интегрированный мир транспорта. Начните свое путешествие с Yggert Nu сейчас!",
+  "@introSixthScreenBody": {
+    "description": "Text used on intro page as body for sixth screen."
+  },
+  "doneButtonText": "Готово",
+  "@doneButtonText": {
+    "description": "Text used on the 'Done' button on the final intro screen."
+  },
+  "onboardingTitleTextCity": "Выбранный город",
+  "onboardingBodyTextCity": "Город, для которого загружены данные",
+  "onboardingBodyTextCustomize": "Нажмите, чтобы настроить настройки карты",
+  "onboardingBodyTextRefresh": "Нажмите, чтобы обновить маркеры",
+  "onboardingTitleTextFilters": "Используйте фильтры",
+  "onboardingBodyTextFiltersExample": "Например, эта кнопка показывает/скрывает скутеры",
+  "onboardingTitleTextGoodLuck": "Удачи на дороге!",
+  "showScootersLowerCharge": "Показывать самокаты с зарядом меньше 30%?",
+  "yesButton": "Да",
+  "noButton": "Нет",
+  "startTutorialAgain": "Начать обучение снова?",
+  "areYouSure": "Вы уверены?",
+  "userDataDownloadedSuccessfully": "Данные пользователя успешно загружены",
+  "userDataUploadedSuccessfully": "Данные пользователя успешно загружены"
 }

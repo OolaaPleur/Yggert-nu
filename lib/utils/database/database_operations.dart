@@ -3,7 +3,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Class, where happens all database-related operations.
-// TODO(oolaa): ADD SEARCH OPERATIONS HERE.
 class DatabaseOperations {
 
   /// Open database by [databaseName].

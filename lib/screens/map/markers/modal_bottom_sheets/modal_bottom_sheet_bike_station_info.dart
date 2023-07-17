@@ -12,15 +12,13 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
   const ModalBottomSheetBikeStationInfo({required this.singleBikeStation, super.key});
 
   /// Single bike station, has info about bike and pedelec count.
-  final SingleBikeStation? singleBikeStation;
+  final SingleBikeStation singleBikeStation;
 
   @override
   Widget build(BuildContext context) {
-    return singleBikeStation == null
-        ? Center(child: Text(AppLocalizations.of(context)!.microMobilityCouldNotLoad))
-        : Container(
+    return Container(
             color: Theme.of(context).primaryColorLight,
-            height: AppSizes.microMobilityModalBottomSheetHeight(context),
+            height: AppStyleConstants.bikeModalBottomSheetHeight(context),
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,8 +26,8 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesPedelecCount(singleBikeStation!.pedelecCount)),
-                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesBikeCount(singleBikeStation!.bikeCount)),
+                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesPedelecCount(singleBikeStation.pedelecCount)),
+                    Text( AppLocalizations.of(context)!.modalBottomSheetTartuBikesBikeCount(singleBikeStation.bikeCount)),
                   ],
                 ),
                 ElevatedButton.icon(

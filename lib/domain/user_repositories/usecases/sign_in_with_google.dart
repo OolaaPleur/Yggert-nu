@@ -8,7 +8,7 @@ class SignInWithGoogleUseCase {
   /// [UserRepository] interface.
   final UserRepository repository;
   /// Call function for [SignInWithGoogleUseCase] function.
-  Future<UserCredential> call() {
+  Future<User> call() {
     return repository.signInWithGoogle();
   }
 }

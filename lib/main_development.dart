@@ -10,6 +10,7 @@ Future<void> main() async {
     isProductionForBoltHeader: false,
     isProductionForBoltScooterLink: false,
     isProductionForGtfsLink: true,
+    isProductionForTuulScooterLink: false,
   );
   await bootstrap();
 }

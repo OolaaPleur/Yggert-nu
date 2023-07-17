@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../../constants/constants.dart';
 import '../../../../data/models/tartu_bike_station.dart';
+import '../../../../exceptions/exceptions.dart';
 import '../../../map/bloc/map_bloc.dart';
 import '../modal_bottom_sheets/modal_bottom_sheet_bike_station_info.dart';
 
@@ -39,15 +42,30 @@ class BikeMarker extends StatelessWidget {
               return BlocBuilder<MapBloc, MapState>(
                 bloc: mapBloc,
                 builder: (context, state) {
-                  return state.singleBikeStation.isNotEmpty
-                      ? ModalBottomSheetBikeStationInfo(
-                          singleBikeStation: state.singleBikeStation.last,
-                        )
-                      : const SizedBox(
-                          width: double.infinity,
-                          height: 100,
-                          child: Center(child: CircularProgressIndicator()),
-                        );
+                  if (state.exception is NoInternetConnection) {
+                    return Container(
+                      color: Theme.of(context).primaryColorLight,
+                      height: AppStyleConstants.bikeModalBottomSheetHeight(context),
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.snackbarNoInternetConnection,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state.singleBikeStation.isNotEmpty) {
+                    return ModalBottomSheetBikeStationInfo(
+                      singleBikeStation: state.singleBikeStation.last,
+                    );
+                  } else {
+                    return const SizedBox(
+                      width: double.infinity,
+                      height: 100,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
                 },
               );
             },

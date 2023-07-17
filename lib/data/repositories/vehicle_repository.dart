@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:get_it/get_it.dart';
 import 'package:mobility_app/data/providers/estonia_public_transport_api_provider.dart';
+import 'package:mobility_app/data/providers/tuul_scooter_api_provider.dart';
 
 import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';
 import '../models/bolt_scooter.dart';
 import '../models/estonia_public_transport.dart';
 import '../models/tartu_bike_station.dart';
+import '../models/tuul_scooter.dart';
 import '../providers/bolt_scooter_api_provider.dart';
 import '../providers/tartu_bike_station_api_provider.dart';
-
 
 /// Repository for all transport-related functions.
 class VehicleRepository {
@@ -20,15 +21,22 @@ class VehicleRepository {
 
   /// Tartu bikes.
   final tartuBikeStationApiProvider = GetIt.I<TartuBikeStationApiProvider>();
+
   /// Operations with GTFS files.
   final gtfsFileSource = GetIt.I<GTFSFileSource>();
 
   /// Estonian public transport.
   final estoniaPublicTransportApiProvider = GetIt.I<EstoniaPublicTransportApiProvider>();
+  /// Tuul scooters.
+  final tuulScooterApiProvider = GetIt.I<TuulScooterApiProvider>();
 
   /// Fetches Bolt scooters data.
   Future<BoltScootersList> getBoltScooters(String pickedCity) =>
       boltScooterApiProvider.getBoltScooters(pickedCity);
+
+  /// Fetches Tuul scooters data.
+  Future<List<TuulScooter>> getTuulScooters(String pickedCity) =>
+      tuulScooterApiProvider.getTuulScooters(pickedCity);
 
   /// Fetches Tartu bikes data.
   Future<List<TartuBikeStations>> getTartuBikes() => tartuBikeStationApiProvider.getTartuBikes();

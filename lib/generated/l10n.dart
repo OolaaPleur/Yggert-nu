@@ -128,21 +128,111 @@ class S {
   }
 
   /// `Tallinn`
-  String get settingsTallinn {
+  String get tallinn {
     return Intl.message(
       'Tallinn',
-      name: 'settingsTallinn',
-      desc: 'City name, Tallinn, shown in 1) settings 2) at home screen app bar.',
+      name: 'tallinn',
+      desc: 'City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Haapsalu`
+  String get haapsalu {
+    return Intl.message(
+      'Haapsalu',
+      name: 'haapsalu',
+      desc: 'City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
 
   /// `Tartu`
-  String get settingsTartu {
+  String get tartu {
     return Intl.message(
       'Tartu',
-      name: 'settingsTartu',
-      desc: 'City name, Tartu, shown in 1) settings 2) at home screen app bar.',
+      name: 'tartu',
+      desc: 'City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Jõhvi`
+  String get johvi {
+    return Intl.message(
+      'Jõhvi',
+      name: 'johvi',
+      desc: 'City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Kohtla-Järve`
+  String get kohtlaJarve {
+    return Intl.message(
+      'Kohtla-Järve',
+      name: 'kohtlaJarve',
+      desc: 'City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Kuressaare`
+  String get kuressaare {
+    return Intl.message(
+      'Kuressaare',
+      name: 'kuressaare',
+      desc: 'City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Narva`
+  String get narva {
+    return Intl.message(
+      'Narva',
+      name: 'narva',
+      desc: 'City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Pärnu`
+  String get parnu {
+    return Intl.message(
+      'Pärnu',
+      name: 'parnu',
+      desc: 'City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Rakvere`
+  String get rakvere {
+    return Intl.message(
+      'Rakvere',
+      name: 'rakvere',
+      desc: 'City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Viljandi`
+  String get viljandi {
+    return Intl.message(
+      'Viljandi',
+      name: 'viljandi',
+      desc: 'City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      args: [],
+    );
+  }
+
+  /// `Võru`
+  String get voru {
+    return Intl.message(
+      'Võru',
+      name: 'voru',
+      desc: 'City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -217,6 +307,16 @@ class S {
     );
   }
 
+  /// `Server error. Cant fetch Tuul scooters data.`
+  String get snackbarCantFetchTuulScootersData {
+    return Intl.message(
+      'Server error. Cant fetch Tuul scooters data.',
+      name: 'snackbarCantFetchTuulScootersData',
+      desc: 'Text used in snackbar, if Tuul scooters data can\'t be downloaded.',
+      args: [],
+    );
+  }
+
   /// `Server error. Cant fetch Tartu Smart bike data.`
   String get snackbarCantFetchTartuSmartBikeData {
     return Intl.message(
@@ -227,11 +327,21 @@ class S {
     );
   }
 
-  /// `No Internet connection. Please check your connection and try again.`
+  /// `No Internet connection. Please check your connection, press refresh button and try again.`
   String get snackbarNoInternetConnection {
     return Intl.message(
-      'No Internet connection. Please check your connection and try again.',
+      'No Internet connection. Please check your connection, press refresh button and try again.',
       name: 'snackbarNoInternetConnection',
+      desc: 'Text used in snackbar when device has internet connection problems.',
+      args: [],
+    );
+  }
+
+  /// `No Internet connection. Please check your connection and try again.`
+  String get snackbarNoInternetConnectionInSettings {
+    return Intl.message(
+      'No Internet connection. Please check your connection and try again.',
+      name: 'snackbarNoInternetConnectionInSettings',
       desc: 'Text used in snackbar when device has internet connection problems.',
       args: [],
     );
@@ -353,6 +463,26 @@ class S {
       'Price: $price',
       name: 'modalBottomSheetScooterPrice',
       desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.',
+      args: [price],
+    );
+  }
+
+  /// `Start price: {price}`
+  String modalBottomSheetScooterStartPrice(Object price) {
+    return Intl.message(
+      'Start price: $price',
+      name: 'modalBottomSheetScooterStartPrice',
+      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter start price.',
+      args: [price],
+    );
+  }
+
+  /// `Reserve {price}/min`
+  String modalBottomSheetScooterReservePrice(Object price) {
+    return Intl.message(
+      'Reserve $price/min',
+      name: 'modalBottomSheetScooterReservePrice',
+      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.',
       args: [price],
     );
   }
@@ -513,6 +643,296 @@ class S {
       'Estonian',
       name: 'settingsLanguageEstonian',
       desc: 'Text used on dropdown, which responsible for picking english language.',
+      args: [],
+    );
+  }
+
+  /// `Welcome to the Yggert Nu!`
+  String get introFirstScreenHeader {
+    return Intl.message(
+      'Welcome to the Yggert Nu!',
+      name: 'introFirstScreenHeader',
+      desc: 'Text used on intro page as header for first screen.',
+      args: [],
+    );
+  }
+
+  /// `Experience a revolution in urban mobility. Seamlessly integrate your travel with rental scooters, bikes, cars, and public transport all in one app.`
+  String get introFirstScreenBody {
+    return Intl.message(
+      'Experience a revolution in urban mobility. Seamlessly integrate your travel with rental scooters, bikes, cars, and public transport all in one app.',
+      name: 'introFirstScreenBody',
+      desc: 'Text used on intro page as body for first screen.',
+      args: [],
+    );
+  }
+
+  /// `All Your Transport Options in One Place`
+  String get introSecondScreenHeader {
+    return Intl.message(
+      'All Your Transport Options in One Place',
+      name: 'introSecondScreenHeader',
+      desc: 'Text used on intro page as header for second screen.',
+      args: [],
+    );
+  }
+
+  /// `Find the fastest and most convenient mode of transportation tailored to your needs. All available rentals and public transit options are integrated onto one convenient map.`
+  String get introSecondScreenBody {
+    return Intl.message(
+      'Find the fastest and most convenient mode of transportation tailored to your needs. All available rentals and public transit options are integrated onto one convenient map.',
+      name: 'introSecondScreenBody',
+      desc: 'Text used on intro page as body for second screen.',
+      args: [],
+    );
+  }
+
+  /// `Unified Transport Services`
+  String get introSecondAndHalfScreenHeader {
+    return Intl.message(
+      'Unified Transport Services',
+      name: 'introSecondAndHalfScreenHeader',
+      desc: 'Text used on intro page as header for second and half screen.',
+      args: [],
+    );
+  }
+
+  /// `Please note, Yggert Nu aggregates data from various transport apps, and rental bookings are made through the respective provider's app which will need to be installed on your device.`
+  String get introSecondAndHalfScreenBody {
+    return Intl.message(
+      'Please note, Yggert Nu aggregates data from various transport apps, and rental bookings are made through the respective provider\'s app which will need to be installed on your device.',
+      name: 'introSecondAndHalfScreenBody',
+      desc: 'Text used on intro page as header for second and half screen.',
+      args: [],
+    );
+  }
+
+  /// `Always Be on Time`
+  String get introThirdScreenHeader {
+    return Intl.message(
+      'Always Be on Time',
+      name: 'introThirdScreenHeader',
+      desc: 'Text used on intro page as header for third screen.',
+      args: [],
+    );
+  }
+
+  /// `Never miss a bus again. Check the local bus stops for upcoming schedules and arrivals when no immediate transportation is nearby.`
+  String get introThirdScreenBody {
+    return Intl.message(
+      'Never miss a bus again. Check the local bus stops for upcoming schedules and arrivals when no immediate transportation is nearby.',
+      name: 'introThirdScreenBody',
+      desc: 'Text used on intro page as body for third screen.',
+      args: [],
+    );
+  }
+
+  /// `Customize to Your Liking`
+  String get introFourthScreenHeader {
+    return Intl.message(
+      'Customize to Your Liking',
+      name: 'introFourthScreenHeader',
+      desc: 'Text used on intro page as header for fourth screen.',
+      args: [],
+    );
+  }
+
+  /// `Choose your preferred city, switch between light or dark theme, and select your language. Personalize your experience with our easily accessible settings.`
+  String get introFourthScreenBody {
+    return Intl.message(
+      'Choose your preferred city, switch between light or dark theme, and select your language. Personalize your experience with our easily accessible settings.',
+      name: 'introFourthScreenBody',
+      desc: 'Text used on intro page as body for fourth screen.',
+      args: [],
+    );
+  }
+
+  /// `Save Your Preferences`
+  String get introFifthScreenHeader {
+    return Intl.message(
+      'Save Your Preferences',
+      name: 'introFifthScreenHeader',
+      desc: 'Text used on intro page as header for fifth screen.',
+      args: [],
+    );
+  }
+
+  /// `Sign in using your Google account. Your preferences are saved to provide a consistent, personalized experience every time you use Yggert Nu.`
+  String get introFifthScreenBody {
+    return Intl.message(
+      'Sign in using your Google account. Your preferences are saved to provide a consistent, personalized experience every time you use Yggert Nu.',
+      name: 'introFifthScreenBody',
+      desc: 'Text used on intro page as body for fifth screen.',
+      args: [],
+    );
+  }
+
+  /// `Ready for the Journey?`
+  String get introSixthScreenHeader {
+    return Intl.message(
+      'Ready for the Journey?',
+      name: 'introSixthScreenHeader',
+      desc: 'Text used on intro page as header for sixth screen.',
+      args: [],
+    );
+  }
+
+  /// `Welcome to a smarter, more integrated world of transport. Start your journey with Yggert Nu now!`
+  String get introSixthScreenBody {
+    return Intl.message(
+      'Welcome to a smarter, more integrated world of transport. Start your journey with Yggert Nu now!',
+      name: 'introSixthScreenBody',
+      desc: 'Text used on intro page as body for sixth screen.',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get doneButtonText {
+    return Intl.message(
+      'Done',
+      name: 'doneButtonText',
+      desc: 'Text used on the \'Done\' button on the final intro screen.',
+      args: [],
+    );
+  }
+
+  /// `Picked city`
+  String get onboardingTitleTextCity {
+    return Intl.message(
+      'Picked city',
+      name: 'onboardingTitleTextCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City for which data is loaded`
+  String get onboardingBodyTextCity {
+    return Intl.message(
+      'City for which data is loaded',
+      name: 'onboardingBodyTextCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to customize map settings`
+  String get onboardingBodyTextCustomize {
+    return Intl.message(
+      'Tap to customize map settings',
+      name: 'onboardingBodyTextCustomize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap to refresh markers`
+  String get onboardingBodyTextRefresh {
+    return Intl.message(
+      'Tap to refresh markers',
+      name: 'onboardingBodyTextRefresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use filters`
+  String get onboardingTitleTextFilters {
+    return Intl.message(
+      'Use filters',
+      name: 'onboardingTitleTextFilters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For example this button shows/hides scooters`
+  String get onboardingBodyTextFiltersExample {
+    return Intl.message(
+      'For example this button shows/hides scooters',
+      name: 'onboardingBodyTextFiltersExample',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good luck on the road!`
+  String get onboardingTitleTextGoodLuck {
+    return Intl.message(
+      'Good luck on the road!',
+      name: 'onboardingTitleTextGoodLuck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show scooters with charge lower than 30%?`
+  String get showScootersLowerCharge {
+    return Intl.message(
+      'Show scooters with charge lower than 30%?',
+      name: 'showScootersLowerCharge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yesButton {
+    return Intl.message(
+      'Yes',
+      name: 'yesButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get noButton {
+    return Intl.message(
+      'No',
+      name: 'noButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start tutorial again?`
+  String get startTutorialAgain {
+    return Intl.message(
+      'Start tutorial again?',
+      name: 'startTutorialAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure?`
+  String get areYouSure {
+    return Intl.message(
+      'Are you sure?',
+      name: 'areYouSure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User data downloaded successfully`
+  String get userDataDownloadedSuccessfully {
+    return Intl.message(
+      'User data downloaded successfully',
+      name: 'userDataDownloadedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User data uploaded successfully`
+  String get userDataUploadedSuccessfully {
+    return Intl.message(
+      'User data uploaded successfully',
+      name: 'userDataUploadedSuccessfully',
+      desc: '',
       args: [],
     );
   }

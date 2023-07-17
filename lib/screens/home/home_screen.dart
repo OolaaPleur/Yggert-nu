@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobility_app/screens/home/widgets/bus_icon.dart';
+import 'package:mobility_app/screens/home/widgets/refresh_icon.dart';
 import 'package:mobility_app/widgets/snackbar.dart';
+import 'package:onboarding_overlay/onboarding_overlay.dart';
 
 import '../../constants/constants.dart';
+import '../../data/repositories/settings_repository.dart';
 import '../../exceptions/exceptions.dart';
+import '../../theme/bloc/theme_bloc.dart';
 import '../map/bloc/map_bloc.dart';
 import '../map/view/map_screen.dart';
 import '../settings/settings.dart';
+import 'widgets/app_bar_title.dart';
+import 'widgets/onboarding_widget.dart';
 
 /// Home Screen of the app.
 class HomeScreen extends StatefulWidget {
@@ -21,72 +28,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final _globalKey = GlobalKey<ScaffoldMessengerState>();
+  final _settingsRepository = GetIt.I<SettingsRepository>();
 
-  Widget refreshIcon(BuildContext context) {
-    const Widget icon = SizedBox(
-      width: 24,
-      height: 24,
-      child: Icon(Icons.refresh_sharp),
-    );
-
-    const Widget spinner = SizedBox(
-      width: 20,
-      height: 20,
-      child: CircularProgressIndicator(
-        color: Colors.blue,
-        strokeWidth: 2,
-      ),
-    );
-
-    if (context.select((MapBloc bloc) => bloc.state.tripStatus == TripStatus.loading) ||
-        context.select((MapBloc bloc) => bloc.state.status == MapStateStatus.loading) ||
-        context.select((MapBloc bloc) => bloc.state.filteringStatus == true)) {
-      return AnimatedCrossFade(
-        duration: const Duration(milliseconds: 300),
-        firstChild: icon,
-        secondChild: spinner,
-        crossFadeState: CrossFadeState.showSecond,
-        layoutBuilder: (topChild, topChildKey, bottomChild, bottomChildKey) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                key: bottomChildKey,
-                child: bottomChild,
-              ),
-              Positioned(
-                key: topChildKey,
-                child: topChild,
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      return AnimatedCrossFade(
-        duration: const Duration(milliseconds: 300),
-        firstChild: icon,
-        secondChild: spinner,
-        crossFadeState: CrossFadeState.showFirst,
-        layoutBuilder: (topChild, topChildKey, bottomChild, bottomChildKey) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                key: bottomChildKey,
-                child: bottomChild,
-              ),
-              Positioned(
-                key: topChildKey,
-                child: topChild,
-              ),
-            ],
-          );
-        },
-      );
-    }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) async {
+      final tutorialPassed = await _settingsRepository.getBoolValue('tutorial_passed');
+      final onboarding = funState();
+      if (onboarding != null && tutorialPassed == false) {
+        onboarding.show();
+      }
+    });
+    super.initState();
   }
-
+  OnboardingState? funState () {
+    return Onboarding.of(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,23 +55,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         /// so it places snackbar on top of screen.
         body: Scaffold(
           appBar: AppBar(
+            backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+                ? null
+                : AppStyleConstants.appBarColor,
             centerTitle: true,
-            title: BlocBuilder<MapBloc, MapState>(
-              builder: (context, state) {
-                return context.read<MapBloc>().state.pickedCity == City.tartu
-                    ? Text(
-                        AppLocalizations.of(context)!.settingsTartu,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      )
-                    : Text(
-                        AppLocalizations.of(context)!.settingsTallinn,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      );
-              },
-            ),
+            title: Focus(focusNode: appBarTitleFocusNode, child: const AppBarTitle()),
             elevation: 2,
             actions: [
               IconButton(
+                focusNode: settingsIconFocusNode,
                 tooltip: AppLocalizations.of(context)!.homeAppBarSettingsIcon,
                 onPressed: () {
                   final mapBloc = BlocProvider.of<MapBloc>(context);
@@ -129,13 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 },
                 icon: const Icon(Icons.settings),
               ),
-              IconButton(
-                tooltip: AppLocalizations.of(context)!.homeAppBarRefreshIcon,
-                onPressed: () {
-                  context.read<MapBloc>().add(const MapMarkersPlacingOnMap());
-                },
-                icon: refreshIcon(context),
-              ),
+              const RefreshIcon(),
               BlocListener<MapBloc, MapState>(
                 listenWhen: (previous, current) {
                   return current.exception.runtimeType != AppException &&
@@ -201,22 +144,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               const SizedBox(
                 height: 10,
               ),
-              FloatingActionButton(
-                tooltip: AppLocalizations.of(context)!.homeScooterFAB,
-                heroTag: null,
-                key: UniqueKey(),
-                backgroundColor: context
-                        .select((MapBloc bloc) => bloc.state.filters[MapFilters.scooters] ?? true)
-                    ? null
-                    : Theme.of(context).disabledColor,
-                onPressed: () {
-                  context
-                      .read<MapBloc>()
-                      .add(const MapMarkerFilterButtonPressed(MapFilters.scooters));
-                },
-                child: context.select((MapBloc mapBloc) => mapBloc.state.filteringStatus == true)
-                    ? const CircularProgressIndicator()
-                    : const Icon(Icons.electric_scooter),
+              Focus(
+                focusNode: filtersFocusNode,
+                child: FloatingActionButton(
+                  tooltip: AppLocalizations.of(context)!.homeScooterFAB,
+                  heroTag: null,
+                  key: UniqueKey(),
+                  backgroundColor: context
+                          .select((MapBloc bloc) => bloc.state.filters[MapFilters.scooters] ?? true)
+                      ? null
+                      : Theme.of(context).disabledColor,
+                  onPressed: () {
+                    context
+                        .read<MapBloc>()
+                        .add(const MapMarkerFilterButtonPressed(MapFilters.scooters));
+                  },
+                  child: context.select((MapBloc mapBloc) => mapBloc.state.filteringStatus == true)
+                      ? const CircularProgressIndicator()
+                      : const Icon(Icons.electric_scooter),
+                ),
               ),
               const SizedBox(
                 height: 10,

@@ -32,13 +32,49 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show only today trips."
   },
-  "settingsTallinn": "Tallinn",
-  "@settingsTallinn": {
-    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar."
+  "tallinn": "Tallinn",
+  "@tallinn": {
+    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
-  "settingsTartu": "Tartu",
-  "@settingsTartu": {
-    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar."
+  "haapsalu": "Haapsalu",
+  "@haapsalu": {
+    "description": "City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "tartu": "Tartu",
+  "@tartu": {
+    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "johvi": "Jõhvi",
+  "@johvi": {
+    "description": "City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kohtlaJarve": "Kohtla-Järve",
+  "@kohtlaJarve": {
+    "description": "City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kuressaare": "Kuressaare",
+  "@kuressaare": {
+    "description": "City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "narva": "Narva",
+  "@narva": {
+    "description": "City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "parnu": "Pärnu",
+  "@parnu": {
+    "description": "City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "rakvere": "Rakvere",
+  "@rakvere": {
+    "description": "City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "viljandi": "Viljandi",
+  "@viljandi": {
+    "description": "City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "voru": "Võru",
+  "@voru": {
+    "description": "City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
   "homeScooterFAB": "Tõukerataste filter",
   "@homeScooterFAB": {
@@ -68,12 +104,20 @@
   "@snackbarCantFetchBoltScootersData": {
     "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
   },
+  "snackbarCantFetchTuulScootersData": "Serveri viga. Ei saa laadida Tuul tõukerataste andmeid.",
+  "@snackbarCantFetchTuulScootersData": {
+    "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Serveri viga. Ei saa laadida Tartu Smart bike andmeid.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
   },
-  "snackbarNoInternetConnection": "Internetiühendus puudub. Palun kontrollige oma ühendust ja proovige uuesti.",
+  "snackbarNoInternetConnection": "Internetiühendus puudub. Palun kontrollige oma ühendust, klõpsake värskendamise nuppu ja proovige uuesti.",
   "@snackbarNoInternetConnection": {
+    "description": "Text used in snackbar when device has internet connection problems."
+  },
+  "snackbarNoInternetConnectionInSettings": "Internetiühendus puudub. Palun kontrollige oma ühendust ja proovige uuesti.",
+  "@snackbarNoInternetConnectionInSettings": {
     "description": "Text used in snackbar when device has internet connection problems."
   },
   "snackbarDeviceIsNotSupported": "Seade ei ole toetatud.",
@@ -137,6 +181,26 @@
       }
     }
   },
+  "modalBottomSheetScooterStartPrice": "Start hind: {price}",
+  "@modalBottomSheetScooterStartPrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter start price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.00€"
+      }
+    }
+  },
+  "modalBottomSheetScooterReservePrice": "Broneeri {price}/min",
+  "@modalBottomSheetScooterReservePrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.15€"
+      }
+    }
+  },
   "modalBottomSheetScooterGoToApp": "Mine {app} rakendusse",
   "@modalBottomSheetScooterGoToApp": {
     "description": "Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.",
@@ -195,8 +259,82 @@
   "@changeFilter": {
     "description": "Text used on dropdown, which responsible for changing language."
   },
-  "settingsLanguageEstonian": "Eesti",
+  "settingsLanguageEstonian": "Eesti keel",
   "@settingsLanguageEstonian": {
     "description": "Text used on dropdown, which responsible for picking english language."
-  }
+  },
+  "introFirstScreenHeader": "Tere tulemast Yggert Nu!",
+  "@introFirstScreenHeader": {
+    "description": "Text used on the introduction page as the header for the first screen."
+  },
+  "introFirstScreenBody": "Koge linna liikuvuse revolutsiooni. Ühenda oma reisid renditavate tõukerataste, jalgrataste, autode ja ühistranspordiga ühes rakenduses.",
+  "@introFirstScreenBody": {
+    "description": "Text used on the introduction page as the body text for the first screen."
+  },
+  "introSecondScreenHeader": "Kõik Sinu transpordivõimalused ühes kohas",
+  "@introSecondScreenHeader": {
+    "description": "Text used on the introduction page as the header for the second screen."
+  },
+  "introSecondScreenBody": "Leia enda vajadustele kõige kiirem ja mugavam transport. Kõik saadaolevad renditeenused ja ühistranspordi valikud on integreeritud ühele mugavale kaardile.",
+  "@introSecondScreenBody": {
+    "description": "Text used on the introduction page as the body text for the second screen."
+  },
+  "introSecondAndHalfScreenHeader": "Ühendatud transporditeenused",
+  "@introSecondAndHalfScreenHeader": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introSecondAndHalfScreenBody": "Palun pange tähele, et Yggert Nu koondab andmeid erinevatest transpordirakendustest ning rentimisbroneeringud tehakse vastava teenusepakkuja rakenduse kaudu, mis peab olema teie seadmesse installitud.",
+  "@introSecondAndHalfScreenBody": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introThirdScreenHeader": "Ole alati õigeaegselt kohal",
+  "@introThirdScreenHeader": {
+    "description": "Text used on the introduction page as the header for the third screen."
+  },
+  "introThirdScreenBody": "Ära jäta enam kunagi bussi maha. Kontrolli kohalikke bussipeatusi järgmiste ajakavade ja saabumiste kohta, kui läheduses pole otsest transporti.",
+  "@introThirdScreenBody": {
+    "description": "Text used on the introduction page as the body text for the third screen."
+  },
+  "introFourthScreenHeader": "Kohanda oma soovide järgi",
+  "@introFourthScreenHeader": {
+    "description": "Text used on the introduction page as the header for the fourth screen."
+  },
+  "introFourthScreenBody": "Vali oma eelistatud linn, lülita valguse või pimeduse teema vahel ning vali keel. Kohanda oma kogemust meie lihtsasti ligipääsetavate seadistustega.",
+  "@introFourthScreenBody": {
+    "description": "Text used on the introduction page as the body text for the fourth screen."
+  },
+  "introFifthScreenHeader": "Salvesta oma eelistused",
+  "@introFifthScreenHeader": {
+    "description": "Text used on the introduction page as the header for the fifth screen."
+  },
+  "introFifthScreenBody": "Logi sisse oma Google'i kontoga. Sinu eelistused salvestatakse, et pakkuda järjepidevat, personaalset kogemust iga kord, kui kasutad Yggert Nu-d.",
+  "@introFifthScreenBody": {
+    "description": "Text used on the introduction page as the body text for the fifth screen."
+  },
+  "introSixthScreenHeader": "Valmis reisiks?",
+  "@introSixthScreenHeader": {
+    "description": "Text used on the introduction page as the header for the sixth screen."
+  },
+  "introSixthScreenBody": "Tere tulemast nutikamasse, paremini integreeritud transpordimaailma. Alusta oma teekonda Yggert Nu-ga nüüd!",
+  "@introSixthScreenBody": {
+    "description": "Text used on the introduction page as the body text for the sixth screen."
+  },
+  "doneButtonText": "Valmis",
+  "@doneButtonText": {
+    "description": "Text used on the 'Done' button on the final introduction screen."
+  },
+  "onboardingTitleTextCity": "Valitud linn",
+  "onboardingBodyTextCity": "Linn, mille andmed on laaditud",
+  "onboardingBodyTextCustomize": "Koputage kaardi seadete kohandamiseks",
+  "onboardingBodyTextRefresh": "Koputage markerite värskendamiseks",
+  "onboardingTitleTextFilters": "Kasutage filtreid",
+  "onboardingBodyTextFiltersExample": "Näiteks see nupp näitab/peidab rollerid",
+  "onboardingTitleTextGoodLuck": "Edu teel!",
+  "showScootersLowerCharge": "Näita tõukerattad, mille laadimisjõud on alla 30%?",
+  "yesButton": "Jah",
+  "noButton": "Ei",
+  "startTutorialAgain": "Alusta õpetust uuesti?",
+  "areYouSure": "Oled sa kindel?",
+  "userDataDownloadedSuccessfully": "Kasutaja andmed on edukalt allalaaditud",
+  "userDataUploadedSuccessfully": "Kasutaja andmed on edukalt üles laaditud"
 }

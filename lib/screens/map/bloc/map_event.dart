@@ -151,6 +151,17 @@ class MapDeleteSingleBikeStationInfo extends MapEvent {
   /// Constructor for [MapDeleteSingleBikeStationInfo] event.
   const MapDeleteSingleBikeStationInfo();
 }
+/// Event which occurs when user changes low charge scooter visibility
+/// in settings. Shows or hides low charge scooter markers.
+class MapChangeLowChargeScooterVisibility extends MapEvent {
+
+  /// Constructor for [MapChangeLowChargeScooterVisibility] event.
+  const MapChangeLowChargeScooterVisibility({required this.visibility});
+  /// Bool, which defines, is low charge scooter visible or not.
+  final bool visibility;
+  @override
+  List<Object> get props => [visibility];
+}
 
 // BLOC ONLY EVENTS
 /// Event only used inside BLoC. Filter state.markers according to

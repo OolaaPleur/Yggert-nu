@@ -19,13 +19,13 @@ class GoogleSignInButton extends StatelessWidget {
       child: AnimatedCrossFade(
         duration: const Duration(milliseconds: 300),
         firstChild:
-            context.select((AuthBloc authBloc) => authBloc.state.userCredential?.user) != null
+            context.select((AuthBloc authBloc) => authBloc.state.user) != null
                 ? Center(
                   child: Padding(
                       padding: const EdgeInsets.only(bottom: 18),
                       child: Text(
                         context.select(
-                            (AuthBloc authBloc) => authBloc.state.userCredential!.user!.displayName,)!,
+                            (AuthBloc authBloc) => authBloc.state.user!.displayName,)!,
                         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -42,7 +42,7 @@ class GoogleSignInButton extends StatelessWidget {
           ),
         ),
         crossFadeState:
-            context.select((AuthBloc authBloc) => authBloc.state.userCredential?.user) != null
+            context.select((AuthBloc authBloc) => authBloc.state.user) != null
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
       ),

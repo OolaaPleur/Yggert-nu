@@ -73,15 +73,6 @@ enum MapFilters {
   cycles
 }
 
-/// Describes city, for which info (like Bolt scooters) will be fetched.
-enum City {
-  /// Tallinn, changes in settings.
-  tallinn,
-
-  /// Tartu, changes in settings.
-  tartu
-}
-
 /// State of the Map.
 final class MapState extends Equatable {
   /// Constructor for the State.
@@ -127,6 +118,8 @@ final class MapState extends Equatable {
     this.exception = noException,
     this.singleBikeStation = const <SingleBikeStation>[],
     this.infoMessage = InfoMessage.defaultMessage,
+    this.packageName = '',
+    this.lowChargeScooterVisibility = true,
   });
 
   /// Map markers placing status.
@@ -249,6 +242,11 @@ final class MapState extends Equatable {
 
   /// Stores info about currently picked bike station.
   final List<SingleBikeStation> singleBikeStation;
+  /// Stores info about currently picked scooter package name.
+  final String packageName;
+  /// Filter parameter, if true - shows all scooter (default), if false
+  /// shows only scooter with more than 30% charge.
+  final bool lowChargeScooterVisibility;
 
   @override
   List<Object> get props =>
@@ -290,6 +288,8 @@ final class MapState extends Equatable {
         directionChars,
         pickedCity,
         singleBikeStation,
+        packageName,
+        lowChargeScooterVisibility
       ];
 
   @override
@@ -338,6 +338,8 @@ final class MapState extends Equatable {
     List<Map<String, bool>>? directionChars,
     City? pickedCity,
     List<SingleBikeStation>? singleBikeStation,
+    String? packageName,
+    bool? lowChargeScooterVisibility,
   }) {
     return MapState(
       status: status ?? this.status,
@@ -352,20 +354,20 @@ final class MapState extends Equatable {
       currentStops: currentStops ?? this.currentStops,
       currentTripIds: currentTripIds ?? this.currentTripIds,
       allStopTimesForAllTripsWhichGoesThroughCurrentStop:
-      allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
-          this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
+          allStopTimesForAllTripsWhichGoesThroughCurrentStop ??
+              this.allStopTimesForAllTripsWhichGoesThroughCurrentStop,
       presentTripStartStopTimes: presentTripStartStopTimes ?? this.presentTripStartStopTimes,
       presentTripEndStopTimes: presentTripEndStopTimes ?? this.presentTripEndStopTimes,
       presentTripStartStop: presentTripStartStop ?? this.presentTripStartStop,
       presentTripEndStop: presentTripEndStop ?? this.presentTripEndStop,
       presentStopStopTimeList: presentStopStopTimeList ?? this.presentStopStopTimeList,
       presentStopStopTimeListOnlyFilter:
-      presentStopStopTimeListOnlyFilter ?? this.presentStopStopTimeListOnlyFilter,
+          presentStopStopTimeListOnlyFilter ?? this.presentStopStopTimeListOnlyFilter,
       presentStopListOnlyFilter: presentStopListOnlyFilter ?? this.presentStopListOnlyFilter,
       presentRoutes: presentRoutes ?? this.presentRoutes,
       pressedButtonOnTrip: pressedButtonOnTrip ?? this.pressedButtonOnTrip,
       presentStopsInForwardDirection:
-      presentStopsInForwardDirection ?? this.presentStopsInForwardDirection,
+          presentStopsInForwardDirection ?? this.presentStopsInForwardDirection,
       presentTripCalendar: presentTripCalendar ?? this.presentTripCalendar,
       filteredByUserTrips: filteredByUserTrips ?? this.filteredByUserTrips,
       query: query ?? this.query,
@@ -373,7 +375,7 @@ final class MapState extends Equatable {
       globalShowTripsForToday: globalShowTripsForToday ?? this.globalShowTripsForToday,
       busStopsAdded: busStopsAdded ?? this.busStopsAdded,
       publicTransportStopAdditionStatus:
-      publicTransportStopAdditionStatus ?? this.publicTransportStopAdditionStatus,
+          publicTransportStopAdditionStatus ?? this.publicTransportStopAdditionStatus,
       filteringStatus: filteringStatus ?? this.filteringStatus,
       tripStatus: tripStatus ?? this.tripStatus,
       keyFromOpenedMarker: keyFromOpenedMarker ?? this.keyFromOpenedMarker,
@@ -382,6 +384,8 @@ final class MapState extends Equatable {
       directionChars: directionChars ?? this.directionChars,
       pickedCity: pickedCity ?? this.pickedCity,
       singleBikeStation: singleBikeStation ?? this.singleBikeStation,
+      packageName: packageName ?? this.packageName,
+      lowChargeScooterVisibility: lowChargeScooterVisibility ?? this.lowChargeScooterVisibility,
     );
   }
 }

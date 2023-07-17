@@ -15,7 +15,7 @@ import '../models/bolt_scooter.dart';
 
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
-  /// Fetch data about bolt scooters from server.
+  /// Fetch data about Tuul scooters from server.
   Future<BoltScootersList> getBoltScooters(String pickedCity) async {
     final identifier = await UniqueIdentifier.serial;
     final deviceInfo = DeviceInfoPlugin();
@@ -27,15 +27,12 @@ class BoltScooterApiProvider {
     log('Running on ${androidInfo.model} ${androidInfo.version.release}');
     var lat = '';
     var lon = '';
-    if (pickedCity == 'tallinn') {
-      lat = tallinnCoordinates.latitude.toString();
-      lon = tallinnCoordinates.longitude.toString();
-    } else if (pickedCity == 'tartu') {
-      lat = tartuCoordinates.latitude.toString();
-      lon = tartuCoordinates.longitude.toString();
-    } else {
+    final coordinates = cityCoordinates[pickedCity];
+    if (coordinates == null) {
       throw const CityIsNotPicked();
     }
+    lat = coordinates.latitude.toString();
+    lon = coordinates.longitude.toString();
     final param = <String, dynamic>{
       'lat': lat,
       'lng': lon,
@@ -49,7 +46,6 @@ class BoltScooterApiProvider {
       'language': 'en',
     };
     try {
-
       final apiLinks = GetIt.instance<ApiLinks>();
       final response = await http.get(
         Uri.parse(apiLinks.boltScooterLink).replace(queryParameters: param),
@@ -57,16 +53,13 @@ class BoltScooterApiProvider {
       );
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
-        final categoriesData = jsonData['data']['categories'] as List<dynamic>;
-        final categoryData = categoriesData[0] as Map<String, dynamic>;
-        final durationRateStr = categoryData['price_rate']['duration_rate_str'] as String;
+        final pricePerMinute = jsonData['data']['categories'][0]['price_rate']['duration_rate_str'] as String;
 
         final vehiclesData = jsonData['data']['categories'][0]['vehicles'] as List<dynamic>;
         final vehicles = vehiclesData
             .map(
               (vehicleData) =>
-                  BoltScooter.fromJson(vehicleData as Map<String, dynamic>, durationRateStr),
+                  BoltScooter.fromJson(vehicleData as Map<String, dynamic>, pricePerMinute),
             )
             .toList();
         return vehicles;

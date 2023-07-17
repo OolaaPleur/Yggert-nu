@@ -32,13 +32,49 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show only today trips."
   },
-  "settingsTallinn": "Tallinn",
-  "@settingsTallinn": {
-    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar."
+  "tallinn": "Tallinn",
+  "@tallinn": {
+    "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
-  "settingsTartu": "Tartu",
-  "@settingsTartu": {
-    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar."
+  "haapsalu": "Haapsalu",
+  "@haapsalu": {
+    "description": "City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "tartu": "Tartu",
+  "@tartu": {
+    "description": "City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "johvi": "Jõhvi",
+  "@johvi": {
+    "description": "City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kohtlaJarve": "Kohtla-Järve",
+  "@kohtlaJarve": {
+    "description": "City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "kuressaare": "Kuressaare",
+  "@kuressaare": {
+    "description": "City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "narva": "Narva",
+  "@narva": {
+    "description": "City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "parnu": "Pärnu",
+  "@parnu": {
+    "description": "City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "rakvere": "Rakvere",
+  "@rakvere": {
+    "description": "City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "viljandi": "Viljandi",
+  "@viljandi": {
+    "description": "City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
+  },
+  "voru": "Võru",
+  "@voru": {
+    "description": "City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
   "homeScooterFAB": "Scooters filter",
   "@homeScooterFAB": {
@@ -68,12 +104,20 @@
   "@snackbarCantFetchBoltScootersData": {
     "description": "Text used in snackbar, if Bolt scooters data can't be downloaded."
   },
+  "snackbarCantFetchTuulScootersData": "Server error. Cant fetch Tuul scooters data.",
+  "@snackbarCantFetchTuulScootersData": {
+    "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Server error. Cant fetch Tartu Smart bike data.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."
   },
-  "snackbarNoInternetConnection": "No Internet connection. Please check your connection and try again.",
+  "snackbarNoInternetConnection": "No Internet connection. Please check your connection, press refresh button and try again.",
   "@snackbarNoInternetConnection": {
+    "description": "Text used in snackbar when device has internet connection problems."
+  },
+  "snackbarNoInternetConnectionInSettings": "No Internet connection. Please check your connection and try again.",
+  "@snackbarNoInternetConnectionInSettings": {
     "description": "Text used in snackbar when device has internet connection problems."
   },
   "snackbarDeviceIsNotSupported": "Device is not supported.",
@@ -134,6 +178,26 @@
       "price": {
         "type": "String",
         "example": "0.22€/min"
+      }
+    }
+  },
+  "modalBottomSheetScooterStartPrice": "Start price: {price}",
+  "@modalBottomSheetScooterStartPrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter start price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.00€"
+      }
+    }
+  },
+  "modalBottomSheetScooterReservePrice": "Reserve {price}/min",
+  "@modalBottomSheetScooterReservePrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.15€"
       }
     }
   },
@@ -198,5 +262,79 @@
   "settingsLanguageEstonian": "Estonian",
   "@settingsLanguageEstonian": {
     "description": "Text used on dropdown, which responsible for picking english language."
-  }
+  },
+  "introFirstScreenHeader": "Welcome to the Yggert Nu!",
+  "@introFirstScreenHeader": {
+    "description": "Text used on intro page as header for first screen."
+  },
+  "introFirstScreenBody": "Experience a revolution in urban mobility. Seamlessly integrate your travel with rental scooters, bikes, cars, and public transport all in one app.",
+  "@introFirstScreenBody": {
+    "description": "Text used on intro page as body for first screen."
+  },
+  "introSecondScreenHeader": "All Your Transport Options in One Place",
+  "@introSecondScreenHeader": {
+    "description": "Text used on intro page as header for second screen."
+  },
+  "introSecondScreenBody": "Find the fastest and most convenient mode of transportation tailored to your needs. All available rentals and public transit options are integrated onto one convenient map.",
+  "@introSecondScreenBody": {
+    "description": "Text used on intro page as body for second screen."
+  },
+  "introSecondAndHalfScreenHeader": "Unified Transport Services",
+  "@introSecondAndHalfScreenHeader": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introSecondAndHalfScreenBody": "Please note, Yggert Nu aggregates data from various transport apps, and rental bookings are made through the respective provider's app which will need to be installed on your device.",
+  "@introSecondAndHalfScreenBody": {
+    "description": "Text used on intro page as header for second and half screen."
+  },
+  "introThirdScreenHeader": "Always Be on Time",
+  "@introThirdScreenHeader": {
+    "description": "Text used on intro page as header for third screen."
+  },
+  "introThirdScreenBody": "Never miss a bus again. Check the local bus stops for upcoming schedules and arrivals when no immediate transportation is nearby.",
+  "@introThirdScreenBody": {
+    "description": "Text used on intro page as body for third screen."
+  },
+  "introFourthScreenHeader": "Customize to Your Liking",
+  "@introFourthScreenHeader": {
+    "description": "Text used on intro page as header for fourth screen."
+  },
+  "introFourthScreenBody": "Choose your preferred city, switch between light or dark theme, and select your language. Personalize your experience with our easily accessible settings.",
+  "@introFourthScreenBody": {
+    "description": "Text used on intro page as body for fourth screen."
+  },
+  "introFifthScreenHeader": "Save Your Preferences",
+  "@introFifthScreenHeader": {
+    "description": "Text used on intro page as header for fifth screen."
+  },
+  "introFifthScreenBody": "Sign in using your Google account. Your preferences are saved to provide a consistent, personalized experience every time you use Yggert Nu.",
+  "@introFifthScreenBody": {
+    "description": "Text used on intro page as body for fifth screen."
+  },
+  "introSixthScreenHeader": "Ready for the Journey?",
+  "@introSixthScreenHeader": {
+    "description": "Text used on intro page as header for sixth screen."
+  },
+  "introSixthScreenBody": "Welcome to a smarter, more integrated world of transport. Start your journey with Yggert Nu now!",
+  "@introSixthScreenBody": {
+    "description": "Text used on intro page as body for sixth screen."
+  },
+  "doneButtonText": "Done",
+  "@doneButtonText": {
+    "description": "Text used on the 'Done' button on the final intro screen."
+  },
+  "onboardingTitleTextCity": "Picked city",
+  "onboardingBodyTextCity": "City for which data is loaded",
+  "onboardingBodyTextCustomize": "Tap to customize map settings",
+  "onboardingBodyTextRefresh": "Tap to refresh markers",
+  "onboardingTitleTextFilters": "Use filters",
+  "onboardingBodyTextFiltersExample": "For example this button shows/hides scooters",
+  "onboardingTitleTextGoodLuck": "Good luck on the road!",
+  "showScootersLowerCharge": "Show scooters with charge lower than 30%?",
+  "yesButton": "Yes",
+  "noButton": "No",
+  "startTutorialAgain": "Start tutorial again?",
+  "areYouSure": "Are you sure?",
+  "userDataDownloadedSuccessfully": "User data downloaded successfully",
+  "userDataUploadedSuccessfully": "User data uploaded successfully"
 }

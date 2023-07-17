@@ -73,7 +73,7 @@ class _MapScreenState extends State<MapScreen> {
         maxZoom: 18,
         minZoom: 8,
         interactiveFlags:
-            InteractiveFlag.pinchZoom | InteractiveFlag.drag | InteractiveFlag.flingAnimation,
+            InteractiveFlag.pinchZoom | InteractiveFlag.drag | InteractiveFlag.flingAnimation | InteractiveFlag.doubleTapZoom,
         onPositionChanged: (MapPosition position, bool hasGesture) {
           if (hasGesture && _followOnLocationUpdate != FollowOnLocationUpdate.never) {
             setState(

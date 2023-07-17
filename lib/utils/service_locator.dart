@@ -9,6 +9,7 @@ import '../data/data_sources/markers_operations.dart';
 import '../data/providers/bolt_scooter_api_provider.dart';
 import '../data/providers/estonia_public_transport_api_provider.dart';
 import '../data/providers/tartu_bike_station_api_provider.dart';
+import '../data/providers/tuul_scooter_api_provider.dart';
 import '../data/repositories/user_repository_impl.dart';
 import '../data/repositories/vehicle_repository.dart';
 import '../domain/usecases/filter_trips_by_direction.dart';
@@ -27,6 +28,7 @@ void setUpServicesLocator({
   required bool isProductionForBoltScooterLink,
   required bool isProductionForGtfsLink,
   required bool isProductionForBoltHeader,
+  required bool isProductionForTuulScooterLink,
 }) {
   final getIt = GetIt.instance;
   getIt
@@ -39,6 +41,7 @@ void setUpServicesLocator({
             isProductionForBoltScooterLink ? getApiLinks.boltScooterLink : getApiLinks.dummyLink,
         gtfsLink: isProductionForGtfsLink ? getApiLinks.gtfsLink : getApiLinks.dummyLink,
         boltHeader: isProductionForBoltHeader ? getApiLinks.boltHeader : getApiLinks.boltHeader,
+        tuulScooterLink: isProductionForTuulScooterLink ? getApiLinks.tuulScooterLink : getApiLinks.dummyLink,
       ),
     )
     // Settings and Authentication related services.
@@ -59,6 +62,7 @@ void setUpServicesLocator({
     // Micro mobility services.
     ..registerLazySingleton(BoltScooterApiProvider.new)
     ..registerLazySingleton(TartuBikeStationApiProvider.new)
+    ..registerLazySingleton(TuulScooterApiProvider.new)
     // Public transport related services.
     ..registerLazySingleton(EstoniaPublicTransportApiProvider.new)
     ..registerLazySingleton(GtfsDataOperations.new)

@@ -19,17 +19,17 @@ class UserAvatarState extends State<UserAvatar> {
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
       duration: const Duration(milliseconds: 900),
-      firstChild: widget.authState.userCredential?.user?.photoURL != null
+      firstChild: widget.authState.user?.photoURL != null
           ? Avatar(
-        imageProvider: NetworkImage(widget.authState.userCredential!.user!.photoURL!),
+        imageProvider: NetworkImage(widget.authState.user!.photoURL!),
       )
           : const Avatar(
-        imageProvider: AssetImage('assets/default_avatar.jpg'),
+        imageProvider: AssetImage('assets/default_avatar.png'),
       ),
       secondChild: const Avatar(
-        imageProvider: AssetImage('assets/default_avatar.jpg'),
+        imageProvider: AssetImage('assets/default_avatar.png'),
       ),
-      crossFadeState: widget.authState.userCredential?.user?.photoURL != null
+      crossFadeState: widget.authState.user?.photoURL != null
           ? CrossFadeState.showFirst
           : CrossFadeState.showSecond,
     );

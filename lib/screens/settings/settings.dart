@@ -6,7 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobility_app/screens/settings/widgets/animated_icon_button.dart';
 import 'package:mobility_app/screens/settings/widgets/auth_avatar.dart';
+import 'package:mobility_app/screens/settings/widgets/change_low_charge_scooter_visibility.dart';
+import 'package:mobility_app/screens/settings/widgets/show_tutorial_again.dart';
 
+import '../../constants/constants.dart';
 import '../../exceptions/exceptions.dart';
 import '../../theme/bloc/theme_bloc.dart';
 import '../../theme/bloc/theme_event.dart';
@@ -15,11 +18,11 @@ import '../../widgets/snackbar.dart';
 import '../map/bloc/map_bloc.dart';
 import 'auth_bloc/auth_bloc.dart';
 import 'language_cubit/language_cubit.dart';
+import 'widgets/change_city/pick_city_dropdown.dart';
 import 'widgets/change_language_dropdown.dart';
 import 'widgets/dark_mode_switch.dart';
 import 'widgets/google_sign_in_button.dart';
 import 'widgets/gtfs_file_download_date_card.dart';
-import 'widgets/pick_city_dropdown.dart';
 import 'widgets/show_trips_for_today_dropdown.dart';
 
 /// [Settings] is widget, which is accessed through actions in appbar on
@@ -51,7 +54,6 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
     context
         .read<LanguageCubit>()
         .changeLanguage(Locale(state.settings!['language_code'] as String));
-    context.read<AuthBloc>().add(SignInWithGoogleEvent());
   }
 
   @override
@@ -69,16 +71,15 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 900),
       vsync: this,
     )..repeat();
 
     _animation = Tween<double>(begin: 1, end: 0).animate(_controller);
 
     _controller2 = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 900),
       vsync: this,
     )..repeat();
 
@@ -89,12 +90,27 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.isDownloading == true) {
+        if (state.downloadingStatus == Status.success) {
           sendDownloadDataToStates(state);
         }
         if (state.error is SomeErrorOccurred) {
           ScaffoldMessenger.of(context).showSnackBar(
             AppSnackBar(context, exception: const SomeErrorOccurred()).showSnackBar(),
+          );
+        }
+        else if (state.error is NoInternetConnectionInSettings) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            AppSnackBar(context, exception: const NoInternetConnectionInSettings()).showSnackBar(),
+          );
+        }
+        else if (state.infoMessage == InfoMessage.userDataDownloadedSuccessfully) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            AppSnackBar(context, infoMessage: InfoMessage.userDataDownloadedSuccessfully).showSnackBar(),
+          );
+        }
+        else if (state.infoMessage == InfoMessage.userDataUploadedSuccessfully) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            AppSnackBar(context, infoMessage: InfoMessage.userDataUploadedSuccessfully).showSnackBar(),
           );
         }
       },
@@ -103,18 +119,20 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
           return BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, themeState) {
               return Scaffold(
-                backgroundColor:
-                    context.read<ThemeBloc>().isDarkModeEnabled ? null : const Color(0xFFD8F3E3),
+                backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+                    ? null
+                    : AppStyleConstants.scaffoldColor,
                 appBar: AppBar(
-                  backgroundColor:
-                      context.read<ThemeBloc>().isDarkModeEnabled ? null : const Color(0xFFeffaf3),
+                  backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+                      ? null
+                      : AppStyleConstants.appBarColor,
                   title: Text(AppLocalizations.of(context)!.settingsAppBarTitle),
                   centerTitle: true,
                   actions: [
                     AnimatedCrossFade(
                       duration: const Duration(milliseconds: 300),
                       firstChild: IconButton(
-                        icon: authState.isUploading
+                        icon: authState.uploadingStatus == Status.loading
                             ? Stack(
                                 alignment: Alignment.center,
                                 children: [
@@ -137,7 +155,8 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                                   ),
                                 ],
                               )
-                            : Stack(alignment: Alignment.center,
+                            : Stack(
+                                alignment: Alignment.center,
                                 children: [
                                   CustomPaint(
                                     size: Size(30, (30 * 1).toDouble()),
@@ -149,21 +168,21 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-                        onPressed: authState.userCredential != null
+                        onPressed: authState.user != null
                             ? () {
                                 context.read<AuthBloc>().add(UploadUserSettingsEvent());
                               }
                             : null, // Disabled state
                       ),
                       secondChild: const Align(child: SizedBox.shrink()),
-                      crossFadeState: authState.userCredential != null
+                      crossFadeState: authState.user != null
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
                     ),
                     AnimatedCrossFade(
                       duration: const Duration(milliseconds: 300),
                       firstChild: IconButton(
-                        icon: authState.isDownloading
+                        icon: authState.downloadingStatus == Status.loading
                             ? Stack(
                                 alignment: Alignment.center,
                                 children: [
@@ -190,7 +209,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                                 ],
                               )
                             : Stack(
-                          alignment: Alignment.center,
+                                alignment: Alignment.center,
                                 children: [
                                   CustomPaint(
                                     size: Size(30, (30 * 1).toDouble()),
@@ -205,14 +224,14 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-                        onPressed: authState.userCredential != null
+                        onPressed: authState.user != null
                             ? () {
                                 context.read<AuthBloc>().add(DownloadUserSettingsEvent());
                               }
                             : null, // Disabled state
                       ),
                       secondChild: const Align(child: SizedBox.shrink()),
-                      crossFadeState: authState.userCredential != null
+                      crossFadeState: authState.user != null
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
                     )
@@ -230,6 +249,10 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                     const PickCityDropdown(),
                     const Divider(),
                     const ChangeLanguageDropdown(),
+                    const Divider(),
+                    const ChangeLowChargeScooterVisibility(),
+                    const Divider(),
+                    const ShowTutorialAgain(),
                     const Divider(),
                     const GtfsFileDownloadDateCard(),
                     const Divider(),
@@ -250,7 +273,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                           ),
                         ),
                         secondChild: const SizedBox.shrink(),
-                        crossFadeState: authState.userCredential != null
+                        crossFadeState: authState.user != null
                             ? CrossFadeState.showFirst
                             : CrossFadeState.showSecond,
                       ),

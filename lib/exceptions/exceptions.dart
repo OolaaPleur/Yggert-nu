@@ -14,15 +14,27 @@ class CantFetchBoltScootersData implements AppException {
   /// Constructor for [CantFetchBoltScootersData].
   const CantFetchBoltScootersData();
 }
+/// Exception that is thrown when Tuul scooters data can not be downloaded.
+class CantFetchTuulScootersData implements AppException {
+  /// Constructor for [CantFetchTuulScootersData].
+  const CantFetchTuulScootersData();
+}
 /// Exception that is thrown when Tartu smart bikes data can not be downloaded.
 class CantFetchTartuSmartBikeData implements AppException {
   /// Constructor for [CantFetchTartuSmartBikeData].
   const CantFetchTartuSmartBikeData();
 }
 /// Exception that is thrown when no internet connection is available.
+/// Used in map errors.
 class NoInternetConnection implements AppException {
   /// Constructor for [NoInternetConnection].
   const NoInternetConnection();
+}
+/// Exception that is thrown when no internet connection is available.
+/// Used in settings.
+class NoInternetConnectionInSettings implements AppException {
+  /// Constructor for [NoInternetConnectionInSettings].
+  const NoInternetConnectionInSettings();
 }
 /// Exception that is thrown when device is not supported (right now
 /// 09.07.2023) related to Bolt fetching data.

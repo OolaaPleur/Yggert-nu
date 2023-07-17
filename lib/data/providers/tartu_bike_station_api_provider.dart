@@ -60,8 +60,6 @@ class TartuBikeStationApiProvider {
         return singleBikeStation;
       }
       throw const CantFetchTartuSmartBikeData();
-    } on SocketException {
-      throw const NoInternetConnection();
     } catch (e) {
       rethrow;
     }

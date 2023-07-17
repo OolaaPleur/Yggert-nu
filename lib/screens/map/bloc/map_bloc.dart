@@ -10,7 +10,6 @@ import 'package:mobility_app/utils/database/database_operations.dart';
 import 'package:mobility_app/utils/io/io_operations.dart';
 
 import '../../../constants/constants.dart';
-import '../../../data/models/bolt_scooter.dart';
 import '../../../data/models/estonia_public_transport.dart';
 import '../../../data/models/tartu_bike_station.dart';
 import '../../../data/repositories/settings_repository.dart';
@@ -60,6 +59,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<_MapShowTodayOrAllTrips>(_onMapShowTodayOrAllTrips);
     on<MapDeleteSingleBikeStationInfo>(_onMapDeleteSingleBikeStationInfo);
     on<_MapAddMicroMobilityMarkersToList>(_onMapAddMicroMobilityMarkersToList);
+    on<MapChangeLowChargeScooterVisibility>(_onMapChangeLowChargeScooterVisibility);
   }
 
   final VehicleRepository _vehicleRepository;
@@ -83,8 +83,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     MapGetSingleBikeStationInfo event,
     Emitter<MapState> emit,
   ) async {
-    final singleBikeStation = await _vehicleRepository.getBikeInfo(event.bikeId);
-    emit(state.copyWith(singleBikeStation: [singleBikeStation]));
+    try {
+      final singleBikeStation = await _vehicleRepository.getBikeInfo(event.bikeId);
+      emit(state.copyWith(singleBikeStation: [singleBikeStation]));
+    } catch (e) {
+      if (e.runtimeType == CantFetchTuulScootersData) {
+        emit(state.copyWith(exception: const CantFetchTartuSmartBikeData()));
+      }
+      emit(state.copyWith(exception: const NoInternetConnection()));
+      _log.severe(e);
+    }
   }
 
   void _onMapEnlargeIcon(MapEnlargeIcon event, Emitter<MapState> emit) {
@@ -94,6 +102,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void _onMapChangeTimetableMode(MapChangeTimetableMode event, Emitter<MapState> emit) {
     _settingsRepository.setStringValue('userTripsFilterValue', event.globalShowTripsForToday.name);
     emit(state.copyWith(globalShowTripsForToday: event.globalShowTripsForToday));
+  }
+
+  void _onMapChangeLowChargeScooterVisibility(MapChangeLowChargeScooterVisibility event, Emitter<MapState> emit) {
+    _settingsRepository.setBoolValue('low_charge_scooter_visibility', value: event.visibility);
+    emit(state.copyWith(lowChargeScooterVisibility: event.visibility));
   }
 
   void _onMapChangeCity(MapChangeCity event, Emitter<MapState> emit) {
@@ -292,18 +305,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   ) async {
     final mapMarkers = <MapMarker>[...state.markers];
     final pickedCity = await _settingsRepository.getStringValue('pickedCity');
+    final lowChargeScooterVisibility = await _settingsRepository.getBoolValue('low_charge_scooter_visibility');
     try {
-      BoltScootersList scootersLocations;
-      if (pickedCity == City.tartu.name) {
-        emit(state.copyWith(pickedCity: City.tartu));
-        scootersLocations = await _vehicleRepository.getBoltScooters(City.tartu.name);
-      } else if (pickedCity == City.tallinn.name) {
-        emit(state.copyWith(pickedCity: City.tallinn));
-        scootersLocations = await _vehicleRepository.getBoltScooters(City.tallinn.name);
-      } else {
-        throw const CityIsNotPicked();
-      }
+      final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
+      emit(state.copyWith(pickedCity: chosenCity, packageName: 'ee.mtakso.client'));
+      final scootersLocations = await _vehicleRepository.getBoltScooters(chosenCity.name);
       for (final scooter in scootersLocations) {
+        if (scooter.charge < 30 && !lowChargeScooterVisibility) {
+          continue;
+        }
         mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
       }
     } catch (e) {
@@ -316,7 +326,34 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       if (e.runtimeType == CityIsNotPicked) {
         emit(state.copyWith(exception: const CityIsNotPicked()));
       }
+      _log.severe(e);
     }
+
+    try {
+      final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
+      emit(state.copyWith(pickedCity: chosenCity, packageName: 'com.comodule.fleet'));
+      if (cityTuulAreas.containsKey(chosenCity.name)) {
+        final tuulScootersLocations = await _vehicleRepository.getTuulScooters(chosenCity.name);
+        for (final scooter in tuulScootersLocations) {
+          if (scooter.charge < 30 && !lowChargeScooterVisibility) {
+            continue;
+          }
+          mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+        }
+      }
+    } catch (e) {
+      if (e.runtimeType == CantFetchTuulScootersData) {
+        emit(state.copyWith(exception: const CantFetchTuulScootersData()));
+      }
+      if (e.runtimeType == NoInternetConnection) {
+        emit(state.copyWith(exception: const NoInternetConnection()));
+      }
+      if (e.runtimeType == CityIsNotPicked) {
+        emit(state.copyWith(exception: const CityIsNotPicked()));
+      }
+      _log.severe(e);
+    }
+
     if (pickedCity == City.tartu.name) {
       try {
         final bikeLocations = await _vehicleRepository.getTartuBikes();
@@ -333,6 +370,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         if (e.runtimeType == DeviceIsNotSupported) {
           emit(state.copyWith(exception: const DeviceIsNotSupported()));
         }
+        _log.severe(e);
       }
     }
     emit(
