@@ -14,6 +14,35 @@ class GtfsDataOperations {
     await DatabaseOperations.closeDatabase(stopTimesDb);
     return currentStopTimes;
   }
+  /// Returns all stops.
+  Future<List<Stop>> getAllStops() async {
+    final stopsDb = await DatabaseOperations.openAppDatabase('gtfs');
+    final List<Map<String, dynamic>> maps = await stopsDb.query('stops');
+
+    return List.generate(maps.length, (i) {
+      return Stop.fromMap(maps[i]);
+    });
+  }
+  /// Returns Stops, with specified in [stopIds] stop id.
+  Future<List<Stop>> getCurrentStops(List<String> stopIds) async {
+    final stopsDb = await DatabaseOperations.openAppDatabase('gtfs');
+    final stops = <Stop>[];
+
+    for (final stopId in stopIds) {
+      final List<Map<String, dynamic>> maps = await stopsDb.query(
+        'stops',
+        where: 'stop_id = ?',
+        whereArgs: [stopId],
+      );
+
+      if (maps.isNotEmpty) {
+        stops.add(Stop.fromMap(maps.first));
+      }
+    }
+
+    return stops;
+  }
+
   /// Returns trips for currently picked stop.
   Future<List<Trip>> getCurrentTrips(List<StopTime> stopTimesList, List<String> tripIds) async {
     final tripsDb = await DatabaseOperations.openAppDatabase('gtfs');

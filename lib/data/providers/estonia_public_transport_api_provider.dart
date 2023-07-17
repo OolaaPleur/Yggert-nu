@@ -22,6 +22,7 @@ import '../models/estonia_public_transport.dart';
 class EstoniaPublicTransportApiProvider {
   final _log = Logger('EstoniaPublicTransportApiProvider');
   final _settingsRepository = GetIt.I<SettingsRepository>();
+
   Future<void> _fetchFirstTime() async {
     final directory = await getApplicationDocumentsDirectory();
     final dbpath = await getDatabasesPath();
@@ -92,12 +93,10 @@ class EstoniaPublicTransportApiProvider {
 
   /// Parse stopTimes from stop_times.txt.
   Future<void> parseStopTimes() async {
-
     final gtfsData = await IOOperations.openFile('stop_times.txt');
     if (gtfsData == '') {
       return;
     }
-
     final stopTimesDb = await DatabaseOperations.openAppDatabase('gtfs');
     await DatabaseOperations.createTable(stopTimesDb, 'stop_times', '''
     trip_id TEXT, arrival_time TEXT, departure_time TEXT, stop_id TEXT, sequence INTEGER''');
@@ -111,6 +110,22 @@ class EstoniaPublicTransportApiProvider {
     await IOOperations.deleteFile('gtfs/stop_times.txt');
     await DatabaseOperations.closeDatabase(stopTimesDb);
     await DatabaseOperations.closeDatabase(tripsDb);
+  }
+  /// Parse stopTimes from stops.txt.
+  Future<List<Stop>> parseStops() async {
+    final gtfsData = await IOOperations.openFile('stops.txt');
+    if (gtfsData == '') {
+      return [];
+    }
+    final stopsDb = await DatabaseOperations.openAppDatabase('gtfs');
+    await DatabaseOperations.createTable(stopsDb, 'stops', '''
+    stop_id TEXT, stop_name TEXT, stop_lat DOUBLE, stop_lon DOUBLE''');
+
+    final stopTimesDataList = await _parseStops();
+
+    await DatabaseOperations.insertDataBatch(stopsDb, 'stops', stopTimesDataList.$2);
+    await DatabaseOperations.closeDatabase(stopsDb);
+    return stopTimesDataList.$1;
   }
 
   /// Parse trips from trips.txt. Here we also check is trip goes now, not
@@ -186,6 +201,7 @@ class EstoniaPublicTransportApiProvider {
     await DatabaseOperations.insertDataBatch(database, 'routes', listForRoutes);
     // Close the database.
     await DatabaseOperations.closeDatabase(database);
+    await IOOperations.deleteFile('gtfs/routes.txt');
     _log.info('Finished parsing routes.');
   }
 
@@ -251,5 +267,34 @@ class EstoniaPublicTransportApiProvider {
       }
     }
     return stopTimesDataList;
+  }
+  /// Parse stops from stops.txt.
+  Future<(List<Stop>, List<Map<String, dynamic>>)> _parseStops() async {
+    final stopsDataList = <Map<String, dynamic>>[];
+    final stopsData = await IOOperations.openFile('stops.txt');
+
+    final stops = LineSplitter.split(stopsData).skip(1).map((line) {
+      final values = line.split(',');
+      if (values[2].startsWith('"') && values[3].endsWith('"')) {
+        //print(line);
+        final stop = Stop(
+          stopId: values[0],
+          name: values[2],
+          latitude: double.parse(values[4]),
+          longitude: double.parse(values[5]),
+        );
+        stopsDataList.add(stop.toMap());
+        return stop;
+      }
+      final stop = Stop(
+        stopId: values[0],
+        name: values[2],
+        latitude: double.parse(values[3]),
+        longitude: double.parse(values[4]),
+      );
+      stopsDataList.add(stop.toMap());
+      return stop;
+    }).toList();
+    return (stops, stopsDataList);
   }
 }

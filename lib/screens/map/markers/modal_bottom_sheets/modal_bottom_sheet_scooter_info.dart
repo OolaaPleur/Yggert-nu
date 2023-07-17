@@ -43,6 +43,7 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
     }
   }
 
+  /// Defines container height for different types of scooter.
   double containerHeight (BuildContext context) {
     switch (scooter.runtimeType) {
       case BoltScooter:
@@ -116,6 +117,7 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
     );
   }
 
+  /// Defines different price per minute for different scooters.
   Widget pricePerMinuteText(BuildContext context, VehicleRepository vehicleRepository) {
     final log = Logger('pricePerMinuteText');
     if (scooter.runtimeType == BoltScooter) {

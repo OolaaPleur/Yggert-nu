@@ -79,7 +79,7 @@ final class MapState extends Equatable {
   const MapState({
     this.status = MapStateStatus.initial,
     this.tripStatus = TripStatus.initial,
-    this.markers = const <MapMarker>[],
+    this.markers = const <MarkerType, List<MapMarker>>{},
     this.filteredMarkers = const <MapMarker>[],
     this.filters = const {
       MapFilters.cycles: true,
@@ -88,7 +88,6 @@ final class MapState extends Equatable {
     },
     this.busStopsAdded = false,
     this.currentStopTimes = const <StopTime>[],
-    this.busStops = const <Stop>[],
     this.currentTrips = const <Trip>[],
     this.currentTripIds = const <String>[],
     this.allStopTimesForAllTripsWhichGoesThroughCurrentStop = const <StopTime>[],
@@ -124,8 +123,8 @@ final class MapState extends Equatable {
   /// Map markers placing status.
   final MapStateStatus status;
 
-  /// List of all markers.
-  final List<MapMarker> markers;
+  /// Map of all markers by type.
+  final Map<MarkerType, List<MapMarker>> markers;
 
   /// List of showed markers.
   final List<MapMarker> filteredMarkers;
@@ -133,10 +132,7 @@ final class MapState extends Equatable {
   /// List of filters, applied by user.
   final Map<MapFilters, bool> filters;
 
-  // Next two - global lists
-  /// List of all parsed bus stops.
-  final List<Stop> busStops;
-
+  // Next one - global list
   /// List of all parsed calendars.
   final List<Calendar> calendars;
 
@@ -252,7 +248,6 @@ final class MapState extends Equatable {
         markers,
         filteredMarkers,
         filters,
-        busStops,
         calendars,
         pickedStop,
         currentStopTimes,
@@ -290,18 +285,16 @@ final class MapState extends Equatable {
 
   @override
   String toString() {
-    return 'MapState{status: $status, markers: $markers, filteredMarkers: $filteredMarkers, filters: $filters, busStops: $busStops, calendars: $calendars, pickedStop: $pickedStop, currentStopTimes: $currentStopTimes, currentTrips: $currentTrips, currentStops: $currentStops, currentTripIds: $currentTripIds, allStopTimesForAllTripsWhichGoesThroughCurrentStop: $allStopTimesForAllTripsWhichGoesThroughCurrentStop, presentTripStartStopTimes: $presentTripStartStopTimes, presentTripEndStopTimes: $presentTripEndStopTimes, presentTripStartStop: $presentTripStartStop, presentTripEndStop: $presentTripEndStop, presentStopStopTimeList: $presentStopStopTimeList, presentStopStopTimeListOnlyFilter: $presentStopStopTimeListOnlyFilter, presentStopListOnlyFilter: $presentStopListOnlyFilter, presentRoutes: $presentRoutes, pressedButtonOnTrip: $pressedButtonOnTrip, presentStopsInForwardDirection: $presentStopsInForwardDirection, presentTripCalendar: $presentTripCalendar, filteredByUserTrips: $filteredByUserTrips, query: $query, showTripsForToday: $showTripsForToday, globalShowTripsForToday: $globalShowTripsForToday, busStopsAdded: $busStopsAdded, publicTransportStopAdditionStatus: $publicTransportStopAdditionStatus, filteringStatus: $filteringStatus, tripStatus: $tripStatus, keyFromOpenedMarker: $keyFromOpenedMarker, exception: $exception}';
+    return 'MapState{status: $status, markers: $markers, filteredMarkers: $filteredMarkers, filters: $filters, calendars: $calendars, pickedStop: $pickedStop, currentStopTimes: $currentStopTimes, currentTrips: $currentTrips, currentStops: $currentStops, currentTripIds: $currentTripIds, allStopTimesForAllTripsWhichGoesThroughCurrentStop: $allStopTimesForAllTripsWhichGoesThroughCurrentStop, presentTripStartStopTimes: $presentTripStartStopTimes, presentTripEndStopTimes: $presentTripEndStopTimes, presentTripStartStop: $presentTripStartStop, presentTripEndStop: $presentTripEndStop, presentStopStopTimeList: $presentStopStopTimeList, presentStopStopTimeListOnlyFilter: $presentStopStopTimeListOnlyFilter, presentStopListOnlyFilter: $presentStopListOnlyFilter, presentRoutes: $presentRoutes, pressedButtonOnTrip: $pressedButtonOnTrip, presentStopsInForwardDirection: $presentStopsInForwardDirection, presentTripCalendar: $presentTripCalendar, filteredByUserTrips: $filteredByUserTrips, query: $query, showTripsForToday: $showTripsForToday, globalShowTripsForToday: $globalShowTripsForToday, busStopsAdded: $busStopsAdded, publicTransportStopAdditionStatus: $publicTransportStopAdditionStatus, filteringStatus: $filteringStatus, tripStatus: $tripStatus, keyFromOpenedMarker: $keyFromOpenedMarker, exception: $exception}';
   }
-
   /// The copyWith method is used to duplicate an existing object, updating
   /// only the required fields, keeping the rest of the fields as they were
   /// in the original object.
   MapState copyWith({
     MapStateStatus? status,
-    List<MapMarker>? markers,
+    Map<MarkerType, List<MapMarker>>? markers,
     List<MapMarker>? filteredMarkers,
     Map<MapFilters, bool>? filters,
-    List<Stop>? busStops,
     List<Calendar>? calendars,
     Stop? pickedStop,
     List<StopTime>? currentStopTimes,
@@ -341,7 +334,6 @@ final class MapState extends Equatable {
       markers: markers ?? this.markers,
       filteredMarkers: filteredMarkers ?? this.filteredMarkers,
       filters: filters ?? this.filters,
-      busStops: busStops ?? this.busStops,
       calendars: calendars ?? this.calendars,
       pickedStop: pickedStop ?? this.pickedStop,
       currentStopTimes: currentStopTimes ?? this.currentStopTimes,
@@ -382,4 +374,7 @@ final class MapState extends Equatable {
       lowChargeScooterVisibility: lowChargeScooterVisibility ?? this.lowChargeScooterVisibility,
     );
   }
+
+
+
 }

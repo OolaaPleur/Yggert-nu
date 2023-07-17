@@ -16,7 +16,6 @@ import '../../../data/repositories/settings_repository.dart';
 import '../../../data/repositories/vehicle_repository.dart';
 import '../../../domain/usecases/filter_trips_by_direction.dart';
 import '../../../domain/usecases/get_calendar.dart';
-import '../../../domain/usecases/get_stops.dart';
 import '../../../exceptions/exceptions.dart';
 import '../../../utils/gtfs_list_operations.dart';
 import '../markers/map_marker.dart';
@@ -31,7 +30,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc()
       : _vehicleRepository = GetIt.I<VehicleRepository>(),
         _settingsRepository = GetIt.I<SettingsRepository>(),
-        _getStops = GetIt.I<GetStops>(),
         _getCalendar = GetIt.I<GetCalendar>(),
         _filterTripsByDirection = GetIt.I<FilterTripsByDirection>(),
         _publicTransportRepository = GetIt.I<PublicTransportRepository>(),
@@ -64,7 +62,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   final VehicleRepository _vehicleRepository;
   final SettingsRepository _settingsRepository;
-  final GetStops _getStops;
   final GetCalendar _getCalendar;
   final FilterTripsByDirection _filterTripsByDirection;
   final PublicTransportRepository _publicTransportRepository;
@@ -104,7 +101,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(state.copyWith(globalShowTripsForToday: event.globalShowTripsForToday));
   }
 
-  void _onMapChangeLowChargeScooterVisibility(MapChangeLowChargeScooterVisibility event, Emitter<MapState> emit) {
+  void _onMapChangeLowChargeScooterVisibility(
+    MapChangeLowChargeScooterVisibility event,
+    Emitter<MapState> emit,
+  ) {
     _settingsRepository.setBoolValue('low_charge_scooter_visibility', value: event.visibility);
     emit(state.copyWith(lowChargeScooterVisibility: event.visibility));
   }
@@ -162,7 +162,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         .map((stopTime) => stopTime.stopId)
         .toSet();
 
-    final currentStops = state.busStops.where((stop) => stopIds.contains(stop.stopId)).toList();
+    final currentStops = await _publicTransportRepository.getCurrentStops(stopIds.toList());
 
     final uniqueDirectionIdEndings =
         _publicTransportRepository.getUniqueDirectionIdEndings(currentTrips);
@@ -271,7 +271,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       );
     }
 
-    final stateMarkers = _publicTransportRepository.getOnlyStopsMarkers(state.markers);
+    final stateMarkers = Map.of(state.markers)..removeWhere((key, value) => key != MarkerType.stop);
     emit(state.copyWith(markers: stateMarkers));
     try {
       final snackbarNoNeedToDownload = await _vehicleRepository.fetchGtfsData(); // FETCH GTFS DATA
@@ -279,9 +279,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(
           state.copyWith(
             publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.initial,
-            markers: [],
+            markers: {},
             busStopsAdded: false,
-            busStops: [],
             calendars: [],
             filteredMarkers: [],
           ),
@@ -303,18 +302,30 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     _MapAddMicroMobilityMarkersToList event,
     Emitter<MapState> emit,
   ) async {
-    final mapMarkers = <MapMarker>[...state.markers];
+    final mapMarkers = Map.of(state.markers);
     final pickedCity = await _settingsRepository.getStringValue('pickedCity');
-    final lowChargeScooterVisibility = await _settingsRepository.getBoolValue('low_charge_scooter_visibility');
+    final lowChargeScooterVisibility =
+        await _settingsRepository.getBoolValue('low_charge_scooter_visibility');
     try {
-      final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
+      final chosenCity = City.values
+          .firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
       emit(state.copyWith(pickedCity: chosenCity));
       final boltScootersLocations = await _vehicleRepository.getBoltScooters(chosenCity.name);
       for (final scooter in boltScootersLocations) {
         if (scooter.charge < 30 && !lowChargeScooterVisibility) {
           continue;
         }
-        mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+        if (mapMarkers[MarkerType.scooter] == null) {
+          // The list does not exist, so create a new list, add the item,
+          // and set the new list to the key
+          mapMarkers[MarkerType.scooter] = [
+            _createMapMarkerList.mapMarkerMakeMarkers(scooter, this)
+          ];
+        } else {
+          // The list exists, so just add the item to the existing list
+          mapMarkers[MarkerType.scooter]!
+              .add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+        }
       }
     } catch (e) {
       if (e.runtimeType == CantFetchBoltScootersData) {
@@ -330,7 +341,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
 
     try {
-      final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
+      final chosenCity = City.values
+          .firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
       emit(state.copyWith(pickedCity: chosenCity));
       if (cityTuulAreas.containsKey(chosenCity.name)) {
         final tuulScootersLocations = await _vehicleRepository.getTuulScooters(chosenCity.name);
@@ -338,7 +350,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           if (scooter.charge < 30 && !lowChargeScooterVisibility) {
             continue;
           }
-          mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+          if (mapMarkers[MarkerType.scooter] == null) {
+            // The list does not exist, so create a new list, add the item,
+            // and set the new list to the key
+            mapMarkers[MarkerType.scooter] = [
+              _createMapMarkerList.mapMarkerMakeMarkers(scooter, this)
+            ];
+          } else {
+            // The list exists, so just add the item to the existing list
+            mapMarkers[MarkerType.scooter]!
+                .add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+          }
         }
       }
     } catch (e) {
@@ -358,7 +380,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       try {
         final bikeLocations = await _vehicleRepository.getTartuBikes();
         for (final bike in bikeLocations) {
-          mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(bike, this));
+          if (mapMarkers[MarkerType.bike] == null) {
+            // The list does not exist, so create a new list, add the item,
+            // and set the new list to the key
+            mapMarkers[MarkerType.bike] = [_createMapMarkerList.mapMarkerMakeMarkers(bike, this)];
+          } else {
+            // The list exists, so just add the item to the existing list
+            mapMarkers[MarkerType.bike]!.add(_createMapMarkerList.mapMarkerMakeMarkers(bike, this));
+          }
         }
       } catch (e) {
         if (e.runtimeType == CantFetchTartuSmartBikeData) {
@@ -376,7 +405,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(
       state.copyWith(
         markers: mapMarkers,
-        filteredMarkers: mapMarkers,
+        filteredMarkers: mapMarkers.values.expand((markers) => markers).toList(),
         infoMessage: InfoMessage.defaultMessage,
         exception: const AppException(),
       ),
@@ -391,17 +420,29 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.loading,
         ),
       );
-      final busStops = await _getStops.call();
+      //final busStops = await _getStops.call();
       final calendars = await _getCalendar.call();
+      var busStops = <Stop>[];
       if (!await IOOperations.databaseExists('gtfs')) {
         await _vehicleRepository.parseTrips(calendars);
         await _vehicleRepository.parseStopTimes();
         await _vehicleRepository.parseRoutes();
+        busStops = await _vehicleRepository.parseStops();
+      } else {
+        busStops = await _publicTransportRepository.getAllStops();
       }
-      final mapMarkers = <MapMarker>[...state.markers];
+      final mapMarkers = Map.of(state.markers);
 
       for (final busStop in busStops) {
-        mapMarkers.add(_createMapMarkerList.mapMarkerMakeMarkers(busStop, this));
+        if (mapMarkers[MarkerType.stop] == null) {
+          // The list does not exist, so create a new list, add the item,
+          // and set the new list to the key
+          mapMarkers[MarkerType.stop] = [_createMapMarkerList.mapMarkerMakeMarkers(busStop, this)];
+        } else {
+          // The list exists, so just add the item to the existing list
+          mapMarkers[MarkerType.stop]!
+              .add(_createMapMarkerList.mapMarkerMakeMarkers(busStop, this));
+        }
       }
       _log.fine('stops length: ${busStops.length} markers length: ${mapMarkers.length}');
 
@@ -412,7 +453,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           publicTransportStopAdditionStatus: PublicTransportStopAdditionStatus.success,
           markers: mapMarkers,
           busStopsAdded: true,
-          busStops: busStops,
           calendars: calendars,
           filters: editedFilters,
         ),
@@ -564,16 +604,33 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   void _onMapMarkerFiltering(_MapMarkerFiltering event, Emitter<MapState> emit) {
     final filteredMarkers = <MapMarker>[];
-    var mapMarker = MapMarker(markerType: MarkerType.none);
-    for (mapMarker in state.markers) {
-      if ((state.filters[MapFilters.busStop]! && mapMarker.markerType == MarkerType.stop) ||
-          (state.filters[MapFilters.cycles]! && mapMarker.markerType == MarkerType.bike) ||
-          (state.filters[MapFilters.scooters]! && mapMarker.markerType == MarkerType.scooter)) {
-        filteredMarkers.add(mapMarker);
-      }
+
+    if (state.filters[MapFilters.busStop]!) {
+      filteredMarkers.addAll(state.markers[MarkerType.stop] ?? []);
+    }
+    if (state.filters[MapFilters.cycles]!) {
+      filteredMarkers.addAll(state.markers[MarkerType.bike] ?? []);
+    }
+    if (state.filters[MapFilters.scooters]!) {
+      filteredMarkers.addAll(state.markers[MarkerType.scooter] ?? []);
     }
 
-    emit(state.copyWith(
-        filteredMarkers: filteredMarkers, filteringStatus: false, status: MapStateStatus.success,),);
+    // final filteredMarkers = <MapMarker>[];
+    // var mapMarker = MapMarker(markerType: MarkerType.none);
+    // for (mapMarker in state.markers) {
+    //   if ((state.filters[MapFilters.busStop]! && mapMarker.markerType == MarkerType.stop) ||
+    //       (state.filters[MapFilters.cycles]! && mapMarker.markerType == MarkerType.bike) ||
+    //       (state.filters[MapFilters.scooters]! && mapMarker.markerType == MarkerType.scooter)) {
+    //     filteredMarkers.add(mapMarker);
+    //   }
+    // }
+
+    emit(
+      state.copyWith(
+        filteredMarkers: filteredMarkers,
+        filteringStatus: false,
+        status: MapStateStatus.success,
+      ),
+    );
   }
 }

@@ -5,7 +5,6 @@ import 'package:mobility_app/data/repositories/settings_repository.dart';
 
 import '../constants/api_links.dart';
 import '../data/data_sources/gtfs_file_source.dart';
-import '../data/data_sources/markers_operations.dart';
 import '../data/providers/bolt_scooter_api_provider.dart';
 import '../data/providers/estonia_public_transport_api_provider.dart';
 import '../data/providers/tartu_bike_station_api_provider.dart';
@@ -14,7 +13,6 @@ import '../data/repositories/user_repository_impl.dart';
 import '../data/repositories/vehicle_repository.dart';
 import '../domain/usecases/filter_trips_by_direction.dart';
 import '../domain/usecases/get_calendar.dart';
-import '../domain/usecases/get_stops.dart';
 import '../domain/user_repositories/usecases/download_user_settings.dart';
 import '../domain/user_repositories/usecases/sign_in_with_google.dart';
 import '../domain/user_repositories/usecases/sign_out.dart';
@@ -69,11 +67,8 @@ void setUpServicesLocator({
     ..registerLazySingleton(PublicTransportRepository.new)
     ..registerLazySingleton(GTFSFileSource.new)
     ..registerLazySingleton(VehicleRepository.new)
-    ..registerLazySingleton(() => GetStops(repository: getIt.get<VehicleRepository>()))
     ..registerLazySingleton(() => GetCalendar(repository: getIt.get<VehicleRepository>()))
     ..registerLazySingleton(FilterTripsByDirection.new)
     // Creating markers.
-    ..registerLazySingleton(CreateMapMarkerList.new)
-    // Doing operations with markers.
-    ..registerLazySingleton(MarkersOperations.new);
+    ..registerLazySingleton(CreateMapMarkerList.new);
 }

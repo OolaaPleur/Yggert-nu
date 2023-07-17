@@ -5,6 +5,16 @@ class Stop extends Equatable {
   /// Stop constructor.
   const Stop({this.stopId = '', this.name = '', this.latitude = 0, this.longitude = 0});
 
+  /// Create a Stop object from a Map.
+  factory Stop.fromMap(Map<String, dynamic> map) {
+    return Stop(
+      stopId: map['stop_id'] as String,
+      name: map['stop_name'] as String,
+      latitude: map['stop_lat'] as double,
+      longitude: map['stop_lon'] as double,
+    );
+  }
+
   /// Stop ID.
   final String stopId;
 
@@ -19,6 +29,16 @@ class Stop extends Equatable {
 
   @override
   List<Object> get props => [stopId, name, latitude, longitude];
+
+  /// Converts Stop object to map.
+  Map<String, dynamic> toMap() {
+    return {
+      'stop_id': stopId,
+      'stop_name': name,
+      'stop_lat': latitude,
+      'stop_lon': longitude,
+    };
+  }
 }
 
 /// Public transport [Trip] object.

@@ -30,12 +30,16 @@ class VehicleRepository {
 
   /// Tuul scooters.
   final tuulScooterApiProvider = GetIt.I<TuulScooterApiProvider>();
+
   /// Holds price for fixed duration (e.g. 0.22/min for Bolt).
   String boltPricePerMinute = '';
+
   /// Holds price for fixed duration (e.g. 0.20€ for Tuul).
   String tuulPricePerMinute = '';
+
   /// Start price of scooter.
   String tuulStartPrice = '';
+
   /// Reserve price for scooter.
   String tuulReservePrice = '';
 
@@ -43,7 +47,7 @@ class VehicleRepository {
   Future<BoltScootersList> getBoltScooters(String pickedCity) async {
     final (boltScootersList, pricePerMinute) =
         await boltScooterApiProvider.getBoltScooters(pickedCity);
-    boltPricePerMinute = pricePerMinute.substring(0,5);
+    boltPricePerMinute = pricePerMinute.substring(0, 5);
     return boltScootersList;
   }
 
@@ -67,14 +71,14 @@ class VehicleRepository {
   /// Fetches GTFS data from the internet.
   Future<InfoMessage> fetchGtfsData() => estoniaPublicTransportApiProvider.fetchData();
 
-  /// Parsing stops.txt and returning List of [Stop].
-  Future<List<Stop>> getStops() => gtfsFileSource.parseStops();
-
   /// Parsing calendar.txt and returning List of [Calendar].
   Future<List<Calendar>> getCalendar() => gtfsFileSource.parseCalendar();
 
   /// Parsing stoptimes.txt into stop_times.db.
   Future<void> parseStopTimes() => estoniaPublicTransportApiProvider.parseStopTimes();
+
+  /// Parsing stops.txt and returning List of [Stop].
+  Future<List<Stop>> parseStops() => estoniaPublicTransportApiProvider.parseStops();
 
   /// Parsing trips.txt into trips.db.
   Future<void> parseTrips(List<Calendar> calendar) =>

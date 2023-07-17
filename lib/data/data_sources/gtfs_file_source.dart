@@ -6,30 +6,6 @@ import '../models/estonia_public_transport.dart';
 
 /// Class, which defines functions, which purpose to work with GTFS files.
 class GTFSFileSource {
-  /// Parse stops from stops.txt.
-  Future<List<Stop>> parseStops() async {
-    final stopsData = await IOOperations.openFile('stops.txt');
-
-    final stops = LineSplitter.split(stopsData).skip(1).map((line) {
-      final values = line.split(',');
-      if (values[2].startsWith('"') && values[3].endsWith('"')) {
-        //print(line);
-        return Stop(
-          stopId: values[0],
-          name: values[2],
-          latitude: double.parse(values[4]),
-          longitude: double.parse(values[5]),
-        );
-      }
-      return Stop(
-        stopId: values[0],
-        name: values[2],
-        latitude: double.parse(values[3]),
-        longitude: double.parse(values[4]),
-      );
-    }).toList();
-    return stops;
-  }
   /// Parse calendar from calendar.txt. Important note: here we get services
   /// which are available now, not in the future, not in the past.
   Future<List<Calendar>> parseCalendar() async {
