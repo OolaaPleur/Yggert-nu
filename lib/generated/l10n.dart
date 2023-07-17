@@ -457,10 +457,10 @@ class S {
     );
   }
 
-  /// `Price: {price}`
+  /// `Price: {price}/min`
   String modalBottomSheetScooterPrice(Object price) {
     return Intl.message(
-      'Price: $price',
+      'Price: $price/min',
       name: 'modalBottomSheetScooterPrice',
       desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.',
       args: [price],

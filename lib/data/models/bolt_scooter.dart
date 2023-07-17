@@ -9,7 +9,6 @@ class BoltScooter extends Scooter {
   BoltScooter({
     required String id,
     required int charge,
-    required String pricePerMinute,
     required this.name,
     required this.type,
     required this.latitude,
@@ -17,10 +16,10 @@ class BoltScooter extends Scooter {
     required this.distanceOnCharge,
     required this.searchCategoryId,
     required this.primaryAction,
-  }) : super(id, charge, pricePerMinute, 'Bolt');
+  }) : super(id, charge, 'Bolt');
 
   /// Deserialize data into Bolt Scooter object.
-  factory BoltScooter.fromJson(Map<String, dynamic> json, String pricePerMinute) {
+  factory BoltScooter.fromJson(Map<String, dynamic> json) {
     return BoltScooter(
       id: json['id'].toString(),
       name: json['name'] as String,
@@ -31,7 +30,6 @@ class BoltScooter extends Scooter {
       distanceOnCharge: json['distance_on_charge'] as int,
       searchCategoryId: json['search_category_id'] as int,
       primaryAction: json['primary_action'] as String,
-      pricePerMinute: pricePerMinute,
     );
   }
 

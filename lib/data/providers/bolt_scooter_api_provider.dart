@@ -16,7 +16,7 @@ import '../models/bolt_scooter.dart';
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
   /// Fetch data about Tuul scooters from server.
-  Future<BoltScootersList> getBoltScooters(String pickedCity) async {
+  Future<(BoltScootersList boltScootersList, String pricePerMinute)> getBoltScooters(String pickedCity) async {
     final identifier = await UniqueIdentifier.serial;
     final deviceInfo = DeviceInfoPlugin();
     if (!Platform.isAndroid) {
@@ -59,10 +59,10 @@ class BoltScooterApiProvider {
         final vehicles = vehiclesData
             .map(
               (vehicleData) =>
-                  BoltScooter.fromJson(vehicleData as Map<String, dynamic>, pricePerMinute),
+                  BoltScooter.fromJson(vehicleData as Map<String, dynamic>),
             )
             .toList();
-        return vehicles;
+        return (vehicles, pricePerMinute);
       } else {
         throw const CantFetchBoltScootersData();
       }

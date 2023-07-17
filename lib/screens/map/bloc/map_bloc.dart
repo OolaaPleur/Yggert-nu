@@ -308,9 +308,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final lowChargeScooterVisibility = await _settingsRepository.getBoolValue('low_charge_scooter_visibility');
     try {
       final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
-      emit(state.copyWith(pickedCity: chosenCity, packageName: 'ee.mtakso.client'));
-      final scootersLocations = await _vehicleRepository.getBoltScooters(chosenCity.name);
-      for (final scooter in scootersLocations) {
+      emit(state.copyWith(pickedCity: chosenCity));
+      final boltScootersLocations = await _vehicleRepository.getBoltScooters(chosenCity.name);
+      for (final scooter in boltScootersLocations) {
         if (scooter.charge < 30 && !lowChargeScooterVisibility) {
           continue;
         }
@@ -331,7 +331,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     try {
       final chosenCity = City.values.firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
-      emit(state.copyWith(pickedCity: chosenCity, packageName: 'com.comodule.fleet'));
+      emit(state.copyWith(pickedCity: chosenCity));
       if (cityTuulAreas.containsKey(chosenCity.name)) {
         final tuulScootersLocations = await _vehicleRepository.getTuulScooters(chosenCity.name);
         for (final scooter in tuulScootersLocations) {

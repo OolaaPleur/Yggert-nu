@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(app) => "Go to ${app} app";
 
-  static m2(price) => "Price: ${price}";
+  static m2(price) => "Price: ${price}/min";
 
   static m3(price) => "Reserve ${price}/min";
 

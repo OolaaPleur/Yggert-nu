@@ -27,16 +27,35 @@ class VehicleRepository {
 
   /// Estonian public transport.
   final estoniaPublicTransportApiProvider = GetIt.I<EstoniaPublicTransportApiProvider>();
+
   /// Tuul scooters.
   final tuulScooterApiProvider = GetIt.I<TuulScooterApiProvider>();
+  /// Holds price for fixed duration (e.g. 0.22/min for Bolt).
+  String boltPricePerMinute = '';
+  /// Holds price for fixed duration (e.g. 0.20€ for Tuul).
+  String tuulPricePerMinute = '';
+  /// Start price of scooter.
+  String tuulStartPrice = '';
+  /// Reserve price for scooter.
+  String tuulReservePrice = '';
 
   /// Fetches Bolt scooters data.
-  Future<BoltScootersList> getBoltScooters(String pickedCity) =>
-      boltScooterApiProvider.getBoltScooters(pickedCity);
+  Future<BoltScootersList> getBoltScooters(String pickedCity) async {
+    final (boltScootersList, pricePerMinute) =
+        await boltScooterApiProvider.getBoltScooters(pickedCity);
+    boltPricePerMinute = pricePerMinute.substring(0,5);
+    return boltScootersList;
+  }
 
   /// Fetches Tuul scooters data.
-  Future<List<TuulScooter>> getTuulScooters(String pickedCity) =>
-      tuulScooterApiProvider.getTuulScooters(pickedCity);
+  Future<List<TuulScooter>> getTuulScooters(String pickedCity) async {
+    final (tuulScootersList, :pricePerMinute, :reservePrice, :startPrice) =
+        await tuulScooterApiProvider.getTuulScooters(pickedCity);
+    tuulPricePerMinute = pricePerMinute;
+    tuulStartPrice = startPrice;
+    tuulReservePrice = reservePrice;
+    return tuulScootersList;
+  }
 
   /// Fetches Tartu bikes data.
   Future<List<TartuBikeStations>> getTartuBikes() => tartuBikeStationApiProvider.getTartuBikes();

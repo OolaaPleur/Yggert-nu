@@ -118,7 +118,6 @@ final class MapState extends Equatable {
     this.exception = noException,
     this.singleBikeStation = const <SingleBikeStation>[],
     this.infoMessage = InfoMessage.defaultMessage,
-    this.packageName = '',
     this.lowChargeScooterVisibility = true,
   });
 
@@ -242,15 +241,13 @@ final class MapState extends Equatable {
 
   /// Stores info about currently picked bike station.
   final List<SingleBikeStation> singleBikeStation;
-  /// Stores info about currently picked scooter package name.
-  final String packageName;
+
   /// Filter parameter, if true - shows all scooter (default), if false
   /// shows only scooter with more than 30% charge.
   final bool lowChargeScooterVisibility;
 
   @override
-  List<Object> get props =>
-      [
+  List<Object> get props => [
         status,
         markers,
         filteredMarkers,
@@ -288,7 +285,6 @@ final class MapState extends Equatable {
         directionChars,
         pickedCity,
         singleBikeStation,
-        packageName,
         lowChargeScooterVisibility
       ];
 
@@ -338,7 +334,6 @@ final class MapState extends Equatable {
     List<Map<String, bool>>? directionChars,
     City? pickedCity,
     List<SingleBikeStation>? singleBikeStation,
-    String? packageName,
     bool? lowChargeScooterVisibility,
   }) {
     return MapState(
@@ -384,7 +379,6 @@ final class MapState extends Equatable {
       directionChars: directionChars ?? this.directionChars,
       pickedCity: pickedCity ?? this.pickedCity,
       singleBikeStation: singleBikeStation ?? this.singleBikeStation,
-      packageName: packageName ?? this.packageName,
       lowChargeScooterVisibility: lowChargeScooterVisibility ?? this.lowChargeScooterVisibility,
     );
   }
