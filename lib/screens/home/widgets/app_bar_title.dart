@@ -13,6 +13,7 @@ class AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MapBloc, MapState>(
+       key: const Key('app_bar_title'),
       builder: (context, state) {
         final pickedCity = context.read<MapBloc>().state.pickedCity;
         final cityName = cityToLocalKey[pickedCity]!(AppLocalizations.of(context)!);

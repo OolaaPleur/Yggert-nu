@@ -78,6 +78,7 @@ class RefreshIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      key: const Key('refresh_icon_button'),
       focusNode: refreshIconFocusNode,
       tooltip: AppLocalizations.of(context)!.homeAppBarRefreshIcon,
       onPressed: () {

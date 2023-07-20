@@ -8,6 +8,7 @@ class ApiLinks {
     required this.gtfsLink,
     required this.boltHeader,
     required this.tuulScooterLink,
+    required this.isProductionForGeolocation,
   });
 
   /// Link to Tartu bikes API.
@@ -23,6 +24,9 @@ class ApiLinks {
 
   /// Header for Bolt API request.
   final Map<String, String> boltHeader;
+  /// Parameter, does app need to show geolocation (used for TEST ONLY and for
+  /// tests set to false).
+  final bool isProductionForGeolocation;
 }
 
 /// Method for getting API links.

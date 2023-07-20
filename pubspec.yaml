@@ -17,6 +17,7 @@ dependencies:
   external_app_launcher: ^3.1.0
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
+  firebase_core_platform_interface: ^4.8.0
   flex_color_scheme: ^7.1.2
   flutter:
     sdk: flutter
@@ -40,7 +41,7 @@ dependencies:
   json_serializable: ^6.7.0
   latlong2: ^0.8.1
   logging: ^1.2.0
-  mockito: ^5.4.2
+  mocktail: ^0.3.0
   onboarding_overlay: ^3.2.1
   path: any
   path_provider: ^2.0.15
@@ -60,7 +61,15 @@ dev_dependencies:
   envied_generator: ^0.3.0+3
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
+  integration_test:
+    sdk: flutter
+  patrol: ^2.0.7
   pubspec_dependency_sorter: ^1.0.3
+
+patrol:
+  app_name: Yggert Nu
+  android:
+    package_name: com.oolaa.redefined.mobility.mobility_app
 
 flutter: 
   assets: 

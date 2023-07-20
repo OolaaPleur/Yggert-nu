@@ -63,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             elevation: 2,
             actions: [
               IconButton(
+                key: const Key('settings_icon_button'),
                 focusNode: settingsIconFocusNode,
                 tooltip: AppLocalizations.of(context)!.homeAppBarSettingsIcon,
                 onPressed: () {
@@ -112,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               FloatingActionButton(
                 tooltip: AppLocalizations.of(context)!.homeStopFAB,
                 heroTag: null,
-                key: UniqueKey(),
+                key: const Key('stop_fab'),
                 backgroundColor:
                     context.select((MapBloc bloc) => bloc.state.filters[MapFilters.busStop] ?? true)
                         ? null
@@ -149,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: FloatingActionButton(
                   tooltip: AppLocalizations.of(context)!.homeScooterFAB,
                   heroTag: null,
-                  key: UniqueKey(),
+                  key: const Key('scooter_fab'),
                   backgroundColor: context
                           .select((MapBloc bloc) => bloc.state.filters[MapFilters.scooters] ?? true)
                       ? null
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               FloatingActionButton(
                 tooltip: AppLocalizations.of(context)!.homeBikeFAB,
                 heroTag: null,
-                key: UniqueKey(),
+                key: const Key('bike_fab'),
                 backgroundColor:
                     context.select((MapBloc bloc) => bloc.state.filters[MapFilters.cycles] ?? true)
                         ? null

@@ -22,7 +22,7 @@ class ShowTripsForTodayDropdown extends StatelessWidget {
           color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
               ? null
               : Theme.of(context).secondaryHeaderColor,
-          child: ExpansionTile(subtitle: Text(AppLocalizations.of(context)!.changeFilter),
+          child: ExpansionTile(key: const Key('show_trips_for_today_dropdown'),subtitle: Text(AppLocalizations.of(context)!.changeFilter),
             title:
                 context.read<MapBloc>().state.globalShowTripsForToday == GlobalShowTripsForToday.all
                     ? Text(AppLocalizations.of(context)!.settingsGlobalFilterAll)
@@ -49,6 +49,7 @@ class ShowTripsForTodayDropdown extends StatelessWidget {
               Builder(
                 builder: (context) {
                   return ListTile(
+                    key: const Key('show_trips_for_today_dropdown_today'),
                     title: generateDropdownMenuItem(
                       GlobalShowTripsForToday.today,
                       AppLocalizations.of(context)!.settingsGlobalFilterToday,

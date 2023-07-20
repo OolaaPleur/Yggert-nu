@@ -5,10 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/screens/map/bloc/map_bloc.dart';
-import 'package:mobility_app/screens/settings/auth_bloc/auth_bloc.dart';
-import 'package:mobility_app/theme/bloc/theme_bloc.dart';
-import 'package:mobility_app/theme/bloc/theme_event.dart';
 
 import 'app/app.dart';
 import 'utils/app_bloc_observer.dart';
@@ -38,20 +34,6 @@ Future<void> bootstrap() async {
   );
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ThemeBloc()
-            ..add(
-              LoadThemeEvent(),
-            ),
-        ),
-        BlocProvider(
-          create: (context) => AuthBloc()..add(AutoSignIn()),
-        ),
-        BlocProvider(create: (context) => MapBloc())
-      ],
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }

@@ -117,4 +117,19 @@ class AppStyleConstants {
 
   /// Color for app bar across different screens.
   static const Color appBarColor = Color(0xFFeffaf3);
+
+
+  /// INTRO STYLE FORWARD.
+  /// Intro bottom color.
+  static Color introBottomColor = Colors.red[300]!;
+  /// First intro page top color.
+  static const Color introFirstPageTopColor = Color(0xFFfffad0);
+  /// Size of first from top SizedBox height.
+  static const double firstSizeBoxHeight = 50;
+  /// Size of second from top SizedBox height.
+  static const double secondSizeBoxHeight = 40;
+  /// Scale of title text.
+  static const double introTitleTextScale = 1.7;
+  /// Scale of body text.
+  static const double introBodyTextScale = 1.2;
 }

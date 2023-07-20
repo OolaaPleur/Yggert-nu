@@ -6,12 +6,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobility_app/constants/constants.dart';
 import 'package:mobility_app/theme/bloc/theme_bloc.dart';
 import 'package:mobility_app/widgets/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../constants/api_links.dart';
 import '../../../theme/bloc/theme_state.dart';
 import '../bloc/map_bloc.dart';
 
@@ -64,6 +66,7 @@ class _MapScreenState extends State<MapScreen> {
     if (BlocProvider.of<MapBloc>(context).state.status == MapStateStatus.initial) {
       BlocProvider.of<MapBloc>(context).add(const MapMarkersPlacingOnMap());
     }
+    final apiLinks = GetIt.instance<ApiLinks>();
 
     return FlutterMap(
       mapController: mapController,
@@ -106,7 +109,7 @@ class _MapScreenState extends State<MapScreen> {
           builder: (context, state) {
             return TileLayer(
               // For release, write in doc file for me.
-              //urlTemplate:context.read<ThemeBloc>().isDarkModeEnabled ? 'https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${mapBoxToken}' : 'https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=${Env.MAP_BOX_TOKEN}',
+              //urlTemplate:context.read<ThemeBloc>().isDarkModeEnabled ? 'https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${Env.mapBoxToken}' : 'https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=${Env.mapBoxToken}',
               subdomains: const ['a', 'b', 'c'],
               userAgentPackageName: 'com.oolaa.redefined.mobility.mobility_app',
               urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -116,7 +119,7 @@ class _MapScreenState extends State<MapScreen> {
             );
           },
         ),
-        CurrentLocationLayer(
+        if (apiLinks.isProductionForGeolocation) CurrentLocationLayer(
           //followOnLocationUpdate: FollowOnLocationUpdate.once,
           followCurrentLocationStream: _followCurrentLocationStreamController.stream,
           followOnLocationUpdate: _followOnLocationUpdate,
@@ -130,7 +133,7 @@ class _MapScreenState extends State<MapScreen> {
             markerSize: Size(40, 40),
             showHeadingSector: false,
           ),
-        ),
+        ) else const SizedBox.shrink(),
         MarkerClusterLayerWidget(
           options: MarkerClusterLayerOptions(
             maxClusterRadius: 125,

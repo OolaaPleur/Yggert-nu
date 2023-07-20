@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -21,6 +21,15 @@ jobs:
 
       - name: Build
         run: flutter build apk --target=lib/main_production.dart
+
+      - name: Test
+        run: flutter test
+
+      - name: Set windows config
+        run: |
+          flutter config --enable-windows-desktop
+          flutter test -d windows integration_test/intro_test.dart
+          flutter test -d windows integration_test/onboarding_test.dart
 
       - name: Analyze
         run: flutter analyze

@@ -27,6 +27,7 @@ void setUpServicesLocator({
   required bool isProductionForGtfsLink,
   required bool isProductionForBoltHeader,
   required bool isProductionForTuulScooterLink,
+  required bool isProductionForGeolocation,
 }) {
   final getIt = GetIt.instance;
   getIt
@@ -40,6 +41,7 @@ void setUpServicesLocator({
         gtfsLink: isProductionForGtfsLink ? getApiLinks.gtfsLink : getApiLinks.dummyLink,
         boltHeader: isProductionForBoltHeader ? getApiLinks.boltHeader : getApiLinks.boltHeader,
         tuulScooterLink: isProductionForTuulScooterLink ? getApiLinks.tuulScooterLink : getApiLinks.dummyLink,
+          isProductionForGeolocation: isProductionForGeolocation,
       ),
     )
     // Settings and Authentication related services.

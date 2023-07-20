@@ -11,6 +11,7 @@ Future<void> main() async {
     isProductionForBoltScooterLink: false,
     isProductionForGtfsLink: true,
     isProductionForTuulScooterLink: false,
+      isProductionForGeolocation: true,
   );
   await bootstrap();
 }

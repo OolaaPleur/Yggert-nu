@@ -18,6 +18,7 @@ class DarkModeSwitch extends StatelessWidget {
           ? null
           : Theme.of(context).secondaryHeaderColor,
       child: SwitchListTile(
+        key: const Key('dark_mode_switcher'),
         title: Row(
           children: [
             const Icon(Icons.brightness_6),
