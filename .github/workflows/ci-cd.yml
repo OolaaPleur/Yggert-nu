@@ -21,7 +21,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.6'
+          channel: stable
 
       - name: Install dependencies
         run: flutter pub get
@@ -32,11 +32,12 @@ jobs:
       - name: Test
         run: flutter test
 
-      - name: Set windows config
-        run: |
-          flutter config --enable-windows-desktop
-          flutter test -d windows integration_test/intro_test.dart
-          flutter test -d windows integration_test/onboarding_test.dart
-
+      - name: Run integration tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter test integration_test --verbose
       - name: Analyze
         run: flutter analyze
