@@ -12,7 +12,7 @@ void main() {
         Calendar(
           serviceId: 'service2',
           daysOfWeek: [false, true, false, true, false, true, false],
-          startDate: DateTime(2023, 1, 1),
+          startDate: DateTime(2023),
           endDate: DateTime(2023, 12, 31),
         ),
       ];

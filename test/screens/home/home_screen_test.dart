@@ -40,7 +40,7 @@ void main() {
     GetIt.I.unregister<SettingsRepository>(); // don't forget to unregister it after the test run
   });
 
-  testWidgets('should send MapMarkerFilterButtonPressed when scooter and bike FAB is pressed'
+  testWidgets('should send MapMarkerFilterButtonPressed when scooter and bike FAB is pressed '
       'and two actions for bus FAB',
       (WidgetTester tester) async {
     when(() => mockMapBloc?.state).thenReturn(const MapState());
