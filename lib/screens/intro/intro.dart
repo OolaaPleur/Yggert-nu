@@ -9,6 +9,7 @@ import 'package:mobility_app/screens/intro/pages/intro_first_page.dart';
 import 'package:mobility_app/screens/intro/pages/intro_sixth_page.dart';
 import 'package:mobility_app/screens/intro/pages/intro_third_page.dart';
 import 'package:mobility_app/theme/bloc/theme_bloc.dart';
+import 'package:mobility_app/utils/build_context_ext.dart';
 
 import '../../constants/constants.dart';
 import '../../data/repositories/settings_repository.dart';
@@ -19,22 +20,15 @@ import 'pages/intro_second_page.dart';
 import 'pages/intro_seventh_page.dart';
 
 /// Class, defines introduction screen for user, who use app for the first time.
-class Intro extends StatefulWidget {
+class Intro extends StatelessWidget {
   /// Constructor for [Intro].
   const Intro({super.key});
 
   @override
-  State<Intro> createState() => _IntroState();
-}
-
-class _IntroState extends State<Intro> {
-  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        systemNavigationBarColor: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
-            ? null
-            : Colors.red[200],
+        systemNavigationBarColor: context.color.dotsContainerBottomColor,
       ),
     );
     return Scaffold(
@@ -58,12 +52,12 @@ class _IntroState extends State<Intro> {
             Text(key: const Key('intro_done_button'), AppLocalizations.of(context)!.doneButtonText),
         dotsFlex: 2,
         dotsContainerDecorator: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
-            ? const BoxDecoration()
+            ? const BoxDecoration(color: Color(0xFF141514))
             : BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     AppStyleConstants.introBottomColor,
-                    Colors.red[200]!,
+                    context.color.dotsContainerBottomColor,
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

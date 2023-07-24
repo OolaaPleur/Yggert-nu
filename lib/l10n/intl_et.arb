@@ -336,5 +336,6 @@
   "startTutorialAgain": "Alusta õpetust uuesti?",
   "areYouSure": "Oled sa kindel?",
   "userDataDownloadedSuccessfully": "Kasutaja andmed on edukalt allalaaditud",
-  "userDataUploadedSuccessfully": "Kasutaja andmed on edukalt üles laaditud"
+  "userDataUploadedSuccessfully": "Kasutaja andmed on edukalt üles laaditud",
+  "selectCity": "Vali linn"
 }

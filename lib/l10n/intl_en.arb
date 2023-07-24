@@ -336,5 +336,6 @@
   "startTutorialAgain": "Start tutorial again?",
   "areYouSure": "Are you sure?",
   "userDataDownloadedSuccessfully": "User data downloaded successfully",
-  "userDataUploadedSuccessfully": "User data uploaded successfully"
+  "userDataUploadedSuccessfully": "User data uploaded successfully",
+  "selectCity": "Select city"
 }

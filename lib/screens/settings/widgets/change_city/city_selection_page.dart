@@ -22,7 +22,7 @@ class CitySelectionPage extends StatelessWidget {
         backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
             ? null
             : AppStyleConstants.appBarColor,
-        title: const Text('Select city'),
+        title: Text(AppLocalizations.of(context)!.selectCity),
       ),
       body: ListView(
         children: cityToLocalKey.keys.map((city) {

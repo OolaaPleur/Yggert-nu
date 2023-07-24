@@ -615,16 +615,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       filteredMarkers.addAll(state.markers[MarkerType.scooter] ?? []);
     }
 
-    // final filteredMarkers = <MapMarker>[];
-    // var mapMarker = MapMarker(markerType: MarkerType.none);
-    // for (mapMarker in state.markers) {
-    //   if ((state.filters[MapFilters.busStop]! && mapMarker.markerType == MarkerType.stop) ||
-    //       (state.filters[MapFilters.cycles]! && mapMarker.markerType == MarkerType.bike) ||
-    //       (state.filters[MapFilters.scooters]! && mapMarker.markerType == MarkerType.scooter)) {
-    //     filteredMarkers.add(mapMarker);
-    //   }
-    // }
-
     emit(
       state.copyWith(
         filteredMarkers: filteredMarkers,

@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/models/bolt_scooter.dart';
 import '../../../../data/models/scooter/scooter.dart';
+import '../../../../utils/build_context_ext.dart';
 import '../../bloc/map_bloc.dart';
 
 /// Modal bottom sheet, which opens on Bolt scooter's marker pressed.
@@ -44,7 +45,7 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
   }
 
   /// Defines container height for different types of scooter.
-  double containerHeight (BuildContext context) {
+  double containerHeight(BuildContext context) {
     switch (scooter.runtimeType) {
       case BoltScooter:
         return AppStyleConstants.bikeModalBottomSheetHeight(context);
@@ -57,8 +58,7 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vehicleRepository = GetIt.I<VehicleRepository>();
-    return Container(
-      color: Theme.of(context).primaryColorLight,
+    return SizedBox(
       height: containerHeight(context),
       width: double.infinity,
       child: Row(
@@ -74,19 +74,20 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
                 // else
                 //   const SizedBox.shrink(),
                 Text(
-                  AppLocalizations.of(context)!.modalBottomSheetScooterCharge(scooter.charge),textAlign: TextAlign.center,
+                  context.localizations.modalBottomSheetScooterCharge(scooter.charge),
+                  textAlign: TextAlign.center,
                 ),
                 pricePerMinuteText(context, vehicleRepository),
                 if (scooter.runtimeType == TuulScooter)
                   Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.modalBottomSheetScooterStartPrice(
+                        context.localizations.modalBottomSheetScooterStartPrice(
                           vehicleRepository.tuulStartPrice,
                         ),
                       ),
                       Text(
-                        AppLocalizations.of(context)!.modalBottomSheetScooterReservePrice(
+                        context.localizations.modalBottomSheetScooterReservePrice(
                           vehicleRepository.tuulReservePrice,
                         ),
                         textAlign: TextAlign.center,
@@ -124,13 +125,15 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
       return Text(
         AppLocalizations.of(context)!.modalBottomSheetScooterPrice(
           vehicleRepository.boltPricePerMinute,
-        ),textAlign: TextAlign.center,
+        ),
+        textAlign: TextAlign.center,
       );
     } else if (scooter.runtimeType == TuulScooter) {
       return Text(
         AppLocalizations.of(context)!.modalBottomSheetScooterPrice(
           vehicleRepository.tuulPricePerMinute,
-        ),textAlign: TextAlign.center,
+        ),
+        textAlign: TextAlign.center,
       );
     } else {
       log.severe('Undefined scooter, critical error.');

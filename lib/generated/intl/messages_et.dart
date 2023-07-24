@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "parnu" : MessageLookupByLibrary.simpleMessage("Pärnu"),
     "rakvere" : MessageLookupByLibrary.simpleMessage("Rakvere"),
     "sat" : MessageLookupByLibrary.simpleMessage("Lau"),
+    "selectCity" : MessageLookupByLibrary.simpleMessage("Vali linn"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Seaded"),
     "settingsChangeTheme" : MessageLookupByLibrary.simpleMessage("Muuda teemat"),
     "settingsGlobalFilterAll" : MessageLookupByLibrary.simpleMessage("Näita kõiki"),

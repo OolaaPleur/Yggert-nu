@@ -16,8 +16,7 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-            color: Theme.of(context).primaryColorLight,
+    return SizedBox(
             height: AppStyleConstants.bikeModalBottomSheetHeight(context),
             width: double.infinity,
             child: Row(

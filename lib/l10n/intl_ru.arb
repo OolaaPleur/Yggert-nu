@@ -336,5 +336,6 @@
   "startTutorialAgain": "Начать обучение снова?",
   "areYouSure": "Вы уверены?",
   "userDataDownloadedSuccessfully": "Данные пользователя успешно загружены",
-  "userDataUploadedSuccessfully": "Данные пользователя успешно загружены"
+  "userDataUploadedSuccessfully": "Данные пользователя успешно загружены",
+  "selectCity": "Выбери город"
 }

@@ -936,6 +936,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Select city`
+  String get selectCity {
+    return Intl.message(
+      'Select city',
+      name: 'selectCity',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:mobility_app/utils/build_context_ext.dart';
 
 import '../../../constants/constants.dart';
 import '../../../theme/bloc/theme_bloc.dart';
@@ -37,7 +38,7 @@ PageViewModel introFirstPage (BuildContext context) {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            AppLocalizations.of(context)!.introFirstScreenHeader,
+            context.localizations.introFirstScreenHeader,
             textScaleFactor: AppStyleConstants.introTitleTextScale,
             textAlign: TextAlign.center,
           ),

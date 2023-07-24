@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "parnu" : MessageLookupByLibrary.simpleMessage("Pärnu"),
     "rakvere" : MessageLookupByLibrary.simpleMessage("Rakvere"),
     "sat" : MessageLookupByLibrary.simpleMessage("Sat"),
+    "selectCity" : MessageLookupByLibrary.simpleMessage("Select city"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsChangeTheme" : MessageLookupByLibrary.simpleMessage("Change theme"),
     "settingsGlobalFilterAll" : MessageLookupByLibrary.simpleMessage("Show all"),

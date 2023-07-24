@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobility_app/constants/constants.dart';
 import 'package:mobility_app/data/repositories/settings_repository.dart';
 import 'package:onboarding_overlay/onboarding_overlay.dart';
 
@@ -34,14 +35,13 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
       onEnd: (number) {
         _settingsRepository.setBoolValue('tutorial_passed', value: true);
       },
-        debugBoundaries: true,
         steps: [
           OnboardingStep(
             focusNode: appBarTitleFocusNode,
             titleText: AppLocalizations.of(context)!.onboardingTitleTextCity,
             bodyText: AppLocalizations.of(context)!.onboardingBodyTextCity,
             fullscreen: false,
-            overlayColor: Colors.blue.withOpacity(0.6),
+            overlayColor: AppStyleConstants.onboardingOverlayColor,
             overlayShape: const CircleBorder(),
             overlayBehavior: HitTestBehavior.deferToChild,
             textAlign: TextAlign.center,
@@ -53,7 +53,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
             bodyText: AppLocalizations.of(context)!.onboardingBodyTextCustomize,
             shape: const CircleBorder(),
             fullscreen: false,
-            overlayColor: Colors.blue.withOpacity(0.6),
+            overlayColor: AppStyleConstants.onboardingOverlayColor,
             overlayShape: const CircleBorder(),
             textAlign: TextAlign.center,
             showPulseAnimation: true,
@@ -64,7 +64,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
             bodyText: AppLocalizations.of(context)!.onboardingBodyTextRefresh,
             shape: const CircleBorder(),
             fullscreen: false,
-            overlayColor: Colors.blue.withOpacity(0.6),
+            overlayColor: AppStyleConstants.onboardingOverlayColor,
             overlayShape: const CircleBorder(),
             textAlign: TextAlign.center,
             showPulseAnimation: true,
@@ -75,7 +75,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
             bodyText: AppLocalizations.of(context)!.onboardingBodyTextFiltersExample,
             shape: const CircleBorder(),
             fullscreen: false,
-            overlayColor: Colors.blue.withOpacity(0.6),
+            overlayColor: AppStyleConstants.onboardingOverlayColor,
             overlayShape: const CircleBorder(),
             textAlign: TextAlign.center,
             showPulseAnimation: true,

@@ -132,4 +132,6 @@ class AppStyleConstants {
   static const double introTitleTextScale = 1.7;
   /// Scale of body text.
   static const double introBodyTextScale = 1.2;
+  /// ONBOARDING STYLE FORWARD
+  static Color onboardingOverlayColor = Colors.blue.withOpacity(0.6);
 }
