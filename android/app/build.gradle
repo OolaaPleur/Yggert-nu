@@ -57,7 +57,17 @@ android {
     testOptions {
         execution "ANDROIDX_TEST_ORCHESTRATOR"
     }
-
+    flavorDimensions "app"
+    productFlavors {
+        development {
+            dimension "app"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appName: "[DEV] Yggert Nu"]
+        }
+        production {
+            dimension "app"
+        }
+    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

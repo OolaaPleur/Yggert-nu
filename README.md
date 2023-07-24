@@ -22,6 +22,25 @@ For personalized settings and preference retention, users can sign in using thei
 [Press to see dark mode](https://github.com/OolaaPleur/mobility_app/assets/29483340/adb46079-1536-4537-8679-d3c5939cf541)
 Welcome to a smarter, more integrated world of transport. Welcome to Yggert Nu.
 
+## Getting Started
+
+This project contains 2 flavors:
+
+- development
+- production
+
+To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
+
+```sh
+# Development
+$ flutter run --flavor development --target lib/main_development.dart
+
+# Production
+$ flutter run --flavor production --target lib/main_production.dart
+```
+
+_\*Yggert Nu works only on Android._
+
 ## Acknowledgements
 
 A heartfelt thank you to Alisa Buinitska for her significant contribution in designing the aesthetics of the Yggert Nu app and the careful selection of color schemes. Her creative input added vibrancy and life to the application, preventing it from becoming just another dull, colorless tool. Her work has made this app not just functional, but also engaging and pleasing to the eye. I deeply appreciate the time, creativity, and effort she has invested in making this project a reality.
