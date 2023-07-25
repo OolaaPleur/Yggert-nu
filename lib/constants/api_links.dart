@@ -25,6 +25,7 @@ class ApiLinks {
   final String hoogScooterLink;
   /// Link to Tuul scooters API.
   final String tuulScooterLink;
+  /// Link to Bolt cars API.
   final String boltCarsLink;
 
   /// Link to estonian public transport GTFS data.
@@ -57,11 +58,11 @@ Map<String, String> hoogHeader,
   boltCarsLink: 'https://user.live.boltsvc.net/carsharing/search/getVehicles',
   gtfsLink: 'http://www.peatus.ee/gtfs/gtfs.zip',
   boltHeader: {
-    'Authorization': 'Basic ${Env.BOLT_TOKEN}'
+    'Authorization': 'Basic ${Env.boltToken}'
   },
 hoogHeader: {
-  'Authorization': 'Basic ${Env.HOOG_TOKEN}',
-  'app-public-key': Env.APP_PUBLIC_KEY,
+  'Authorization': 'Basic ${Env.hoogToken}',
+  'app-public-key': Env.hoogAppPublicKey,
   'Host': 'app.rideatom.com',
   'accept': 'application/json',
   'device-os': 'ANDROID',

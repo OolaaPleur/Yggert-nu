@@ -11,14 +11,8 @@ import '../../models/scooter/hoog_scooter.dart';
 class HoogScooterApiProvider {
   /// Fetch data about Hoog scooters from server.
   Future <List<HoogScooter>> getHoogScooters() async {
-    // final param = <String, dynamic>{
-    //   'user_location_timestamp': 0,
-    //   'fleet_id': 0,
-    // };
     try {
       final apiLinks = GetIt.instance<ApiLinks>();
-      print(Uri.parse(apiLinks.hoogScooterLink));
-      print(apiLinks.hoogHeader);
       final response = await http.get(
         Uri.parse(apiLinks.hoogScooterLink),
         headers: apiLinks.hoogHeader,

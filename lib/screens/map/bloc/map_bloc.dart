@@ -46,6 +46,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapChangeCity>(_onMapChangeCity);
     on<MapSearchByTheQuery>(_onMapSearchByTheQuery);
     on<MapGetSingleBikeStationInfo>(_onMapGetSingleBikeStationInfo);
+    on<MapAddRentalCars>(_onMapAddRentalCars);
 
     // Used only inside BLoC
     on<_MapLoadTripsForToday>(_onMapLoadTripsForToday);
@@ -68,6 +69,50 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   final CreateMapMarkerList _createMapMarkerList;
 
   final _log = Logger('EstoniaPublicTransportApiProvider');
+
+  Future<void> _onMapAddRentalCars (MapAddRentalCars event,Emitter<MapState> emit) async {
+    final mapMarkers = Map.of(state.markers);
+    final pickedCity = await _settingsRepository.getStringValue('pickedCity');
+    try {
+      final chosenCity = City.values
+          .firstWhere((e) => e.name == pickedCity, orElse: () => throw const CityIsNotPicked());
+      emit(state.copyWith(pickedCity: chosenCity));
+      final boltCarsLocations = await _vehicleRepository.getBoltCars(chosenCity.name);
+      for (final car in boltCarsLocations) {
+        if (mapMarkers[MarkerType.car] == null) {
+          // The list does not exist, so create a new list, add the item,
+          // and set the new list to the key
+          mapMarkers[MarkerType.car] = [
+            _createMapMarkerList.mapMarkerMakeMarkers(car, this)
+          ];
+        } else {
+          // The list exists, so just add the item to the existing list
+          mapMarkers[MarkerType.car]!
+              .add(_createMapMarkerList.mapMarkerMakeMarkers(car, this));
+        }
+      }
+    } catch (e) {
+      if (e.runtimeType == CantFetchBoltCarsData) {
+        emit(state.copyWith(exception: const CantFetchBoltCarsData()));
+      }
+      if (e.runtimeType == NoInternetConnection) {
+        emit(state.copyWith(exception: const NoInternetConnection()));
+      }
+      if (e.runtimeType == CityIsNotPicked) {
+        emit(state.copyWith(exception: const CityIsNotPicked()));
+      }
+      _log.severe(e);
+    }
+    emit(
+      state.copyWith(
+        markers: mapMarkers,
+        filteredMarkers: mapMarkers.values.expand((markers) => markers).toList(),
+        infoMessage: InfoMessage.defaultMessage,
+        exception: const AppException(),
+      ),
+    );
+    add(const _MapMarkerFiltering());
+  }
 
   void _onMapDeleteSingleBikeStationInfo(
     MapDeleteSingleBikeStationInfo event,
@@ -644,6 +689,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
     if (state.filters[MapFilters.scooters]!) {
       filteredMarkers.addAll(state.markers[MarkerType.scooter] ?? []);
+    }
+    if (state.filters[MapFilters.cars]!) {
+      filteredMarkers.addAll(state.markers[MarkerType.car] ?? []);
     }
 
     emit(

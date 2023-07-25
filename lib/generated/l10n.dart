@@ -257,6 +257,16 @@ class S {
     );
   }
 
+  /// `Car filter`
+  String get homeCarFAB {
+    return Intl.message(
+      'Car filter',
+      name: 'homeCarFAB',
+      desc: 'Text used as tooltip for FAB with car icon.',
+      args: [],
+    );
+  }
+
   /// `Stop filter`
   String get homeStopFAB {
     return Intl.message(

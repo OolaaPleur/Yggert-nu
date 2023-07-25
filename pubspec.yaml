@@ -92,6 +92,7 @@ flutter:
     - assets/intro/intro_google_sign_in.png
     - assets/intro/intro_please_note.png
     - assets/hoog_scooter.png
+    - assets/bolt_car.png
   generate: true
   uses-material-design: true
 flutter_intl: 

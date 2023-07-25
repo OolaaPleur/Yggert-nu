@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Haapsalu"),
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Värskenda"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Seaded"),
-    "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Jalgrattafilter"),
+    "homeCarFAB" : MessageLookupByLibrary.simpleMessage("Auto filter"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Tõukerataste filter"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Peatuse filter"),
     "introFifthScreenBody" : MessageLookupByLibrary.simpleMessage("Logi sisse oma Google\'i kontoga. Sinu eelistused salvestatakse, et pakkuda järjepidevat, personaalset kogemust iga kord, kui kasutad Yggert Nu-d."),

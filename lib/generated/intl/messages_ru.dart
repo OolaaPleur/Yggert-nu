@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Хаапсалу"),
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Обновить"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Настройки"),
-    "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Фильтр велосипедов"),
+    "homeCarFAB" : MessageLookupByLibrary.simpleMessage("Фильтр машин"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Фильтр самокатов"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Фильтр остановок"),
     "introFifthScreenBody" : MessageLookupByLibrary.simpleMessage("Войдите в систему с помощью своей учетной записи Google. Ваши предпочтения сохраняются для обеспечения последовательного, персонализированного опыта каждый раз, когда вы используете Yggert Nu."),

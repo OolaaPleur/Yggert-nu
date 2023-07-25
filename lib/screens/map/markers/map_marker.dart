@@ -3,12 +3,15 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:logging/logging.dart';
 import 'package:mobility_app/data/models/scooter/hoog_scooter.dart';
-import '../../../data/models/scooter/bolt_scooter.dart';
+
+import '../../../data/models/car/bolt_car.dart';
 import '../../../data/models/estonia_public_transport.dart';
-import '../../../data/models/tartu_bike_station.dart';
+import '../../../data/models/scooter/bolt_scooter.dart';
 import '../../../data/models/scooter/tuul_scooter.dart';
+import '../../../data/models/tartu_bike_station.dart';
 import '../bloc/map_bloc.dart';
 import 'marker_types/bike_marker.dart';
+import 'marker_types/car_marker.dart';
 import 'marker_types/scooter_marker.dart';
 import 'marker_types/stop_marker.dart';
 
@@ -17,11 +20,14 @@ enum MarkerType {
   /// Public transport stop.
   stop,
 
-  /// Bolt scooter.
+  /// Scooter.
   scooter,
 
-  /// Tartu smart bike.
+  /// Bike.
   bike,
+
+  /// Car
+  car,
 
   /// Default marker type.
   none
@@ -84,7 +90,8 @@ class CreateMapMarkerList {
             width: 65,
             builder: (context) => ScooterMarker(
               scooter: scooter,
-              mapBloc: mapBloc,scooterImagePath: 'assets/bolt_scooter.png',
+              mapBloc: mapBloc,
+              scooterImagePath: 'assets/bolt_scooter.png',
             ),
             point: LatLng(scooter.latitude, scooter.longitude),
           );
@@ -99,7 +106,8 @@ class CreateMapMarkerList {
             width: 65,
             builder: (context) => ScooterMarker(
               scooter: scooter,
-              mapBloc: mapBloc,scooterImagePath: 'assets/tuul_scooter.png',
+              mapBloc: mapBloc,
+              scooterImagePath: 'assets/tuul_scooter.png',
             ),
             point: LatLng(scooter.lat, scooter.lon),
           );
@@ -114,9 +122,26 @@ class CreateMapMarkerList {
             width: 65,
             builder: (context) => ScooterMarker(
               scooter: scooter,
-              mapBloc: mapBloc,scooterImagePath: 'assets/hoog_scooter.png',
+              mapBloc: mapBloc,
+              scooterImagePath: 'assets/hoog_scooter.png',
             ),
             point: LatLng(scooter.latitude, scooter.longitude),
+          );
+        }
+      case BoltCar:
+        {
+          final car = vehicleOrStop as BoltCar;
+          return MapMarker(
+            markerType: MarkerType.scooter,
+            key: Key(car.id),
+            height: 65,
+            width: 65,
+            builder: (context) => CarMarker(
+              car: car,
+              mapBloc: mapBloc,
+              carImagePath: 'assets/bolt_car.png',
+            ),
+            point: LatLng(car.latitude, car.longitude),
           );
         }
       case Stop:

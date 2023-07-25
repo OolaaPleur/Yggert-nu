@@ -5,11 +5,11 @@ import 'package:mobility_app/data/repositories/settings_repository.dart';
 
 import '../constants/api_links.dart';
 import '../data/data_sources/gtfs_file_source.dart';
-import '../data/providers/scooter/bolt_api_provider.dart';
 import '../data/providers/estonia_public_transport_api_provider.dart';
+import '../data/providers/scooter/bolt_api_provider.dart';
 import '../data/providers/scooter/hoog_scooter_api_provider.dart';
-import '../data/providers/tartu_bike_station_api_provider.dart';
 import '../data/providers/scooter/tuul_scooter_api_provider.dart';
+import '../data/providers/tartu_bike_station_api_provider.dart';
 import '../data/repositories/user_repository_impl.dart';
 import '../data/repositories/vehicle_repository.dart';
 import '../domain/usecases/filter_trips_by_direction.dart';

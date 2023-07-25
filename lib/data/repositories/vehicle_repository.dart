@@ -8,11 +8,11 @@ import 'package:mobility_app/data/providers/scooter/tuul_scooter_api_provider.da
 import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';
 import '../models/car/bolt_car.dart';
-import '../models/scooter/bolt_scooter.dart';
 import '../models/estonia_public_transport.dart';
+import '../models/scooter/bolt_scooter.dart';
 import '../models/scooter/hoog_scooter.dart';
-import '../models/tartu_bike_station.dart';
 import '../models/scooter/tuul_scooter.dart';
+import '../models/tartu_bike_station.dart';
 import '../providers/scooter/bolt_api_provider.dart';
 import '../providers/tartu_bike_station_api_provider.dart';
 

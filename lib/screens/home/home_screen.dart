@@ -12,6 +12,7 @@ import '../../data/repositories/settings_repository.dart';
 import '../../exceptions/exceptions.dart';
 import '../../theme/bloc/theme_bloc.dart';
 import '../map/bloc/map_bloc.dart';
+import '../map/markers/map_marker.dart';
 import '../map/view/map_screen.dart';
 import '../settings/settings.dart';
 import 'widgets/app_bar_title.dart';
@@ -141,6 +142,31 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         }
                       },
                 child: const BusIcon(),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              FloatingActionButton(
+                tooltip: AppLocalizations.of(context)!.homeCarFAB,
+                heroTag: null,
+                key: const Key('car_fab'),
+                backgroundColor:
+                context.select((MapBloc bloc) => bloc.state.filters[MapFilters.cars] ?? true)
+                    ? null
+                    : Theme.of(context).disabledColor,
+                onPressed: () {
+                  if (context.read<MapBloc>().state.markers.containsKey(MarkerType.car)) {
+                    context
+                        .read<MapBloc>()
+                        .add(const MapMarkerFilterButtonPressed(MapFilters.cars));
+                  }
+                  else {
+                    context
+                        .read<MapBloc>()
+                        .add(const MapAddRentalCars());
+                  }
+                },
+                child: const Icon(Icons.car_rental),
               ),
               const SizedBox(
                 height: 10,

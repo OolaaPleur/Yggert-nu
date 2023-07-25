@@ -41,7 +41,7 @@ jobs:
         run: flutter build apk --flavor production --target=lib/main_production.dart
 
       - name: Test
-        run: flutter test
+        run: flutter test --flavor production
 
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -49,6 +49,6 @@ jobs:
           api-level: 29
           arch: x86_64
           profile: Nexus 6
-          script: flutter test integration_test
+          script: flutter test --flavor production integration_test
       - name: Analyze
         run: flutter analyze

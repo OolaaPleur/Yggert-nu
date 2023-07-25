@@ -8,16 +8,12 @@ void main() {
   setUpAll(() {
     setUpServicesLocator(
       isProductionForTartuBikesLink: false,
-      // or whatever value is appropriate for tests
       isProductionForBoltScooterLink: false,
-      // or whatever value is appropriate for tests
       isProductionForGtfsLink: false,
-      // or whatever value is appropriate for tests
       isProductionForBoltHeader: false,
-      // or whatever value is appropriate for tests
-      isProductionForTuulScooterLink: false, // or whatever value is appropriate for tests
+      isProductionForTuulScooterLink: false,
       isProductionForGeolocation: false,
-        isProductionForHoogHeader: false,
+      isProductionForHoogHeader: false,
       isProductionHoogScooterLink: false,
       isProductionBoltCarsLink: false,
     );

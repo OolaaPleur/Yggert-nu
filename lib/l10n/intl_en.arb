@@ -84,6 +84,10 @@
   "@homeBikeFAB": {
     "description": "Text used as tooltip for FAB with bike icon."
   },
+  "homeCarFAB": "Car filter",
+  "@homeCarFAB": {
+    "description": "Text used as tooltip for FAB with car icon."
+  },
   "homeStopFAB": "Stop filter",
   "@homeStopFAB": {
     "description": "Text used as tooltip for FAB with bus icon."

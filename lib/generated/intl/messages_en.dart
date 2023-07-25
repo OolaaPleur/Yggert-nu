@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Refresh"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Settings"),
     "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Bike filter"),
+    "homeCarFAB" : MessageLookupByLibrary.simpleMessage("Car filter"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Scooters filter"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Stop filter"),
     "introFifthScreenBody" : MessageLookupByLibrary.simpleMessage("Sign in using your Google account. Your preferences are saved to provide a consistent, personalized experience every time you use Yggert Nu."),

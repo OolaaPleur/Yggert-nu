@@ -17,8 +17,8 @@ import '../../models/scooter/bolt_scooter.dart';
 
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
-  /// Make parameters for request.
-  Future<Map<String, dynamic>> boltParameters({
+  /// Make parameters for scooter request.
+  Future<Map<String, dynamic>> boltScooterParameters({
     required String latitude,
     required String longitude,
   }) async {
@@ -31,7 +31,30 @@ class BoltScooterApiProvider {
       'lat': latitude,
       'lng': longitude,
       'select_all': 'true',
-      'version': 'CA.71.0',
+      'version': 'CA.76.1',
+      'deviceId': {identifier},
+      'device_name': {androidInfo.model},
+      'device_os_version': {androidInfo.version.release},
+      'deviceType': {os},
+      'country': 'ee',
+      'language': 'en',
+    };
+  }
+
+  /// Make parameters for scooter request.
+  Future<Map<String, dynamic>> boltCarParameters({
+    required String latitude,
+    required String longitude,
+  }) async {
+    final identifier = await UniqueIdentifier.serial;
+    final deviceInfo = DeviceInfoPlugin();
+    const os = 'android';
+    final androidInfo = await deviceInfo.androidInfo;
+    log('Running on ${androidInfo.model} ${androidInfo.version.release}');
+    return {
+      'gps_lat': latitude,
+      'gps_lng': longitude,
+      'version': 'CA.76.1',
       'deviceId': {identifier},
       'device_name': {androidInfo.model},
       'device_os_version': {androidInfo.version.release},
@@ -59,7 +82,7 @@ class BoltScooterApiProvider {
   ) async {
     try {
       final coordinates = checkOSAndCoordinates(pickedCity);
-      final param = await boltParameters(
+      final param = await boltScooterParameters(
         latitude: coordinates.latitude.toString(),
         longitude: coordinates.longitude.toString(),
       );
@@ -96,31 +119,32 @@ class BoltScooterApiProvider {
   ) async {
     try {
       final coordinates = checkOSAndCoordinates(pickedCity);
-      final param = await boltParameters(
+      final param = await boltCarParameters(
         latitude: coordinates.latitude.toString(),
         longitude: coordinates.longitude.toString(),
       );
       final apiLinks = GetIt.instance<ApiLinks>();
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(apiLinks.boltCarsLink).replace(queryParameters: param),
         headers: apiLinks.boltHeader,
+        body:
+            '{"viewport":{"north_east":{"lat":${coordinates.latitude},"lng":${coordinates.longitude}'
+            '},"south_west":{"lat":${coordinates.latitude},"lng":${coordinates.longitude}}}}',
       );
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-
         final vehiclesData = jsonData['data']['categories'] as List<dynamic>;
-        late List<BoltCar> vehicles;
-
+        final vehicles = <BoltCar>[];
         for (final vehicleData in vehiclesData) {
           final foo = vehicleData['vehicles'] as List<dynamic>;
-          vehicles = foo
-              .map(
-                (vehicleData) => BoltCar.fromJson(vehicleData as Map<String, dynamic>),
-              )
-              .toList();
+          vehicles.addAll(
+            foo
+                .map(
+                  (vehicleData) => BoltCar.fromJson(vehicleData as Map<String, dynamic>),
+                )
+                .toList(),
+          );
         }
-        final a = vehicles;
-        print(a.length);
         return vehicles;
       } else {
         throw const CantFetchBoltScootersData();

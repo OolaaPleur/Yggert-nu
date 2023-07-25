@@ -70,7 +70,10 @@ enum MapFilters {
   scooters,
 
   /// Cycle filter, changes when pressed FAB with bike icon.
-  cycles
+  cycles,
+
+  /// Car filter, changes when pressed FAB with car icon.
+  cars,
 }
 
 /// State of the Map.
@@ -84,7 +87,8 @@ final class MapState extends Equatable {
     this.filters = const {
       MapFilters.cycles: true,
       MapFilters.scooters: true,
-      MapFilters.busStop: false
+      MapFilters.busStop: false,
+      MapFilters.cars: false
     },
     this.busStopsAdded = false,
     this.currentStopTimes = const <StopTime>[],
@@ -287,6 +291,7 @@ final class MapState extends Equatable {
   String toString() {
     return 'MapState{status: $status, markers: $markers, filteredMarkers: $filteredMarkers, filters: $filters, calendars: $calendars, pickedStop: $pickedStop, currentStopTimes: $currentStopTimes, currentTrips: $currentTrips, currentStops: $currentStops, currentTripIds: $currentTripIds, allStopTimesForAllTripsWhichGoesThroughCurrentStop: $allStopTimesForAllTripsWhichGoesThroughCurrentStop, presentTripStartStopTimes: $presentTripStartStopTimes, presentTripEndStopTimes: $presentTripEndStopTimes, presentTripStartStop: $presentTripStartStop, presentTripEndStop: $presentTripEndStop, presentStopStopTimeList: $presentStopStopTimeList, presentStopStopTimeListOnlyFilter: $presentStopStopTimeListOnlyFilter, presentStopListOnlyFilter: $presentStopListOnlyFilter, presentRoutes: $presentRoutes, pressedButtonOnTrip: $pressedButtonOnTrip, presentStopsInForwardDirection: $presentStopsInForwardDirection, presentTripCalendar: $presentTripCalendar, filteredByUserTrips: $filteredByUserTrips, query: $query, showTripsForToday: $showTripsForToday, globalShowTripsForToday: $globalShowTripsForToday, busStopsAdded: $busStopsAdded, publicTransportStopAdditionStatus: $publicTransportStopAdditionStatus, filteringStatus: $filteringStatus, tripStatus: $tripStatus, keyFromOpenedMarker: $keyFromOpenedMarker, exception: $exception}';
   }
+
   /// The copyWith method is used to duplicate an existing object, updating
   /// only the required fields, keeping the rest of the fields as they were
   /// in the original object.
@@ -374,7 +379,4 @@ final class MapState extends Equatable {
       lowChargeScooterVisibility: lowChargeScooterVisibility ?? this.lowChargeScooterVisibility,
     );
   }
-
-
-
 }

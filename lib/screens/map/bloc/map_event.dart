@@ -40,6 +40,14 @@ class MapShowBusStops extends MapEvent {
   const MapShowBusStops();
 }
 
+/// Event which occurs once in app (until it will be started again).
+/// On FAB with car icon pressed it makes request to server and
+/// adds markers to state.
+class MapAddRentalCars extends MapEvent {
+  /// Constructor for [MapAddRentalCars] event.
+  const MapAddRentalCars();
+}
+
 /// Event which occurs when user close modal bottom sheet.
 class MapCloseStopTimesModalBottomSheet extends MapEvent {
   /// Constructor for [MapCloseStopTimesModalBottomSheet] event.

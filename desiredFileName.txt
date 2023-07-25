@@ -1,0 +1,9 @@
+{
+  "et": [
+    "homeBikeFAB"
+  ],
+
+  "ru": [
+    "homeBikeFAB"
+  ]
+}
