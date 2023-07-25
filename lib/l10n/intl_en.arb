@@ -108,6 +108,10 @@
   "@snackbarCantFetchTuulScootersData": {
     "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
   },
+  "snackbarCantFetchHoogScootersData": "Server error. Cant fetch Hoog scooters data.",
+  "@snackbarCantFetchHoogScootersData": {
+    "description": "Text used in snackbar, if Hoog scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Server error. Cant fetch Tartu Smart bike data.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."

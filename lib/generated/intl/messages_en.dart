@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "showScootersLowerCharge" : MessageLookupByLibrary.simpleMessage("Show scooters with charge lower than 30%?"),
     "signInWithGoogle" : MessageLookupByLibrary.simpleMessage("Sign in with Google"),
     "snackbarCantFetchBoltScootersData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Bolt scooters data."),
+    "snackbarCantFetchHoogScootersData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Hoog scooters data."),
     "snackbarCantFetchTartuSmartBikeData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Tartu Smart bike data."),
     "snackbarCantFetchTuulScootersData" : MessageLookupByLibrary.simpleMessage("Server error. Cant fetch Tuul scooters data."),
     "snackbarCityIsNotPicked" : MessageLookupByLibrary.simpleMessage("No city was picked."),

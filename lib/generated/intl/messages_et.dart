@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "showScootersLowerCharge" : MessageLookupByLibrary.simpleMessage("Näita tõukerattad, mille laadimisjõud on alla 30%?"),
     "signInWithGoogle" : MessageLookupByLibrary.simpleMessage("Logi sisse Google\'iga"),
     "snackbarCantFetchBoltScootersData" : MessageLookupByLibrary.simpleMessage("Serveri viga. Ei saa laadida Bolti tõukerataste andmeid."),
+    "snackbarCantFetchHoogScootersData" : MessageLookupByLibrary.simpleMessage("Serveri viga. Ei saa laadida Hoog tõukerataste andmeid."),
     "snackbarCantFetchTartuSmartBikeData" : MessageLookupByLibrary.simpleMessage("Serveri viga. Ei saa laadida Tartu Smart bike andmeid."),
     "snackbarCantFetchTuulScootersData" : MessageLookupByLibrary.simpleMessage("Serveri viga. Ei saa laadida Tuul tõukerataste andmeid."),
     "snackbarCityIsNotPicked" : MessageLookupByLibrary.simpleMessage("Ühtegi linna ei valitud."),

@@ -108,6 +108,10 @@
   "@snackbarCantFetchTuulScootersData": {
     "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
   },
+  "snackbarCantFetchHoogScootersData": "Ошибка сервера. Невозможно загрузить данные о Hoog самокатах.",
+  "@snackbarCantFetchHoogScootersData": {
+    "description": "Text used in snackbar, if Hoog scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Ошибка сервера. Невозможно загрузить данные о велосипедах Tartu Smart bike.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."

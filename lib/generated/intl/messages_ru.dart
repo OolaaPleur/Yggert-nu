@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "showScootersLowerCharge" : MessageLookupByLibrary.simpleMessage("Показывать самокаты с зарядом меньше 30%?"),
     "signInWithGoogle" : MessageLookupByLibrary.simpleMessage("Войти через Google"),
     "snackbarCantFetchBoltScootersData" : MessageLookupByLibrary.simpleMessage("Ошибка сервера. Невозможно загрузить данные о Bolt самокатах."),
+    "snackbarCantFetchHoogScootersData" : MessageLookupByLibrary.simpleMessage("Ошибка сервера. Невозможно загрузить данные о Hoog самокатах."),
     "snackbarCantFetchTartuSmartBikeData" : MessageLookupByLibrary.simpleMessage("Ошибка сервера. Невозможно загрузить данные о велосипедах Tartu Smart bike."),
     "snackbarCantFetchTuulScootersData" : MessageLookupByLibrary.simpleMessage("Ошибка сервера. Невозможно загрузить данные о Tuul самокатах."),
     "snackbarCityIsNotPicked" : MessageLookupByLibrary.simpleMessage("Город не выбран"),

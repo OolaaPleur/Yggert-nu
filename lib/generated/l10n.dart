@@ -317,6 +317,16 @@ class S {
     );
   }
 
+  /// `Server error. Cant fetch Hoog scooters data.`
+  String get snackbarCantFetchHoogScootersData {
+    return Intl.message(
+      'Server error. Cant fetch Hoog scooters data.',
+      name: 'snackbarCantFetchHoogScootersData',
+      desc: 'Text used in snackbar, if Hoog scooters data can\'t be downloaded.',
+      args: [],
+    );
+  }
+
   /// `Server error. Cant fetch Tartu Smart bike data.`
   String get snackbarCantFetchTartuSmartBikeData {
     return Intl.message(

@@ -108,6 +108,10 @@
   "@snackbarCantFetchTuulScootersData": {
     "description": "Text used in snackbar, if Tuul scooters data can't be downloaded."
   },
+  "snackbarCantFetchHoogScootersData": "Serveri viga. Ei saa laadida Hoog tõukerataste andmeid.",
+  "@snackbarCantFetchHoogScootersData": {
+    "description": "Text used in snackbar, if Hoog scooters data can't be downloaded."
+  },
   "snackbarCantFetchTartuSmartBikeData": "Serveri viga. Ei saa laadida Tartu Smart bike andmeid.",
   "@snackbarCantFetchTartuSmartBikeData": {
     "description": "Text used in snackbar, if Tartu Smart bike data can't be downloaded."

@@ -66,6 +66,21 @@ class AppSnackBar {
           }).toList();
           return messageSpans;
         }
+      case CantFetchHoogScootersData:
+        {
+          final words = AppLocalizations.of(context)!.snackbarCantFetchHoogScootersData;
+          const highlightedWords = 'Hoog';
+          final messageSpans = words.split(' ').map((word) {
+            return highlightedWords.contains(word)
+                ? TextSpan(
+              text: '$word ',
+              style:
+              TextStyle(color: Colors.yellow[600], fontWeight: FontWeight.bold),
+            )
+                : TextSpan(text: '$word ');
+          }).toList();
+          return messageSpans;
+        }
       case NoInternetConnection:
         return [TextSpan(text: AppLocalizations.of(context)!.snackbarNoInternetConnection)];
       case DeviceIsNotSupported:
