@@ -4,11 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:mobility_app/constants/constants.dart';
-import 'package:mobility_app/data/models/tuul_scooter.dart';
+import 'package:mobility_app/data/models/scooter/tuul_scooter.dart';
 import 'package:mobility_app/data/repositories/vehicle_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../data/models/bolt_scooter.dart';
+import '../../../../data/models/scooter/bolt_scooter.dart';
 import '../../../../data/models/scooter/scooter.dart';
 import '../../../../utils/build_context_ext.dart';
 import '../../bloc/map_bloc.dart';

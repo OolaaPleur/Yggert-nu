@@ -11,7 +11,7 @@ import 'package:unique_identifier/unique_identifier.dart';
 import '../../constants/api_links.dart';
 import '../../constants/constants.dart';
 import '../../exceptions/exceptions.dart';
-import '../models/bolt_scooter.dart';
+import '../models/scooter/bolt_scooter.dart';
 
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {

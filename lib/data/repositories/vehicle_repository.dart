@@ -6,10 +6,10 @@ import 'package:mobility_app/data/providers/tuul_scooter_api_provider.dart';
 
 import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';
-import '../models/bolt_scooter.dart';
+import '../models/scooter/bolt_scooter.dart';
 import '../models/estonia_public_transport.dart';
 import '../models/tartu_bike_station.dart';
-import '../models/tuul_scooter.dart';
+import '../models/scooter/tuul_scooter.dart';
 import '../providers/bolt_scooter_api_provider.dart';
 import '../providers/tartu_bike_station_api_provider.dart';
 

@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobility_app/data/models/tuul_scooter.dart';
+import 'package:mobility_app/data/models/scooter/tuul_scooter.dart';
 
 import '../../constants/api_links.dart';
 import '../../constants/constants.dart';

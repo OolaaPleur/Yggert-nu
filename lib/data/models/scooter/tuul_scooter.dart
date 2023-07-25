@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
-import 'scooter/scooter.dart';
+import 'scooter.dart';
 
 /// Tuul Scooter model.
 class TuulScooter extends Scooter {

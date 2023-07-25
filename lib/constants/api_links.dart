@@ -1,3 +1,5 @@
+import '../utils/env/env.dart';
+
 /// Class, needed to specify, which links we use right now from test links
 /// and which from production.
 class ApiLinks {
@@ -42,7 +44,7 @@ class ApiLinks {
   boltScooterLink: 'https://user.live.boltsvc.net/micromobility/search/getVehicles',
   gtfsLink: 'http://www.peatus.ee/gtfs/gtfs.zip',
   boltHeader: {
-    'Authorization': 'Basic KzM3MjUzMjY5NjIyOjQxNTlhZWE3LTBlMjEtNGI2Mi05ZmQ1LTg0MmM1NjdhZWRhOQ=='
+    'Authorization': 'Basic ${Env.boltToken}'
   },
   dummyLink: 'https://dummyjson.com/notfound',
   tuulScooterLink:
