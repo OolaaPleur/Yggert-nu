@@ -487,6 +487,16 @@ class S {
     );
   }
 
+  /// `Pause price: {price}/min`
+  String modalBottomSheetScooterPausePrice(Object price) {
+    return Intl.message(
+      'Pause price: $price/min',
+      name: 'modalBottomSheetScooterPausePrice',
+      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter pause price.',
+      args: [price],
+    );
+  }
+
   /// `Reserve {price}/min`
   String modalBottomSheetScooterReservePrice(Object price) {
     return Intl.message(

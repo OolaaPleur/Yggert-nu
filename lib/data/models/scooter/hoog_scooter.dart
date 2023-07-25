@@ -21,8 +21,8 @@ class HoogScooter extends Scooter {
       number: json['nr'] as String,
       latitude: json['coordinates']['latitude'] as double,
       longitude: json['coordinates']['longitude'] as double,
-      priceInfo: json['price_info'] as String,
-      pauseInfo: json['pause_info'] as String,
+      priceInfo: '${json['price_info'].toString().substring(0, 5)}€',
+      pauseInfo: '${json['pause_info'].toString().substring(0, 5)}€',
     );
   }
 

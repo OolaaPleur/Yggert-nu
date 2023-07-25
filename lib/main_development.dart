@@ -14,6 +14,7 @@ Future<void> main() async {
       isProductionForGeolocation: true,
     isProductionForHoogHeader: false,
     isProductionHoogScooterLink: false,
+    isProductionBoltCarsLink: false,
   );
   await bootstrap();
 }

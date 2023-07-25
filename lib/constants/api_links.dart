@@ -13,6 +13,7 @@ class ApiLinks {
     required this.isProductionForGeolocation,
     required this.hoogHeader,
     required this.hoogScooterLink,
+    required this.boltCarsLink,
   });
 
   /// Link to Tartu bikes API.
@@ -24,6 +25,7 @@ class ApiLinks {
   final String hoogScooterLink;
   /// Link to Tuul scooters API.
   final String tuulScooterLink;
+  final String boltCarsLink;
 
   /// Link to estonian public transport GTFS data.
   final String gtfsLink;
@@ -42,6 +44,7 @@ class ApiLinks {
   String tartuBikesLink,
   String boltScooterLink,
 String hoogScooterLink,
+String boltCarsLink,
   String gtfsLink,
   Map<String, String> boltHeader,
 Map<String, String> hoogHeader,
@@ -51,6 +54,7 @@ Map<String, String> hoogHeader,
   tartuBikesLink: 'https://api.ratas.tartu.ee/cxf/am/',
   boltScooterLink: 'https://user.live.boltsvc.net/micromobility/search/getVehicles',
   hoogScooterLink: 'https://app.rideatom.com/api/v1/user/vehicles',
+  boltCarsLink: 'https://user.live.boltsvc.net/carsharing/search/getVehicles',
   gtfsLink: 'http://www.peatus.ee/gtfs/gtfs.zip',
   boltHeader: {
     'Authorization': 'Basic ${Env.BOLT_TOKEN}'

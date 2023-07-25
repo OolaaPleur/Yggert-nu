@@ -64,6 +64,10 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late HoogScooter hoogScooter;
+    if (scooter is HoogScooter) {
+      hoogScooter = scooter as HoogScooter;
+    }
     final vehicleRepository = GetIt.I<VehicleRepository>();
     return SizedBox(
       height: containerHeight(context),
@@ -98,6 +102,18 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
                           vehicleRepository.tuulReservePrice,
                         ),
                         textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )
+                else
+                  const SizedBox.shrink(),
+                if (scooter.runtimeType == HoogScooter)
+                  Column(
+                    children: [
+                      Text(
+                        context.localizations.modalBottomSheetScooterPausePrice(
+                          hoogScooter.pauseInfo,
+                        ),
                       ),
                     ],
                   )

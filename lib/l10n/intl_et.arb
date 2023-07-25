@@ -195,6 +195,16 @@
       }
     }
   },
+  "modalBottomSheetScooterPausePrice": "Pause hind: {price}/min",
+  "@modalBottomSheetScooterPausePrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter pause price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.00€"
+      }
+    }
+  },
   "modalBottomSheetScooterReservePrice": "Broneeri {price}/min",
   "@modalBottomSheetScooterReservePrice": {
     "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.",

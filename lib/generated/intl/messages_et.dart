@@ -23,15 +23,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(app) => "Mine ${app} rakendusse";
 
-  static m2(price) => "Hind: ${price}/min";
+  static m2(price) => "Pause hind: ${price}/min";
 
-  static m3(price) => "Broneeri ${price}/min";
+  static m3(price) => "Hind: ${price}/min";
 
-  static m4(price) => "Start hind: ${price}";
+  static m4(price) => "Broneeri ${price}/min";
 
-  static m5(count) => "Jalgrattad: ${count}";
+  static m5(price) => "Start hind: ${price}";
 
-  static m6(count) => "Pedelec jalgrattad: ${count}";
+  static m6(count) => "Jalgrattad: ${count}";
+
+  static m7(count) => "Pedelec jalgrattad: ${count}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -69,11 +71,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "microMobilityCouldNotLoad" : MessageLookupByLibrary.simpleMessage("Ei saanud vajalikku infot laadida."),
     "modalBottomSheetScooterCharge" : m0,
     "modalBottomSheetScooterGoToApp" : m1,
-    "modalBottomSheetScooterPrice" : m2,
-    "modalBottomSheetScooterReservePrice" : m3,
-    "modalBottomSheetScooterStartPrice" : m4,
-    "modalBottomSheetTartuBikesBikeCount" : m5,
-    "modalBottomSheetTartuBikesPedelecCount" : m6,
+    "modalBottomSheetScooterPausePrice" : m2,
+    "modalBottomSheetScooterPrice" : m3,
+    "modalBottomSheetScooterReservePrice" : m4,
+    "modalBottomSheetScooterStartPrice" : m5,
+    "modalBottomSheetTartuBikesBikeCount" : m6,
+    "modalBottomSheetTartuBikesPedelecCount" : m7,
     "mon" : MessageLookupByLibrary.simpleMessage("Esm"),
     "narva" : MessageLookupByLibrary.simpleMessage("Narva"),
     "noButton" : MessageLookupByLibrary.simpleMessage("Ei"),

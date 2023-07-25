@@ -11,10 +11,10 @@ import '../../models/scooter/hoog_scooter.dart';
 class HoogScooterApiProvider {
   /// Fetch data about Hoog scooters from server.
   Future <List<HoogScooter>> getHoogScooters() async {
-    final param = <String, dynamic>{
-      'user_location_timestamp': 0,
-      'fleet_id': 0,
-    };
+    // final param = <String, dynamic>{
+    //   'user_location_timestamp': 0,
+    //   'fleet_id': 0,
+    // };
     try {
       final apiLinks = GetIt.instance<ApiLinks>();
       print(Uri.parse(apiLinks.hoogScooterLink));
@@ -23,9 +23,7 @@ class HoogScooterApiProvider {
         Uri.parse(apiLinks.hoogScooterLink),
         headers: apiLinks.hoogHeader,
       );
-
       if (response.statusCode == 200) {
-
         final jsonData = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
         final vehiclesData = jsonData['vehicles'] as List<dynamic>;
         try {
@@ -44,7 +42,6 @@ class HoogScooterApiProvider {
     } on SocketException {
       throw const NoInternetConnection();
     } catch (e) {
-      print('4');
       rethrow;
     }
   }

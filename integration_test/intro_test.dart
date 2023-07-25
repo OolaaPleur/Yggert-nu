@@ -19,6 +19,7 @@ void main() {
       isProductionForGeolocation: false,
         isProductionForHoogHeader: false,
       isProductionHoogScooterLink: false,
+      isProductionBoltCarsLink: false,
     );
   });
   group('intro test', () {

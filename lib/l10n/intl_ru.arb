@@ -195,6 +195,16 @@
       }
     }
   },
+  "modalBottomSheetScooterPausePrice": "Пауза: {price}/мин",
+  "@modalBottomSheetScooterPausePrice": {
+    "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter pause price.",
+    "placeholders": {
+      "price": {
+        "type": "String",
+        "example": "0.00€"
+      }
+    }
+  },
   "modalBottomSheetScooterReservePrice": "Бронирование: {price}/мин",
   "@modalBottomSheetScooterReservePrice": {
     "description": "Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.",

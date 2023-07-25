@@ -7,12 +7,13 @@ import 'package:mobility_app/data/providers/scooter/tuul_scooter_api_provider.da
 
 import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';
+import '../models/car/bolt_car.dart';
 import '../models/scooter/bolt_scooter.dart';
 import '../models/estonia_public_transport.dart';
 import '../models/scooter/hoog_scooter.dart';
 import '../models/tartu_bike_station.dart';
 import '../models/scooter/tuul_scooter.dart';
-import '../providers/scooter/bolt_scooter_api_provider.dart';
+import '../providers/scooter/bolt_api_provider.dart';
 import '../providers/tartu_bike_station_api_provider.dart';
 
 /// Repository for all transport-related functions.
@@ -75,6 +76,12 @@ class VehicleRepository {
   /// Fetches data for individual bike station.
   Future<SingleBikeStation> getBikeInfo(String bikeId) =>
       tartuBikeStationApiProvider.getBikeInfo(bikeId);
+
+  /// Fetch data about Bolt cars from server.
+  Future<List<BoltCar>> getBoltCars(
+    String pickedCity,
+  ) =>
+      boltScooterApiProvider.getBoltCars(pickedCity);
 
   /// Fetches GTFS data from the internet.
   Future<InfoMessage> fetchGtfsData() => estoniaPublicTransportApiProvider.fetchData();

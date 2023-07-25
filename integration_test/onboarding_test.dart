@@ -17,8 +17,9 @@ void main() {
       isProductionForBoltHeader: false,
       isProductionForTuulScooterLink: false,
       isProductionForGeolocation: false,
-        isProductionForHoogHeader: false,
+      isProductionForHoogHeader: false,
       isProductionHoogScooterLink: false,
+      isProductionBoltCarsLink: false,
     );
     await Firebase.initializeApp();
   });
@@ -72,7 +73,8 @@ void main() {
           await tester.tap(showTripsForTodayDropdown);
           await tester.pump(const Duration(seconds: 1));
           await tester.pump(const Duration(seconds: 1));
-          final showTripsForTodayDropdownToday = find.byKey(const Key('show_trips_for_today_dropdown_today'));
+          final showTripsForTodayDropdownToday =
+              find.byKey(const Key('show_trips_for_today_dropdown_today'));
           await tester.tap(showTripsForTodayDropdownToday);
           await tester.pump(const Duration(seconds: 1));
         },

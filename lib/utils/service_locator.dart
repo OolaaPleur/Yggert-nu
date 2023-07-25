@@ -5,7 +5,7 @@ import 'package:mobility_app/data/repositories/settings_repository.dart';
 
 import '../constants/api_links.dart';
 import '../data/data_sources/gtfs_file_source.dart';
-import '../data/providers/scooter/bolt_scooter_api_provider.dart';
+import '../data/providers/scooter/bolt_api_provider.dart';
 import '../data/providers/estonia_public_transport_api_provider.dart';
 import '../data/providers/scooter/hoog_scooter_api_provider.dart';
 import '../data/providers/tartu_bike_station_api_provider.dart';
@@ -31,6 +31,7 @@ void setUpServicesLocator({
   required bool isProductionForGeolocation,
   required bool isProductionForHoogHeader,
   required bool isProductionHoogScooterLink,
+  required bool isProductionBoltCarsLink,
 }) {
   final getIt = GetIt.instance;
   getIt
@@ -47,6 +48,7 @@ void setUpServicesLocator({
           isProductionForGeolocation: isProductionForGeolocation,
         hoogHeader: isProductionForHoogHeader ? getApiLinks.hoogHeader : getApiLinks.hoogHeader,
         hoogScooterLink: isProductionHoogScooterLink ? getApiLinks.hoogScooterLink : getApiLinks.dummyLink,
+        boltCarsLink: isProductionBoltCarsLink? getApiLinks.boltCarsLink : getApiLinks.dummyLink,
       ),
     )
     // Settings and Authentication related services.

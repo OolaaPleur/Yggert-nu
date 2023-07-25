@@ -23,15 +23,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m1(app) => "Go to ${app} app";
 
-  static m2(price) => "Price: ${price}/min";
+  static m2(price) => "Pause price: ${price}/min";
 
-  static m3(price) => "Reserve ${price}/min";
+  static m3(price) => "Price: ${price}/min";
 
-  static m4(price) => "Start price: ${price}";
+  static m4(price) => "Reserve ${price}/min";
 
-  static m5(count) => "Bikes: ${count}";
+  static m5(price) => "Start price: ${price}";
 
-  static m6(count) => "Pedelec Bikes: ${count}";
+  static m6(count) => "Bikes: ${count}";
+
+  static m7(count) => "Pedelec Bikes: ${count}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -69,11 +71,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "microMobilityCouldNotLoad" : MessageLookupByLibrary.simpleMessage("Could not load required info."),
     "modalBottomSheetScooterCharge" : m0,
     "modalBottomSheetScooterGoToApp" : m1,
-    "modalBottomSheetScooterPrice" : m2,
-    "modalBottomSheetScooterReservePrice" : m3,
-    "modalBottomSheetScooterStartPrice" : m4,
-    "modalBottomSheetTartuBikesBikeCount" : m5,
-    "modalBottomSheetTartuBikesPedelecCount" : m6,
+    "modalBottomSheetScooterPausePrice" : m2,
+    "modalBottomSheetScooterPrice" : m3,
+    "modalBottomSheetScooterReservePrice" : m4,
+    "modalBottomSheetScooterStartPrice" : m5,
+    "modalBottomSheetTartuBikesBikeCount" : m6,
+    "modalBottomSheetTartuBikesPedelecCount" : m7,
     "mon" : MessageLookupByLibrary.simpleMessage("Mon"),
     "narva" : MessageLookupByLibrary.simpleMessage("Narva"),
     "noButton" : MessageLookupByLibrary.simpleMessage("No"),

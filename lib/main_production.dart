@@ -11,9 +11,10 @@ Future<void> main() async {
     isProductionForBoltScooterLink: true,
     isProductionForGtfsLink: true,
     isProductionForTuulScooterLink: true,
-      isProductionForGeolocation: true,
-      isProductionForHoogHeader: true,
+    isProductionForGeolocation: true,
+    isProductionForHoogHeader: true,
     isProductionHoogScooterLink: true,
+    isProductionBoltCarsLink: true,
   );
   await bootstrap();
 }
