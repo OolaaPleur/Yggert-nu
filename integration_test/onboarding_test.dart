@@ -17,6 +17,7 @@ void main() {
       isProductionForBoltHeader: false,
       isProductionForTuulScooterLink: false,
       isProductionForGeolocation: false,
+        isProductionForHoogHeader: false
     );
     await Firebase.initializeApp();
   });

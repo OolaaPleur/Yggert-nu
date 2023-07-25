@@ -22,6 +22,13 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+      - name: Create .env file
+        run: |
+          echo "BOLT_TOKEN=${{ secrets.BOLT_TOKEN }}" >> .env
+          echo "HOOG_TOKEN=${{ secrets.HOOG_TOKEN }}" >> .env
+
+      - name: Run build_runner
+        run: dart pub run build_runner build
 
       - name: Install dependencies
         run: flutter pub get

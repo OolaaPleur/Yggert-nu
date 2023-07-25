@@ -28,6 +28,7 @@ void setUpServicesLocator({
   required bool isProductionForBoltHeader,
   required bool isProductionForTuulScooterLink,
   required bool isProductionForGeolocation,
+  required bool isProductionForHoogHeader
 }) {
   final getIt = GetIt.instance;
   getIt
@@ -42,6 +43,7 @@ void setUpServicesLocator({
         boltHeader: isProductionForBoltHeader ? getApiLinks.boltHeader : getApiLinks.boltHeader,
         tuulScooterLink: isProductionForTuulScooterLink ? getApiLinks.tuulScooterLink : getApiLinks.dummyLink,
           isProductionForGeolocation: isProductionForGeolocation,
+        hoogHeader: isProductionForHoogHeader ? getApiLinks.hoogHeader : getApiLinks.hoogHeader,
       ),
     )
     // Settings and Authentication related services.
