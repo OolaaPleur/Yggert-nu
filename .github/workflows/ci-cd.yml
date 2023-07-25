@@ -24,10 +24,12 @@ jobs:
           channel: stable
       - name: Create .env file
         run: |
-          echo "BOLT_TOKEN=${{ secrets.BOLT_TOKEN }}" >> .env
-          echo "HOOG_TOKEN=${{ secrets.HOOG_TOKEN }}" >> .env
-          echo "APP_PUBLIC_KEY=${{ secrets.APP_PUBLIC_KEY }}" >> .env
-          echo "MAP_BOX_TOKEN=${{ secrets.MAP_BOX_TOKEN }}" >> .env
+          echo "class Env {" > lib/utils/env/env.dart
+          echo "static const BOLT_TOKEN = '${{ secrets.BOLT_TOKEN }}';" >> lib/utils/env/env.dart
+          echo "static const HOOG_TOKEN = '${{ secrets.HOOG_TOKEN }}';" >> lib/utils/env/env.dart
+          echo "static const APP_PUBLIC_KEY = '${{ secrets.APP_PUBLIC_KEY }}';" >> lib/utils/env/env.dart
+          echo "static const MAP_BOX_TOKEN = '${{ secrets.MAP_BOX_TOKEN }}';" >> lib/utils/env/env.dart
+          echo "}" >> lib/utils/env/env.dart
 
       - name: Install dependencies
         run: flutter pub get
