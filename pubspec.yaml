@@ -91,6 +91,7 @@ flutter:
     - assets/intro/intro_theme_change.png
     - assets/intro/intro_google_sign_in.png
     - assets/intro/intro_please_note.png
+    - assets/hoog_scooter.png
   generate: true
   uses-material-design: true
 flutter_intl: 

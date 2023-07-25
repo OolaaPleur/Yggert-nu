@@ -5,10 +5,11 @@ import 'package:mobility_app/data/repositories/settings_repository.dart';
 
 import '../constants/api_links.dart';
 import '../data/data_sources/gtfs_file_source.dart';
-import '../data/providers/bolt_scooter_api_provider.dart';
+import '../data/providers/scooter/bolt_scooter_api_provider.dart';
 import '../data/providers/estonia_public_transport_api_provider.dart';
+import '../data/providers/scooter/hoog_scooter_api_provider.dart';
 import '../data/providers/tartu_bike_station_api_provider.dart';
-import '../data/providers/tuul_scooter_api_provider.dart';
+import '../data/providers/scooter/tuul_scooter_api_provider.dart';
 import '../data/repositories/user_repository_impl.dart';
 import '../data/repositories/vehicle_repository.dart';
 import '../domain/usecases/filter_trips_by_direction.dart';
@@ -28,7 +29,8 @@ void setUpServicesLocator({
   required bool isProductionForBoltHeader,
   required bool isProductionForTuulScooterLink,
   required bool isProductionForGeolocation,
-  required bool isProductionForHoogHeader
+  required bool isProductionForHoogHeader,
+  required bool isProductionHoogScooterLink,
 }) {
   final getIt = GetIt.instance;
   getIt
@@ -44,6 +46,7 @@ void setUpServicesLocator({
         tuulScooterLink: isProductionForTuulScooterLink ? getApiLinks.tuulScooterLink : getApiLinks.dummyLink,
           isProductionForGeolocation: isProductionForGeolocation,
         hoogHeader: isProductionForHoogHeader ? getApiLinks.hoogHeader : getApiLinks.hoogHeader,
+        hoogScooterLink: isProductionHoogScooterLink ? getApiLinks.hoogScooterLink : getApiLinks.dummyLink,
       ),
     )
     // Settings and Authentication related services.
@@ -65,6 +68,7 @@ void setUpServicesLocator({
     ..registerLazySingleton(BoltScooterApiProvider.new)
     ..registerLazySingleton(TartuBikeStationApiProvider.new)
     ..registerLazySingleton(TuulScooterApiProvider.new)
+    ..registerLazySingleton(HoogScooterApiProvider.new)
     // Public transport related services.
     ..registerLazySingleton(EstoniaPublicTransportApiProvider.new)
     ..registerLazySingleton(GtfsDataOperations.new)

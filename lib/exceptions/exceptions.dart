@@ -19,6 +19,11 @@ class CantFetchTuulScootersData implements AppException {
   /// Constructor for [CantFetchTuulScootersData].
   const CantFetchTuulScootersData();
 }
+/// Exception that is thrown when Hoog scooters data can not be downloaded.
+class CantFetchHoogScootersData implements AppException {
+  /// Constructor for [CantFetchHoogScootersData].
+  const CantFetchHoogScootersData();
+}
 /// Exception that is thrown when Tartu smart bikes data can not be downloaded.
 class CantFetchTartuSmartBikeData implements AppException {
   /// Constructor for [CantFetchTartuSmartBikeData].

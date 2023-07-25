@@ -12,6 +12,7 @@ class ApiLinks {
     required this.tuulScooterLink,
     required this.isProductionForGeolocation,
     required this.hoogHeader,
+    required this.hoogScooterLink,
   });
 
   /// Link to Tartu bikes API.
@@ -19,6 +20,8 @@ class ApiLinks {
 
   /// Link to Bolt scooters API.
   final String boltScooterLink;
+  /// Link to Bolt scooters API.
+  final String hoogScooterLink;
   /// Link to Tuul scooters API.
   final String tuulScooterLink;
 
@@ -38,6 +41,7 @@ class ApiLinks {
 ({
   String tartuBikesLink,
   String boltScooterLink,
+String hoogScooterLink,
   String gtfsLink,
   Map<String, String> boltHeader,
 Map<String, String> hoogHeader,
@@ -46,12 +50,21 @@ Map<String, String> hoogHeader,
 }) getApiLinks = (
   tartuBikesLink: 'https://api.ratas.tartu.ee/cxf/am/',
   boltScooterLink: 'https://user.live.boltsvc.net/micromobility/search/getVehicles',
+  hoogScooterLink: 'https://app.rideatom.com/api/v1/user/vehicles',
   gtfsLink: 'http://www.peatus.ee/gtfs/gtfs.zip',
   boltHeader: {
     'Authorization': 'Basic ${Env.BOLT_TOKEN}'
   },
 hoogHeader: {
-  'Authorization': 'Basic ${Env.HOOG_TOKEN}'
+  'Authorization': 'Basic ${Env.HOOG_TOKEN}',
+  'app-public-key': Env.APP_PUBLIC_KEY,
+  'Host': 'app.rideatom.com',
+  'accept': 'application/json',
+  'device-os': 'ANDROID',
+  'device-os-version': '11',
+  'app-version': '6.40',
+  'language': 'EN',
+  'user-agent': 'okhttp/4.11.0',
 },
   dummyLink: 'https://dummyjson.com/notfound',
   tuulScooterLink:

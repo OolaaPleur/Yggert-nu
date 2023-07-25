@@ -28,6 +28,8 @@ enum InfoMessage {
 const boltPackageName = 'ee.mtakso.client';
 /// Tuul package name, needed to open respective app.
 const tuulPackageName = 'com.comodule.fleet';
+/// Tuul package name, needed to open respective app.
+const hoogPackageName = 'hoog.app';
 
 /// Tuul areas, used in constructing requests to Tuul API.
 final cityTuulAreas = {

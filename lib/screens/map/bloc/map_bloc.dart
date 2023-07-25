@@ -376,6 +376,37 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       _log.severe(e);
     }
 
+    try {
+      final hoogScootersLocations = await _vehicleRepository.getHoogScooters();
+      for (final scooter in hoogScootersLocations) {
+        if (scooter.charge < 30 && !lowChargeScooterVisibility) {
+          continue;
+        }
+        if (mapMarkers[MarkerType.scooter] == null) {
+          // The list does not exist, so create a new list, add the item,
+          // and set the new list to the key
+          mapMarkers[MarkerType.scooter] = [
+            _createMapMarkerList.mapMarkerMakeMarkers(scooter, this)
+          ];
+        } else {
+          // The list exists, so just add the item to the existing list
+          mapMarkers[MarkerType.scooter]!
+              .add(_createMapMarkerList.mapMarkerMakeMarkers(scooter, this));
+        }
+      }
+    } catch (e) {
+      if (e.runtimeType == CantFetchHoogScootersData) {
+        emit(state.copyWith(exception: const CantFetchHoogScootersData()));
+      }
+      if (e.runtimeType == NoInternetConnection) {
+        emit(state.copyWith(exception: const NoInternetConnection()));
+      }
+      if (e.runtimeType == CityIsNotPicked) {
+        emit(state.copyWith(exception: const CityIsNotPicked()));
+      }
+      _log.severe(e);
+    }
+
     if (pickedCity == City.tartu.name) {
       try {
         final bikeLocations = await _vehicleRepository.getTartuBikes();

@@ -13,6 +13,7 @@ Future<void> main() async {
     isProductionForTuulScooterLink: true,
       isProductionForGeolocation: true,
       isProductionForHoogHeader: true,
+    isProductionHoogScooterLink: true,
   );
   await bootstrap();
 }

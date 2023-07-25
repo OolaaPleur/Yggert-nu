@@ -6,13 +6,13 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobility_app/data/models/scooter/tuul_scooter.dart';
 
-import '../../constants/api_links.dart';
-import '../../constants/constants.dart';
-import '../../exceptions/exceptions.dart';
+import '../../../constants/api_links.dart';
+import '../../../constants/constants.dart';
+import '../../../exceptions/exceptions.dart';
 /// Methods to do operations with Tuul scooter API provider.
 class TuulScooterApiProvider {
   /// Fetch data about Tuul scooters from server.
-  Future<(List<TuulScooter> boltScootersList, {String pricePerMinute, String startPrice, String reservePrice})>  getTuulScooters(String pickedCity) async {
+  Future<(List<TuulScooter> tuulScootersList, {String pricePerMinute, String startPrice, String reservePrice})>  getTuulScooters(String pickedCity) async {
     final area = cityTuulAreas[pickedCity];
     if (area == null) {
       throw const CityIsNotPicked();

@@ -17,7 +17,8 @@ void main() {
       // or whatever value is appropriate for tests
       isProductionForTuulScooterLink: false, // or whatever value is appropriate for tests
       isProductionForGeolocation: false,
-        isProductionForHoogHeader: false
+        isProductionForHoogHeader: false,
+      isProductionHoogScooterLink: false,
     );
   });
   group('intro test', () {

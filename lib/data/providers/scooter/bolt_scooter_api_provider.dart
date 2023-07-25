@@ -8,14 +8,14 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:unique_identifier/unique_identifier.dart';
 
-import '../../constants/api_links.dart';
-import '../../constants/constants.dart';
-import '../../exceptions/exceptions.dart';
-import '../models/scooter/bolt_scooter.dart';
+import '../../../constants/api_links.dart';
+import '../../../constants/constants.dart';
+import '../../../exceptions/exceptions.dart';
+import '../../models/scooter/bolt_scooter.dart';
 
 /// Methods to do operations with Bolt scooter API provider.
 class BoltScooterApiProvider {
-  /// Fetch data about Tuul scooters from server.
+  /// Fetch data about Bolt scooters from server.
   Future<(BoltScootersList boltScootersList, String pricePerMinute)> getBoltScooters(String pickedCity) async {
     final identifier = await UniqueIdentifier.serial;
     final deviceInfo = DeviceInfoPlugin();

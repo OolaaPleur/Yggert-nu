@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:mobility_app/constants/constants.dart';
+import 'package:mobility_app/data/models/scooter/hoog_scooter.dart';
 import 'package:mobility_app/data/models/scooter/tuul_scooter.dart';
 import 'package:mobility_app/data/repositories/vehicle_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,6 +40,10 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
       await LaunchApp.openApp(
         androidPackageName: tuulPackageName,
       );
+    } else if (scooter.runtimeType == HoogScooter) {
+      await LaunchApp.openApp(
+        androidPackageName: hoogPackageName,
+      );
     } else {
       log.severe('Scooter is not defined.');
     }
@@ -50,6 +55,8 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
       case BoltScooter:
         return AppStyleConstants.bikeModalBottomSheetHeight(context);
       case TuulScooter:
+        return AppStyleConstants.microMobilityModalBottomSheetHeight(context);
+      case HoogScooter:
         return AppStyleConstants.microMobilityModalBottomSheetHeight(context);
     }
     return AppStyleConstants.microMobilityModalBottomSheetHeight(context);
@@ -135,7 +142,16 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
         ),
         textAlign: TextAlign.center,
       );
-    } else {
+    }
+    else if (scooter.runtimeType == HoogScooter) {
+      final hoogScooter = scooter as HoogScooter;
+      return Text(
+        AppLocalizations.of(context)!.modalBottomSheetScooterPrice(
+          hoogScooter.priceInfo,
+        ),
+        textAlign: TextAlign.center,
+      );
+    }else {
       log.severe('Undefined scooter, critical error.');
       return const SizedBox.shrink();
     }
