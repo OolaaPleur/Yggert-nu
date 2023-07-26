@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
                     body: Center(
                       child: CircularProgressIndicator(),
                     ),
-                  ); // While data is loading
+                  );
                 }
               },
             ),

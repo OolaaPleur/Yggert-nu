@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../utils/env/env.dart';
 
 /// Messages, used to control flow of the app.
 enum InfoMessage {
@@ -15,19 +16,37 @@ enum InfoMessage {
 
   /// File was successfully downloaded and processed.
   fileDownloadedAndProcessed,
+
   /// Geolocation permission denied by user.
   geolocationPermissionDenied,
   // Settings
   /// User data downloaded successfully.
   userDataDownloadedSuccessfully,
+
   /// User data uploaded successfully.
   userDataUploadedSuccessfully
 }
+/// Header for Bolt API request.
+final boltHeader = {'Authorization': 'Basic ${Env.boltToken}'};
+/// Header for Hoog API request.
+final hoogHeader = {
+  'Authorization': 'Basic ${Env.hoogToken}',
+  'app-public-key': Env.hoogAppPublicKey,
+  'Host': 'app.rideatom.com',
+  'accept': 'application/json',
+  'device-os': 'ANDROID',
+  'device-os-version': '11',
+  'app-version': '6.40',
+  'language': 'EN',
+  'user-agent': 'okhttp/4.11.0',
+};
 
 /// Bolt package name, needed to open respective app.
 const boltPackageName = 'ee.mtakso.client';
+
 /// Tuul package name, needed to open respective app.
 const tuulPackageName = 'com.comodule.fleet';
+
 /// Tuul package name, needed to open respective app.
 const hoogPackageName = 'hoog.app';
 
@@ -88,6 +107,7 @@ enum City {
   /// Pärnu, changes in settings.
   parnu,
 }
+
 /// Map, contains cities as keys and localized names as values.
 final Map<City, String Function(AppLocalizations)> cityToLocalKey = {
   City.tallinn: (localizations) => localizations.tallinn,
@@ -109,6 +129,7 @@ class AppStyleConstants {
   static double microMobilityModalBottomSheetHeight(BuildContext context) {
     return MediaQuery.of(context).size.height * 0.16;
   }
+
   /// Modal bottom sheet height for rental bikes.
   static double bikeModalBottomSheetHeight(BuildContext context) {
     return MediaQuery.of(context).size.height * 0.12;
@@ -120,20 +141,25 @@ class AppStyleConstants {
   /// Color for app bar across different screens.
   static const Color appBarColor = Color(0xFFeffaf3);
 
-
   /// INTRO STYLE FORWARD.
   /// Intro bottom color.
   static Color introBottomColor = Colors.red[300]!;
+
   /// First intro page top color.
   static const Color introFirstPageTopColor = Color(0xFFfffad0);
+
   /// Size of first from top SizedBox height.
   static const double firstSizeBoxHeight = 50;
+
   /// Size of second from top SizedBox height.
   static const double secondSizeBoxHeight = 40;
+
   /// Scale of title text.
   static const double introTitleTextScale = 1.7;
+
   /// Scale of body text.
   static const double introBodyTextScale = 1.2;
+
   /// ONBOARDING STYLE FORWARD
   static Color onboardingOverlayColor = Colors.blue.withOpacity(0.6);
 }

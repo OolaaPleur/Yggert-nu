@@ -42,7 +42,7 @@ class ModalBottomSheetCarInfo extends StatelessWidget{
   Widget build(BuildContext context) {
     final vehicleRepository = GetIt.I<VehicleRepository>();
     return SizedBox(
-      height: MediaQuery.of(context).size.height*0.2,
+      height: MediaQuery.of(context).size.height*0.12,
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,10 +56,6 @@ class ModalBottomSheetCarInfo extends StatelessWidget{
                 //   SizedBox(width:100,child: Text('Car ID: ${car.id}'))
                 // else
                 //   const SizedBox.shrink(),
-                const Text(
-                  'CAR TEST',
-                  textAlign: TextAlign.center,
-                ),
                 pricePerMinuteText(context, vehicleRepository),
               ],
             ),
@@ -73,7 +69,7 @@ class ModalBottomSheetCarInfo extends StatelessWidget{
               ),
             ),
             icon: const Icon(
-              Icons.electric_scooter,
+              Icons.car_rental,
               size: 40,
             ),
             style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
@@ -90,7 +86,7 @@ class ModalBottomSheetCarInfo extends StatelessWidget{
       final boltCar = car as BoltCar;
       return Text(
         context.localizations.modalBottomSheetScooterPrice(
-          boltCar.companyName,
+          boltCar.pricePerMinute,
         ),
         textAlign: TextAlign.center,
       );

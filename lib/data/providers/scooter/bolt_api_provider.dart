@@ -89,7 +89,7 @@ class BoltScooterApiProvider {
       final apiLinks = GetIt.instance<ApiLinks>();
       final response = await http.get(
         Uri.parse(apiLinks.boltScooterLink).replace(queryParameters: param),
-        headers: apiLinks.boltHeader,
+        headers: boltHeader,
       );
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
@@ -126,7 +126,7 @@ class BoltScooterApiProvider {
       final apiLinks = GetIt.instance<ApiLinks>();
       final response = await http.post(
         Uri.parse(apiLinks.boltCarsLink).replace(queryParameters: param),
-        headers: apiLinks.boltHeader,
+        headers: boltHeader,
         body:
             '{"viewport":{"north_east":{"lat":${coordinates.latitude},"lng":${coordinates.longitude}'
             '},"south_west":{"lat":${coordinates.latitude},"lng":${coordinates.longitude}}}}',
@@ -135,14 +135,26 @@ class BoltScooterApiProvider {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
         final vehiclesData = jsonData['data']['categories'] as List<dynamic>;
         final vehicles = <BoltCar>[];
+        final priceStrings = <String, String>{};
         for (final vehicleData in vehiclesData) {
-          final foo = vehicleData['vehicles'] as List<dynamic>;
+          (vehicleData['markers_groups'] as Map<String, dynamic>).forEach((key, value) {
+            final priceData = (value['markers'] as List<dynamic>).firstWhere(
+                  (marker) => marker['type'] == 'pin_tooltip',
+              orElse: () => null,
+            );
+            if (priceData != null) {
+              priceStrings[key] = priceData['content']['subtitle_html'] as String;
+            }
+          });
+          final vehicle = vehicleData['vehicles'] as List<dynamic>;
           vehicles.addAll(
-            foo
-                .map(
-                  (vehicleData) => BoltCar.fromJson(vehicleData as Map<String, dynamic>),
-                )
-                .toList(),
+            vehicle.map(
+                  (vehicleData) {
+                final markersGroupId = vehicleData['markers_group_id'] as String;
+                final pricePerMinute = priceStrings[markersGroupId]!.substring(0,5);
+                return BoltCar.fromJson(vehicleData as Map<String, dynamic>, pricePerMinute);
+              },
+            ).toList(),
           );
         }
         return vehicles;

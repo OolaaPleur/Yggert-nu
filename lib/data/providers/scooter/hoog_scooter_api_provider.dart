@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../constants/api_links.dart';
+import '../../../constants/constants.dart';
 import '../../../exceptions/exceptions.dart';
 import '../../models/scooter/hoog_scooter.dart';
 /// Methods to do operations with Hoog scooter API provider.
@@ -15,7 +16,7 @@ class HoogScooterApiProvider {
       final apiLinks = GetIt.instance<ApiLinks>();
       final response = await http.get(
         Uri.parse(apiLinks.hoogScooterLink),
-        headers: apiLinks.hoogHeader,
+        headers: hoogHeader,
       );
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;

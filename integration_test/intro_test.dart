@@ -10,10 +10,8 @@ void main() {
       isProductionForTartuBikesLink: false,
       isProductionForBoltScooterLink: false,
       isProductionForGtfsLink: false,
-      isProductionForBoltHeader: false,
       isProductionForTuulScooterLink: false,
       isProductionForGeolocation: false,
-      isProductionForHoogHeader: false,
       isProductionHoogScooterLink: false,
       isProductionBoltCarsLink: false,
     );

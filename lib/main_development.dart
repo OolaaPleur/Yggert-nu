@@ -7,12 +7,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setUpServicesLocator(
     isProductionForTartuBikesLink: false,
-    isProductionForBoltHeader: false,
     isProductionForBoltScooterLink: false,
     isProductionForGtfsLink: true,
     isProductionForTuulScooterLink: false,
       isProductionForGeolocation: true,
-    isProductionForHoogHeader: false,
     isProductionHoogScooterLink: false,
     isProductionBoltCarsLink: false,
   );

@@ -35,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) async {
       final tutorialPassed = await _settingsRepository.getBoolValue('tutorial_passed');
-      final onboarding = funState();
+      final onboarding = onboardingState();
       if (onboarding != null && tutorialPassed == false) {
         onboarding.show();
       }
     });
     super.initState();
   }
-  OnboardingState? funState () {
+  OnboardingState? onboardingState () {
     return Onboarding.of(context);
   }
 

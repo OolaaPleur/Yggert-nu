@@ -26,10 +26,8 @@ void setUpServicesLocator({
   required bool isProductionForTartuBikesLink,
   required bool isProductionForBoltScooterLink,
   required bool isProductionForGtfsLink,
-  required bool isProductionForBoltHeader,
   required bool isProductionForTuulScooterLink,
   required bool isProductionForGeolocation,
-  required bool isProductionForHoogHeader,
   required bool isProductionHoogScooterLink,
   required bool isProductionBoltCarsLink,
 }) {
@@ -43,10 +41,8 @@ void setUpServicesLocator({
         boltScooterLink:
             isProductionForBoltScooterLink ? getApiLinks.boltScooterLink : getApiLinks.dummyLink,
         gtfsLink: isProductionForGtfsLink ? getApiLinks.gtfsLink : getApiLinks.dummyLink,
-        boltHeader: isProductionForBoltHeader ? getApiLinks.boltHeader : getApiLinks.boltHeader,
         tuulScooterLink: isProductionForTuulScooterLink ? getApiLinks.tuulScooterLink : getApiLinks.dummyLink,
           isProductionForGeolocation: isProductionForGeolocation,
-        hoogHeader: isProductionForHoogHeader ? getApiLinks.hoogHeader : getApiLinks.hoogHeader,
         hoogScooterLink: isProductionHoogScooterLink ? getApiLinks.hoogScooterLink : getApiLinks.dummyLink,
         boltCarsLink: isProductionBoltCarsLink? getApiLinks.boltCarsLink : getApiLinks.dummyLink,
       ),
