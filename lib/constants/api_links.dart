@@ -1,5 +1,3 @@
-
-
 /// Class, needed to specify, which links we use right now from test links
 /// and which from production.
 class ApiLinks {
@@ -19,10 +17,13 @@ class ApiLinks {
 
   /// Link to Bolt scooters API.
   final String boltScooterLink;
+
   /// Link to Bolt scooters API.
   final String hoogScooterLink;
+
   /// Link to Tuul scooters API.
   final String tuulScooterLink;
+
   /// Link to Bolt cars API.
   final String boltCarsLink;
 
@@ -38,8 +39,8 @@ class ApiLinks {
 ({
   String tartuBikesLink,
   String boltScooterLink,
-String hoogScooterLink,
-String boltCarsLink,
+  String hoogScooterLink,
+  String boltCarsLink,
   String gtfsLink,
   String dummyLink,
   String tuulScooterLink,

@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Haapsalu"),
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Värskenda"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Seaded"),
+    "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Jalgrattafilter"),
     "homeCarFAB" : MessageLookupByLibrary.simpleMessage("Auto filter"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Tõukerataste filter"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Peatuse filter"),

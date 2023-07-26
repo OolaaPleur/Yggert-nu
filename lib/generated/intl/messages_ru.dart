@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Хаапсалу"),
     "homeAppBarRefreshIcon" : MessageLookupByLibrary.simpleMessage("Обновить"),
     "homeAppBarSettingsIcon" : MessageLookupByLibrary.simpleMessage("Настройки"),
+    "homeBikeFAB" : MessageLookupByLibrary.simpleMessage("Фильтр велосипедов"),
     "homeCarFAB" : MessageLookupByLibrary.simpleMessage("Фильтр машин"),
     "homeScooterFAB" : MessageLookupByLibrary.simpleMessage("Фильтр самокатов"),
     "homeStopFAB" : MessageLookupByLibrary.simpleMessage("Фильтр остановок"),

@@ -27,11 +27,11 @@ enum InfoMessage {
   userDataUploadedSuccessfully
 }
 /// Header for Bolt API request.
-final boltHeader = {'Authorization': 'Basic ${Env.boltToken}'};
+final boltHeader = {'Authorization': 'Basic ${Env.BOLT_TOKEN}'};
 /// Header for Hoog API request.
 final hoogHeader = {
-  'Authorization': 'Basic ${Env.hoogToken}',
-  'app-public-key': Env.hoogAppPublicKey,
+  'Authorization': 'Basic ${Env.HOOG_TOKEN}',
+  'app-public-key': Env.APP_PUBLIC_KEY,
   'Host': 'app.rideatom.com',
   'accept': 'application/json',
   'device-os': 'ANDROID',
