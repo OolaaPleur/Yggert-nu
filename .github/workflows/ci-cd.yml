@@ -24,6 +24,9 @@ jobs:
           channel: stable
       - name: Create .env file
         run: |
+          echo "// ignore_for_file:non_constant_identifier_names" > lib/utils/env/env.dart
+          echo "// ignore_for_file:constant_identifier_names" > lib/utils/env/env.dart
+          echo "// ignore_for_file:public_member_api_docs" > lib/utils/env/env.dart
           echo "class Env {" > lib/utils/env/env.dart
           echo "static const BOLT_TOKEN = '${{ secrets.BOLT_TOKEN }}';" >> lib/utils/env/env.dart
           echo "static const HOOG_TOKEN = '${{ secrets.HOOG_TOKEN }}';" >> lib/utils/env/env.dart
