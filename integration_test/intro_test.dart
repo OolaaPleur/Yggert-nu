@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobility_app/app/app.dart';
-import 'package:mobility_app/utils/service_locator.dart';
+import 'package:mobility_app/utils/integration_test_helpers/set_up_service_locators.dart';
 
 void main() {
   // This will run before any test is executed.
-  setUpAll(() {
-    setUpServicesLocator(
-      isProductionForTartuBikesLink: false,
-      isProductionForBoltScooterLink: false,
-      isProductionForGtfsLink: false,
-      isProductionForTuulScooterLink: false,
-      isProductionForGeolocation: false,
-      isProductionHoogScooterLink: false,
-      isProductionBoltCarsLink: false,
-    );
-  });
+  setUpAll(setUpServiceLocators);
   group('intro test', () {
     testWidgets('tap on arrows, verify intro screen could be changed', (tester) async {
       await tester.pumpWidget(

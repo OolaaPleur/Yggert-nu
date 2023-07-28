@@ -4,21 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobility_app/app/app.dart';
 import 'package:mobility_app/utils/integration_test_helpers/mock.dart';
-import 'package:mobility_app/utils/service_locator.dart';
+import 'package:mobility_app/utils/integration_test_helpers/set_up_service_locators.dart';
 import 'package:onboarding_overlay/onboarding_overlay.dart';
 
 void main() {
   setupFirebaseAuthMocks();
   setUpAll(() async {
-    setUpServicesLocator(
-      isProductionForTartuBikesLink: false,
-      isProductionForBoltScooterLink: false,
-      isProductionForGtfsLink: false,
-      isProductionForTuulScooterLink: false,
-      isProductionForGeolocation: false,
-      isProductionHoogScooterLink: false,
-      isProductionBoltCarsLink: false,
-    );
+    setUpServiceLocators();
     await Firebase.initializeApp();
   });
 

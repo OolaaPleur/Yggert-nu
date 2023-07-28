@@ -25,6 +25,7 @@ class MapMarkersPlacingOnMap extends MapEvent {
 class MapMarkerFilterButtonPressed extends MapEvent {
   /// Constructor for [MapMarkerFilterButtonPressed] event.
   const MapMarkerFilterButtonPressed(this.mapFilter);
+
   /// Property, which needs to be changed.
   final MapFilters mapFilter;
 
@@ -59,6 +60,7 @@ class MapCloseStopTimesModalBottomSheet extends MapEvent {
 class MapChangeTimetableMode extends MapEvent {
   /// Constructor for [MapChangeTimetableMode] event.
   const MapChangeTimetableMode(this.globalShowTripsForToday);
+
   /// Property, changes state.globalShowTripsForToday
   final GlobalShowTripsForToday globalShowTripsForToday;
 
@@ -71,6 +73,7 @@ class MapChangeTimetableMode extends MapEvent {
 class MapChangeCity extends MapEvent {
   /// Constructor for [MapChangeCity] event.
   const MapChangeCity(this.pickedCity);
+
   /// Property, changes state.pickedCity
   final City pickedCity;
 
@@ -83,6 +86,7 @@ class MapChangeCity extends MapEvent {
 class MapSearchByTheQuery extends MapEvent {
   /// Constructor for [MapSearchByTheQuery] event.
   const MapSearchByTheQuery(this.query);
+
   /// User query, saved in state.query.
   final String query;
 
@@ -95,6 +99,7 @@ class MapSearchByTheQuery extends MapEvent {
 class MapShowTripsForCurrentStop extends MapEvent {
   /// Constructor for [MapShowTripsForCurrentStop] event.
   const MapShowTripsForCurrentStop(this.currentStop);
+
   /// Bus stop, picked by User.
   final Stop currentStop;
 
@@ -113,11 +118,14 @@ class MapPressFilterButton extends MapEvent {
 class MapEnlargeIcon extends MapEvent {
   /// Constructor for [MapEnlargeIcon] event.
   const MapEnlargeIcon(this.keyFromOpenedMarker);
+
   /// Opened marker key, we need to know which marker make larger.
   final String keyFromOpenedMarker;
+
   @override
   List<Object> get props => [keyFromOpenedMarker];
 }
+
 /// Event which occurs when user press button on particular trip. It opens
 /// list of stop times and stops, which goes forward from picked stop.
 class MapPressTheTripButton extends MapEvent {
@@ -126,15 +134,18 @@ class MapPressTheTripButton extends MapEvent {
 
   /// Defines, which trip in currently painted list app need to open.
   final int pressedTrip;
+
   @override
   List<Object> get props => [pressedTrip];
 }
+
 /// Event which occurs when user press direction button. On pressed it filters
 /// trips, so they go in specified way (it just really strange way
 /// Maanteeamet made it specification.).
 class MapPressFilterByDirectionButton extends MapEvent {
   /// Constructor for [MapPressFilterByDirectionButton] event.
   const MapPressFilterByDirectionButton(this.direction);
+
   /// Last letter in direction_code.
   final String direction;
 
@@ -147,8 +158,10 @@ class MapPressFilterByDirectionButton extends MapEvent {
 class MapGetSingleBikeStationInfo extends MapEvent {
   /// Constructor for [MapGetSingleBikeStationInfo] event.
   const MapGetSingleBikeStationInfo(this.bikeId);
+
   /// Bike station id.
   final String bikeId;
+
   @override
   List<Object> get props => [bikeId];
 }
@@ -159,14 +172,16 @@ class MapDeleteSingleBikeStationInfo extends MapEvent {
   /// Constructor for [MapDeleteSingleBikeStationInfo] event.
   const MapDeleteSingleBikeStationInfo();
 }
+
 /// Event which occurs when user changes low charge scooter visibility
 /// in settings. Shows or hides low charge scooter markers.
 class MapChangeLowChargeScooterVisibility extends MapEvent {
-
   /// Constructor for [MapChangeLowChargeScooterVisibility] event.
   const MapChangeLowChargeScooterVisibility({required this.visibility});
+
   /// Bool, which defines, is low charge scooter visible or not.
   final bool visibility;
+
   @override
   List<Object> get props => [visibility];
 }
@@ -184,17 +199,20 @@ class _MapLoadTripsForToday extends MapEvent {
   /// Constructor for [_MapLoadTripsForToday] event.
   const _MapLoadTripsForToday();
 }
+
 /// Event only used inside BLoC. Adds values to maps, so they could be
 /// displayed later on timetable for the user.
 class _MapAddValuesForRepaintingTimeTable extends MapEvent {
   /// Constructor for [_MapAddValuesForRepaintingTimeTable] event.
   const _MapAddValuesForRepaintingTimeTable();
 }
+
 /// Event only used inside BLoC. It makes list based on currently picked
 /// direction letters.
 class _MapFilterTripsByDirection extends MapEvent {
   /// Constructor for [_MapFilterTripsByDirection] event.
   const _MapFilterTripsByDirection(this.direction);
+
   /// Currently picked direction letters.
   final List<String> direction;
 
@@ -211,4 +229,14 @@ class _MapShowTodayOrAllTrips extends MapEvent {
 
 class _MapAddMicroMobilityMarkersToList extends MapEvent {
   const _MapAddMicroMobilityMarkersToList();
+}
+
+/// HELPERS
+class _MapHandleException extends MapEvent {
+  const _MapHandleException(this.exception);
+
+  final Object exception;
+
+  @override
+  List<Object> get props => [exception];
 }

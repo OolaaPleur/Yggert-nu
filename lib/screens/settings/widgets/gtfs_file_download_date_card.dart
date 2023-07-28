@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../theme/bloc/theme_bloc.dart';
-import '../gtfs/gtfs_bloc.dart';
+import '../gtfs_bloc/gtfs_bloc.dart';
 
 /// Text widget in Settings, shows when/if GTFS info was loaded.
 class GtfsFileDownloadDateCard extends StatelessWidget {
