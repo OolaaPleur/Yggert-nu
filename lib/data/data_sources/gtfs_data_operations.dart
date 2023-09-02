@@ -104,7 +104,7 @@ class GtfsDataOperations {
         currentStop.stopId,
         searchedStops.first.stopId,
         searchedStops.last.stopId
-      ],
+      ,],
     );
     return rows.map(Trip.fromMap).toList();
   }

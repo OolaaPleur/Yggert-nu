@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => AuthBloc()..add(AutoSignIn()),
         ),
         BlocProvider(
+
           create: (context) => MapBloc(),
         ),
         BlocProvider(

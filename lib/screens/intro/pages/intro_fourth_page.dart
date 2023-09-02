@@ -5,20 +5,21 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import '../../../constants/constants.dart';
 import '../../../theme/bloc/theme_bloc.dart';
+
 /// Fourth page of intro.
 PageViewModel introFourthPage(BuildContext context) {
   return PageViewModel(
     decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
         ? const PageDecoration()
         : PageDecoration(
-      boxDecoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [const Color(0xFFfff59d), AppStyleConstants.introBottomColor],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-    ),
+            boxDecoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [const Color(0xFFfff59d), AppStyleConstants.introBottomColor],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
     titleWidget: Column(
       children: [
         const SizedBox(
@@ -55,7 +56,8 @@ PageViewModel introFourthPage(BuildContext context) {
             textScaleFactor: AppStyleConstants.introBodyTextScale,
             textAlign: TextAlign.center,
           ),
-        )
+        ),
       ],
     ),
-  );}
+  );
+}

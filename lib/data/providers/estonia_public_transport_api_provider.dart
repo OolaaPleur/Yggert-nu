@@ -207,7 +207,7 @@ class EstoniaPublicTransportApiProvider {
 
   /// Make Calendar Map<dynamic, dynamic> out of List<Calendar>.
   Future<Map<dynamic, dynamic>> _makeCalendarMap(List<Calendar> calendar) async {
-    final calendarMap = {for (var item in calendar) item.serviceId: item};
+    final calendarMap = {for (final item in calendar) item.serviceId: item};
     return calendarMap;
   }
 
@@ -242,8 +242,8 @@ class EstoniaPublicTransportApiProvider {
   Future<Map<Object?, Trip>> _getTripsMap(Database db) async {
     final tripsList = await db.query('trips');
     final tripsMap = {
-      for (var trip in tripsList) trip['trip_id']: Trip.fromMap(trip)
-    }; // Ensure to implement fromMap function in Trip class
+      for (final trip in tripsList) trip['trip_id']: Trip.fromMap(trip)
+    ,}; // Ensure to implement fromMap function in Trip class
     return tripsMap;
   }
 

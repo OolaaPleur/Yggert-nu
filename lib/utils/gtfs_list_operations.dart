@@ -160,7 +160,7 @@ Map<String, dynamic> repaintTimeTable(RepaintTimeTable data) {
 
 List<Stop> _getOrderedStops(List<Stop> currentStops, List<StopTime> filteredStoptimes) {
   // Create a Map with stopId as key and Stop object as value for easy lookups
-  final stopsMap = <String, Stop>{for (var stop in currentStops) stop.stopId: stop};
+  final stopsMap = <String, Stop>{for (final stop in currentStops) stop.stopId: stop};
 
   // Now map over the stoptimes, and for each stopId, lookup the Stop from the stopsMap
   final orderedStops = filteredStoptimes.map((stoptime) => stopsMap[stoptime.stopId]!).toList();
@@ -186,7 +186,7 @@ class GtfsListOperations {
       'Thursday',
       'Friday',
       'Saturday',
-      'Sunday'
+      'Sunday',
     ];
     final weekdaysShort = weekdaysFull.map((day) => day.substring(0, 3)).toList();
     final activeDays = tripCalendars.map((calendar) => calendar.daysOfWeek).reduce(

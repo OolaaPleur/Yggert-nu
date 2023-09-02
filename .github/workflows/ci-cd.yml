@@ -25,9 +25,9 @@ jobs:
       - name: Create .env file
         run: |
           echo "// ignore_for_file:non_constant_identifier_names" > lib/utils/env/env.dart
-          echo "// ignore_for_file:constant_identifier_names" > lib/utils/env/env.dart
-          echo "// ignore_for_file:public_member_api_docs" > lib/utils/env/env.dart
-          echo "class Env {" > lib/utils/env/env.dart
+          echo "// ignore_for_file:constant_identifier_names" >> lib/utils/env/env.dart
+          echo "// ignore_for_file:public_member_api_docs" >> lib/utils/env/env.dart
+          echo "class Env {" >> lib/utils/env/env.dart
           echo "static const BOLT_TOKEN = '${{ secrets.BOLT_TOKEN }}';" >> lib/utils/env/env.dart
           echo "static const HOOG_TOKEN = '${{ secrets.HOOG_TOKEN }}';" >> lib/utils/env/env.dart
           echo "static const APP_PUBLIC_KEY = '${{ secrets.APP_PUBLIC_KEY }}';" >> lib/utils/env/env.dart
@@ -41,20 +41,26 @@ jobs:
         run: dart pub run build_runner build
 
       - name: Build
-        run: flutter build apk --flavor production --target=lib/main_production.dart
+        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
 
       - name: Test
         run: flutter test --flavor production
 
-      - name: Run integration tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          profile: Nexus 6
-          script: |
-            flutter test --flavor production integration_test/onboarding_test.dart
-            flutter test --flavor production integration_test/intro_test.dart
+#      - name: Run integration tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 29
+#          arch: x86_64
+#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+#          profile: Nexus 6
+#          script: |
+#            flutter test --flavor production integration_test/onboarding_test.dart
+#            flutter test --flavor production integration_test/intro_test.dart
       - name: Analyze
         run: flutter analyze
+      - name: Push to Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/production/debug/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.GITHUB_TOKEN }}

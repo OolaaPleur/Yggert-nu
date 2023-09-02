@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "751152486074",
+    "project_id": "yggert-nu",
+    "storage_bucket": "yggert-nu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:751152486074:android:30f098acdea1fea9d6d483",
+        "android_client_info": {
+          "package_name": "com.oolaa.redefined.mobility.mobility_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "751152486074-iv135kk93hab729ccmom77ps6i8u95b6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oolaa.redefined.mobility.mobility_app",
+            "certificate_hash": "d224b3db8ddde635dfa972950d16bc4b86d9d981"
+          }
+        },
+        {
+          "client_id": "751152486074-d4bo23qhlcg58kirn0qhvvr81eikb67s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN7C-vrSPEVsalmgWQoXdYBvSoYLBi0mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "751152486074-d4bo23qhlcg58kirn0qhvvr81eikb67s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

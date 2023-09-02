@@ -55,7 +55,7 @@ PageViewModel introSixthPage(BuildContext context) {
             textScaleFactor: AppStyleConstants.introBodyTextScale,
             textAlign: TextAlign.center,
           ),
-        )
+        ),
       ],
     ),
   );}

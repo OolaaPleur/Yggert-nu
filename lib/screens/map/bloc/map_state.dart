@@ -88,7 +88,7 @@ final class MapState extends Equatable {
       MapFilters.cycles: true,
       MapFilters.scooters: true,
       MapFilters.busStop: false,
-      MapFilters.cars: false
+      MapFilters.cars: false,
     },
     this.busStopsAdded = false,
     this.currentStopTimes = const <StopTime>[],
@@ -284,7 +284,7 @@ final class MapState extends Equatable {
         directionChars,
         pickedCity,
         singleBikeStation,
-        lowChargeScooterVisibility
+        lowChargeScooterVisibility,
       ];
 
   @override

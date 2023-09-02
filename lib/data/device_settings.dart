@@ -32,7 +32,7 @@ class DeviceSettings {
   }
 
   /// Get value by its [valueKey].
-  Future<String> getStringValue(String valueKey) async {
+  Future<String>getStringValue(String valueKey) async {
     final prefs = await SharedPreferences.getInstance();
 
     if (valueKey == 'userTripsFilterValue') {

@@ -6,6 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../../../constants/constants.dart';
 import '../../../theme/bloc/theme_bloc.dart';
 import '../../../theme/bloc/theme_event.dart';
+
 /// Fifth page of intro.
 PageViewModel introFifthPage(BuildContext context) {
   return PageViewModel(
@@ -100,7 +101,7 @@ PageViewModel introFifthPage(BuildContext context) {
               ),
             ),
           ),
-        )
+        ),
       ],
     ),
   );

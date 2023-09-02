@@ -9,6 +9,7 @@ import 'package:mobility_app/screens/settings/widgets/auth_avatar.dart';
 import 'package:mobility_app/screens/settings/widgets/change_low_charge_scooter_visibility.dart';
 import 'package:mobility_app/screens/settings/widgets/show_tutorial_again.dart';
 
+
 import '../../constants/constants.dart';
 import '../../exceptions/exceptions.dart';
 import '../../theme/bloc/theme_bloc.dart';
@@ -234,7 +235,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                       crossFadeState: authState.user != null
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
-                    )
+                    ),
                   ],
                 ),
                 body: ListView(
@@ -277,7 +278,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                             ? CrossFadeState.showFirst
                             : CrossFadeState.showSecond,
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

@@ -78,7 +78,7 @@ class UserRepositoryImplementation implements UserRepository {
         'userTripsFilterValue': await deviceSettings.getStringValue('userTripsFilterValue'),
         'pickedCity': await deviceSettings.getStringValue('pickedCity'),
         'language_code': await deviceSettings.getStringValue('language_code'),
-        'isDark': await deviceSettings.getBoolValue('isDark')
+        'isDark': await deviceSettings.getBoolValue('isDark'),
       };
 
       // get the firebase user
@@ -124,7 +124,9 @@ class UserRepositoryImplementation implements UserRepository {
         final deviceSettings = DeviceSettings();
         // Store data back to SharedPreferences
         await deviceSettings.setStringValue(
-            'userTripsFilterValue', data['userTripsFilterValue'] as String?,);
+          'userTripsFilterValue',
+          data['userTripsFilterValue'] as String?,
+        );
         await deviceSettings.setStringValue('pickedCity', data['pickedCity'] as String?);
         await deviceSettings.setStringValue('language_code', data['language_code'] as String?);
         await deviceSettings.setBoolValue('isDark', value: data['isDark'] as bool?);

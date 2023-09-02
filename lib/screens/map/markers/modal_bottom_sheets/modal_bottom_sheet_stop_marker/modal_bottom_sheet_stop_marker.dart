@@ -297,7 +297,7 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                 );
             }
           },
-        )
+        ),
       ],
     );
   }

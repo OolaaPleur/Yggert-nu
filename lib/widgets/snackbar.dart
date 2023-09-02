@@ -144,7 +144,7 @@ class AppSnackBar {
               Icons.close,
               color: Colors.red,
             ),
-          )
+          ),
         ],
       ),
       behavior: SnackBarBehavior.floating,
