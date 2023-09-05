@@ -39,28 +39,31 @@ jobs:
 
       - name: Run build_runner
         run: dart pub run build_runner build
-
+      # Build for debug
+      #      - name: Build
+      #        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
+      # Build for release
       - name: Build
-        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
+        run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
 
       - name: Test
         run: flutter test --flavor production
 
-#      - name: Run integration tests
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 29
-#          arch: x86_64
-#          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-#          profile: Nexus 6
-#          script: |
-#            flutter test --flavor production integration_test/onboarding_test.dart
-#            flutter test --flavor production integration_test/intro_test.dart
+      #      - name: Run integration tests
+      #        uses: reactivecircus/android-emulator-runner@v2
+      #        with:
+      #          api-level: 29
+      #          arch: x86_64
+      #          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+      #          profile: Nexus 6
+      #          script: |
+      #            flutter test --flavor production integration_test/onboarding_test.dart
+      #            flutter test --flavor production integration_test/intro_test.dart
       - name: Analyze
         run: flutter analyze
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/production/debug/*"
+          artifacts: "build/app/outputs/apk/production/release/*"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}

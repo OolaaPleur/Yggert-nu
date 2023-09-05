@@ -39,6 +39,8 @@ $ flutter run --flavor development --target lib/main_development.dart
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
+Or you can just grab last version from [releases](https://github.com/OolaaPleur/Yggert-nu/releases).
+
 _\*Yggert Nu works only on Android._
 
 ## Acknowledgements
