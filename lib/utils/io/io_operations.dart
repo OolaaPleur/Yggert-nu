@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -30,8 +31,8 @@ class IOOperations {
   /// Deleting file.
   static Future<void> deleteFile(String fileOrPath) async {
     final log = Logger('deleteFile');
-    final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    final filePath = '${appDocumentsDirectory.path}/$fileOrPath';
+    final path = await IOOperations.getAppDirForPlatform();
+    final filePath = '$path/$fileOrPath';
 
     try {
       final file = File(filePath);
@@ -48,8 +49,8 @@ class IOOperations {
 
   /// Checks GTFS file existence.
   static Future<bool> checkFileExistence(String filename) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final filePathTest = '${directory.path}/gtfs/$filename';
+    final path = await IOOperations.getAppDirForPlatform();
+    final filePathTest = '$path/gtfs/$filename';
 
     if (File(filePathTest).existsSync()) {
       return true;
@@ -60,8 +61,8 @@ class IOOperations {
   static Future<String> openFile (String fileName) async {
     final log = Logger('openFile');
     try {
-      final documentsDirectory = await getApplicationDocumentsDirectory();
-      final file = File('${documentsDirectory.path}/gtfs/$fileName');
+      final path = await IOOperations.getAppDirForPlatform();
+      final file = File('$path/gtfs/$fileName');
       return file.readAsString();
     } catch (e) {
       log.severe(e);
@@ -70,7 +71,7 @@ class IOOperations {
   }
   /// Checks existence of database with provided [databaseName].
   static Future<bool> databaseExists(String databaseName) async {
-    final dbPath = await getDatabasesPath();
+    final dbPath = await IOOperations.getDbDirForPlatform();
     final path = join(dbPath, '$databaseName.db');
     return File(path).existsSync();
   }
@@ -80,5 +81,26 @@ class IOOperations {
     if (File(dbPath).existsSync()) {
       await deleteDatabase(dbPath);
     }
+  }
+
+  /// Get platform-specific application directory.
+  static Future<String> getAppDirForPlatform () async {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      final directory = await getApplicationDocumentsDirectory();
+      return directory.path;
+    } else if (kIsWeb) {
+      return '';
+    }
+    return '';
+  }
+  /// Get platform-specific database directory.
+  static Future<String> getDbDirForPlatform () async {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      final path = await getDatabasesPath();
+      return path;
+    } else if (kIsWeb) {
+      return '';
+    }
+    return '';
   }
 }

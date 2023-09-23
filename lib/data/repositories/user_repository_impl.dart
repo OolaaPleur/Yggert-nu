@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/data/device_settings.dart';
-import 'package:mobility_app/exceptions/exceptions.dart';
-import 'package:mobility_app/utils/has_network.dart';
+import 'package:yggert_nu/data/device_settings.dart';
+import 'package:yggert_nu/exceptions/exceptions.dart';
+import 'package:yggert_nu/utils/has_network.dart';
 
 import '../../domain/user_repositories/user_repository.dart';
 
@@ -78,7 +78,7 @@ class UserRepositoryImplementation implements UserRepository {
         'userTripsFilterValue': await deviceSettings.getStringValue('userTripsFilterValue'),
         'pickedCity': await deviceSettings.getStringValue('pickedCity'),
         'language_code': await deviceSettings.getStringValue('language_code'),
-        'isDark': await deviceSettings.getBoolValue('isDark'),
+        'theme': await deviceSettings.getStringValue('theme'),
       };
 
       // get the firebase user
@@ -129,7 +129,7 @@ class UserRepositoryImplementation implements UserRepository {
         );
         await deviceSettings.setStringValue('pickedCity', data['pickedCity'] as String?);
         await deviceSettings.setStringValue('language_code', data['language_code'] as String?);
-        await deviceSettings.setBoolValue('isDark', value: data['isDark'] as bool?);
+        await deviceSettings.setStringValue('theme', data['theme'] as String?);
 
         log.finer('User settings downloaded');
         return data;

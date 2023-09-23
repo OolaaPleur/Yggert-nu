@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/data/models/scooter/hoog_scooter.dart';
+import 'package:yggert_nu/data/models/scooter/hoog_scooter.dart';
 
 import '../../../data/models/car/bolt_car.dart';
 import '../../../data/models/estonia_public_transport.dart';
@@ -46,7 +46,7 @@ class MapMarker extends Marker {
   }) : super(
           width: width ?? 0,
           height: height ?? 0,
-          point: point ?? LatLng(0, 0),
+          point: point ?? const LatLng(0, 0),
           builder: builder ?? (_) => Container(),
           key: key ?? const Key('no_key_from_server'),
         );

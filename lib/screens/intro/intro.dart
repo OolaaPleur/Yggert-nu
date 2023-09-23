@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:mobility_app/screens/intro/pages/intro_fifth_page.dart';
-import 'package:mobility_app/screens/intro/pages/intro_first_page.dart';
-import 'package:mobility_app/screens/intro/pages/intro_sixth_page.dart';
-import 'package:mobility_app/screens/intro/pages/intro_third_page.dart';
-import 'package:mobility_app/theme/bloc/theme_bloc.dart';
-import 'package:mobility_app/utils/build_context_ext.dart';
+import 'package:yggert_nu/screens/intro/pages/intro_fifth_page.dart';
+import 'package:yggert_nu/screens/intro/pages/intro_first_page.dart';
+import 'package:yggert_nu/screens/intro/pages/intro_sixth_page.dart';
+import 'package:yggert_nu/screens/intro/pages/intro_third_page.dart';
+import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
+import 'package:yggert_nu/utils/build_context_ext.dart';
 
 import '../../constants/constants.dart';
 import '../../data/repositories/settings_repository.dart';
@@ -51,7 +51,7 @@ class Intro extends StatelessWidget {
         done:
             Text(key: const Key('intro_done_button'), AppLocalizations.of(context)!.doneButtonText),
         dotsFlex: 2,
-        dotsContainerDecorator: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+        dotsContainerDecorator: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
             ? const BoxDecoration(color: Color(0xFF141514))
             : BoxDecoration(
                 gradient: LinearGradient(
@@ -63,7 +63,7 @@ class Intro extends StatelessWidget {
                   end: Alignment.bottomCenter,
                 ),
               ),
-        dotsDecorator: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+        dotsDecorator: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
             ? const DotsDecorator()
             : DotsDecorator(
                 size: const Size.square(10),

@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/data/repositories/public_transport_repository.dart';
-import 'package:mobility_app/utils/database/database_operations.dart';
-import 'package:mobility_app/utils/io/io_operations.dart';
+import 'package:yggert_nu/data/repositories/public_transport_repository.dart';
+import 'package:yggert_nu/utils/database/database_operations.dart';
+import 'package:yggert_nu/utils/io/io_operations.dart';
 
 import '../../../constants/constants.dart';
 import '../../../data/models/estonia_public_transport.dart';
@@ -215,12 +215,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     } catch (e) {
       add(_MapHandleException(e));
     }
-    try {
-      final hoogScootersLocations = await _vehicleRepository.getHoogScooters();
-      mapMarkers.addAll(
+    if (pickedCity == City.jarvamaa.name || pickedCity == City.raplamaa.name || pickedCity == City.tallinn.name) {
+      try {
+        final hoogScootersLocations = await _vehicleRepository.getHoogScooters();
+        mapMarkers.addAll(
           _createScooterMarkers(hoogScootersLocations, lowChargeScooterVisibility, mapMarkers,),);
-    } catch (e) {
-      add(_MapHandleException(e));
+      } catch (e) {
+        add(_MapHandleException(e));
+      }
     }
 
     if (pickedCity == City.tartu.name) {

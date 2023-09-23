@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:get_it/get_it.dart';
-import 'package:mobility_app/data/providers/car/bolt_car_api_provider.dart';
-import 'package:mobility_app/data/providers/estonia_public_transport_api_provider.dart';
-import 'package:mobility_app/data/providers/scooter/hoog_scooter_api_provider.dart';
-import 'package:mobility_app/data/providers/scooter/tuul_scooter_api_provider.dart';
+import 'package:yggert_nu/data/providers/car/bolt_car_api_provider.dart';
+import 'package:yggert_nu/data/providers/estonia_public_transport_api_provider.dart';
+import 'package:yggert_nu/data/providers/scooter/hoog_scooter_api_provider.dart';
+import 'package:yggert_nu/data/providers/scooter/tuul_scooter_api_provider.dart';
 
 import '../../constants/constants.dart';
 import '../data_sources/gtfs_file_source.dart';

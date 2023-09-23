@@ -1,4 +1,4 @@
-name: mobility_app
+name: yggert_nu
 version: 1.0.0+1
 publish_to: none
 description: Schedules and other mobility types
@@ -10,46 +10,50 @@ dependencies:
   auth_buttons: ^1.0.1+4
   bloc_test: ^9.0.0
   cloud_firestore: ^4.8.2
+  cloud_firestore_web: ^3.7.1
   collection: ^1.17.1
   device_info_plus: ^9.0.2
   envied: ^0.3.0+3
   equatable: ^2.0.5
   external_app_launcher: ^3.1.0
   firebase_auth: ^4.6.3
+  firebase_auth_web: ^5.8.1
   firebase_core: ^2.14.0
   firebase_core_platform_interface: ^4.8.0
+  firebase_core_web: ^2.8.0
   flex_color_scheme: ^7.2.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^4.0.0
-  flutter_map_location_marker: ^6.0.0
+  flutter_map: ^5.0.0
+  flutter_map_location_marker: ^7.0.5
   flutter_map_marker_cluster: ^1.1.1
   flutter_native_splash: ^2.3.1
   flutter_test:
     sdk: flutter
   flutter_typeahead: ^4.6.2
-  geolocator: ^9.0.2
+  geolocator: ^10.1.0
   get_it: ^7.6.0
-  google_fonts: ^4.0.4
-  google_sign_in: ^5.1.1
-  http: ^0.13.5
+  google_fonts: ^6.1.0
+  google_sign_in: ^6.1.5
+  http: ^1.1.0
   intl: any
   introduction_screen: ^3.1.11
   json_serializable: ^6.7.0
-  latlong2: ^0.8.1
+  latlong2: ^0.9.0
   logging: ^1.2.0
-  mocktail: ^0.3.0
+  mocktail: ^1.0.0
   onboarding_overlay: ^3.2.1
   path: any
   path_provider: ^2.0.15
-  permission_handler: ^10.4.1
+  permission_handler: ^11.0.0
   rxdart: ^0.27.7
   shared_preferences: ^2.2.0
   sqflite: ^2.2.8+4
   sqflite_common_ffi: any
+  sqflite_common_ffi_web: ^0.4.0
   sqlite3: ^2.0.0
   sqlite3_flutter_libs: ^0.5.15
   unique_identifier: ^0.3.0
@@ -63,13 +67,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   integration_test:
     sdk: flutter
-  patrol: ^2.0.7
   pubspec_dependency_sorter: ^1.0.3
-
-patrol:
-  app_name: Yggert Nu
-  android:
-    package_name: com.oolaa.redefined.mobility.mobility_app
 
 flutter: 
   assets: 

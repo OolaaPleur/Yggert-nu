@@ -127,10 +127,30 @@ class S {
     );
   }
 
-  /// `Tallinn`
+  /// `Rapla county`
+  String get raplamaa {
+    return Intl.message(
+      'Rapla county',
+      name: 'raplamaa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Jarva county`
+  String get jarvamaa {
+    return Intl.message(
+      'Jarva county',
+      name: 'jarvamaa',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tallinn/Harju county`
   String get tallinn {
     return Intl.message(
-      'Tallinn',
+      'Tallinn/Harju county',
       name: 'tallinn',
       desc: 'City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
@@ -972,6 +992,36 @@ class S {
     return Intl.message(
       'Select city',
       name: 'selectCity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light`
+  String get light {
+    return Intl.message(
+      'Light',
+      name: 'light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auto`
+  String get auto {
+    return Intl.message(
+      'Auto',
+      name: 'auto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark`
+  String get dark {
+    return Intl.message(
+      'Dark',
+      name: 'dark',
       desc: '',
       args: [],
     );

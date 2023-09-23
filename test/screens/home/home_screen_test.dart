@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobility_app/data/repositories/settings_repository.dart';
-import 'package:mobility_app/screens/map/bloc/map_bloc.dart';
-import 'package:mobility_app/screens/settings/auth_bloc/auth_bloc.dart';
-import 'package:mobility_app/theme/bloc/theme_bloc.dart';
-import 'package:mobility_app/theme/bloc/theme_event.dart';
-import 'package:mobility_app/theme/bloc/theme_state.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:yggert_nu/data/repositories/settings_repository.dart';
+import 'package:yggert_nu/screens/map/bloc/map_bloc.dart';
+import 'package:yggert_nu/screens/settings/auth_bloc/auth_bloc.dart';
+import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
 
 class MockMapBloc extends MockBloc<MapEvent, MapState> implements MapBloc {}
 

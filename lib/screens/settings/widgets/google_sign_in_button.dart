@@ -38,7 +38,7 @@ class GoogleSignInButton extends StatelessWidget {
               context.read<AuthBloc>().add(SignInWithGoogleEvent());
             },
             style: const AuthButtonStyle(textStyle: TextStyle()),
-            darkMode: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled),
+            darkMode: context.select((ThemeBloc bloc) => bloc.isDarkMode),
           ),
         ),
         crossFadeState:

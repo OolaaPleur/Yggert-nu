@@ -8,7 +8,7 @@ import '../../../theme/bloc/theme_bloc.dart';
 /// Third page of intro.
 PageViewModel introThirdPage(BuildContext context) {
   return PageViewModel(
-    decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+    decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
         ? const PageDecoration()
         : PageDecoration(
             boxDecoration: BoxDecoration(

@@ -1,13 +1,14 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/constants/constants.dart';
-import 'package:mobility_app/data/models/scooter/hoog_scooter.dart';
-import 'package:mobility_app/data/models/scooter/tuul_scooter.dart';
-import 'package:mobility_app/data/repositories/vehicle_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yggert_nu/constants/constants.dart';
+import 'package:yggert_nu/data/models/scooter/hoog_scooter.dart';
+import 'package:yggert_nu/data/models/scooter/tuul_scooter.dart';
+import 'package:yggert_nu/data/repositories/vehicle_repository.dart';
 
 import '../../../../data/models/scooter/bolt_scooter.dart';
 import '../../../../data/models/scooter/scooter.dart';
@@ -29,21 +30,33 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
   Future<void> _deeplinkOrNot() async {
     final log = Logger('_deeplinkOrNot');
     if (scooter.runtimeType == BoltScooter) {
-      try {
-        await launchUrl(Uri.parse('bolt://action/scootersSearch'));
-      } catch (e) {
-        await LaunchApp.openApp(
-          androidPackageName: boltPackageName,
-        );
+      if (kIsWeb) {
+        await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=ee.mtakso.client&hl=en_US'));
+      } else {
+        try {
+          await launchUrl(Uri.parse('bolt://action/scootersSearch'));
+        } catch (e) {
+          await LaunchApp.openApp(
+            androidPackageName: boltPackageName,
+          );
+        }
       }
     } else if (scooter.runtimeType == TuulScooter) {
-      await LaunchApp.openApp(
-        androidPackageName: tuulPackageName,
-      );
+      if (kIsWeb) {
+        await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.comodule.fleet&hl=en_US'));
+      } else {
+        await LaunchApp.openApp(
+          androidPackageName: tuulPackageName,
+        );
+      }
     } else if (scooter.runtimeType == HoogScooter) {
-      await LaunchApp.openApp(
-        androidPackageName: hoogPackageName,
-      );
+      if (kIsWeb) {
+        await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=hoog.app&hl=en_US'));
+      } else {
+        await LaunchApp.openApp(
+          androidPackageName: hoogPackageName,
+        );
+      }
     } else {
       log.severe('Scooter is not defined.');
     }

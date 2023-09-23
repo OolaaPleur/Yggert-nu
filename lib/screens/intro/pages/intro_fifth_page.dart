@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:yggert_nu/screens/settings/theme_switch/theme_segmented_buttons.dart';
 
 import '../../../constants/constants.dart';
 import '../../../theme/bloc/theme_bloc.dart';
-import '../../../theme/bloc/theme_event.dart';
 
 /// Fifth page of intro.
 PageViewModel introFifthPage(BuildContext context) {
   return PageViewModel(
-    decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+    decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
         ? const PageDecoration()
         : PageDecoration(
             boxDecoration: BoxDecoration(
@@ -64,7 +64,7 @@ PageViewModel introFifthPage(BuildContext context) {
         ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: Container(
-            decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+            decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
                 ? const BoxDecoration()
                 : BoxDecoration(
                     gradient: LinearGradient(
@@ -73,33 +73,7 @@ PageViewModel introFifthPage(BuildContext context) {
                       end: Alignment.bottomCenter,
                     ),
                   ),
-            child: ElevatedButton.icon(
-              key: const Key('intro_change_theme_button'),
-              style: ButtonStyle(
-                backgroundColor: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
-                    ? MaterialStateProperty.all(Colors.pink[200])
-                    : MaterialStateProperty.all(Colors.transparent),
-                shadowColor: MaterialStateProperty.all(Colors.transparent),
-              ),
-              onPressed: () {
-                context.read<ThemeBloc>().add(ToggleThemeEvent());
-              },
-              icon: Icon(
-                Icons.brightness_6,
-                color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              label: Text(
-                AppLocalizations.of(context)!.settingsChangeTheme,
-                textScaleFactor: AppStyleConstants.introBodyTextScale,
-                style: TextStyle(
-                  color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
-                      ? Colors.white
-                      : Colors.black,
-                ),
-              ),
-            ),
+            child: const ThemeSegmentedButtons(),
           ),
         ),
       ],

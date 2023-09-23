@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobility_app/data/repositories/settings_repository.dart';
-import 'package:mobility_app/screens/settings/language_cubit/language_cubit.dart';
-import 'package:mobility_app/theme/bloc/theme_bloc.dart';
-import 'package:mobility_app/theme/bloc/theme_state.dart';
+import 'package:yggert_nu/data/repositories/settings_repository.dart';
+import 'package:yggert_nu/screens/settings/language_cubit/language_cubit.dart';
+import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
 
 import '../screens/home/widgets/onboarding_widget.dart';
 import '../screens/intro/intro.dart';
 import '../screens/map/bloc/map_bloc.dart';
 import '../screens/settings/auth_bloc/auth_bloc.dart';
-import '../theme/bloc/theme_event.dart';
 
 /// Entry widget of the app.
 class MyApp extends StatefulWidget {
@@ -49,7 +47,6 @@ class _MyAppState extends State<MyApp> {
           create: (context) => AuthBloc()..add(AutoSignIn()),
         ),
         BlocProvider(
-
           create: (context) => MapBloc(),
         ),
         BlocProvider(

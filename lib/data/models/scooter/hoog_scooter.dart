@@ -1,5 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
-import 'package:mobility_app/data/models/scooter/scooter.dart';
+import 'package:yggert_nu/data/models/scooter/scooter.dart';
 
 /// Hoog Scooter model.
 class HoogScooter extends Scooter {

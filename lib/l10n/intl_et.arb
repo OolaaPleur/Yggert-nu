@@ -32,7 +32,9 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show only today trips."
   },
-  "tallinn": "Tallinn",
+  "raplamaa": "Raplamaa",
+  "jarvamaa": "Järvamaa",
+  "tallinn": "Tallinn/Harjumaa",
   "@tallinn": {
     "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
@@ -355,5 +357,9 @@
   "areYouSure": "Oled sa kindel?",
   "userDataDownloadedSuccessfully": "Kasutaja andmed on edukalt allalaaditud",
   "userDataUploadedSuccessfully": "Kasutaja andmed on edukalt üles laaditud",
-  "selectCity": "Vali linn"
+  "selectCity": "Vali linn",
+
+  "light": "Hele",
+  "auto": "Automaatne",
+  "dark": "Tume"
 }

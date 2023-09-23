@@ -1,4 +1,4 @@
-import 'package:mobility_app/utils/service_locator.dart';
+import 'package:yggert_nu/utils/service_locator.dart';
 
 /// Set up service locators for integration testing.
 void setUpServiceLocators () {

@@ -9,7 +9,7 @@ import '../../../theme/bloc/theme_bloc.dart';
 /// Fourth page of intro.
 PageViewModel introFourthPage(BuildContext context) {
   return PageViewModel(
-    decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+    decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
         ? const PageDecoration()
         : PageDecoration(
             boxDecoration: BoxDecoration(

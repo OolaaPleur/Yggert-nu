@@ -2,8 +2,8 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/utils/build_context_ext.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yggert_nu/utils/build_context_ext.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../data/models/car/bolt_car.dart';

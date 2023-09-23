@@ -19,7 +19,7 @@ class ShowTripsForTodayDropdown extends StatelessWidget {
       },
       builder: (context, state) {
         return Card(
-          color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
+          color: context.select((ThemeBloc bloc) => bloc.isDarkMode)
               ? null
               : Theme.of(context).secondaryHeaderColor,
           child: ExpansionTile(key: const Key('show_trips_for_today_dropdown'),subtitle: Text(AppLocalizations.of(context)!.changeFilter),

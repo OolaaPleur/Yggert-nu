@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:mobility_app/constants/constants.dart';
+import 'package:yggert_nu/constants/constants.dart';
 
 import '../../../theme/bloc/theme_bloc.dart';
 import '../../../utils/record_type_generator.dart';
@@ -14,7 +14,7 @@ import '../../map/bloc/map_bloc.dart';
 PageViewModel introSecondPage (BuildContext context) {
   final recordTypes = RecordTypeGenerator().generate(context);
   return PageViewModel(
-    decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+    decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
         ? const PageDecoration()
         : PageDecoration(
       boxDecoration: BoxDecoration(

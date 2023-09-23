@@ -5,12 +5,11 @@ import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
-import 'package:mobility_app/constants/api_links.dart';
-import 'package:mobility_app/data/repositories/settings_repository.dart';
-import 'package:mobility_app/exceptions/exceptions.dart';
-import 'package:mobility_app/utils/io/io_operations.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:yggert_nu/constants/api_links.dart';
+import 'package:yggert_nu/data/repositories/settings_repository.dart';
+import 'package:yggert_nu/exceptions/exceptions.dart';
+import 'package:yggert_nu/utils/io/io_operations.dart';
 
 import '../../constants/constants.dart';
 import '../../utils/database/database_operations.dart';
@@ -24,15 +23,15 @@ class EstoniaPublicTransportApiProvider {
   final _settingsRepository = GetIt.I<SettingsRepository>();
 
   Future<void> _fetchFirstTime() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final dbpath = await getDatabasesPath();
-    final filePath = '${directory.path}/gtfs.zip';
+    final path = await IOOperations.getAppDirForPlatform();
+    final dbpath = await IOOperations.getDbDirForPlatform();
+    final filePath = '$path/gtfs.zip';
 
     await IOOperations.deleteDatabaseIfExists('$dbpath/routes.db');
     await IOOperations.deleteDatabaseIfExists('$dbpath/stop_times.db');
     await IOOperations.deleteDatabaseIfExists('$dbpath/trips.db');
-    if (Directory('${directory.path}/gtfs').existsSync()) {
-      Directory('${directory.path}/gtfs').deleteSync(recursive: true);
+    if (Directory('$path/gtfs').existsSync()) {
+      Directory('$path/gtfs').deleteSync(recursive: true);
     }
     final apiLinks = GetIt.instance<ApiLinks>();
     final url = Uri.parse(apiLinks.gtfsLink);
@@ -40,7 +39,7 @@ class EstoniaPublicTransportApiProvider {
     if (response.statusCode == 200) {
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
-      IOOperations.unzipFile(filePath, '${directory.path}/gtfs');
+      IOOperations.unzipFile(filePath, '$path/gtfs');
       await IOOperations.deleteFile('gtfs/shapes.txt');
       await IOOperations.deleteFile('gtfs/fare_rules.txt');
       await _settingsRepository.setStringValue('gtfs_download_date', file.lastModifiedSync().toString());
@@ -58,8 +57,8 @@ class EstoniaPublicTransportApiProvider {
     }
     try {
       await _fetchFirstTime();
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/gtfs.zip';
+      final path = await IOOperations.getAppDirForPlatform();
+      final filePath = '$path/gtfs.zip';
       if (File(filePath).existsSync()) {
         await IOOperations.deleteFile('gtfs.zip');
         return InfoMessage.fileDownloadedAndProcessed;

@@ -53,8 +53,8 @@ const hoogPackageName = 'hoog.app';
 /// Tuul areas, used in constructing requests to Tuul API.
 final cityTuulAreas = {
   City.tallinn.name: 'wZKbxSa2rnHxavZ4h3oe',
-  City.parnu.name: 'Oz8rab1clYlwcFl3KjgY',
-  // City.riga.name: 'zB9WT5UNei7zGK03FbCg',
+  //City.parnu.name: 'Oz8rab1clYlwcFl3KjgY', // Tuul is no longer here.
+  //City.riga.name: 'zB9WT5UNei7zGK03FbCg',
 };
 
 /// City coordinates, used in constructing requests.
@@ -106,6 +106,10 @@ enum City {
 
   /// Pärnu, changes in settings.
   parnu,
+  /// Raplamaa, county in Estonia.
+  raplamaa,
+  /// Jarvamaa, county in Estonia.
+  jarvamaa,
 }
 
 /// Map, contains cities as keys and localized names as values.
@@ -121,6 +125,8 @@ final Map<City, String Function(AppLocalizations)> cityToLocalKey = {
   City.viljandi: (localizations) => localizations.viljandi,
   City.voru: (localizations) => localizations.voru,
   City.parnu: (localizations) => localizations.parnu,
+  City.raplamaa: (localizations) => localizations.raplamaa,
+  City.jarvamaa: (localizations) => localizations.jarvamaa,
 };
 
 /// Class, stores sizes for widgets.
@@ -162,4 +168,14 @@ class AppStyleConstants {
 
   /// ONBOARDING STYLE FORWARD
   static Color onboardingOverlayColor = Colors.blue.withOpacity(0.6);
+}
+
+/// Themes of app.
+enum AppTheme {
+  /// Light theme.
+  light,
+  /// Dark theme.
+  dark,
+  /// System theme.
+  auto
 }

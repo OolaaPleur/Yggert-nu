@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:mobility_app/utils/build_context_ext.dart';
+import 'package:yggert_nu/utils/build_context_ext.dart';
 
 import '../../../constants/constants.dart';
 import '../../../theme/bloc/theme_bloc.dart';
@@ -10,7 +10,7 @@ import '../../../theme/bloc/theme_bloc.dart';
 /// First page of intro.
 PageViewModel introFirstPage (BuildContext context) {
   return PageViewModel(
-    decoration: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled == true)
+    decoration: context.select((ThemeBloc bloc) => bloc.isDarkMode == true)
         ? const PageDecoration()
         : PageDecoration(
       boxDecoration: BoxDecoration(

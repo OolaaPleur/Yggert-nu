@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
-import 'package:mobility_app/exceptions/exceptions.dart';
+import 'package:yggert_nu/exceptions/exceptions.dart';
 
 import '../../../constants/constants.dart';
 import '../../../domain/user_repositories/usecases/download_user_settings.dart';
@@ -75,7 +75,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onUploadUserSettings(UploadUserSettingsEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(state.copyWith(uploadingStatus: Status.loading));
+      emit(state.copyWith(dataStatus: Status.uploading));
       await _uploadUserSettings.call();
       emit(state.copyWith(infoMessage: InfoMessage.userDataUploadedSuccessfully));
     } catch (e) {
@@ -89,7 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       state.copyWith(
         error: const AppException(),
-        uploadingStatus: Status.success,
+        dataStatus: Status.uploadSuccess,
         infoMessage: InfoMessage.defaultMessage,
       ),
     );
@@ -100,7 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      emit(state.copyWith(downloadingStatus: Status.loading));
+      emit(state.copyWith(dataStatus: Status.downloading));
       final settings = await _downloadUserSettings.call();
       emit(
         state.copyWith(
@@ -119,7 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       state.copyWith(
         error: const AppException(),
-        downloadingStatus: Status.success,
+        dataStatus: Status.downloadSuccess,
         infoMessage: InfoMessage.defaultMessage,
       ),
     );

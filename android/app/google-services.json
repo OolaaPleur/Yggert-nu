@@ -7,35 +7,35 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:751152486074:android:30f098acdea1fea9d6d483",
+        "mobilesdk_app_id": "1:751152486074:android:44884bef878b7a19d6d483",
         "android_client_info": {
-          "package_name": "com.oolaa.redefined.mobility.mobility_app"
+          "package_name": "com.oolaa.yggert.nu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "751152486074-iv135kk93hab729ccmom77ps6i8u95b6.apps.googleusercontent.com",
+          "client_id": "751152486074-kblh6dbnacngut9dccl2b60b804h9ap1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.oolaa.redefined.mobility.mobility_app",
-            "certificate_hash": "d224b3db8ddde635dfa972950d16bc4b86d9d981"
+            "package_name": "com.oolaa.yggert.nu",
+            "certificate_hash": "5402c7b352a42a7e4bcd0c9a9b407554fd35eb2d"
           }
         },
         {
-          "client_id": "751152486074-d4bo23qhlcg58kirn0qhvvr81eikb67s.apps.googleusercontent.com",
+          "client_id": "751152486074-kgn47ud3c6oidf7fa011go48q1kslodv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAN7C-vrSPEVsalmgWQoXdYBvSoYLBi0mc"
+          "current_key": "AIzaSyDLL9LqaLOYHNZRq4IpLyGcR0DJVLw25Eg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "751152486074-d4bo23qhlcg58kirn0qhvvr81eikb67s.apps.googleusercontent.com",
+              "client_id": "751152486074-kgn47ud3c6oidf7fa011go48q1kslodv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

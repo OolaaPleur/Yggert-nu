@@ -1,4 +1,4 @@
-import 'package:mobility_app/constants/constants.dart';
+import 'package:yggert_nu/constants/constants.dart';
 
 /// Functions, which converts String to City enum.
 City? getMyEnumFromStr(String value) {

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:unique_identifier/unique_identifier.dart';
@@ -16,14 +17,14 @@ import '../../models/scooter/bolt_scooter.dart';
 
 /// Check OS and coordinates that they are correct.
 ({double latitude, double longitude}) checkOSAndCoordinates(String pickedCity) {
-if (!Platform.isAndroid) {
-throw const DeviceIsNotSupported();
-}
-final coordinates = cityCoordinates[pickedCity];
-if (coordinates == null) {
-throw const CityIsNotPicked();
-}
-return coordinates;
+  if (defaultTargetPlatform != TargetPlatform.android && !kIsWeb) {
+    throw const DeviceIsNotSupported();
+  }
+  final coordinates = cityCoordinates[pickedCity];
+  if (coordinates == null) {
+    throw const CityIsNotPicked();
+  }
+  return coordinates;
 }
 
 /// Methods to do operations with Bolt scooter API provider.
@@ -33,19 +34,32 @@ class BoltScooterApiProvider {
     required String latitude,
     required String longitude,
   }) async {
-    final identifier = await UniqueIdentifier.serial;
-    final deviceInfo = DeviceInfoPlugin();
+    String? identifier;
     const os = 'android';
-    final androidInfo = await deviceInfo.androidInfo;
-    log('Running on ${androidInfo.model} ${androidInfo.version.release}');
+    String? model;
+    String? osVersion;
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      identifier = await UniqueIdentifier.serial;
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+      model = androidInfo.model;
+      osVersion = androidInfo.version.release;
+      log('Running on ${androidInfo.model} ${androidInfo.version.release}');
+    }
+
+    if (kIsWeb) {
+      identifier = '4fhn49gj30gn38g4';
+      model = 'SM-A528B';
+      osVersion = '13';
+    }
     return {
       'lat': latitude,
       'lng': longitude,
       'select_all': 'true',
       'version': 'CA.76.1',
       'deviceId': {identifier},
-      'device_name': {androidInfo.model},
-      'device_os_version': {androidInfo.version.release},
+      'device_name': {model},
+      'device_os_version': {osVersion},
       'deviceType': {os},
       'country': 'ee',
       'language': 'en',
@@ -82,12 +96,12 @@ class BoltScooterApiProvider {
       } else {
         throw const CantFetchBoltScootersData();
       }
-    } on SocketException {
+    }
+    on SocketException {
       throw const NoInternetConnection();
-    } catch (e) {
+    }
+    catch (e) {
       rethrow;
     }
   }
-
-
 }

@@ -1,7 +1,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobility_app/data/models/estonia_public_transport.dart';
-import 'package:mobility_app/utils/gtfs_list_operations.dart';
+import 'package:yggert_nu/data/models/estonia_public_transport.dart';
+import 'package:yggert_nu/utils/gtfs_list_operations.dart';
 
 void main() {
   group('GtfsListOperations', () {

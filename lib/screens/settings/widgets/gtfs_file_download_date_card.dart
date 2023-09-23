@@ -14,7 +14,7 @@ class GtfsFileDownloadDateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
+      color: context.select((ThemeBloc bloc) => bloc.isDarkMode)
           ? null
           : Theme.of(context).secondaryHeaderColor,
       child: BlocProvider(

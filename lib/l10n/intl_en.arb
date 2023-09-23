@@ -32,7 +32,9 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show only today trips."
   },
-  "tallinn": "Tallinn",
+  "raplamaa": "Rapla county",
+  "jarvamaa": "Jarva county",
+  "tallinn": "Tallinn/Harju county",
   "@tallinn": {
     "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
@@ -355,5 +357,9 @@
   "areYouSure": "Are you sure?",
   "userDataDownloadedSuccessfully": "User data downloaded successfully",
   "userDataUploadedSuccessfully": "User data uploaded successfully",
-  "selectCity": "Select city"
+  "selectCity": "Select city",
+
+  "light": "Light",
+  "auto": "Auto",
+  "dark": "Dark"
 }

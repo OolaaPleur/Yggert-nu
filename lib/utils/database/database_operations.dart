@@ -2,12 +2,14 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../io/io_operations.dart';
+
 /// Class, where happens all database-related operations.
 class DatabaseOperations {
 
   /// Open database by [databaseName].
   static Future<Database> openAppDatabase(String databaseName) async {
-    final dbPath = await getDatabasesPath();
+    final dbPath = await IOOperations.getDbDirForPlatform();
     final path = join(dbPath, '$databaseName.db');
     return openDatabase(path, version: 1);
   }

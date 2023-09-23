@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobility_app/utils/service_locator.dart';
+import 'package:yggert_nu/utils/service_locator.dart';
 
 import 'bootstrap.dart';
 

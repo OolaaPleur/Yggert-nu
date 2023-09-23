@@ -1,18 +1,28 @@
-# Yggert Nu
+# Yggert Nu 🛵
 
 Experience the future of mobility with Yggert Nu! This app revolutionizes how you navigate through the city by aggregating all available modes of transport in one place.
 
-## Micromobility
+## Micromobility 🛴
 
 Yggert Nu's primary objective is to empower users in making informed decisions about their transport. It integrates all rental services, be it scooters, bikes, or cars, onto one convenient map. Now you can effortlessly choose the fastest and most convenient mode of transportation tailored to your needs.
 
+<details>
+  <summary>Viewing scooters and bikes on map</summary>
+
 [Viewing scooters and bikes on map](https://github.com/OolaaPleur/mobility_app/assets/29483340/a744f2b7-59fb-4824-aa7b-5333e7415f68)
+
+</details>
 
 And for those instances when no immediate transportation is nearby, you can easily check the local bus stops to view upcoming schedules and arrivals.
 
+<details>
+  <summary>Bus timetable</summary>
+
 [Bus timetable](https://github.com/OolaaPleur/mobility_app/assets/29483340/8b2d929b-1ea3-40d9-a1cc-ecf276a90a8d)
 
-## Settings
+</details>
+
+## Settings ⚙️
 
 To further refine your travel experience, Yggert Nu offers a customizable filter system to display only the most relevant markers to you. In the settings, users can select their city of interest, allowing them to view available modes of transportation tailored to their specific locale.
 
@@ -22,7 +32,7 @@ For personalized settings and preference retention, users can sign in using thei
 [Press to see dark mode](https://github.com/OolaaPleur/mobility_app/assets/29483340/adb46079-1536-4537-8679-d3c5939cf541)
 Welcome to a smarter, more integrated world of transport. Welcome to Yggert Nu.
 
-## Getting Started
+## Getting Started 🚀
 
 This project contains 2 flavors:
 
@@ -32,17 +42,21 @@ This project contains 2 flavors:
 To run the desired flavor either use the launch configuration in VSCode/Android Studio or use the following commands:
 
 ```sh
-# Development
+# Development, most of services disabled.
 $ flutter run --flavor development --target lib/main_development.dart
 
 # Production
 $ flutter run --flavor production --target lib/main_production.dart
 ```
 
-Or you can just grab last version from [releases](https://github.com/OolaaPleur/Yggert-nu/releases).
+To run app using those commands you need to have Bolt token, Hoog token and Hoog Api key, which I can't provide in public repository.
+
+You can just grab last version from [releases](https://github.com/OolaaPleur/Yggert-nu/releases).
+
+Or explore a demo version of the app for testing purposes, simply click [here](https://oolaapleur.github.io/Yggert-nu/) (Note: In the demo, 1) Tuul scooters are not displayed due to server-side CORS restrictions 2) Timetable also not displayed.).
 
 _\*Yggert Nu works only on Android._
 
-## Acknowledgements
+## Acknowledgements 🙏
 
 A heartfelt thank you to Alisa Buinitska for her significant contribution in designing the aesthetics of the Yggert Nu app and the careful selection of color schemes. Her creative input added vibrancy and life to the application, preventing it from becoming just another dull, colorless tool. Her work has made this app not just functional, but also engaging and pleasing to the eye. I deeply appreciate the time, creativity, and effort she has invested in making this project a reality.

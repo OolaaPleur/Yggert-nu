@@ -32,7 +32,9 @@
   "@settingsLocalFilterToday": {
     "description": "Text shown in local filter settings, means show by only today trips."
   },
-  "tallinn": "Таллинн",
+  "raplamaa": "Рапламаа",
+  "jarvamaa": "Ярвамаа",
+  "tallinn": "Таллинн/Харьюмаа",
   "@tallinn": {
     "description": "City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list."
   },
@@ -355,5 +357,9 @@
   "areYouSure": "Вы уверены?",
   "userDataDownloadedSuccessfully": "Данные пользователя успешно загружены",
   "userDataUploadedSuccessfully": "Данные пользователя успешно загружены",
-  "selectCity": "Выбери город"
+  "selectCity": "Выбери город",
+
+  "light": "Светлая",
+  "auto": "Авто",
+  "dark": "Тёмная"
 }

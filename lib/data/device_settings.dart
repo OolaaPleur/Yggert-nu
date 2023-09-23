@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:mobility_app/screens/map/bloc/map_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yggert_nu/screens/map/bloc/map_bloc.dart';
 
 import '../constants/constants.dart';
 
@@ -47,14 +47,14 @@ class DeviceSettings {
     if (valueKey == 'language_code') {
       return prefs.getString(valueKey) ?? PlatformDispatcher.instance.locales.first.languageCode;
     }
+    if (valueKey == 'theme') {
+      return prefs.getString(valueKey) ?? 'AppTheme.auto';
+    }
     return '';
   }
   /// Get String value by its [valueKey].
   Future<bool> getBoolValue(String valueKey) async {
     final prefs = await SharedPreferences.getInstance();
-    if (valueKey == 'isDark') {
-      return prefs.getBool(valueKey) ?? false;
-    }
     if (valueKey == 'low_charge_scooter_visibility') {
       return prefs.getBool(valueKey) ?? true;
     }

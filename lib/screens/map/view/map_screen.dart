@@ -8,13 +8,12 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:mobility_app/constants/constants.dart';
-import 'package:mobility_app/theme/bloc/theme_bloc.dart';
-import 'package:mobility_app/widgets/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:yggert_nu/constants/constants.dart';
+import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
+import 'package:yggert_nu/widgets/snackbar.dart';
 
 import '../../../constants/api_links.dart';
-import '../../../theme/bloc/theme_state.dart';
 import '../bloc/map_bloc.dart';
 
 /// [MapScreen] widget shows map.
@@ -71,7 +70,7 @@ class _MapScreenState extends State<MapScreen> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        center: LatLng(58.37, 26.73),
+        center: const LatLng(58.37, 26.73),
         zoom: 14,
         maxZoom: 18,
         minZoom: 8,
@@ -113,9 +112,9 @@ class _MapScreenState extends State<MapScreen> {
               subdomains: const ['a', 'b', 'c'],
               userAgentPackageName: 'com.oolaa.redefined.mobility.mobility_app',
               urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              tileBuilder: context.read<ThemeBloc>().isDarkModeEnabled ? darkModeTileBuilder : null,
+              tileBuilder: context.read<ThemeBloc>().isDarkMode ? darkModeTileBuilder : null,
               backgroundColor:
-                  context.read<ThemeBloc>().isDarkModeEnabled ? Colors.black54 : Colors.white,
+                  context.read<ThemeBloc>().isDarkMode ? Colors.black54 : Colors.white,
             );
           },
         ),
@@ -140,7 +139,7 @@ class _MapScreenState extends State<MapScreen> {
             disableClusteringAtZoom: 17,
             size: const Size(40, 40),
             markers: context.select((MapBloc bloc) => bloc.state.filteredMarkers),
-            anchor: AnchorPos.align(AnchorAlign.center),
+            anchorPos: AnchorPos.align(AnchorAlign.center),
             fitBoundsOptions: const FitBoundsOptions(
               padding: EdgeInsets.all(50),
               maxZoom: 20,

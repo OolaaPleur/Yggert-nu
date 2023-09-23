@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobility_app/data/data_sources/gtfs_data_operations.dart';
-import 'package:mobility_app/data/repositories/public_transport_repository.dart';
-import 'package:mobility_app/data/repositories/settings_repository.dart';
+import 'package:yggert_nu/data/data_sources/gtfs_data_operations.dart';
+import 'package:yggert_nu/data/repositories/public_transport_repository.dart';
+import 'package:yggert_nu/data/repositories/settings_repository.dart';
 
 import '../constants/api_links.dart';
 import '../data/data_sources/gtfs_file_source.dart';

@@ -24,7 +24,7 @@ class PickCityDropdown extends StatelessWidget {
         final pickedCity = context.read<MapBloc>().state.pickedCity;
         final cityName = cityToLocalKey[pickedCity]!(AppLocalizations.of(context)!);
         return Card(
-          color: context.select((ThemeBloc bloc) => bloc.isDarkModeEnabled)
+          color: context.select((ThemeBloc bloc) => bloc.isDarkMode)
               ? null
               : Theme.of(context).secondaryHeaderColor,
           child: ListTile(

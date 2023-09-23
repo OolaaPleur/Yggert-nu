@@ -15,11 +15,11 @@ class CitySelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentCity = context.read<MapBloc>().state.pickedCity;
     return Scaffold(
-      backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+      backgroundColor: context.read<ThemeBloc>().isDarkMode
           ? null
           : AppStyleConstants.scaffoldColor,
       appBar: AppBar(
-        backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+        backgroundColor: context.read<ThemeBloc>().isDarkMode
             ? null
             : AppStyleConstants.appBarColor,
         title: Text(AppLocalizations.of(context)!.selectCity),

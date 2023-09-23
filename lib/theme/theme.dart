@@ -1,7 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobility_app/theme/theme_colors.dart';
+import 'package:yggert_nu/theme/theme_colors.dart';
 
 /// App theme choices.
 class FlutterAppTheme {

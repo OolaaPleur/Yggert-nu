@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobility_app/app/app.dart';
-import 'package:mobility_app/utils/integration_test_helpers/set_up_service_locators.dart';
+import 'package:yggert_nu/app/app.dart';
+import 'package:yggert_nu/utils/integration_test_helpers/set_up_service_locators.dart';
 
 void main() {
   // This will run before any test is executed.

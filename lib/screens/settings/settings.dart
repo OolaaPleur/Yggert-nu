@@ -4,24 +4,23 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mobility_app/screens/settings/widgets/animated_icon_button.dart';
-import 'package:mobility_app/screens/settings/widgets/auth_avatar.dart';
-import 'package:mobility_app/screens/settings/widgets/change_low_charge_scooter_visibility.dart';
-import 'package:mobility_app/screens/settings/widgets/show_tutorial_again.dart';
+import 'package:yggert_nu/screens/settings/theme_switch/theme_segmented_buttons.dart';
+import 'package:yggert_nu/screens/settings/widgets/animated_icon_button.dart';
+import 'package:yggert_nu/screens/settings/widgets/auth_avatar.dart';
+import 'package:yggert_nu/screens/settings/widgets/change_low_charge_scooter_visibility.dart';
+import 'package:yggert_nu/screens/settings/widgets/show_tutorial_again.dart';
+import 'package:yggert_nu/theme/theme_helpers.dart';
 
 
 import '../../constants/constants.dart';
 import '../../exceptions/exceptions.dart';
 import '../../theme/bloc/theme_bloc.dart';
-import '../../theme/bloc/theme_event.dart';
-import '../../theme/bloc/theme_state.dart';
 import '../../widgets/snackbar.dart';
 import '../map/bloc/map_bloc.dart';
 import 'auth_bloc/auth_bloc.dart';
 import 'language_cubit/language_cubit.dart';
 import 'widgets/change_city/pick_city_dropdown.dart';
 import 'widgets/change_language_dropdown.dart';
-import 'widgets/dark_mode_switch.dart';
 import 'widgets/google_sign_in_button.dart';
 import 'widgets/gtfs_file_download_date_card.dart';
 import 'widgets/show_trips_for_today_dropdown.dart';
@@ -40,7 +39,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   void sendDownloadDataToStates(AuthState state) {
     context
         .read<ThemeBloc>()
-        .add(ToggleDownloadedThemeEvent(isDark: state.settings!['isDark'] as bool));
+        .add(ChangeThemeEvent(appTheme: ThemeHelper.toAppTheme(state.settings!['theme'] as String)));
 
     final cityString = state.settings!['pickedCity'] as String;
     final city = City.values.firstWhereOrNull((e) => e.name == cityString) ?? City.tartu;
@@ -91,7 +90,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.downloadingStatus == Status.success) {
+        if (state.dataStatus == Status.downloadSuccess) {
           sendDownloadDataToStates(state);
         }
         if (state.error is SomeErrorOccurred) {
@@ -120,11 +119,11 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
           return BlocBuilder<ThemeBloc, ThemeState>(
             builder: (context, themeState) {
               return Scaffold(
-                backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+                backgroundColor: context.read<ThemeBloc>().isDarkMode
                     ? null
                     : AppStyleConstants.scaffoldColor,
                 appBar: AppBar(
-                  backgroundColor: context.read<ThemeBloc>().isDarkModeEnabled
+                  backgroundColor: context.read<ThemeBloc>().isDarkMode
                       ? null
                       : AppStyleConstants.appBarColor,
                   title: Text(AppLocalizations.of(context)!.settingsAppBarTitle),
@@ -133,7 +132,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                     AnimatedCrossFade(
                       duration: const Duration(milliseconds: 300),
                       firstChild: IconButton(
-                        icon: authState.uploadingStatus == Status.loading
+                        icon: authState.dataStatus == Status.uploading
                             ? Stack(
                                 alignment: Alignment.center,
                                 children: [
@@ -183,7 +182,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                     AnimatedCrossFade(
                       duration: const Duration(milliseconds: 300),
                       firstChild: IconButton(
-                        icon: authState.downloadingStatus == Status.loading
+                        icon: authState.dataStatus == Status.downloading
                             ? Stack(
                                 alignment: Alignment.center,
                                 children: [
@@ -243,7 +242,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                   children: [
                     UserAvatar(authState: authState),
                     const GoogleSignInButton(),
-                    const DarkModeSwitch(),
+                    const ThemeSegmentedButtons(),
                     const Divider(),
                     const ShowTripsForTodayDropdown(),
                     const Divider(),

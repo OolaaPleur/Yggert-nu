@@ -1,4 +1,4 @@
-import 'package:mobility_app/data/models/scooter/scooter.dart';
+import 'package:yggert_nu/data/models/scooter/scooter.dart';
 
 /// Type alias for Bolt scooter list.
 typedef BoltScootersList = List<BoltScooter>;
