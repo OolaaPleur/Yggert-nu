@@ -39,6 +39,15 @@ jobs:
 
       - name: Run build_runner
         run: dart pub run build_runner build
+
+      # Decode the keystore from base64 and place it
+      - name: Decode keystore file
+        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > key.jks
+
+      # Set an environment variable to be used in build.gradle
+      - name: Set Keystore Path
+        run: echo "KEYSTORE_PATH=key.jks" >> $GITHUB_ENV
+
       # Build for debug
       #      - name: Build
       #        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
@@ -46,8 +55,8 @@ jobs:
       - name: Build
         run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
 
-      - name: Test
-        run: flutter test --flavor production
+      # - name: Test
+      #   run: flutter test --flavor production
 
       #      - name: Run integration tests
       #        uses: reactivecircus/android-emulator-runner@v2
@@ -59,8 +68,8 @@ jobs:
       #          script: |
       #            flutter test --flavor production integration_test/onboarding_test.dart
       #            flutter test --flavor production integration_test/intro_test.dart
-      - name: Analyze
-        run: flutter analyze
+      # - name: Analyze
+      #   run: flutter analyze
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:

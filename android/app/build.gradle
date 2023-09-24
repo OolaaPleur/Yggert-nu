@@ -78,7 +78,7 @@ android {
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
+            storeFile file(System.getenv("KEYSTORE_PATH") ?: keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
     }
