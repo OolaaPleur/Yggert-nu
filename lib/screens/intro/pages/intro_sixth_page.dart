@@ -27,6 +27,7 @@ PageViewModel introSixthPage(BuildContext context) {
         ClipOval(
           child: Image.asset(
             'assets/intro/intro_google_sign_in.png',
+            semanticLabel: 'G letter (Google logo)',
             scale: 6,
           ),
         ),

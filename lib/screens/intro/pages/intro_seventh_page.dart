@@ -27,6 +27,7 @@ PageViewModel introSeventhPage(BuildContext context) {
         ClipOval(
           child: Image.asset(
             'assets/intro/intro_end.png',
+            semanticLabel: 'Road going forward into horizon',
             scale: 6,
           ),
         ),

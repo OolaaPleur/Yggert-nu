@@ -30,6 +30,7 @@ PageViewModel introFirstPage (BuildContext context) {
           child: Image.asset(
             'assets/launcher_icon/launcher_icon.png',
             scale: 6,
+            semanticLabel: 'Launcher icon, purple scooter on blue background',
           ),
         ),
         const SizedBox(

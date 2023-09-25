@@ -28,6 +28,7 @@ PageViewModel introThirdPage(BuildContext context) {
           child: Image.asset(
             'assets/intro/intro_please_note.png',
             scale: 6,
+            semanticLabel: 'blue exclamation mark on red background',
           ),
         ),
         const SizedBox(

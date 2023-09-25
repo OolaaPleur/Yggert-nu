@@ -59,28 +59,15 @@ jobs:
 #      - name: Build apk
 #        run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
 
-      - name: Build for web
-        run: flutter build web --release --base-href /Yggert-nu/ --target lib/main_production.dart
+#      - name: Build for web
+#        run: flutter build web --release --base-href /Yggert-nu/ --target lib/main_production.dart
+#
+#      - name: Deploy
+#        uses: JamesIves/github-pages-deploy-action@v4
+#        with:
+#          folder: build/web # The folder the action should deploy.
+#          target-folder: docs
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: build/web # The folder the action should deploy.
-          target-folder: docs
-
-#      - name: Copy Web Build to docs folder
-#        run: |
-#          rm -rf docs/*
-#          cp -R build/web/* docs/
-
-
-#      - name: Commit and push changes
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#          git add docs/
-#          git commit -m "Update GitHub Pages"
-#          git push
       # - name: Test
       #   run: flutter test --flavor production
 

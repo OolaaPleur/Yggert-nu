@@ -28,6 +28,7 @@ PageViewModel introFourthPage(BuildContext context) {
         ClipOval(
           child: Image.asset(
             'assets/intro/intro_bus_stop.png',
+            semanticLabel: 'Yellow bus stop',
             scale: 6,
           ),
         ),

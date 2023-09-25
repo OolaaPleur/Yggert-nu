@@ -34,6 +34,7 @@ PageViewModel introSecondPage (BuildContext context) {
           child: Image.asset(
             'assets/intro/intro_city.png',
             scale: 6,
+            semanticLabel: 'One bus and one tram',
           ),
         ),
         const SizedBox(
