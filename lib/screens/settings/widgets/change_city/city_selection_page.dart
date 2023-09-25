@@ -33,6 +33,7 @@ class CitySelectionPage extends StatelessWidget {
                 title: Text(cityToLocalKey[city]!(AppLocalizations.of(context)!), textScaleFactor: 1.2,),
                 onTap: () {
                   context.read<MapBloc>().add(MapChangeCity(city));
+                  context.read<MapBloc>().add(const MapMarkersPlacingOnMap());
                   Navigator.pop(context);
                 },
                 trailing: city == currentCity

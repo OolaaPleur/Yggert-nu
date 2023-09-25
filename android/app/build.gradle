@@ -76,10 +76,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            keyAlias System.getenv("KEY_ALIAS") ?: keystoreProperties['keyAlias']
+            keyPassword System.getenv("KEY_PASSWORD") ?: keystoreProperties['keyPassword']
             storeFile file(System.getenv("KEYSTORE_PATH") ?: keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: keystoreProperties['storePassword']
         }
     }
     buildTypes {

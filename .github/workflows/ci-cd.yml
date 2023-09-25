@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: macos-11
+    env:
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
     steps:
       - name: Set up JDK 11
@@ -42,19 +46,41 @@ jobs:
 
       # Decode the keystore from base64 and place it
       - name: Decode keystore file
-        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > key.jks
+        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > /Users/runner/work/Yggert-nu/Yggert-nu/android/app/key.jks
 
       # Set an environment variable to be used in build.gradle
       - name: Set Keystore Path
-        run: echo "KEYSTORE_PATH=key.jks" >> $GITHUB_ENV
+        run: echo "KEYSTORE_PATH=/Users/runner/work/Yggert-nu/Yggert-nu/android/app/key.jks" >> $GITHUB_ENV
 
       # Build for debug
       #      - name: Build
       #        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
       # Build for release
-      - name: Build
-        run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
+#      - name: Build apk
+#        run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
 
+      - name: Build for web
+        run: flutter build web --release --base-href /Yggert-nu/ --target lib/main_production.dart
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/web # The folder the action should deploy.
+          target-folder: docs
+
+#      - name: Copy Web Build to docs folder
+#        run: |
+#          rm -rf docs/*
+#          cp -R build/web/* docs/
+
+
+#      - name: Commit and push changes
+#        run: |
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          git add docs/
+#          git commit -m "Update GitHub Pages"
+#          git push
       # - name: Test
       #   run: flutter test --flavor production
 
@@ -70,9 +96,9 @@ jobs:
       #            flutter test --flavor production integration_test/intro_test.dart
       # - name: Analyze
       #   run: flutter analyze
-      - name: Push to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/apk/production/release/*"
-          tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Push to Releases
+#        uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "build/app/outputs/apk/production/release/*"
+#          tag: v1.0.${{ github.run_number }}
+#          token: ${{ secrets.GITHUB_TOKEN }}
