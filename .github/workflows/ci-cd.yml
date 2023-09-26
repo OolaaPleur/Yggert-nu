@@ -7,11 +7,12 @@ on:
 
 jobs:
   build:
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     env:
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
       KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
 
     steps:
       - name: Set up JDK 11
@@ -46,18 +47,30 @@ jobs:
 
       # Decode the keystore from base64 and place it
       - name: Decode keystore file
-        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > /Users/runner/work/Yggert-nu/Yggert-nu/android/app/key.jks
+        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./android/app/key.jks
+
+      - name: Show current directory
+        run: pwd
+
+      - name: List files in current directory
+        run: ls -al
 
       # Set an environment variable to be used in build.gradle
       - name: Set Keystore Path
-        run: echo "KEYSTORE_PATH=/Users/runner/work/Yggert-nu/Yggert-nu/android/app/key.jks" >> $GITHUB_ENV
+        run: echo "KEYSTORE_PATH=./key.jks" >> $GITHUB_ENV
+
+      - name: Show current directory
+        run: pwd
+
+      - name: List files in current directory
+        run: ls -al
 
       # Build for debug
       #      - name: Build
       #        run: flutter build apk --flavor production --debug --target=lib/main_production.dart --split-per-abi
       # Build for release
-#      - name: Build apk
-#        run: flutter build apk --flavor production --release --target=lib/main_production.dart --split-per-abi
+      - name: Build apk
+        run: flutter build apk --flavor production --release --target=lib/main_production.dart
 
 #      - name: Build for web
 #        run: flutter build web --release --base-href /Yggert-nu/ --target lib/main_production.dart
