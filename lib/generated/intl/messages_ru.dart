@@ -42,8 +42,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeCity" : MessageLookupByLibrary.simpleMessage("Выбери город"),
     "changeFilter" : MessageLookupByLibrary.simpleMessage("Выбери фильтр"),
     "changeLanguage" : MessageLookupByLibrary.simpleMessage("Выбери язык"),
+    "couldNotLaunch" : MessageLookupByLibrary.simpleMessage("Не удалось запустить"),
     "dark" : MessageLookupByLibrary.simpleMessage("Тёмная"),
     "doneButtonText" : MessageLookupByLibrary.simpleMessage("Готово"),
+    "emailToMe" : MessageLookupByLibrary.simpleMessage("Есть вопросы? Напишите мне на электронную почту!"),
+    "error" : MessageLookupByLibrary.simpleMessage("Ошибка"),
     "fri" : MessageLookupByLibrary.simpleMessage("Пт"),
     "geolocationPermissionDenied" : MessageLookupByLibrary.simpleMessage("Нет разрешения на геолокацию, вы не можете увидеть свое местоположение."),
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Хаапсалу"),
@@ -87,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noButton" : MessageLookupByLibrary.simpleMessage("Нет"),
     "onboardingBodyTextCity" : MessageLookupByLibrary.simpleMessage("Город, для которого загружены данные"),
     "onboardingBodyTextCustomize" : MessageLookupByLibrary.simpleMessage("Нажмите, чтобы настроить настройки карты"),
-    "onboardingBodyTextFiltersExample" : MessageLookupByLibrary.simpleMessage("Например, эта кнопка показывает/скрывает скутеры"),
+    "onboardingBodyTextFiltersExample" : MessageLookupByLibrary.simpleMessage("Например, эта кнопка показывает/скрывает самокаты"),
     "onboardingBodyTextRefresh" : MessageLookupByLibrary.simpleMessage("Нажмите, чтобы обновить маркеры"),
     "onboardingTitleTextCity" : MessageLookupByLibrary.simpleMessage("Выбранный город"),
     "onboardingTitleTextFilters" : MessageLookupByLibrary.simpleMessage("Используйте фильтры"),
@@ -95,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "parnu" : MessageLookupByLibrary.simpleMessage("Пярну"),
     "rakvere" : MessageLookupByLibrary.simpleMessage("Раквере"),
     "raplamaa" : MessageLookupByLibrary.simpleMessage("Рапламаа"),
+    "rateUsOnGooglePlay" : MessageLookupByLibrary.simpleMessage("Оцените нас в Google Play!"),
     "sat" : MessageLookupByLibrary.simpleMessage("Сб"),
     "selectCity" : MessageLookupByLibrary.simpleMessage("Выбери город"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Настройки"),
@@ -123,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "someErrorOccurred" : MessageLookupByLibrary.simpleMessage("Произошла неизвестная ошибка. Попробуйте снова позже."),
     "startTutorialAgain" : MessageLookupByLibrary.simpleMessage("Начать обучение снова?"),
     "stopMarkerShowAllForwardStoptimesButton" : MessageLookupByLibrary.simpleMessage("Показать остановки"),
-    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Введите название остановки."),
+    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Введите название остановки"),
     "sun" : MessageLookupByLibrary.simpleMessage("Вс"),
     "tallinn" : MessageLookupByLibrary.simpleMessage("Таллинн/Харьюмаа"),
     "tartu" : MessageLookupByLibrary.simpleMessage("Тарту"),
@@ -134,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "viljandi" : MessageLookupByLibrary.simpleMessage("Вильянди"),
     "voru" : MessageLookupByLibrary.simpleMessage("Выру"),
     "wed" : MessageLookupByLibrary.simpleMessage("Ср"),
-    "yesButton" : MessageLookupByLibrary.simpleMessage("Да")
+    "yesButton" : MessageLookupByLibrary.simpleMessage("Да"),
+    "yourFeedbackMotivatesMeToMakeTheAppEvenBetter" : MessageLookupByLibrary.simpleMessage("Ваш отзыв мотивирует меня сделать приложение еще лучше!")
   };
 }

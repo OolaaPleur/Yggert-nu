@@ -251,7 +251,7 @@
       }
     }
   },
-  "stopSearchHintText": "Введите название остановки.",
+  "stopSearchHintText": "Введите название остановки",
   "@stopSearchHintText": {
     "description": "Text used in stop search text field."
   },
@@ -348,7 +348,7 @@
   "onboardingBodyTextCustomize": "Нажмите, чтобы настроить настройки карты",
   "onboardingBodyTextRefresh": "Нажмите, чтобы обновить маркеры",
   "onboardingTitleTextFilters": "Используйте фильтры",
-  "onboardingBodyTextFiltersExample": "Например, эта кнопка показывает/скрывает скутеры",
+  "onboardingBodyTextFiltersExample": "Например, эта кнопка показывает/скрывает самокаты",
   "onboardingTitleTextGoodLuck": "Удачи на дороге!",
   "showScootersLowerCharge": "Показывать самокаты с зарядом меньше 30%?",
   "yesButton": "Да",
@@ -361,5 +361,11 @@
 
   "light": "Светлая",
   "auto": "Авто",
-  "dark": "Тёмная"
+  "dark": "Тёмная",
+  "error": "Ошибка",
+  "emailToMe": "Есть вопросы? Напишите мне на электронную почту!",
+
+  "couldNotLaunch": "Не удалось запустить",
+  "rateUsOnGooglePlay": "Оцените нас в Google Play!",
+  "yourFeedbackMotivatesMeToMakeTheAppEvenBetter": "Ваш отзыв мотивирует меня сделать приложение еще лучше!"
 }

@@ -567,10 +567,10 @@ class S {
     );
   }
 
-  /// `Enter stop name.`
+  /// `Enter stop name`
   String get stopSearchHintText {
     return Intl.message(
-      'Enter stop name.',
+      'Enter stop name',
       name: 'stopSearchHintText',
       desc: 'Text used in stop search text field.',
       args: [],
@@ -1022,6 +1022,56 @@ class S {
     return Intl.message(
       'Dark',
       name: 'dark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message(
+      'Error',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have questions? Email to me!`
+  String get emailToMe {
+    return Intl.message(
+      'Have questions? Email to me!',
+      name: 'emailToMe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not launch`
+  String get couldNotLaunch {
+    return Intl.message(
+      'Could not launch',
+      name: 'couldNotLaunch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate us on Google Play!`
+  String get rateUsOnGooglePlay {
+    return Intl.message(
+      'Rate us on Google Play!',
+      name: 'rateUsOnGooglePlay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your feedback motivates me to make the app even better!`
+  String get yourFeedbackMotivatesMeToMakeTheAppEvenBetter {
+    return Intl.message(
+      'Your feedback motivates me to make the app even better!',
+      name: 'yourFeedbackMotivatesMeToMakeTheAppEvenBetter',
       desc: '',
       args: [],
     );

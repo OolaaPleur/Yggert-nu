@@ -251,7 +251,7 @@
       }
     }
   },
-  "stopSearchHintText": "Sisesta peatuse nimi.",
+  "stopSearchHintText": "Sisesta peatuse nimi",
   "@stopSearchHintText": {
     "description": "Text used in stop search text field."
   },
@@ -348,7 +348,7 @@
   "onboardingBodyTextCustomize": "Koputage kaardi seadete kohandamiseks",
   "onboardingBodyTextRefresh": "Koputage markerite värskendamiseks",
   "onboardingTitleTextFilters": "Kasutage filtreid",
-  "onboardingBodyTextFiltersExample": "Näiteks see nupp näitab/peidab rollerid",
+  "onboardingBodyTextFiltersExample": "Näiteks see nupp näitab/peidab tõukerattad",
   "onboardingTitleTextGoodLuck": "Edu teel!",
   "showScootersLowerCharge": "Näita tõukerattad, mille laadimisjõud on alla 30%?",
   "yesButton": "Jah",
@@ -361,5 +361,12 @@
 
   "light": "Hele",
   "auto": "Automaatne",
-  "dark": "Tume"
+  "dark": "Tume",
+
+  "error": "Viga",
+  "emailToMe": "Küsimused? Kirjuta mulle e-posti teel!",
+
+  "couldNotLaunch": "Ei suutnud käivitada",
+  "rateUsOnGooglePlay": "Hinda meid Google Play's!",
+  "yourFeedbackMotivatesMeToMakeTheAppEvenBetter": "Sinu tagasiside motiveerib mind rakendust veelgi paremaks tegema!"
 }

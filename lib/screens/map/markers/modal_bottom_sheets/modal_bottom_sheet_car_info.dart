@@ -41,40 +41,49 @@ class ModalBottomSheetCarInfo extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final vehicleRepository = GetIt.I<VehicleRepository>();
-    return SizedBox(
-      height: MediaQuery.of(context).size.height*0.12,
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            width: 170,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // if (kDebugMode)
-                //   SizedBox(width:100,child: Text('Car ID: ${car.id}'))
-                // else
-                //   const SizedBox.shrink(),
-                pricePerMinuteText(context, vehicleRepository),
-              ],
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: _deeplinkOrNot,
-            label: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Text(
-                context.localizations.modalBottomSheetScooterGoToApp(car.companyName),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppStyleConstants.paddingBetweenTextAndScreenModalSheet),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height*0.12,
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 170,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // if (kDebugMode)
+                  //   SizedBox(width:100,child: Text('Car ID: ${car.id}'))
+                  // else
+                  //   const SizedBox.shrink(),
+                  pricePerMinuteText(context, vehicleRepository),
+                ],
               ),
             ),
-            icon: const Icon(
-              Icons.car_rental,
-              size: 40,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: AppStyleConstants.paddingBetweenTextAndButtonModalSheet),
+                child: ElevatedButton.icon(
+                  onPressed: _deeplinkOrNot,
+                  label: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      context.localizations.modalBottomSheetScooterGoToApp(car.companyName),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.car_rental,
+                    size: 40,
+                  ),
+                  style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
+                ),
+              ),
             ),
-            style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

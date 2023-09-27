@@ -151,6 +151,7 @@ extension MapBlocPublicTransport on MapBloc {
           state.pickedStop,
           foundStopInputtedByUser,
         );
+
         emit(
           state.copyWith(filteredByUserTrips: filteredByUserTrips, query: event.query),
         );

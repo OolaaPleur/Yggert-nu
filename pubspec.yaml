@@ -1,11 +1,11 @@
 name: yggert_nu
-version: 1.0.0+2
+version: 1.0.80+1
 publish_to: none
 description: Schedules and other mobility types
 environment: 
   sdk: '>=3.0.2 <4.0.0'
 dependencies: 
-  archive: ^3.1.2
+  archive: ^3.3.8
   async: ^2.11.0
   auth_buttons: ^1.0.1+4
   bloc_test: ^9.0.0
@@ -47,6 +47,7 @@ dependencies:
   logging: ^1.2.0
   mocktail: ^1.0.0
   onboarding_overlay: ^3.2.1
+  package_info_plus: ^4.1.0
   path: any
   path_provider: ^2.0.15
   permission_handler: ^11.0.0
@@ -84,6 +85,7 @@ flutter:
     - assets/public_transport/trolleybus.png
     - assets/default_avatar.png
     - assets/launcher_icon/launcher_icon.png
+    - assets/launcher_icon/web_icon.png
     - assets/intro/intro_city.png
     - assets/intro/intro_bus_stop.png
     - assets/intro/intro_end.png

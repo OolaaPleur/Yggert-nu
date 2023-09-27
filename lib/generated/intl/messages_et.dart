@@ -42,8 +42,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeCity" : MessageLookupByLibrary.simpleMessage("Vali linn"),
     "changeFilter" : MessageLookupByLibrary.simpleMessage("Muuda filtrit"),
     "changeLanguage" : MessageLookupByLibrary.simpleMessage("Muuda keelt"),
+    "couldNotLaunch" : MessageLookupByLibrary.simpleMessage("Ei suutnud käivitada"),
     "dark" : MessageLookupByLibrary.simpleMessage("Tume"),
     "doneButtonText" : MessageLookupByLibrary.simpleMessage("Valmis"),
+    "emailToMe" : MessageLookupByLibrary.simpleMessage("Küsimused? Kirjuta mulle e-posti teel!"),
+    "error" : MessageLookupByLibrary.simpleMessage("Viga"),
     "fri" : MessageLookupByLibrary.simpleMessage("Ree"),
     "geolocationPermissionDenied" : MessageLookupByLibrary.simpleMessage("Luba keelatud, te ei saa kaardil oma asukohta näha."),
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Haapsalu"),
@@ -87,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noButton" : MessageLookupByLibrary.simpleMessage("Ei"),
     "onboardingBodyTextCity" : MessageLookupByLibrary.simpleMessage("Linn, mille andmed on laaditud"),
     "onboardingBodyTextCustomize" : MessageLookupByLibrary.simpleMessage("Koputage kaardi seadete kohandamiseks"),
-    "onboardingBodyTextFiltersExample" : MessageLookupByLibrary.simpleMessage("Näiteks see nupp näitab/peidab rollerid"),
+    "onboardingBodyTextFiltersExample" : MessageLookupByLibrary.simpleMessage("Näiteks see nupp näitab/peidab tõukerattad"),
     "onboardingBodyTextRefresh" : MessageLookupByLibrary.simpleMessage("Koputage markerite värskendamiseks"),
     "onboardingTitleTextCity" : MessageLookupByLibrary.simpleMessage("Valitud linn"),
     "onboardingTitleTextFilters" : MessageLookupByLibrary.simpleMessage("Kasutage filtreid"),
@@ -95,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "parnu" : MessageLookupByLibrary.simpleMessage("Pärnu"),
     "rakvere" : MessageLookupByLibrary.simpleMessage("Rakvere"),
     "raplamaa" : MessageLookupByLibrary.simpleMessage("Raplamaa"),
+    "rateUsOnGooglePlay" : MessageLookupByLibrary.simpleMessage("Hinda meid Google Play\'s!"),
     "sat" : MessageLookupByLibrary.simpleMessage("Lau"),
     "selectCity" : MessageLookupByLibrary.simpleMessage("Vali linn"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Seaded"),
@@ -123,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "someErrorOccurred" : MessageLookupByLibrary.simpleMessage("Ilmnes viga. Palun proovige hiljem uuesti."),
     "startTutorialAgain" : MessageLookupByLibrary.simpleMessage("Alusta õpetust uuesti?"),
     "stopMarkerShowAllForwardStoptimesButton" : MessageLookupByLibrary.simpleMessage("Vajuta, et näha peatuse aegu"),
-    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Sisesta peatuse nimi."),
+    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Sisesta peatuse nimi"),
     "sun" : MessageLookupByLibrary.simpleMessage("Püh"),
     "tallinn" : MessageLookupByLibrary.simpleMessage("Tallinn/Harjumaa"),
     "tartu" : MessageLookupByLibrary.simpleMessage("Tartu"),
@@ -134,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "viljandi" : MessageLookupByLibrary.simpleMessage("Viljandi"),
     "voru" : MessageLookupByLibrary.simpleMessage("Võru"),
     "wed" : MessageLookupByLibrary.simpleMessage("Kol"),
-    "yesButton" : MessageLookupByLibrary.simpleMessage("Jah")
+    "yesButton" : MessageLookupByLibrary.simpleMessage("Jah"),
+    "yourFeedbackMotivatesMeToMakeTheAppEvenBetter" : MessageLookupByLibrary.simpleMessage("Sinu tagasiside motiveerib mind rakendust veelgi paremaks tegema!")
   };
 }

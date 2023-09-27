@@ -251,7 +251,7 @@
       }
     }
   },
-  "stopSearchHintText": "Enter stop name.",
+  "stopSearchHintText": "Enter stop name",
   "@stopSearchHintText": {
     "description": "Text used in stop search text field."
   },
@@ -361,5 +361,12 @@
 
   "light": "Light",
   "auto": "Auto",
-  "dark": "Dark"
+  "dark": "Dark",
+
+  "error": "Error",
+  "emailToMe": "Have questions? Email to me!",
+
+  "couldNotLaunch": "Could not launch",
+  "rateUsOnGooglePlay": "Rate us on Google Play!",
+  "yourFeedbackMotivatesMeToMakeTheAppEvenBetter": "Your feedback motivates me to make the app even better!"
 }

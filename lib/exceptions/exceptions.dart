@@ -78,3 +78,9 @@ class GtfsZipIsNotPresent implements AppException {
   /// Constructor for [GtfsZipIsNotPresent].
   const GtfsZipIsNotPresent();
 }
+
+/// Exception that is thrown when Play Market page of app can't be opened.
+class CouldNotLaunch implements AppException {
+  /// Constructor for [CouldNotLaunch].
+  const CouldNotLaunch();
+}

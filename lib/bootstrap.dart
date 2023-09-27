@@ -38,10 +38,9 @@ Future<void> bootstrap() async {
   if (kReleaseMode) {
     debugPrint = (String? message, {int? wrapWidth}) => '';
   }
-
+  // Add cross-flavor configuration here
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   if (defaultTargetPlatform  == TargetPlatform.android) {
-    // Add cross-flavor configuration here
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     // Pass all uncaught errors from the framework to Crashlytics.
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }

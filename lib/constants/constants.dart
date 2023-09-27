@@ -163,6 +163,14 @@ class AppStyleConstants {
   /// Scale of title text.
   static const double introTitleTextScale = 1.7;
 
+  /// Padding between text and screen in modal bottom sheet.
+  static const double paddingBetweenTextAndScreenModalSheet = 16;
+  /// Padding between text and elevated button in modal bottom sheet.
+  static const double paddingBetweenTextAndButtonModalSheet = 10;
+
+  /// Padding of app info text.
+  static const appInfoPadding = 16.0;
+
   /// Scale of body text.
   static const double introBodyTextScale = 1.2;
 

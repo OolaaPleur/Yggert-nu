@@ -18,48 +18,57 @@ class ModalBottomSheetBikeStationInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppStyleConstants.bikeModalBottomSheetHeight(context),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(AppLocalizations.of(context)!
-                  .modalBottomSheetTartuBikesPedelecCount(singleBikeStation.pedelecCount),),
-              Text(AppLocalizations.of(context)!
-                  .modalBottomSheetTartuBikesBikeCount(singleBikeStation.bikeCount),),
-            ],
-          ),
-          ElevatedButton.icon(
-            onPressed: () async {
-              if (kIsWeb) {
-                await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.bewegen.tartu&hl=en_US'));
-              } else {
-                await LaunchApp.openApp(
-                  androidPackageName: 'com.bewegen.tartu',
-                );
-              }
-            },
-            label: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Text(
-                AppLocalizations.of(context)!.modalBottomSheetScooterGoToApp(
-                  'Tartu bikes',
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppStyleConstants.paddingBetweenTextAndScreenModalSheet),
+      child: SizedBox(
+        height: AppStyleConstants.bikeModalBottomSheetHeight(context),
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(AppLocalizations.of(context)!
+                    .modalBottomSheetTartuBikesPedelecCount(singleBikeStation.pedelecCount),),
+                Text(AppLocalizations.of(context)!
+                    .modalBottomSheetTartuBikesBikeCount(singleBikeStation.bikeCount),),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: AppStyleConstants.paddingBetweenTextAndButtonModalSheet),
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    if (kIsWeb) {
+                      await launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.bewegen.tartu&hl=en_US'));
+                    } else {
+                      await LaunchApp.openApp(
+                        androidPackageName: 'com.bewegen.tartu',
+                      );
+                    }
+                  },
+                  label: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      AppLocalizations.of(context)!.modalBottomSheetScooterGoToApp(
+                        'Tartu bikes',
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.pedal_bike_sharp,
+                    size: 40,
+                  ),
+                  style: IconButton.styleFrom(
+                    padding: const EdgeInsets.all(6),
+                  ),
                 ),
               ),
             ),
-            icon: const Icon(
-              Icons.pedal_bike_sharp,
-              size: 40,
-            ),
-            style: IconButton.styleFrom(
-              padding: const EdgeInsets.all(6),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

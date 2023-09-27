@@ -82,74 +82,83 @@ class ModalBottomSheetScooterInfo extends StatelessWidget {
       hoogScooter = scooter as HoogScooter;
     }
     final vehicleRepository = GetIt.I<VehicleRepository>();
-    return SizedBox(
-      height: containerHeight(context),
-      width: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            width: 170,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // if (kDebugMode)
-                //   SizedBox(width:100,child: Text('Scooter ID: ${scooter.id}'))
-                // else
-                //   const SizedBox.shrink(),
-                Text(
-                  context.localizations.modalBottomSheetScooterCharge(scooter.charge),
-                  textAlign: TextAlign.center,
-                ),
-                pricePerMinuteText(context, vehicleRepository),
-                if (scooter.runtimeType == TuulScooter)
-                  Column(
-                    children: [
-                      Text(
-                        context.localizations.modalBottomSheetScooterStartPrice(
-                          vehicleRepository.tuulStartPrice,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppStyleConstants.paddingBetweenTextAndScreenModalSheet),
+      child: SizedBox(
+        height: containerHeight(context),
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 170,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // if (kDebugMode)
+                  //   SizedBox(width:100,child: Text('Scooter ID: ${scooter.id}'))
+                  // else
+                  //   const SizedBox.shrink(),
+                  Text(
+                    context.localizations.modalBottomSheetScooterCharge(scooter.charge),
+                    textAlign: TextAlign.center,
+                  ),
+                  pricePerMinuteText(context, vehicleRepository),
+                  if (scooter.runtimeType == TuulScooter)
+                    Column(
+                      children: [
+                        Text(
+                          context.localizations.modalBottomSheetScooterStartPrice(
+                            vehicleRepository.tuulStartPrice,
+                          ),
                         ),
-                      ),
-                      Text(
-                        context.localizations.modalBottomSheetScooterReservePrice(
-                          vehicleRepository.tuulReservePrice,
+                        Text(
+                          context.localizations.modalBottomSheetScooterReservePrice(
+                            vehicleRepository.tuulReservePrice,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  )
-                else
-                  const SizedBox.shrink(),
-                if (scooter.runtimeType == HoogScooter)
-                  Column(
-                    children: [
-                      Text(
-                        context.localizations.modalBottomSheetScooterPausePrice(
-                          hoogScooter.pauseInfo,
+                      ],
+                    )
+                  else
+                    const SizedBox.shrink(),
+                  if (scooter.runtimeType == HoogScooter)
+                    Column(
+                      children: [
+                        Text(
+                          context.localizations.modalBottomSheetScooterPausePrice(
+                            hoogScooter.pauseInfo,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                else
-                  const SizedBox.shrink(),
-              ],
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: _deeplinkOrNot,
-            label: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Text(
-                AppLocalizations.of(context)!.modalBottomSheetScooterGoToApp(scooter.companyName),
+                      ],
+                    )
+                  else
+                    const SizedBox.shrink(),
+                ],
               ),
             ),
-            icon: const Icon(
-              Icons.electric_scooter,
-              size: 40,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: AppStyleConstants.paddingBetweenTextAndButtonModalSheet),
+                child: ElevatedButton.icon(
+                  onPressed: _deeplinkOrNot,
+                  label: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      AppLocalizations.of(context)!.modalBottomSheetScooterGoToApp(scooter.companyName),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.electric_scooter,
+                    size: 40,
+                  ),
+                  style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
+                ),
+              ),
             ),
-            style: IconButton.styleFrom(padding: const EdgeInsets.all(6)),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

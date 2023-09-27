@@ -42,8 +42,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeCity" : MessageLookupByLibrary.simpleMessage("Pick a city"),
     "changeFilter" : MessageLookupByLibrary.simpleMessage("Change filter"),
     "changeLanguage" : MessageLookupByLibrary.simpleMessage("Change language"),
+    "couldNotLaunch" : MessageLookupByLibrary.simpleMessage("Could not launch"),
     "dark" : MessageLookupByLibrary.simpleMessage("Dark"),
     "doneButtonText" : MessageLookupByLibrary.simpleMessage("Done"),
+    "emailToMe" : MessageLookupByLibrary.simpleMessage("Have questions? Email to me!"),
+    "error" : MessageLookupByLibrary.simpleMessage("Error"),
     "fri" : MessageLookupByLibrary.simpleMessage("Fri"),
     "geolocationPermissionDenied" : MessageLookupByLibrary.simpleMessage("Permission denied, you cannot see your location on map."),
     "haapsalu" : MessageLookupByLibrary.simpleMessage("Haapsalu"),
@@ -95,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "parnu" : MessageLookupByLibrary.simpleMessage("Pärnu"),
     "rakvere" : MessageLookupByLibrary.simpleMessage("Rakvere"),
     "raplamaa" : MessageLookupByLibrary.simpleMessage("Rapla county"),
+    "rateUsOnGooglePlay" : MessageLookupByLibrary.simpleMessage("Rate us on Google Play!"),
     "sat" : MessageLookupByLibrary.simpleMessage("Sat"),
     "selectCity" : MessageLookupByLibrary.simpleMessage("Select city"),
     "settingsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
@@ -123,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "someErrorOccurred" : MessageLookupByLibrary.simpleMessage("Some error occurred. Please try again later."),
     "startTutorialAgain" : MessageLookupByLibrary.simpleMessage("Start tutorial again?"),
     "stopMarkerShowAllForwardStoptimesButton" : MessageLookupByLibrary.simpleMessage("Press to see stoptimes"),
-    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Enter stop name."),
+    "stopSearchHintText" : MessageLookupByLibrary.simpleMessage("Enter stop name"),
     "sun" : MessageLookupByLibrary.simpleMessage("Sun"),
     "tallinn" : MessageLookupByLibrary.simpleMessage("Tallinn/Harju county"),
     "tartu" : MessageLookupByLibrary.simpleMessage("Tartu"),
@@ -134,6 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "viljandi" : MessageLookupByLibrary.simpleMessage("Viljandi"),
     "voru" : MessageLookupByLibrary.simpleMessage("Võru"),
     "wed" : MessageLookupByLibrary.simpleMessage("Wed"),
-    "yesButton" : MessageLookupByLibrary.simpleMessage("Yes")
+    "yesButton" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "yourFeedbackMotivatesMeToMakeTheAppEvenBetter" : MessageLookupByLibrary.simpleMessage("Your feedback motivates me to make the app even better!")
   };
 }

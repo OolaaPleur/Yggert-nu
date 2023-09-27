@@ -14,6 +14,7 @@ class GtfsDataOperations {
     await DatabaseOperations.closeDatabase(stopTimesDb);
     return currentStopTimes;
   }
+
   /// Returns all stops.
   Future<List<Stop>> getAllStops() async {
     final stopsDb = await DatabaseOperations.openAppDatabase('gtfs');
@@ -23,6 +24,7 @@ class GtfsDataOperations {
       return Stop.fromMap(maps[i]);
     });
   }
+
   /// Returns Stops, with specified in [stopIds] stop id.
   Future<List<Stop>> getCurrentStops(List<String> stopIds) async {
     final stopsDb = await DatabaseOperations.openAppDatabase('gtfs');
@@ -55,14 +57,16 @@ class GtfsDataOperations {
     await DatabaseOperations.closeDatabase(tripsDb);
     // Convert from map to list and sort so, that trips will be in same order
     // as corresponding object in stop time list.
-    return currentTripsMaps.map(Trip.fromMap).toList()..sort((a, b) {
-      final indexA = stopTimesList.indexWhere((stopTime) => stopTime.tripId == a.tripId);
-      final indexB = stopTimesList.indexWhere((stopTime) => stopTime.tripId == b.tripId);
-      return indexA.compareTo(indexB);
-    });
+    return currentTripsMaps.map(Trip.fromMap).toList()
+      ..sort((a, b) {
+        final indexA = stopTimesList.indexWhere((stopTime) => stopTime.tripId == a.tripId);
+        final indexB = stopTimesList.indexWhere((stopTime) => stopTime.tripId == b.tripId);
+        return indexA.compareTo(indexB);
+      });
   }
+
   /// Returns unique direction id endings for currently picked stop.
-  List<Map<String, bool>> getUniqueDirectionIdEndings (List<Trip> currentTrips) {
+  List<Map<String, bool>> getUniqueDirectionIdEndings(List<Trip> currentTrips) {
     final directionIdEndings = <String>{};
     for (final trip in currentTrips) {
       if (trip.directionId.isNotEmpty) {
@@ -73,6 +77,7 @@ class GtfsDataOperations {
       return {s: false};
     }).toList();
   }
+
   /// Returns all stop times for all trips which goes through currently picked stop.
   Future<List<StopTime>> getAllStopTimesForAllTripsWhichGoesThroughCurrentStop (List<String> currentTripIds) async {
     final stopTimesDb = await DatabaseOperations.openAppDatabase('gtfs');
@@ -84,8 +89,9 @@ class GtfsDataOperations {
     );
     return allStopTimesForAllTripsWhichGoesThroughCurrentStopMaps.map(StopTime.fromMap).toList();
   }
+
   /// Returns list of trips in response to search request, made by user for currently picked stop.
-  Future<List<Trip>> getTripsBySearchQuery (Stop currentStop, List<Stop> searchedStops) async {
+  Future<List<Trip>> getTripsBySearchQuery(Stop currentStop, List<Stop> searchedStops) async {
     final gtfsDb = await DatabaseOperations.openAppDatabase('gtfs');
     final rows = await gtfsDb.rawQuery(
       '''
@@ -103,9 +109,17 @@ class GtfsDataOperations {
       [
         currentStop.stopId,
         searchedStops.first.stopId,
-        searchedStops.last.stopId
-      ,],
+        searchedStops.last.stopId,
+      ],
     );
-    return rows.map(Trip.fromMap).toList();
+    final currentStopTimes =
+        await getCurrentStopTimes(currentStop.stopId); //TODO POSSIBLY UNEFFECTIVE CODE.
+    final tripList = rows.map(Trip.fromMap).toList()
+      ..sort((a, b) {
+        final indexA = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == a.tripId);
+        final indexB = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == b.tripId);
+        return indexA.compareTo(indexB);
+      });
+    return tripList;
   }
 }

@@ -19,10 +19,13 @@ import '../../widgets/snackbar.dart';
 import '../map/bloc/map_bloc.dart';
 import 'auth_bloc/auth_bloc.dart';
 import 'language_cubit/language_cubit.dart';
+import 'widgets/app_info_text.dart';
 import 'widgets/change_city/pick_city_dropdown.dart';
 import 'widgets/change_language_dropdown.dart';
+import 'widgets/email_developer_list_tile.dart';
 import 'widgets/google_sign_in_button.dart';
 import 'widgets/gtfs_file_download_date_card.dart';
+import 'widgets/rate_app_tile.dart';
 import 'widgets/show_trips_for_today_dropdown.dart';
 
 /// [Settings] is widget, which is accessed through actions in appbar on
@@ -254,7 +257,13 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                     const Divider(),
                     const ShowTutorialAgain(),
                     const Divider(),
+                    const EmailDeveloperListTile(),
+                    const Divider(),
+                    const RateAppTile(),
+                    const Divider(),
                     const GtfsFileDownloadDateCard(),
+                    const Divider(),
+                    const AppInfoText(),
                     const Divider(),
                     Center(
                       child: AnimatedCrossFade(

@@ -63,8 +63,7 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                     controller: _typeAheadController,
                   ),
                   suggestionsCallback: (pattern) async {
-                    //final matches = <Stop>[...widget.mapBloc.state.presentStopsInForwardDirection];
-                    final matches = <Stop>[...widget.mapBloc.state.currentStops];
+                    final matches = <Stop>[...widget.mapBloc.state.presentStopsInForwardDirection];
 
                     final startsWithMatches = matches
                         .where((s) => s.name.toLowerCase().startsWith(pattern.toLowerCase()))

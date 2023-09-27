@@ -33,6 +33,9 @@ class Intro extends StatelessWidget {
     );
     return Scaffold(
       body: IntroductionScreen(
+        nextSemantic: 'Next',
+        backSemantic: 'Back',
+        doneSemantic: 'Done',
         scrollPhysics: const ClampingScrollPhysics(),
         next: const Icon(Icons.navigate_next, semanticLabel: 'Next',),
         showBackButton: true,
