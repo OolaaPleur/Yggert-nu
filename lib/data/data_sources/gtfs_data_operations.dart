@@ -113,7 +113,7 @@ class GtfsDataOperations {
       ],
     );
     final currentStopTimes =
-        await getCurrentStopTimes(currentStop.stopId); //TODO POSSIBLY UNEFFECTIVE CODE.
+        await getCurrentStopTimes(currentStop.stopId); // TODO(oolaa): optimization could be done here.
     final tripList = rows.map(Trip.fromMap).toList()
       ..sort((a, b) {
         final indexA = currentStopTimes.indexWhere((stopTime) => stopTime.tripId == a.tripId);

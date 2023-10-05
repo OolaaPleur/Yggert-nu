@@ -51,7 +51,9 @@ $ flutter run --flavor production --target lib/main_production.dart
 
 **To run app using those commands you need to have Bolt token, Hoog token and Hoog Api key, which I can't provide in public repository.**
 
-You can just grab last version from [releases](https://github.com/OolaaPleur/Yggert-nu/releases).
+To download app from Google Play click [here](https://play.google.com/store/apps/details?id=com.oolaa.yggert.nu).
+
+Also you can just grab last version from [releases](https://github.com/OolaaPleur/Yggert-nu/releases).
 
 Or explore a demo version of the app for testing purposes, simply click [here](https://oolaapleur.github.io/Yggert-nu/) (Note: In the demo, 1) Tuul scooters are not displayed due to server-side CORS restrictions 2) Public transport timetables also not displayed.).
 

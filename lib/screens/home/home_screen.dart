@@ -131,6 +131,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         )
                     ? null
                     : () {
+                  ///Check date
+                  ///if (date is not today) {
+                  ///MapMarkersPlacingOnMap()
+                  ///}
                         if (context.read<MapBloc>().state.busStopsAdded == false) {
                           context.read<MapBloc>().add(const MapShowBusStops());
                         }

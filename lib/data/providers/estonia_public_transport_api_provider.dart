@@ -85,8 +85,9 @@ class EstoniaPublicTransportApiProvider {
         return InfoMessage.noNeedToDownload;
       }
     } catch (e) {
-      _log.fine('Need to download');
+      _log.severe(e);
     }
+    _log.fine('Need to download');
     return InfoMessage.needToDownload;
   }
 
