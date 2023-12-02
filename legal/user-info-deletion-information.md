@@ -1,0 +1,1 @@
+To delete your account in the Yggert Nu app, please send an email to artem.suvorov.dev@gmail.com. User data, including app settings and OAuth information, is retained until a user explicitly requests its deletion.
