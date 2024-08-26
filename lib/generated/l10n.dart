@@ -10,7 +10,7 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
   S();
@@ -18,28 +18,31 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null, 'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       final instance = S();
       S._current = instance;
- 
+
       return instance;
     });
-  } 
+  }
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null, 'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -72,7 +75,8 @@ class S {
     return Intl.message(
       'Show for today',
       name: 'settingsGlobalFilterToday',
-      desc: 'Text shown in global filter settings, means show by default only today trips.',
+      desc:
+          'Text shown in global filter settings, means show by default only today trips.',
       args: [],
     );
   }
@@ -152,7 +156,8 @@ class S {
     return Intl.message(
       'Tallinn/Harju county',
       name: 'tallinn',
-      desc: 'City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Tallinn, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -162,7 +167,8 @@ class S {
     return Intl.message(
       'Haapsalu',
       name: 'haapsalu',
-      desc: 'City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Haapsalu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -172,7 +178,8 @@ class S {
     return Intl.message(
       'Tartu',
       name: 'tartu',
-      desc: 'City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Tartu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -182,7 +189,8 @@ class S {
     return Intl.message(
       'Jõhvi',
       name: 'johvi',
-      desc: 'City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Jõhvi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -192,7 +200,8 @@ class S {
     return Intl.message(
       'Kohtla-Järve',
       name: 'kohtlaJarve',
-      desc: 'City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Kohtla-Järve, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -202,7 +211,8 @@ class S {
     return Intl.message(
       'Kuressaare',
       name: 'kuressaare',
-      desc: 'City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Kuressaare, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -212,7 +222,8 @@ class S {
     return Intl.message(
       'Narva',
       name: 'narva',
-      desc: 'City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Narva, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -222,7 +233,8 @@ class S {
     return Intl.message(
       'Pärnu',
       name: 'parnu',
-      desc: 'City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Pärnu, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -232,7 +244,8 @@ class S {
     return Intl.message(
       'Rakvere',
       name: 'rakvere',
-      desc: 'City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Rakvere, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -242,7 +255,8 @@ class S {
     return Intl.message(
       'Viljandi',
       name: 'viljandi',
-      desc: 'City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Viljandi, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -252,7 +266,8 @@ class S {
     return Intl.message(
       'Võru',
       name: 'voru',
-      desc: 'City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
+      desc:
+          'City name, Võru, shown in 1) settings 2) at home screen app bar 3) at introduction screen in dropdown list.',
       args: [],
     );
   }
@@ -322,7 +337,8 @@ class S {
     return Intl.message(
       'You have the latest GTFS data.',
       name: 'snackbarNoNeedToDownload',
-      desc: 'Text used in snackbar, if GTFS data doesn\'t need to be downloaded.',
+      desc:
+          'Text used in snackbar, if GTFS data doesn\'t need to be downloaded.',
       args: [],
     );
   }
@@ -332,7 +348,8 @@ class S {
     return Intl.message(
       'Server error. Cant fetch Bolt scooters data.',
       name: 'snackbarCantFetchBoltScootersData',
-      desc: 'Text used in snackbar, if Bolt scooters data can\'t be downloaded.',
+      desc:
+          'Text used in snackbar, if Bolt scooters data can\'t be downloaded.',
       args: [],
     );
   }
@@ -342,7 +359,8 @@ class S {
     return Intl.message(
       'Server error. Cant fetch Tuul scooters data.',
       name: 'snackbarCantFetchTuulScootersData',
-      desc: 'Text used in snackbar, if Tuul scooters data can\'t be downloaded.',
+      desc:
+          'Text used in snackbar, if Tuul scooters data can\'t be downloaded.',
       args: [],
     );
   }
@@ -352,7 +370,8 @@ class S {
     return Intl.message(
       'Server error. Cant fetch Hoog scooters data.',
       name: 'snackbarCantFetchHoogScootersData',
-      desc: 'Text used in snackbar, if Hoog scooters data can\'t be downloaded.',
+      desc:
+          'Text used in snackbar, if Hoog scooters data can\'t be downloaded.',
       args: [],
     );
   }
@@ -362,7 +381,8 @@ class S {
     return Intl.message(
       'Server error. Cant fetch Tartu Smart bike data.',
       name: 'snackbarCantFetchTartuSmartBikeData',
-      desc: 'Text used in snackbar, if Tartu Smart bike data can\'t be downloaded.',
+      desc:
+          'Text used in snackbar, if Tartu Smart bike data can\'t be downloaded.',
       args: [],
     );
   }
@@ -372,7 +392,8 @@ class S {
     return Intl.message(
       'No Internet connection. Please check your connection, press refresh button and try again.',
       name: 'snackbarNoInternetConnection',
-      desc: 'Text used in snackbar when device has internet connection problems.',
+      desc:
+          'Text used in snackbar when device has internet connection problems.',
       args: [],
     );
   }
@@ -382,7 +403,8 @@ class S {
     return Intl.message(
       'No Internet connection. Please check your connection and try again.',
       name: 'snackbarNoInternetConnectionInSettings',
-      desc: 'Text used in snackbar when device has internet connection problems.',
+      desc:
+          'Text used in snackbar when device has internet connection problems.',
       args: [],
     );
   }
@@ -442,7 +464,8 @@ class S {
     return Intl.message(
       'Russian',
       name: 'settingsLanguageRussian',
-      desc: 'Text used on dropdown, which responsible for picking russian language.',
+      desc:
+          'Text used on dropdown, which responsible for picking russian language.',
       args: [],
     );
   }
@@ -452,7 +475,8 @@ class S {
     return Intl.message(
       'English',
       name: 'settingsLanguageEnglish',
-      desc: 'Text used on dropdown, which responsible for picking english language.',
+      desc:
+          'Text used on dropdown, which responsible for picking english language.',
       args: [],
     );
   }
@@ -482,87 +506,96 @@ class S {
     return Intl.message(
       'Could not load required info.',
       name: 'microMobilityCouldNotLoad',
-      desc: 'Text used in modal bottom sheet in micro mobility related markers if there is problems loading required info.',
+      desc:
+          'Text used in modal bottom sheet in micro mobility related markers if there is problems loading required info.',
       args: [],
     );
   }
 
   /// `Battery Charge: {charge}%`
-  String modalBottomSheetScooterCharge(Object charge) {
+  String modalBottomSheetScooterCharge(int charge) {
     return Intl.message(
       'Battery Charge: $charge%',
       name: 'modalBottomSheetScooterCharge',
-      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter charge.',
+      desc:
+          'Text used in modal bottom sheet in scooter markers to give user information about scooter charge.',
       args: [charge],
     );
   }
 
   /// `Price: {price}/min`
-  String modalBottomSheetScooterPrice(Object price) {
+  String modalBottomSheetScooterPrice(String price) {
     return Intl.message(
       'Price: $price/min',
       name: 'modalBottomSheetScooterPrice',
-      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.',
+      desc:
+          'Text used in modal bottom sheet in scooter markers to give user information about scooter per-minute price.',
       args: [price],
     );
   }
 
   /// `Start price: {price}`
-  String modalBottomSheetScooterStartPrice(Object price) {
+  String modalBottomSheetScooterStartPrice(String price) {
     return Intl.message(
       'Start price: $price',
       name: 'modalBottomSheetScooterStartPrice',
-      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter start price.',
+      desc:
+          'Text used in modal bottom sheet in scooter markers to give user information about scooter start price.',
       args: [price],
     );
   }
 
   /// `Pause price: {price}/min`
-  String modalBottomSheetScooterPausePrice(Object price) {
+  String modalBottomSheetScooterPausePrice(String price) {
     return Intl.message(
       'Pause price: $price/min',
       name: 'modalBottomSheetScooterPausePrice',
-      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter pause price.',
+      desc:
+          'Text used in modal bottom sheet in scooter markers to give user information about scooter pause price.',
       args: [price],
     );
   }
 
   /// `Reserve {price}/min`
-  String modalBottomSheetScooterReservePrice(Object price) {
+  String modalBottomSheetScooterReservePrice(String price) {
     return Intl.message(
       'Reserve $price/min',
       name: 'modalBottomSheetScooterReservePrice',
-      desc: 'Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.',
+      desc:
+          'Text used in modal bottom sheet in scooter markers to give user information about scooter reserve price.',
       args: [price],
     );
   }
 
   /// `Go to {app} app`
-  String modalBottomSheetScooterGoToApp(Object app) {
+  String modalBottomSheetScooterGoToApp(String app) {
     return Intl.message(
       'Go to $app app',
       name: 'modalBottomSheetScooterGoToApp',
-      desc: 'Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.',
+      desc:
+          'Text used on button on modal bottom sheet in scooter markers to show user that clicking this button will redirect him to specified app.',
       args: [app],
     );
   }
 
   /// `Pedelec Bikes: {count}`
-  String modalBottomSheetTartuBikesPedelecCount(Object count) {
+  String modalBottomSheetTartuBikesPedelecCount(int count) {
     return Intl.message(
       'Pedelec Bikes: $count',
       name: 'modalBottomSheetTartuBikesPedelecCount',
-      desc: 'Text used in modal bottom sheet in bike markers to give user information about number of pedelec bikes on station.',
+      desc:
+          'Text used in modal bottom sheet in bike markers to give user information about number of pedelec bikes on station.',
       args: [count],
     );
   }
 
   /// `Bikes: {count}`
-  String modalBottomSheetTartuBikesBikeCount(Object count) {
+  String modalBottomSheetTartuBikesBikeCount(int count) {
     return Intl.message(
       'Bikes: $count',
       name: 'modalBottomSheetTartuBikesBikeCount',
-      desc: 'Text used in modal bottom sheet in bike markers to give user information about number of non-pedelec bikes on station.',
+      desc:
+          'Text used in modal bottom sheet in bike markers to give user information about number of non-pedelec bikes on station.',
       args: [count],
     );
   }
@@ -652,7 +685,8 @@ class S {
     return Intl.message(
       'Sign in with Google',
       name: 'signInWithGoogle',
-      desc: 'Text used on button, which responsible for signing in with Google.',
+      desc:
+          'Text used on button, which responsible for signing in with Google.',
       args: [],
     );
   }
@@ -692,7 +726,8 @@ class S {
     return Intl.message(
       'Estonian',
       name: 'settingsLanguageEstonian',
-      desc: 'Text used on dropdown, which responsible for picking english language.',
+      desc:
+          'Text used on dropdown, which responsible for picking english language.',
       args: [],
     );
   }

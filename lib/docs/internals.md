@@ -6,3 +6,5 @@
 4. Right now app uses OSM tiles, but in code there is commented line with mapbox tiles. They are vector, they are looking slick, but potentially they are quite pricey.
 5. To find similar colors I used https://www.color-hex.com/color/fff59d
 6. Because isolate could only work with primitives, it would be hard to compute it in isolate.
+7. To make new release - 1) change version in pubspec.yaml (could simply change build) 2) run tagAndPush.sh
+8. To start Debug-Over-WIfi on hotspot - run adb_connect.bat
