@@ -41,13 +41,13 @@ class MapMarker extends Marker {
     double? width,
     double? height,
     LatLng? point,
-    WidgetBuilder? builder,
+    Widget? child,
     Key? key,
   }) : super(
           width: width ?? 0,
           height: height ?? 0,
           point: point ?? const LatLng(0, 0),
-          builder: builder ?? (_) => Container(),
+          child: child ?? Container(),
           key: key ?? const Key('no_key_from_server'),
         );
 
@@ -73,7 +73,7 @@ class CreateMapMarkerList {
             key: Key(bikeStation.id),
             height: 65,
             width: 65,
-            builder: (context) => BikeMarker(
+            child: BikeMarker(
               bikeStation: bikeStation,
               mapBloc: mapBloc,
             ),
@@ -88,7 +88,7 @@ class CreateMapMarkerList {
             key: Key(scooter.id),
             height: 65,
             width: 65,
-            builder: (context) => ScooterMarker(
+            child: ScooterMarker(
               scooter: scooter,
               mapBloc: mapBloc,
               scooterImagePath: 'assets/bolt_scooter.png',
@@ -104,7 +104,7 @@ class CreateMapMarkerList {
             key: Key(scooter.id),
             height: 65,
             width: 65,
-            builder: (context) => ScooterMarker(
+            child: ScooterMarker(
               scooter: scooter,
               mapBloc: mapBloc,
               scooterImagePath: 'assets/tuul_scooter.png',
@@ -120,7 +120,7 @@ class CreateMapMarkerList {
             key: Key(scooter.id),
             height: 65,
             width: 65,
-            builder: (context) => ScooterMarker(
+            child: ScooterMarker(
               scooter: scooter,
               mapBloc: mapBloc,
               scooterImagePath: 'assets/hoog_scooter.png',
@@ -136,7 +136,7 @@ class CreateMapMarkerList {
             key: Key(car.id),
             height: 65,
             width: 65,
-            builder: (context) => CarMarker(
+            child: CarMarker(
               car: car,
               mapBloc: mapBloc,
               carImagePath: 'assets/bolt_car.png',
@@ -152,7 +152,7 @@ class CreateMapMarkerList {
             key: Key(stop.stopId),
             height: 55,
             width: 55,
-            builder: (context) => StopMarker(
+            child: StopMarker(
               mapBloc: mapBloc,
               stop: stop,
             ),

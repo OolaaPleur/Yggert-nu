@@ -54,9 +54,8 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void showSnackBar () {
-    final mySnackBar =
-    AppSnackBar(context, infoMessage: InfoMessage.geolocationPermissionDenied);
+  void showSnackBar() {
+    final mySnackBar = AppSnackBar(context, infoMessage: InfoMessage.geolocationPermissionDenied);
     ScaffoldMessenger.of(context).showSnackBar(mySnackBar.showSnackBar());
   }
 
@@ -70,13 +69,17 @@ class _MapScreenState extends State<MapScreen> {
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
-        center: const LatLng(58.37, 26.73),
-        zoom: 14,
+        initialCenter: const LatLng(58.37, 26.73),
+        backgroundColor: context.read<ThemeBloc>().isDarkMode ? Colors.black54 : Colors.white,
+        initialZoom: 14,
         maxZoom: 18,
         minZoom: 8,
-        interactiveFlags:
-            InteractiveFlag.pinchZoom | InteractiveFlag.drag | InteractiveFlag.flingAnimation | InteractiveFlag.doubleTapZoom,
-        onPositionChanged: (MapPosition position, bool hasGesture) {
+        interactionOptions: const InteractionOptions(
+            flags: InteractiveFlag.pinchZoom |
+                InteractiveFlag.drag |
+                InteractiveFlag.flingAnimation |
+                InteractiveFlag.doubleTapZoom),
+        onPositionChanged: (MapCamera position, bool hasGesture) {
           if (hasGesture && _followOnLocationUpdate != FollowOnLocationUpdate.never) {
             setState(
               () => _followOnLocationUpdate = FollowOnLocationUpdate.never,
@@ -84,66 +87,60 @@ class _MapScreenState extends State<MapScreen> {
           }
         },
       ),
-      nonRotatedChildren: [
-        Positioned(
-          left: 20,
-          bottom: 20,
-          child: FloatingActionButton(
-            tooltip: AppLocalizations.of(context)!.mapScreenGpsFAB,
-            onPressed: () async {
-              // Follow the location marker on the map when location updated until user interact with the map.
-              setState(
-                () => _followOnLocationUpdate = FollowOnLocationUpdate.always,
-              );
-              await requestPermission(context);
-            },
-            child: const Icon(
-              Icons.my_location,
+      children: [
+        MobileLayerTransformer(
+          child: Positioned(
+            left: 20,
+            bottom: 20,
+            child: FloatingActionButton(
+              tooltip: AppLocalizations.of(context)!.mapScreenGpsFAB,
+              onPressed: () async {
+                // Follow the location marker on the map when location updated until user interact with the map.
+                setState(
+                  () => _followOnLocationUpdate = FollowOnLocationUpdate.always,
+                );
+                await requestPermission(context);
+              },
+              child: const Icon(
+                Icons.my_location,
+              ),
             ),
           ),
         ),
-      ],
-      children: [
         BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             return TileLayer(
-              // For release, write in doc file for me.
-              //urlTemplate:context.read<ThemeBloc>().isDarkModeEnabled ? 'https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${Env.mapBoxToken}' : 'https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token=${Env.mapBoxToken}',
-              subdomains: const ['a', 'b', 'c'],
               userAgentPackageName: 'com.oolaa.redefined.mobility.mobility_app',
               urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
               tileBuilder: context.read<ThemeBloc>().isDarkMode ? darkModeTileBuilder : null,
-              backgroundColor:
-                  context.read<ThemeBloc>().isDarkMode ? Colors.black54 : Colors.white,
             );
           },
         ),
-        if (apiLinks.isProductionForGeolocation) CurrentLocationLayer(
-          //followOnLocationUpdate: FollowOnLocationUpdate.once,
-          followCurrentLocationStream: _followCurrentLocationStreamController.stream,
-          followOnLocationUpdate: _followOnLocationUpdate,
-          style: const LocationMarkerStyle(
-            marker: DefaultLocationMarker(
-              child: Icon(
-                Icons.gps_not_fixed_rounded,
-                color: Colors.white,
+        if (apiLinks.isProductionForGeolocation)
+          CurrentLocationLayer(
+            //followOnLocationUpdate: FollowOnLocationUpdate.once,
+            followCurrentLocationStream: _followCurrentLocationStreamController.stream,
+            followOnLocationUpdate: _followOnLocationUpdate,
+            style: const LocationMarkerStyle(
+              marker: DefaultLocationMarker(
+                child: Icon(
+                  Icons.gps_not_fixed_rounded,
+                  color: Colors.white,
+                ),
               ),
+              markerSize: Size(40, 40),
+              showHeadingSector: false,
             ),
-            markerSize: Size(40, 40),
-            showHeadingSector: false,
-          ),
-        ) else const SizedBox.shrink(),
+          )
+        else
+          const SizedBox.shrink(),
         MarkerClusterLayerWidget(
           options: MarkerClusterLayerOptions(
             maxClusterRadius: 125,
             disableClusteringAtZoom: 17,
             size: const Size(40, 40),
             markers: context.select((MapBloc bloc) => bloc.state.filteredMarkers),
-            anchorPos: AnchorPos.align(AnchorAlign.center),
-            fitBoundsOptions: const FitBoundsOptions(
-              padding: EdgeInsets.all(50),
-              maxZoom: 20,
-            ),
+            alignment: Alignment.center,
             builder: (context, markers) {
               return Container(
                 decoration: BoxDecoration(

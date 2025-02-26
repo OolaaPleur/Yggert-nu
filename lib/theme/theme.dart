@@ -17,13 +17,11 @@ class FlutterAppTheme {
       subThemesData: const FlexSubThemesData(
         bottomSheetModalBackgroundColor: SchemeColor.primaryContainer,
         blendOnLevel: 10,
-        blendOnColors: false,
         inputDecoratorBorderType: FlexInputBorderType.underline,
         inputDecoratorUnfocusedBorderIsColored: false,
         useM2StyleDividerInM3: true,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      useMaterial3: true,
       swapLegacyOnMaterial3: true,
       fontFamily: GoogleFonts.notoSans().fontFamily,
     );
@@ -45,7 +43,6 @@ class FlutterAppTheme {
         inputDecoratorUnfocusedBorderIsColored: false,
       ),
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      useMaterial3: true,
       swapLegacyOnMaterial3: true,
       fontFamily: GoogleFonts.notoSans().fontFamily,
     );

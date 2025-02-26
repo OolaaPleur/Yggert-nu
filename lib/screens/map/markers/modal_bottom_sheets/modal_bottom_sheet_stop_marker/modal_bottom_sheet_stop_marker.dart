@@ -53,15 +53,17 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TypeAheadField(
-                  textFieldConfiguration: TextFieldConfiguration(
-                    decoration:
-                        InputDecoration(hintText: AppLocalizations.of(context)!.stopSearchHintText),
-                    onTapOutside: (event) {
-                      focusNode.unfocus();
-                    },
-                    focusNode: focusNode,
-                    controller: _typeAheadController,
-                  ),
+                  builder: (context, controller, focusNode) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.stopSearchHintText),
+                      onTapOutside: (event) {
+                        focusNode.unfocus();
+                      },
+                      focusNode: focusNode,
+                      controller: _typeAheadController,
+                    );
+                  },
                   suggestionsCallback: (pattern) async {
                     final matches = <Stop>[...widget.mapBloc.state.presentStopsInForwardDirection];
 
@@ -82,7 +84,7 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                       title: Text(suggestion.name),
                     );
                   },
-                  onSuggestionSelected: (suggestion) {
+                  onSelected: (suggestion) {
                     widget.mapBloc.add(MapSearchByTheQuery(suggestion.name));
                     _typeAheadController.text = suggestion.name;
                   },
@@ -235,15 +237,19 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
                                         '${state.presentTripEndStopTimes[upIndex]!.departureTime} - ${state.presentTripEndStop[upIndex]!.name}',
                                         style: const TextStyle(fontWeight: FontWeight.bold),
                                       ),
-                                      Text(localizeDays(context, state.presentTripCalendar[upIndex]!)),
+                                      Text(localizeDays(
+                                          context, state.presentTripCalendar[upIndex]!)),
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
                                             widget.mapBloc.add(MapPressTheTripButton(upIndex));
                                           });
                                         },
-                                        child: Text(AppLocalizations.of(context)!
-                                            .stopMarkerShowAllForwardStoptimesButton,textAlign: TextAlign.center,),
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .stopMarkerShowAllForwardStoptimesButton,
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                       if (state.pressedButtonOnTrip[upIndex])
                                         ColoredBox(
@@ -300,6 +306,7 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
       ],
     );
   }
+
   String localizeDays(BuildContext context, String days) {
     // Split the input string by comma and space
     final dayList = days.split(', ');
@@ -307,14 +314,22 @@ class _ModalBottomSheetTimeTableState extends State<ModalBottomSheetTimeTable> {
     // Replace each day with its translation
     final localizedDays = dayList.map((day) {
       switch (day) {
-        case 'Mon': return AppLocalizations.of(context)!.mon;
-        case 'Tue': return AppLocalizations.of(context)!.tue;
-        case 'Wed': return AppLocalizations.of(context)!.wed;
-        case 'Thu': return AppLocalizations.of(context)!.thu;
-        case 'Fri': return AppLocalizations.of(context)!.fri;
-        case 'Sat': return AppLocalizations.of(context)!.sat;
-        case 'Sun': return AppLocalizations.of(context)!.sun;
-        default: throw ArgumentError('Unsupported day: $day');
+        case 'Mon':
+          return AppLocalizations.of(context)!.mon;
+        case 'Tue':
+          return AppLocalizations.of(context)!.tue;
+        case 'Wed':
+          return AppLocalizations.of(context)!.wed;
+        case 'Thu':
+          return AppLocalizations.of(context)!.thu;
+        case 'Fri':
+          return AppLocalizations.of(context)!.fri;
+        case 'Sat':
+          return AppLocalizations.of(context)!.sat;
+        case 'Sun':
+          return AppLocalizations.of(context)!.sun;
+        default:
+          throw ArgumentError('Unsupported day: $day');
       }
     }).toList();
 

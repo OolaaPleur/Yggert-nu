@@ -40,7 +40,7 @@ PageViewModel introFifthPage(BuildContext context) {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             AppLocalizations.of(context)!.introFourthScreenHeader,
-            textScaleFactor: AppStyleConstants.introTitleTextScale,
+            textScaler: const TextScaler.linear(AppStyleConstants.introTitleTextScale),
             textAlign: TextAlign.center,
           ),
         ),

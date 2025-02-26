@@ -44,7 +44,7 @@ PageViewModel introSecondPage (BuildContext context) {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             AppLocalizations.of(context)!.introSecondScreenHeader,
-            textScaleFactor: AppStyleConstants.introTitleTextScale,
+            textScaler: const TextScaler.linear(AppStyleConstants.introBodyTextScale),
             textAlign: TextAlign.center,
           ),
         ),
