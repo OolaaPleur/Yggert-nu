@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:yggert_nu/constants/constants.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../theme/bloc/theme_bloc.dart';
 /// Sixth page of intro.
 PageViewModel introSixthPage(BuildContext context) {

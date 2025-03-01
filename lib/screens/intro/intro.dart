@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:yggert_nu/screens/intro/pages/intro_fifth_page.dart';
@@ -11,6 +10,7 @@ import 'package:yggert_nu/screens/intro/pages/intro_third_page.dart';
 import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
 import 'package:yggert_nu/utils/build_context_ext.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../constants/constants.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../home/home_screen.dart';

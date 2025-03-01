@@ -38,174 +38,216 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "areYouSure": MessageLookupByLibrary.simpleMessage("Oled sa kindel?"),
-        "auto": MessageLookupByLibrary.simpleMessage("Automaatne"),
-        "changeCity": MessageLookupByLibrary.simpleMessage("Vali linn"),
-        "changeFilter": MessageLookupByLibrary.simpleMessage("Muuda filtrit"),
-        "changeLanguage": MessageLookupByLibrary.simpleMessage("Muuda keelt"),
-        "couldNotLaunch":
-            MessageLookupByLibrary.simpleMessage("Ei suutnud käivitada"),
-        "dark": MessageLookupByLibrary.simpleMessage("Tume"),
-        "doneButtonText": MessageLookupByLibrary.simpleMessage("Valmis"),
-        "emailToMe": MessageLookupByLibrary.simpleMessage(
-            "Küsimused? Kirjuta mulle e-posti teel!"),
-        "error": MessageLookupByLibrary.simpleMessage("Viga"),
-        "fri": MessageLookupByLibrary.simpleMessage("Ree"),
-        "geolocationPermissionDenied": MessageLookupByLibrary.simpleMessage(
-            "Luba keelatud, te ei saa kaardil oma asukohta näha."),
-        "haapsalu": MessageLookupByLibrary.simpleMessage("Haapsalu"),
-        "homeAppBarRefreshIcon":
-            MessageLookupByLibrary.simpleMessage("Värskenda"),
-        "homeAppBarSettingsIcon":
-            MessageLookupByLibrary.simpleMessage("Seaded"),
-        "homeBikeFAB": MessageLookupByLibrary.simpleMessage("Jalgrattafilter"),
-        "homeCarFAB": MessageLookupByLibrary.simpleMessage("Auto filter"),
-        "homeScooterFAB":
-            MessageLookupByLibrary.simpleMessage("Tõukerataste filter"),
-        "homeStopFAB": MessageLookupByLibrary.simpleMessage("Peatuse filter"),
-        "introFifthScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Logi sisse oma Google\'i kontoga. Sinu eelistused salvestatakse, et pakkuda järjepidevat, personaalset kogemust iga kord, kui kasutad Yggert Nu-d."),
-        "introFifthScreenHeader":
-            MessageLookupByLibrary.simpleMessage("Salvesta oma eelistused"),
-        "introFirstScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Koge linna liikuvuse revolutsiooni. Ühenda oma reisid renditavate tõukerataste, jalgrataste, autode ja ühistranspordiga ühes rakenduses."),
-        "introFirstScreenHeader":
-            MessageLookupByLibrary.simpleMessage("Tere tulemast Yggert Nu!"),
-        "introFourthScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Vali oma eelistatud linn, lülita valguse või pimeduse teema vahel ning vali keel. Kohanda oma kogemust meie lihtsasti ligipääsetavate seadistustega."),
-        "introFourthScreenHeader":
-            MessageLookupByLibrary.simpleMessage("Kohanda oma soovide järgi"),
-        "introSecondAndHalfScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Palun pange tähele, et Yggert Nu koondab andmeid erinevatest transpordirakendustest ning rentimisbroneeringud tehakse vastava teenusepakkuja rakenduse kaudu, mis peab olema teie seadmesse installitud."),
-        "introSecondAndHalfScreenHeader": MessageLookupByLibrary.simpleMessage(
-            "Ühendatud transporditeenused"),
-        "introSecondScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Leia enda vajadustele kõige kiirem ja mugavam transport. Kõik saadaolevad renditeenused ja ühistranspordi valikud on integreeritud ühele mugavale kaardile."),
-        "introSecondScreenHeader": MessageLookupByLibrary.simpleMessage(
-            "Kõik Sinu transpordivõimalused ühes kohas"),
-        "introSixthScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Tere tulemast nutikamasse, paremini integreeritud transpordimaailma. Alusta oma teekonda Yggert Nu-ga nüüd!"),
-        "introSixthScreenHeader":
-            MessageLookupByLibrary.simpleMessage("Valmis reisiks?"),
-        "introThirdScreenBody": MessageLookupByLibrary.simpleMessage(
-            "Ära jäta enam kunagi bussi maha. Kontrolli kohalikke bussipeatusi järgmiste ajakavade ja saabumiste kohta, kui läheduses pole otsest transporti."),
-        "introThirdScreenHeader":
-            MessageLookupByLibrary.simpleMessage("Ole alati õigeaegselt kohal"),
-        "jarvamaa": MessageLookupByLibrary.simpleMessage("Järvamaa"),
-        "johvi": MessageLookupByLibrary.simpleMessage("Jõhvi"),
-        "kohtlaJarve": MessageLookupByLibrary.simpleMessage("Kohtla-Järve"),
-        "kuressaare": MessageLookupByLibrary.simpleMessage("Kuressaare"),
-        "light": MessageLookupByLibrary.simpleMessage("Hele"),
-        "mapScreenGpsFAB":
-            MessageLookupByLibrary.simpleMessage("Hangi geolokatsioon"),
-        "microMobilityCouldNotLoad": MessageLookupByLibrary.simpleMessage(
-            "Ei saanud vajalikku infot laadida."),
-        "modalBottomSheetScooterCharge": m0,
-        "modalBottomSheetScooterGoToApp": m1,
-        "modalBottomSheetScooterPausePrice": m2,
-        "modalBottomSheetScooterPrice": m3,
-        "modalBottomSheetScooterReservePrice": m4,
-        "modalBottomSheetScooterStartPrice": m5,
-        "modalBottomSheetTartuBikesBikeCount": m6,
-        "modalBottomSheetTartuBikesPedelecCount": m7,
-        "mon": MessageLookupByLibrary.simpleMessage("Esm"),
-        "narva": MessageLookupByLibrary.simpleMessage("Narva"),
-        "noButton": MessageLookupByLibrary.simpleMessage("Ei"),
-        "onboardingBodyTextCity": MessageLookupByLibrary.simpleMessage(
-            "Linn, mille andmed on laaditud"),
-        "onboardingBodyTextCustomize": MessageLookupByLibrary.simpleMessage(
-            "Koputage kaardi seadete kohandamiseks"),
-        "onboardingBodyTextFiltersExample":
-            MessageLookupByLibrary.simpleMessage(
-                "Näiteks see nupp näitab/peidab tõukerattad"),
-        "onboardingBodyTextRefresh": MessageLookupByLibrary.simpleMessage(
-            "Koputage markerite värskendamiseks"),
-        "onboardingTitleTextCity":
-            MessageLookupByLibrary.simpleMessage("Valitud linn"),
-        "onboardingTitleTextFilters":
-            MessageLookupByLibrary.simpleMessage("Kasutage filtreid"),
-        "onboardingTitleTextGoodLuck":
-            MessageLookupByLibrary.simpleMessage("Edu teel!"),
-        "parnu": MessageLookupByLibrary.simpleMessage("Pärnu"),
-        "rakvere": MessageLookupByLibrary.simpleMessage("Rakvere"),
-        "raplamaa": MessageLookupByLibrary.simpleMessage("Raplamaa"),
-        "rateUsOnGooglePlay":
-            MessageLookupByLibrary.simpleMessage("Hinda meid Google Play\'s!"),
-        "sat": MessageLookupByLibrary.simpleMessage("Lau"),
-        "selectCity": MessageLookupByLibrary.simpleMessage("Vali linn"),
-        "settingsAppBarTitle": MessageLookupByLibrary.simpleMessage("Seaded"),
-        "settingsChangeTheme":
-            MessageLookupByLibrary.simpleMessage("Muuda teemat"),
-        "settingsGlobalFilterAll":
-            MessageLookupByLibrary.simpleMessage("Näita kõiki"),
-        "settingsGlobalFilterToday":
-            MessageLookupByLibrary.simpleMessage("Näita tänaseid"),
-        "settingsGtfsFileWasDownloaded":
-            MessageLookupByLibrary.simpleMessage("GTFS-fail on allalaaditud "),
-        "settingsLanguageEnglish":
-            MessageLookupByLibrary.simpleMessage("Inglise keel"),
-        "settingsLanguageEstonian":
-            MessageLookupByLibrary.simpleMessage("Eesti keel"),
-        "settingsLanguageRussian":
-            MessageLookupByLibrary.simpleMessage("Vene keel"),
-        "settingsLocalFilterAll": MessageLookupByLibrary.simpleMessage("Kõik"),
-        "settingsLocalFilterToday":
-            MessageLookupByLibrary.simpleMessage("Täna"),
-        "settingsNoGtfsFile":
-            MessageLookupByLibrary.simpleMessage("GTFS-faili pole"),
-        "showScootersLowerCharge": MessageLookupByLibrary.simpleMessage(
-            "Näita tõukerattad, mille laadimisjõud on alla 30%?"),
-        "signInWithGoogle":
-            MessageLookupByLibrary.simpleMessage("Logi sisse Google\'iga"),
-        "snackbarCantFetchBoltScootersData":
-            MessageLookupByLibrary.simpleMessage(
-                "Serveri viga. Ei saa laadida Bolti tõukerataste andmeid."),
-        "snackbarCantFetchHoogScootersData":
-            MessageLookupByLibrary.simpleMessage(
-                "Serveri viga. Ei saa laadida Hoog tõukerataste andmeid."),
-        "snackbarCantFetchTartuSmartBikeData":
-            MessageLookupByLibrary.simpleMessage(
-                "Serveri viga. Ei saa laadida Tartu Smart bike andmeid."),
-        "snackbarCantFetchTuulScootersData":
-            MessageLookupByLibrary.simpleMessage(
-                "Serveri viga. Ei saa laadida Tuul tõukerataste andmeid."),
-        "snackbarCityIsNotPicked":
-            MessageLookupByLibrary.simpleMessage("Ühtegi linna ei valitud."),
-        "snackbarDeviceIsNotSupported":
-            MessageLookupByLibrary.simpleMessage("Seade ei ole toetatud."),
-        "snackbarNoGtfsFileIsPresent": MessageLookupByLibrary.simpleMessage(
-            "Faili pole, vajutage allalaadimiseks värskendusnuppu."),
-        "snackbarNoInternetConnection": MessageLookupByLibrary.simpleMessage(
-            "Internetiühendus puudub. Palun kontrollige oma ühendust, klõpsake värskendamise nuppu ja proovige uuesti."),
-        "snackbarNoInternetConnectionInSettings":
-            MessageLookupByLibrary.simpleMessage(
-                "Internetiühendus puudub. Palun kontrollige oma ühendust ja proovige uuesti."),
-        "snackbarNoNeedToDownload": MessageLookupByLibrary.simpleMessage(
-            "Teil on uusimad GTFS andmed."),
-        "someErrorOccurred": MessageLookupByLibrary.simpleMessage(
-            "Ilmnes viga. Palun proovige hiljem uuesti."),
-        "startTutorialAgain":
-            MessageLookupByLibrary.simpleMessage("Alusta õpetust uuesti?"),
-        "stopMarkerShowAllForwardStoptimesButton":
-            MessageLookupByLibrary.simpleMessage(
-                "Vajuta, et näha peatuse aegu"),
-        "stopSearchHintText":
-            MessageLookupByLibrary.simpleMessage("Sisesta peatuse nimi"),
-        "sun": MessageLookupByLibrary.simpleMessage("Püh"),
-        "tallinn": MessageLookupByLibrary.simpleMessage("Tallinn/Harjumaa"),
-        "tartu": MessageLookupByLibrary.simpleMessage("Tartu"),
-        "thu": MessageLookupByLibrary.simpleMessage("Nel"),
-        "tue": MessageLookupByLibrary.simpleMessage("Tei"),
-        "userDataDownloadedSuccessfully": MessageLookupByLibrary.simpleMessage(
-            "Kasutaja andmed on edukalt allalaaditud"),
-        "userDataUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
-            "Kasutaja andmed on edukalt üles laaditud"),
-        "viljandi": MessageLookupByLibrary.simpleMessage("Viljandi"),
-        "voru": MessageLookupByLibrary.simpleMessage("Võru"),
-        "wed": MessageLookupByLibrary.simpleMessage("Kol"),
-        "yesButton": MessageLookupByLibrary.simpleMessage("Jah"),
-        "yourFeedbackMotivatesMeToMakeTheAppEvenBetter":
-            MessageLookupByLibrary.simpleMessage(
-                "Sinu tagasiside motiveerib mind rakendust veelgi paremaks tegema!")
-      };
+    "areYouSure": MessageLookupByLibrary.simpleMessage("Oled sa kindel?"),
+    "auto": MessageLookupByLibrary.simpleMessage("Automaatne"),
+    "changeCity": MessageLookupByLibrary.simpleMessage("Vali linn"),
+    "changeFilter": MessageLookupByLibrary.simpleMessage("Muuda filtrit"),
+    "changeLanguage": MessageLookupByLibrary.simpleMessage("Muuda keelt"),
+    "couldNotLaunch": MessageLookupByLibrary.simpleMessage(
+      "Ei suutnud käivitada",
+    ),
+    "dark": MessageLookupByLibrary.simpleMessage("Tume"),
+    "doneButtonText": MessageLookupByLibrary.simpleMessage("Valmis"),
+    "emailToMe": MessageLookupByLibrary.simpleMessage(
+      "Küsimused? Kirjuta mulle e-posti teel!",
+    ),
+    "error": MessageLookupByLibrary.simpleMessage("Viga"),
+    "fri": MessageLookupByLibrary.simpleMessage("Ree"),
+    "geolocationPermissionDenied": MessageLookupByLibrary.simpleMessage(
+      "Luba keelatud, te ei saa kaardil oma asukohta näha.",
+    ),
+    "haapsalu": MessageLookupByLibrary.simpleMessage("Haapsalu"),
+    "homeAppBarRefreshIcon": MessageLookupByLibrary.simpleMessage("Värskenda"),
+    "homeAppBarSettingsIcon": MessageLookupByLibrary.simpleMessage("Seaded"),
+    "homeBikeFAB": MessageLookupByLibrary.simpleMessage("Jalgrattafilter"),
+    "homeCarFAB": MessageLookupByLibrary.simpleMessage("Auto filter"),
+    "homeScooterFAB": MessageLookupByLibrary.simpleMessage(
+      "Tõukerataste filter",
+    ),
+    "homeStopFAB": MessageLookupByLibrary.simpleMessage("Peatuse filter"),
+    "introFifthScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Logi sisse oma Google\'i kontoga. Sinu eelistused salvestatakse, et pakkuda järjepidevat, personaalset kogemust iga kord, kui kasutad Yggert Nu-d.",
+    ),
+    "introFifthScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Salvesta oma eelistused",
+    ),
+    "introFirstScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Koge linna liikuvuse revolutsiooni. Ühenda oma reisid renditavate tõukerataste, jalgrataste, autode ja ühistranspordiga ühes rakenduses.",
+    ),
+    "introFirstScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Tere tulemast Yggert Nu!",
+    ),
+    "introFourthScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Vali oma eelistatud linn, lülita valguse või pimeduse teema vahel ning vali keel. Kohanda oma kogemust meie lihtsasti ligipääsetavate seadistustega.",
+    ),
+    "introFourthScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Kohanda oma soovide järgi",
+    ),
+    "introSecondAndHalfScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Palun pange tähele, et Yggert Nu koondab andmeid erinevatest transpordirakendustest ning rentimisbroneeringud tehakse vastava teenusepakkuja rakenduse kaudu, mis peab olema teie seadmesse installitud.",
+    ),
+    "introSecondAndHalfScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Ühendatud transporditeenused",
+    ),
+    "introSecondScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Leia enda vajadustele kõige kiirem ja mugavam transport. Kõik saadaolevad renditeenused ja ühistranspordi valikud on integreeritud ühele mugavale kaardile.",
+    ),
+    "introSecondScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Kõik Sinu transpordivõimalused ühes kohas",
+    ),
+    "introSixthScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Tere tulemast nutikamasse, paremini integreeritud transpordimaailma. Alusta oma teekonda Yggert Nu-ga nüüd!",
+    ),
+    "introSixthScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Valmis reisiks?",
+    ),
+    "introThirdScreenBody": MessageLookupByLibrary.simpleMessage(
+      "Ära jäta enam kunagi bussi maha. Kontrolli kohalikke bussipeatusi järgmiste ajakavade ja saabumiste kohta, kui läheduses pole otsest transporti.",
+    ),
+    "introThirdScreenHeader": MessageLookupByLibrary.simpleMessage(
+      "Ole alati õigeaegselt kohal",
+    ),
+    "jarvamaa": MessageLookupByLibrary.simpleMessage("Järvamaa"),
+    "johvi": MessageLookupByLibrary.simpleMessage("Jõhvi"),
+    "kohtlaJarve": MessageLookupByLibrary.simpleMessage("Kohtla-Järve"),
+    "kuressaare": MessageLookupByLibrary.simpleMessage("Kuressaare"),
+    "light": MessageLookupByLibrary.simpleMessage("Hele"),
+    "mapScreenGpsFAB": MessageLookupByLibrary.simpleMessage(
+      "Hangi geolokatsioon",
+    ),
+    "microMobilityCouldNotLoad": MessageLookupByLibrary.simpleMessage(
+      "Ei saanud vajalikku infot laadida.",
+    ),
+    "modalBottomSheetScooterCharge": m0,
+    "modalBottomSheetScooterGoToApp": m1,
+    "modalBottomSheetScooterPausePrice": m2,
+    "modalBottomSheetScooterPrice": m3,
+    "modalBottomSheetScooterReservePrice": m4,
+    "modalBottomSheetScooterStartPrice": m5,
+    "modalBottomSheetTartuBikesBikeCount": m6,
+    "modalBottomSheetTartuBikesPedelecCount": m7,
+    "mon": MessageLookupByLibrary.simpleMessage("Esm"),
+    "narva": MessageLookupByLibrary.simpleMessage("Narva"),
+    "noButton": MessageLookupByLibrary.simpleMessage("Ei"),
+    "onboardingBodyTextCity": MessageLookupByLibrary.simpleMessage(
+      "Linn, mille andmed on laaditud",
+    ),
+    "onboardingBodyTextCustomize": MessageLookupByLibrary.simpleMessage(
+      "Koputage kaardi seadete kohandamiseks",
+    ),
+    "onboardingBodyTextFiltersExample": MessageLookupByLibrary.simpleMessage(
+      "Näiteks see nupp näitab/peidab tõukerattad",
+    ),
+    "onboardingBodyTextRefresh": MessageLookupByLibrary.simpleMessage(
+      "Koputage markerite värskendamiseks",
+    ),
+    "onboardingTitleTextCity": MessageLookupByLibrary.simpleMessage(
+      "Valitud linn",
+    ),
+    "onboardingTitleTextFilters": MessageLookupByLibrary.simpleMessage(
+      "Kasutage filtreid",
+    ),
+    "onboardingTitleTextGoodLuck": MessageLookupByLibrary.simpleMessage(
+      "Edu teel!",
+    ),
+    "parnu": MessageLookupByLibrary.simpleMessage("Pärnu"),
+    "rakvere": MessageLookupByLibrary.simpleMessage("Rakvere"),
+    "raplamaa": MessageLookupByLibrary.simpleMessage("Raplamaa"),
+    "rateUsOnGooglePlay": MessageLookupByLibrary.simpleMessage(
+      "Hinda meid Google Play\'s!",
+    ),
+    "sat": MessageLookupByLibrary.simpleMessage("Lau"),
+    "selectCity": MessageLookupByLibrary.simpleMessage("Vali linn"),
+    "settingsAppBarTitle": MessageLookupByLibrary.simpleMessage("Seaded"),
+    "settingsChangeTheme": MessageLookupByLibrary.simpleMessage("Muuda teemat"),
+    "settingsGlobalFilterAll": MessageLookupByLibrary.simpleMessage(
+      "Näita kõiki",
+    ),
+    "settingsGlobalFilterToday": MessageLookupByLibrary.simpleMessage(
+      "Näita tänaseid",
+    ),
+    "settingsGtfsFileWasDownloaded": MessageLookupByLibrary.simpleMessage(
+      "GTFS-fail on allalaaditud ",
+    ),
+    "settingsLanguageEnglish": MessageLookupByLibrary.simpleMessage(
+      "Inglise keel",
+    ),
+    "settingsLanguageEstonian": MessageLookupByLibrary.simpleMessage(
+      "Eesti keel",
+    ),
+    "settingsLanguageRussian": MessageLookupByLibrary.simpleMessage(
+      "Vene keel",
+    ),
+    "settingsLocalFilterAll": MessageLookupByLibrary.simpleMessage("Kõik"),
+    "settingsLocalFilterToday": MessageLookupByLibrary.simpleMessage("Täna"),
+    "settingsNoGtfsFile": MessageLookupByLibrary.simpleMessage(
+      "GTFS-faili pole",
+    ),
+    "showScootersLowerCharge": MessageLookupByLibrary.simpleMessage(
+      "Näita tõukerattad, mille laadimisjõud on alla 30%?",
+    ),
+    "signInWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Logi sisse Google\'iga",
+    ),
+    "snackbarCantFetchBoltScootersData": MessageLookupByLibrary.simpleMessage(
+      "Serveri viga. Ei saa laadida Bolti tõukerataste andmeid.",
+    ),
+    "snackbarCantFetchHoogScootersData": MessageLookupByLibrary.simpleMessage(
+      "Serveri viga. Ei saa laadida Hoog tõukerataste andmeid.",
+    ),
+    "snackbarCantFetchTartuSmartBikeData": MessageLookupByLibrary.simpleMessage(
+      "Serveri viga. Ei saa laadida Tartu Smart bike andmeid.",
+    ),
+    "snackbarCantFetchTuulScootersData": MessageLookupByLibrary.simpleMessage(
+      "Serveri viga. Ei saa laadida Tuul tõukerataste andmeid.",
+    ),
+    "snackbarCityIsNotPicked": MessageLookupByLibrary.simpleMessage(
+      "Ühtegi linna ei valitud.",
+    ),
+    "snackbarDeviceIsNotSupported": MessageLookupByLibrary.simpleMessage(
+      "Seade ei ole toetatud.",
+    ),
+    "snackbarNoGtfsFileIsPresent": MessageLookupByLibrary.simpleMessage(
+      "Faili pole, vajutage allalaadimiseks värskendusnuppu.",
+    ),
+    "snackbarNoInternetConnection": MessageLookupByLibrary.simpleMessage(
+      "Internetiühendus puudub. Palun kontrollige oma ühendust, klõpsake värskendamise nuppu ja proovige uuesti.",
+    ),
+    "snackbarNoInternetConnectionInSettings": MessageLookupByLibrary.simpleMessage(
+      "Internetiühendus puudub. Palun kontrollige oma ühendust ja proovige uuesti.",
+    ),
+    "snackbarNoNeedToDownload": MessageLookupByLibrary.simpleMessage(
+      "Teil on uusimad GTFS andmed.",
+    ),
+    "someErrorOccurred": MessageLookupByLibrary.simpleMessage(
+      "Ilmnes viga. Palun proovige hiljem uuesti.",
+    ),
+    "startTutorialAgain": MessageLookupByLibrary.simpleMessage(
+      "Alusta õpetust uuesti?",
+    ),
+    "stopMarkerShowAllForwardStoptimesButton":
+        MessageLookupByLibrary.simpleMessage("Vajuta, et näha peatuse aegu"),
+    "stopSearchHintText": MessageLookupByLibrary.simpleMessage(
+      "Sisesta peatuse nimi",
+    ),
+    "sun": MessageLookupByLibrary.simpleMessage("Püh"),
+    "tallinn": MessageLookupByLibrary.simpleMessage("Tallinn/Harjumaa"),
+    "tartu": MessageLookupByLibrary.simpleMessage("Tartu"),
+    "thu": MessageLookupByLibrary.simpleMessage("Nel"),
+    "tue": MessageLookupByLibrary.simpleMessage("Tei"),
+    "userDataDownloadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Kasutaja andmed on edukalt allalaaditud",
+    ),
+    "userDataUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Kasutaja andmed on edukalt üles laaditud",
+    ),
+    "viljandi": MessageLookupByLibrary.simpleMessage("Viljandi"),
+    "voru": MessageLookupByLibrary.simpleMessage("Võru"),
+    "wed": MessageLookupByLibrary.simpleMessage("Kol"),
+    "yesButton": MessageLookupByLibrary.simpleMessage("Jah"),
+    "yourFeedbackMotivatesMeToMakeTheAppEvenBetter":
+        MessageLookupByLibrary.simpleMessage(
+          "Sinu tagasiside motiveerib mind rakendust veelgi paremaks tegema!",
+        ),
+  };
 }

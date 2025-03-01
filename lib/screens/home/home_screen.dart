@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onboarding_overlay/onboarding_overlay.dart';
 import 'package:yggert_nu/screens/home/widgets/bus_icon.dart';
 import 'package:yggert_nu/screens/home/widgets/refresh_icon.dart';
 import 'package:yggert_nu/widgets/snackbar.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../constants/constants.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../exceptions/exceptions.dart';

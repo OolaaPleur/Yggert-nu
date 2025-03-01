@@ -1,78 +1,78 @@
 name: yggert_nu
-version: 1.0.80+9
+version: 1.0.80+10
 publish_to: none
 description: Schedules and other mobility types
 environment: 
   sdk: '>=3.0.2 <4.0.0'
 dependencies: 
-  archive: ^4.0.3
-  async: ^2.11.0
+  archive: ^4.0.4
+  async: ^2.12.0
   auth_buttons: ^3.0.3
   bloc_test: ^10.0.0
   cloud_firestore: ^5.6.5
   cloud_firestore_web: ^4.4.5
-  collection: ^1.17.1
-  device_info_plus: ^11.3.0
+  collection: ^1.19.1
+  device_info_plus: ^11.3.2
   envied: ^1.1.1
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   external_app_launcher:
     git:
       url: https://github.com/xaldarof/external_app_launcher.git
       ref: master
   firebase_auth: ^5.5.1
-  firebase_auth_web: ^5.8.1
+  firebase_auth_web: ^5.14.1
   firebase_core: ^3.12.1
   firebase_core_platform_interface: ^5.4.0
-  firebase_core_web: ^2.8.0
+  firebase_core_web: ^2.21.1
   firebase_crashlytics: ^4.3.4
-  flex_color_scheme: ^8.0.2
+  flex_color_scheme: ^8.1.1
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^7.0.2
+  flutter_map: ^7.0.0
   flutter_map_location_marker: ^9.1.1
-  flutter_map_marker_cluster: ^1.1.1
-  flutter_native_splash: ^2.3.1
+  flutter_map_marker_cluster: ^1.4.0
+  flutter_native_splash: ^2.4.5
   flutter_test:
     sdk: flutter
   flutter_typeahead: ^5.2.0
   geolocator: ^13.0.2
   get_it: ^8.0.3
-  google_fonts: ^6.1.0
-  google_sign_in: ^6.1.5
-  http: ^1.1.0
+  google_fonts: ^6.2.1
+  google_sign_in: ^6.2.2
+  http: ^1.3.0
   intl: any
-  introduction_screen: ^3.1.11
-  json_serializable: ^6.7.0
-  latlong2: ^0.9.0
-  logging: ^1.2.0
-  mocktail: ^1.0.0
-  onboarding_overlay: ^3.2.1
+  introduction_screen: ^3.1.17
+  json_serializable: ^6.9.4
+  latlong2: ^0.9.1
+  logging: ^1.3.0
+  mocktail: ^1.0.4
+  onboarding_overlay: ^3.2.2
   package_info_plus: ^8.3.0
   path: any
-  path_provider: ^2.0.15
-  permission_handler: ^11.0.0
+  path_provider: ^2.1.5
+  permission_handler: ^11.4.0
   rxdart: ^0.28.0
-  shared_preferences: ^2.2.0
-  sqflite: ^2.2.8+4
+  shared_preferences: ^2.5.2
+  sqflite: ^2.4.2
   sqflite_common_ffi: any
-  sqflite_common_ffi_web: ^0.4.0
-  sqlite3: ^2.0.0
-  sqlite3_flutter_libs: ^0.5.15
+  sqflite_common_ffi_web: ^1.0.0
+  sqlite3: ^2.7.4
+  sqlite3_flutter_libs: ^0.5.31
   unique_identifier: ^0.4.0
-  url_launcher: ^6.1.11
+  url_launcher: ^6.3.1
   very_good_analysis: ^7.0.0
 
 dev_dependencies:
-  build_runner: ^2.4.6
+  build_runner: ^2.4.15
   envied_generator: ^1.1.1
   flutter_launcher_icons: ^0.14.3
   flutter_lints: ^5.0.0
   integration_test:
     sdk: flutter
-  pubspec_dependency_sorter: ^1.0.3
+  pubspec_dependency_sorter: ^1.0.5
 
 flutter: 
   assets: 

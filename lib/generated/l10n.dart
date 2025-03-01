@@ -18,17 +18,20 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
+    final name =
+        (locale.countryCode?.isEmpty ?? false)
+            ? locale.languageCode
+            : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -41,8 +44,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -133,22 +138,12 @@ class S {
 
   /// `Rapla county`
   String get raplamaa {
-    return Intl.message(
-      'Rapla county',
-      name: 'raplamaa',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Rapla county', name: 'raplamaa', desc: '', args: []);
   }
 
   /// `Jarva county`
   String get jarvamaa {
-    return Intl.message(
-      'Jarva county',
-      name: 'jarvamaa',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Jarva county', name: 'jarvamaa', desc: '', args: []);
   }
 
   /// `Tallinn/Harju county`
@@ -612,72 +607,37 @@ class S {
 
   /// `Mon`
   String get mon {
-    return Intl.message(
-      'Mon',
-      name: 'mon',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Mon', name: 'mon', desc: '', args: []);
   }
 
   /// `Tue`
   String get tue {
-    return Intl.message(
-      'Tue',
-      name: 'tue',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Tue', name: 'tue', desc: '', args: []);
   }
 
   /// `Wed`
   String get wed {
-    return Intl.message(
-      'Wed',
-      name: 'wed',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Wed', name: 'wed', desc: '', args: []);
   }
 
   /// `Thu`
   String get thu {
-    return Intl.message(
-      'Thu',
-      name: 'thu',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Thu', name: 'thu', desc: '', args: []);
   }
 
   /// `Fri`
   String get fri {
-    return Intl.message(
-      'Fri',
-      name: 'fri',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Fri', name: 'fri', desc: '', args: []);
   }
 
   /// `Sat`
   String get sat {
-    return Intl.message(
-      'Sat',
-      name: 'sat',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Sat', name: 'sat', desc: '', args: []);
   }
 
   /// `Sun`
   String get sun {
-    return Intl.message(
-      'Sun',
-      name: 'sun',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Sun', name: 'sun', desc: '', args: []);
   }
 
   /// `Sign in with Google`
@@ -964,22 +924,12 @@ class S {
 
   /// `Yes`
   String get yesButton {
-    return Intl.message(
-      'Yes',
-      name: 'yesButton',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Yes', name: 'yesButton', desc: '', args: []);
   }
 
   /// `No`
   String get noButton {
-    return Intl.message(
-      'No',
-      name: 'noButton',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('No', name: 'noButton', desc: '', args: []);
   }
 
   /// `Start tutorial again?`
@@ -1024,52 +974,27 @@ class S {
 
   /// `Select city`
   String get selectCity {
-    return Intl.message(
-      'Select city',
-      name: 'selectCity',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Select city', name: 'selectCity', desc: '', args: []);
   }
 
   /// `Light`
   String get light {
-    return Intl.message(
-      'Light',
-      name: 'light',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Light', name: 'light', desc: '', args: []);
   }
 
   /// `Auto`
   String get auto {
-    return Intl.message(
-      'Auto',
-      name: 'auto',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Auto', name: 'auto', desc: '', args: []);
   }
 
   /// `Dark`
   String get dark {
-    return Intl.message(
-      'Dark',
-      name: 'dark',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Dark', name: 'dark', desc: '', args: []);
   }
 
   /// `Error`
   String get error {
-    return Intl.message(
-      'Error',
-      name: 'error',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Error', name: 'error', desc: '', args: []);
   }
 
   /// `Have questions? Email to me!`

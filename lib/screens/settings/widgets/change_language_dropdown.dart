@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../theme/bloc/theme_bloc.dart';
 import '../language_cubit/language_cubit.dart';
 import 'dropdown_menu_item.dart';

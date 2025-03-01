@@ -84,14 +84,16 @@ class BoltScooterApiProvider {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
         final pricePerMinute =
-            jsonData['data']['categories'][0]['price_rate']['duration_rate_str'] as String;
+            jsonData['data']['categories'][2]['price_rate']['duration_rate_str'] as String;
 
-        final vehiclesData = jsonData['data']['categories'][0]['vehicles'] as List<dynamic>;
-        final vehicles = vehiclesData
-            .map(
-              (vehicleData) => BoltScooter.fromJson(vehicleData as Map<String, dynamic>),
-            )
+        final categories = jsonData['data']['categories'] as List<dynamic>;
+
+        final vehicles = categories
+            .where((category) => (category as Map<String, dynamic>).containsKey('vehicles')) // Ensure it's a Map and has 'vehicles'
+            .expand((category) => (category as Map<String, dynamic>)['vehicles'] as List<dynamic>) // Flatten all vehicles
+            .map((vehicleData) => BoltScooter.fromJson(vehicleData as Map<String, dynamic>))
             .toList();
+
         return (vehicles, pricePerMinute);
       } else {
         throw const CantFetchBoltScootersData();

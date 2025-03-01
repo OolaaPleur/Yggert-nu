@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:yggert_nu/screens/settings/theme_switch/theme_segmented_buttons.dart';
 import 'package:yggert_nu/screens/settings/widgets/animated_icon_button.dart';
 import 'package:yggert_nu/screens/settings/widgets/auth_avatar.dart';

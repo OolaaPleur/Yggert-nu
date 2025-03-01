@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -27,13 +27,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   MapController mapController = MapController();
-  late FollowOnLocationUpdate _followOnLocationUpdate;
+  late AlignOnUpdate _followOnLocationUpdate;
   late StreamController<double?> _followCurrentLocationStreamController;
 
   @override
   void initState() {
     super.initState();
-    _followOnLocationUpdate = FollowOnLocationUpdate.always;
+    _followOnLocationUpdate = AlignOnUpdate.always;
     _followCurrentLocationStreamController = StreamController<double?>();
     _followCurrentLocationStreamController.add(16);
   }
@@ -61,7 +61,10 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (BlocProvider.of<MapBloc>(context).state.status == MapStateStatus.initial) {
+    if (BlocProvider
+        .of<MapBloc>(context)
+        .state
+        .status == MapStateStatus.initial) {
       BlocProvider.of<MapBloc>(context).add(const MapMarkersPlacingOnMap());
     }
     final apiLinks = GetIt.instance<ApiLinks>();
@@ -70,57 +73,43 @@ class _MapScreenState extends State<MapScreen> {
       mapController: mapController,
       options: MapOptions(
         initialCenter: const LatLng(58.37, 26.73),
-        backgroundColor: context.read<ThemeBloc>().isDarkMode ? Colors.black54 : Colors.white,
+        backgroundColor: context
+            .read<ThemeBloc>()
+            .isDarkMode ? Colors.black54 : Colors.white,
         initialZoom: 14,
         maxZoom: 18,
         minZoom: 8,
         interactionOptions: const InteractionOptions(
-            flags: InteractiveFlag.pinchZoom |
-                InteractiveFlag.drag |
-                InteractiveFlag.flingAnimation |
-                InteractiveFlag.doubleTapZoom),
+          flags: InteractiveFlag.pinchZoom |
+          InteractiveFlag.drag |
+          InteractiveFlag.flingAnimation |
+          InteractiveFlag.doubleTapZoom,
+        ),
         onPositionChanged: (MapCamera position, bool hasGesture) {
-          if (hasGesture && _followOnLocationUpdate != FollowOnLocationUpdate.never) {
+          if (hasGesture && _followOnLocationUpdate != AlignOnUpdate.never) {
             setState(
-              () => _followOnLocationUpdate = FollowOnLocationUpdate.never,
+                  () => _followOnLocationUpdate = AlignOnUpdate.never,
             );
           }
         },
       ),
       children: [
-        MobileLayerTransformer(
-          child: Positioned(
-            left: 20,
-            bottom: 20,
-            child: FloatingActionButton(
-              tooltip: AppLocalizations.of(context)!.mapScreenGpsFAB,
-              onPressed: () async {
-                // Follow the location marker on the map when location updated until user interact with the map.
-                setState(
-                  () => _followOnLocationUpdate = FollowOnLocationUpdate.always,
-                );
-                await requestPermission(context);
-              },
-              child: const Icon(
-                Icons.my_location,
-              ),
-            ),
-          ),
-        ),
         BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             return TileLayer(
               userAgentPackageName: 'com.oolaa.redefined.mobility.mobility_app',
-              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              tileBuilder: context.read<ThemeBloc>().isDarkMode ? darkModeTileBuilder : null,
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              tileBuilder: context
+                  .read<ThemeBloc>()
+                  .isDarkMode ? darkModeTileBuilder : null,
             );
           },
         ),
         if (apiLinks.isProductionForGeolocation)
           CurrentLocationLayer(
             //followOnLocationUpdate: FollowOnLocationUpdate.once,
-            followCurrentLocationStream: _followCurrentLocationStreamController.stream,
-            followOnLocationUpdate: _followOnLocationUpdate,
+            alignPositionStream: _followCurrentLocationStreamController.stream,
+            alignPositionOnUpdate: _followOnLocationUpdate,
             style: const LocationMarkerStyle(
               marker: DefaultLocationMarker(
                 child: Icon(
@@ -141,6 +130,7 @@ class _MapScreenState extends State<MapScreen> {
             size: const Size(40, 40),
             markers: context.select((MapBloc bloc) => bloc.state.filteredMarkers),
             alignment: Alignment.center,
+            polygonOptions: const PolygonOptions(color: Colors.transparent),
             builder: (context, markers) {
               return Container(
                 decoration: BoxDecoration(
@@ -155,6 +145,29 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               );
             },
+          ),
+        ),
+        Positioned(
+          left: 20,
+          bottom: 20,
+          child: FloatingActionButton(
+            tooltip: AppLocalizations.of(context)!.mapScreenGpsFAB,
+            onPressed: () async {
+              // Follow the location marker on the map when location updated until user interact with the map.
+              await requestPermission(context);
+              final positionStream =
+              const LocationMarkerDataStreamFactory().fromGeolocatorPositionStream();
+              await positionStream.first.then((position) {
+                final newLocation = LatLng(position!.latitude, position.longitude);
+                mapController.move(newLocation, mapController.camera.zoom);
+              });
+              setState(() {
+                _followOnLocationUpdate = AlignOnUpdate.always;
+              });
+            },
+            child: const Icon(
+              Icons.my_location,
+            ),
           ),
         ),
       ],

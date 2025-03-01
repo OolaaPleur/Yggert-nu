@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:yggert_nu/data/repositories/settings_repository.dart';
 import 'package:yggert_nu/screens/settings/language_cubit/language_cubit.dart';
 import 'package:yggert_nu/theme/bloc/theme_bloc.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../screens/home/widgets/onboarding_widget.dart';
 import '../screens/intro/intro.dart';
 import '../screens/map/bloc/map_bloc.dart';

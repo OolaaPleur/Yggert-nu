@@ -1,7 +1,6 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,6 +11,7 @@ import 'package:yggert_nu/data/repositories/vehicle_repository.dart';
 
 import '../../../../data/models/scooter/bolt_scooter.dart';
 import '../../../../data/models/scooter/scooter.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../utils/build_context_ext.dart';
 import '../../bloc/map_bloc.dart';
 

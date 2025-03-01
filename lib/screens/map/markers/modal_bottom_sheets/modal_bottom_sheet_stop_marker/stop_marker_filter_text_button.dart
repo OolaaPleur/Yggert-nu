@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../../l10n/app_localizations.dart';
 import '../../../bloc/map_bloc.dart';
 
 /// Text for filter button/ This button is used on modal bottom sheet, which

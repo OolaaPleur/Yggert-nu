@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:yggert_nu/screens/map/markers/modal_bottom_sheets/modal_bottom_sheet_stop_marker/pick_appropriate_circle_avatar.dart';
 
 import '../../../../../data/models/estonia_public_transport.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../../bloc/map_bloc.dart';
 import 'stop_marker_filter_text_button.dart';
 

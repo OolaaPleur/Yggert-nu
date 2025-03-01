@@ -1,11 +1,11 @@
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../constants/constants.dart';
 import '../../../../data/models/tartu_bike_station.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Modal bottom sheet, which opens on bike station's marker pressed.
 /// If null, returns text with error.
