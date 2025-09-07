@@ -15,7 +15,8 @@ class AppInfoText extends StatelessWidget {
     final packageInfo = await PackageInfo.fromPlatform();
     final appName = packageInfo.appName;
     final version = packageInfo.version;
-    return '$appName: $version';
+    final buildNumber = packageInfo.buildNumber;
+    return '$appName: $version+$buildNumber';
   }
 
   @override
